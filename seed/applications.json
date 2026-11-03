@@ -1,0 +1,1312 @@
+{
+  "_meta": {
+    "purpose": "Seed application inventory for Screen 3 - Applications & Rationalization (TOGAF Phase C Application, Application Portfolio Catalog s35.6.5).",
+    "landscape_fact": "Deck: ~core apps (SAP, SuccessFactors, Aveva PI, Retail, HRMS) + 50-60 external applications (COTS & custom). This seed is a representative ~26-app subset; the intake template captures the rest.",
+    "scores": "bf = business fit [functional_fit, strategic_alignment, user_satisfaction]; tf = technical fit [tech_currency, integration_readiness, security_compliance, cost_efficiency]; 1-5. ALL scores are 'assumed' demo values.",
+    "vendor_rule": "vendor 'TBD' means not publicly known - never invent a vendor name.",
+    "hosting_values": [
+      "RISE (SAP-managed)",
+      "SaaS",
+      "Azure",
+      "DC-HYD",
+      "Partner-hosted",
+      "Unknown"
+    ],
+    "lifecycle_values": [
+      "Current",
+      "Ageing",
+      "EOL < 24m",
+      "Unknown"
+    ],
+    "intake": "Intake fields follow the Tech DD data request: inventory of applications with business function, version and licences, customisation, platform/architecture, scalability and redundancy, hosting and support. Owners are role placeholders; 'TBD' means not yet known.",
+    "layer_values": [
+      "Engagement",
+      "Core business",
+      "Operations & field",
+      "Data & AI",
+      "Enterprise & workplace"
+    ]
+  },
+  "applications": [
+    {
+      "id": "A01",
+      "name": "SAP S/4HANA (RISE)",
+      "vendor": "SAP",
+      "type": "COTS",
+      "caps": [
+        "C09.1",
+        "C02.1",
+        "C02.3",
+        "C03.1",
+        "C04.2",
+        "C05.4"
+      ],
+      "hosting": "RISE (SAP-managed)",
+      "criticality": 5,
+      "lifecycle": "Current",
+      "bf": [
+        4,
+        5,
+        3
+      ],
+      "tf": [
+        5,
+        4,
+        4,
+        3
+      ],
+      "in_scope": false,
+      "sor": [
+        "DD-03",
+        "DD-04",
+        "DD-08"
+      ],
+      "source": "deck",
+      "note": "Outside detailed assessment - dependencies only",
+      "description": "ERP for finance, procurement, production, inventory and order management",
+      "layer": "Enterprise Apps",
+      "business_owner": "CFO",
+      "it_owner": "Head of SAP CoE",
+      "users": "5,000+ (enterprise)",
+      "customisation": "Medium",
+      "support_model": "Vendor-managed (RISE)",
+      "licence_model": "TBD",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A02",
+      "name": "SAP SuccessFactors",
+      "vendor": "SAP",
+      "type": "SaaS",
+      "caps": [
+        "C10.1",
+        "C10.2"
+      ],
+      "hosting": "SaaS",
+      "criticality": 3,
+      "lifecycle": "Current",
+      "bf": [
+        4,
+        3,
+        3
+      ],
+      "tf": [
+        5,
+        4,
+        4,
+        3
+      ],
+      "in_scope": true,
+      "sor": [
+        "DD-09"
+      ],
+      "source": "deck",
+      "description": "Employee central, talent and learning",
+      "layer": "Admin Apps",
+      "business_owner": "CHRO",
+      "it_owner": "Head of Enterprise Apps",
+      "users": "All employees",
+      "customisation": "Low",
+      "support_model": "Vendor SaaS",
+      "licence_model": "Subscription",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A03",
+      "name": "HRMS / Payroll",
+      "vendor": "TBD",
+      "type": "COTS",
+      "caps": [
+        "C10.1"
+      ],
+      "hosting": "DC-HYD",
+      "criticality": 3,
+      "lifecycle": "Ageing",
+      "bf": [
+        3,
+        2,
+        3
+      ],
+      "tf": [
+        2,
+        2,
+        3,
+        2
+      ],
+      "in_scope": true,
+      "sor": [],
+      "source": "deck",
+      "note": "Listed separately from SF in deck - overlap to confirm",
+      "description": "Payroll and HR administration",
+      "layer": "Admin Apps",
+      "business_owner": "CHRO",
+      "it_owner": "Head of Enterprise Apps",
+      "users": "TBD",
+      "customisation": "TBD",
+      "support_model": "TBD",
+      "licence_model": "TBD",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A04",
+      "name": "AVEVA PI (plant historian)",
+      "vendor": "AVEVA",
+      "type": "COTS",
+      "caps": [
+        "C03.2",
+        "C03.3"
+      ],
+      "hosting": "DC-HYD",
+      "criticality": 4,
+      "lifecycle": "Current",
+      "bf": [
+        4,
+        4,
+        4
+      ],
+      "tf": [
+        4,
+        3,
+        3,
+        3
+      ],
+      "in_scope": false,
+      "sor": [
+        "DD-05"
+      ],
+      "source": "deck",
+      "note": "OT boundary - dependencies only",
+      "description": "Plant process historian for OT data",
+      "layer": "Logistics & Operations",
+      "business_owner": "Head of Manufacturing",
+      "it_owner": "Head of OT",
+      "users": "Plant engineers",
+      "customisation": "Low",
+      "support_model": "TBD",
+      "licence_model": "TBD",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A05",
+      "name": "Retail store system (POS & billing)",
+      "vendor": "TBD",
+      "type": "COTS",
+      "caps": [
+        "C06.1",
+        "C06.2"
+      ],
+      "hosting": "Unknown",
+      "criticality": 5,
+      "lifecycle": "Unknown",
+      "bf": [
+        4,
+        4,
+        3
+      ],
+      "tf": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "in_scope": true,
+      "sor": [
+        "DD-07"
+      ],
+      "source": "deck",
+      "note": "Auto-invoicing + SMS updates per press",
+      "description": "Store billing, POS and store inventory for Gromor retail",
+      "layer": "Customer & Sales",
+      "business_owner": "Head of Retail",
+      "it_owner": "Head of Retail IT",
+      "users": "1,075 stores",
+      "customisation": "TBD",
+      "support_model": "TBD",
+      "licence_model": "TBD",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A06",
+      "name": "MyGromor farmer app",
+      "vendor": "TBD",
+      "type": "Custom",
+      "caps": [
+        "C07.1",
+        "C07.3",
+        "C06.3"
+      ],
+      "hosting": "Azure",
+      "criticality": 5,
+      "lifecycle": "Current",
+      "bf": [
+        4,
+        5,
+        4
+      ],
+      "tf": [
+        4,
+        3,
+        3,
+        3
+      ],
+      "in_scope": true,
+      "sor": [
+        "DD-01"
+      ],
+      "source": "public",
+      "note": "1M+ users; advisory, pricing, image-based pest detection; ~15% of store sales",
+      "description": "Farmer app: advisory, prices, orders and pest detection",
+      "layer": "Customer & Sales",
+      "business_owner": "Head of Agronomy & Farmer Services",
+      "it_owner": "Head of Digital",
+      "users": "1M+ farmers",
+      "customisation": "High (custom)",
+      "support_model": "TBD",
+      "licence_model": "Custom-built",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A07",
+      "name": "Gromor Nutri Connect app",
+      "vendor": "TBD",
+      "type": "Custom",
+      "caps": [
+        "C07.1",
+        "C07.4"
+      ],
+      "hosting": "Unknown",
+      "criticality": 4,
+      "lifecycle": "Current",
+      "bf": [
+        4,
+        5,
+        3
+      ],
+      "tf": [
+        4,
+        3,
+        3,
+        3
+      ],
+      "in_scope": true,
+      "sor": [],
+      "source": "public",
+      "note": "Launched Mar-2026 with Gromor Gram; advisory, soil test & drone booking, complaints; also the booking channel for soil tests & drone spraying (channel, not system of record)",
+      "description": "Farmer app for advisory, soil-test and drone booking, complaints",
+      "layer": "Customer & Sales",
+      "business_owner": "Head of Agronomy & Farmer Services",
+      "it_owner": "Head of Digital",
+      "users": "TBD",
+      "customisation": "High (custom)",
+      "support_model": "TBD",
+      "licence_model": "Custom-built",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A08",
+      "name": "WhatsApp advisory chatbot",
+      "vendor": "TBD",
+      "type": "SaaS",
+      "caps": [
+        "C07.1",
+        "C07.4"
+      ],
+      "hosting": "SaaS",
+      "criticality": 3,
+      "lifecycle": "Current",
+      "bf": [
+        3,
+        3,
+        2
+      ],
+      "tf": [
+        3,
+        3,
+        3,
+        4
+      ],
+      "in_scope": true,
+      "sor": [],
+      "source": "public",
+      "description": "Conversational advisory over WhatsApp",
+      "layer": "Customer & Sales",
+      "business_owner": "Head of Agronomy & Farmer Services",
+      "it_owner": "Head of Digital",
+      "users": "TBD",
+      "customisation": "Low",
+      "support_model": "Vendor SaaS",
+      "licence_model": "Subscription",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A09",
+      "name": "Satellite advisory platform (partner)",
+      "vendor": "Farmonaut (partner)",
+      "type": "SaaS",
+      "caps": [
+        "C08.3",
+        "C07.1"
+      ],
+      "hosting": "Partner-hosted",
+      "criticality": 3,
+      "lifecycle": "Current",
+      "bf": [
+        3,
+        4,
+        3
+      ],
+      "tf": [
+        3,
+        2,
+        2,
+        4
+      ],
+      "in_scope": true,
+      "sor": [],
+      "source": "public",
+      "note": "Vendor-published, undated claim: satellite/NDVI advisory integrated with MyGromor - validate",
+      "description": "Satellite crop-health and NDVI advisory from a partner",
+      "layer": "Customer & Sales",
+      "business_owner": "Head of Drone & Precision Ag",
+      "it_owner": "Head of Digital",
+      "users": "TBD",
+      "customisation": "Low",
+      "support_model": "Partner-managed",
+      "licence_model": "Subscription",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A10",
+      "name": "Dealer portal",
+      "vendor": "TBD",
+      "type": "Custom",
+      "caps": [
+        "C05.1",
+        "C05.3"
+      ],
+      "hosting": "Unknown",
+      "criticality": 4,
+      "lifecycle": "Unknown",
+      "bf": [
+        3,
+        4,
+        3
+      ],
+      "tf": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "in_scope": true,
+      "sor": [
+        "DD-02"
+      ],
+      "source": "public",
+      "description": "Dealer ordering, statements and schemes",
+      "layer": "Customer & Sales",
+      "business_owner": "Head of Sales & Marketing",
+      "it_owner": "Head of Digital",
+      "users": "Dealer network",
+      "customisation": "High (custom)",
+      "support_model": "TBD",
+      "licence_model": "Custom-built",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A11",
+      "name": "Sales force automation app",
+      "vendor": "TBD",
+      "type": "Custom",
+      "caps": [
+        "C05.2",
+        "C05.1"
+      ],
+      "hosting": "Unknown",
+      "criticality": 4,
+      "lifecycle": "Unknown",
+      "bf": [
+        3,
+        4,
+        3
+      ],
+      "tf": [
+        3,
+        2,
+        3,
+        3
+      ],
+      "in_scope": true,
+      "sor": [],
+      "source": "public",
+      "description": "Field sales visits, orders and beat plans",
+      "layer": "Customer & Sales",
+      "business_owner": "Head of Sales & Marketing",
+      "it_owner": "Head of Digital",
+      "users": "Field sales force",
+      "customisation": "High (custom)",
+      "support_model": "TBD",
+      "licence_model": "Custom-built",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A12",
+      "name": "Retail e-commerce platform",
+      "vendor": "TBD",
+      "type": "Custom",
+      "caps": [
+        "C06.3"
+      ],
+      "hosting": "Unknown",
+      "criticality": 4,
+      "lifecycle": "Current",
+      "bf": [
+        3,
+        4,
+        3
+      ],
+      "tf": [
+        4,
+        3,
+        3,
+        3
+      ],
+      "in_scope": true,
+      "sor": [],
+      "source": "public",
+      "note": "~Rs 100 Cr sales H1FY26",
+      "description": "Online retail ordering and doorstep delivery",
+      "layer": "Customer & Sales",
+      "business_owner": "Head of Digital Commerce",
+      "it_owner": "Head of Digital",
+      "users": "TBD",
+      "customisation": "High (custom)",
+      "support_model": "TBD",
+      "licence_model": "Custom-built",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A13",
+      "name": "Retail customer 360 / AI retention model",
+      "vendor": "TBD",
+      "type": "Custom",
+      "caps": [
+        "C06.4"
+      ],
+      "hosting": "Azure",
+      "criticality": 3,
+      "lifecycle": "Current",
+      "bf": [
+        3,
+        5,
+        3
+      ],
+      "tf": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "in_scope": true,
+      "sor": [],
+      "source": "public",
+      "description": "Customer 360 and retention propensity model",
+      "layer": "Data & AI",
+      "business_owner": "Head of Retail Marketing",
+      "it_owner": "Head of Data & AI",
+      "users": "Retail marketing",
+      "customisation": "High (custom)",
+      "support_model": "In-house",
+      "licence_model": "Custom-built",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A14",
+      "name": "Gromor Drive drone service ops",
+      "vendor": "TBD",
+      "type": "Custom",
+      "caps": [
+        "C08.1"
+      ],
+      "hosting": "Unknown",
+      "criticality": 4,
+      "lifecycle": "Current",
+      "bf": [
+        3,
+        5,
+        3
+      ],
+      "tf": [
+        2,
+        2,
+        2,
+        3
+      ],
+      "in_scope": true,
+      "sor": [],
+      "source": "public",
+      "note": "~250 drones; 2.2 lakh acres FY25",
+      "description": "Drone spraying bookings, scheduling and operations",
+      "layer": "Logistics & Operations",
+      "business_owner": "Head of Drone & Precision Ag",
+      "it_owner": "Head of Digital",
+      "users": "~250 drones",
+      "customisation": "High (custom)",
+      "support_model": "TBD",
+      "licence_model": "Custom-built",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A15",
+      "name": "Dhaksha drone telemetry & fleet mgmt",
+      "vendor": "Dhaksha (subsidiary)",
+      "type": "Custom",
+      "caps": [
+        "C08.2",
+        "C08.1"
+      ],
+      "hosting": "Unknown",
+      "criticality": 3,
+      "lifecycle": "Current",
+      "bf": [
+        3,
+        4,
+        3
+      ],
+      "tf": [
+        3,
+        2,
+        2,
+        3
+      ],
+      "in_scope": true,
+      "sor": [],
+      "source": "assumed",
+      "note": "Subsidiary (58%) - separate stack likely",
+      "description": "Drone fleet telemetry and maintenance",
+      "layer": "Logistics & Operations",
+      "business_owner": "CEO, Dhaksha (subsidiary)",
+      "it_owner": "Dhaksha IT",
+      "users": "TBD",
+      "customisation": "High (custom)",
+      "support_model": "Subsidiary IT",
+      "licence_model": "Custom-built",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A16",
+      "name": "Manufacturing analytics & predictive maintenance",
+      "vendor": "TBD",
+      "type": "Custom",
+      "caps": [
+        "C03.3",
+        "C03.1"
+      ],
+      "hosting": "Azure",
+      "criticality": 3,
+      "lifecycle": "Current",
+      "bf": [
+        4,
+        5,
+        3
+      ],
+      "tf": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "in_scope": true,
+      "sor": [],
+      "source": "public",
+      "description": "Plant analytics and predictive maintenance models",
+      "layer": "Data & AI",
+      "business_owner": "Head of Manufacturing",
+      "it_owner": "Head of Data & AI",
+      "users": "Plant reliability teams",
+      "customisation": "High (custom)",
+      "support_model": "In-house",
+      "licence_model": "Custom-built",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A17",
+      "name": "Soil & leaf testing LIMS (Nutri clinics)",
+      "vendor": "TBD",
+      "type": "COTS",
+      "caps": [
+        "C07.2",
+        "C03.4"
+      ],
+      "hosting": "Unknown",
+      "criticality": 3,
+      "lifecycle": "Unknown",
+      "bf": [
+        3,
+        4,
+        2
+      ],
+      "tf": [
+        2,
+        2,
+        3,
+        3
+      ],
+      "in_scope": true,
+      "sor": [
+        "DD-06"
+      ],
+      "source": "assumed",
+      "note": "58 Nutri clinics + central lab (public); system assumed",
+      "description": "Soil and leaf sample management for Nutri clinics and central lab",
+      "layer": "Logistics & Operations",
+      "business_owner": "Head of Nutri Clinics & Labs",
+      "it_owner": "Head of Enterprise Apps",
+      "users": "58 clinics + central lab",
+      "customisation": "TBD",
+      "support_model": "TBD",
+      "licence_model": "TBD",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A18",
+      "name": "Plant QC laboratory system",
+      "vendor": "TBD",
+      "type": "COTS",
+      "caps": [
+        "C03.4"
+      ],
+      "hosting": "DC-HYD",
+      "criticality": 3,
+      "lifecycle": "Ageing",
+      "bf": [
+        3,
+        3,
+        2
+      ],
+      "tf": [
+        2,
+        2,
+        3,
+        2
+      ],
+      "in_scope": true,
+      "sor": [],
+      "source": "assumed",
+      "description": "Plant QC sample testing and results",
+      "layer": "Logistics & Operations",
+      "business_owner": "Head of Quality",
+      "it_owner": "Head of Enterprise Apps",
+      "users": "Plant QC labs",
+      "customisation": "TBD",
+      "support_model": "TBD",
+      "licence_model": "TBD",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A19",
+      "name": "EHS & ESG reporting tool",
+      "vendor": "TBD",
+      "type": "COTS",
+      "caps": [
+        "C03.5"
+      ],
+      "hosting": "Unknown",
+      "criticality": 3,
+      "lifecycle": "Unknown",
+      "bf": [
+        2,
+        4,
+        2
+      ],
+      "tf": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "in_scope": true,
+      "sor": [],
+      "source": "assumed",
+      "description": "EHS incidents and ESG metrics reporting",
+      "layer": "Logistics & Operations",
+      "business_owner": "Head of EHS & Sustainability",
+      "it_owner": "Head of Enterprise Apps",
+      "users": "TBD",
+      "customisation": "TBD",
+      "support_model": "TBD",
+      "licence_model": "TBD",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A20",
+      "name": "Subsidy & iFMS reconciliation tool",
+      "vendor": "TBD",
+      "type": "Custom",
+      "caps": [
+        "C04.4",
+        "C09.2"
+      ],
+      "hosting": "DC-HYD",
+      "criticality": 5,
+      "lifecycle": "Ageing",
+      "bf": [
+        4,
+        5,
+        3
+      ],
+      "tf": [
+        2,
+        2,
+        3,
+        2
+      ],
+      "in_scope": true,
+      "sor": [],
+      "source": "assumed",
+      "note": "Integrates with Govt iFMS",
+      "description": "Fertiliser movement, iFMS reporting and subsidy reconciliation",
+      "layer": "Enterprise Apps",
+      "business_owner": "Head of Subsidy Accounting",
+      "it_owner": "Head of Enterprise Apps",
+      "users": "Finance & logistics",
+      "customisation": "High (custom)",
+      "support_model": "In-house",
+      "licence_model": "Custom-built",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A21",
+      "name": "Transport management system",
+      "vendor": "TBD",
+      "type": "COTS",
+      "caps": [
+        "C04.3"
+      ],
+      "hosting": "Unknown",
+      "criticality": 3,
+      "lifecycle": "Unknown",
+      "bf": [
+        2,
+        3,
+        3
+      ],
+      "tf": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "in_scope": true,
+      "sor": [],
+      "source": "assumed",
+      "description": "Road transport planning and freight",
+      "layer": "Logistics & Operations",
+      "business_owner": "Head of Supply Chain",
+      "it_owner": "Head of Enterprise Apps",
+      "users": "TBD",
+      "customisation": "TBD",
+      "support_model": "TBD",
+      "licence_model": "TBD",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A22",
+      "name": "R&D trial data (spreadsheets / file shares)",
+      "vendor": "Microsoft",
+      "type": "Platform",
+      "caps": [
+        "C01.2",
+        "C01.4"
+      ],
+      "hosting": "DC-HYD",
+      "criticality": 3,
+      "lifecycle": "Ageing",
+      "bf": [
+        2,
+        2,
+        2
+      ],
+      "tf": [
+        1,
+        1,
+        2,
+        3
+      ],
+      "in_scope": true,
+      "sor": [
+        "DD-10"
+      ],
+      "source": "assumed",
+      "note": "Typical baseline - validate in discovery",
+      "description": "Trial data in spreadsheets and file shares",
+      "layer": "Enterprise Apps",
+      "business_owner": "Head of R&D",
+      "it_owner": "Head of Enterprise Apps",
+      "users": "R&D teams",
+      "customisation": "n/a (end-user tools)",
+      "support_model": "In-house",
+      "licence_model": "Subscription",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A23",
+      "name": "BI & reporting (Power BI)",
+      "vendor": "Microsoft",
+      "type": "SaaS",
+      "caps": [
+        "C11.1",
+        "C09.3"
+      ],
+      "hosting": "SaaS",
+      "criticality": 4,
+      "lifecycle": "Current",
+      "bf": [
+        3,
+        4,
+        3
+      ],
+      "tf": [
+        4,
+        3,
+        4,
+        4
+      ],
+      "in_scope": true,
+      "sor": [],
+      "source": "assumed",
+      "description": "Enterprise dashboards and management reporting",
+      "layer": "Data & AI",
+      "business_owner": "CFO",
+      "it_owner": "Head of Data & AI",
+      "users": "TBD",
+      "customisation": "Medium",
+      "support_model": "In-house",
+      "licence_model": "Subscription",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A24",
+      "name": "Microsoft 365 & Copilot",
+      "vendor": "Microsoft",
+      "type": "SaaS",
+      "caps": [
+        "C10.3"
+      ],
+      "hosting": "SaaS",
+      "criticality": 4,
+      "lifecycle": "Current",
+      "bf": [
+        4,
+        4,
+        4
+      ],
+      "tf": [
+        5,
+        4,
+        4,
+        3
+      ],
+      "in_scope": true,
+      "sor": [],
+      "source": "deck",
+      "description": "Email, collaboration and Copilot",
+      "layer": "Admin Apps",
+      "business_owner": "CIO / CDO",
+      "it_owner": "Head of Infrastructure",
+      "users": "5,000-6,000",
+      "customisation": "Low",
+      "support_model": "Vendor SaaS",
+      "licence_model": "Subscription",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A25",
+      "name": "Microsoft Entra ID (SSO)",
+      "vendor": "Microsoft",
+      "type": "SaaS",
+      "caps": [
+        "C11.4"
+      ],
+      "hosting": "SaaS",
+      "criticality": 5,
+      "lifecycle": "Current",
+      "bf": [
+        4,
+        4,
+        4
+      ],
+      "tf": [
+        5,
+        5,
+        5,
+        4
+      ],
+      "in_scope": true,
+      "sor": [
+        "DD-09"
+      ],
+      "source": "deck",
+      "note": "5,000-6,000 AD users",
+      "description": "Identity, SSO and access",
+      "layer": "Admin Apps",
+      "business_owner": "CISO",
+      "it_owner": "Head of Infrastructure",
+      "users": "5,000-6,000",
+      "customisation": "Low",
+      "support_model": "Vendor SaaS",
+      "licence_model": "Subscription",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    },
+    {
+      "id": "A26",
+      "name": "NACL Industries ERP (acquired entity)",
+      "vendor": "TBD",
+      "type": "COTS",
+      "caps": [
+        "C09.1",
+        "C02.1",
+        "C05.4"
+      ],
+      "hosting": "Unknown",
+      "criticality": 4,
+      "lifecycle": "Unknown",
+      "bf": [
+        3,
+        2,
+        3
+      ],
+      "tf": [
+        2,
+        2,
+        3,
+        2
+      ],
+      "in_scope": true,
+      "sor": [],
+      "source": "assumed",
+      "note": "Post-acquisition (53.73% stake) - integration/consolidation candidate",
+      "description": "ERP of the acquired NACL entity",
+      "layer": "Enterprise Apps",
+      "business_owner": "CFO",
+      "it_owner": "NACL IT",
+      "users": "TBD",
+      "customisation": "TBD",
+      "support_model": "TBD",
+      "licence_model": "TBD",
+      "platform": "TBD",
+      "dr": "TBD",
+      "contract_end": "TBD",
+      "assumed_fields": [
+        "bf",
+        "tf",
+        "criticality",
+        "layer",
+        "business_owner",
+        "it_owner",
+        "customisation",
+        "support_model"
+      ]
+    }
+  ]
+}

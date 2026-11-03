@@ -1,0 +1,2192 @@
+{
+  "_meta": {
+    "purpose": "Pre-loaded agri-solutions capability map (L1 > L2) for Screen 2 - Business Capabilities (TOGAF Phase B).",
+    "seed_scores": "ALL seed scores are 'assumed' illustrative values for the demo. The questionnaire replaces them. q = [process, technology & AI enablement, data, integration] each 1-5; importance 1-5.",
+    "focus_area_link": "focus = CIL digital focus area id from vision.json (F1-F5) - used by the gap rules for urgency.",
+    "structure": "L0 (value-chain group) > L1 > L2 > L3 (sub-capability / process). Owners are role-based placeholders (assumed). ref links each node to seed/reference_model.json. depends_on lists upstream L2s whose outputs the capability consumes (entanglement). L3 is what current-state discovery surveys; L2 scores are inferred from L3 responses once analysed."
+  },
+  "questionnaire": {
+    "scale": {
+      "1": "Initial",
+      "2": "Developing",
+      "3": "Defined",
+      "4": "Advanced",
+      "5": "Leading"
+    },
+    "questions": [
+      {
+        "key": "process",
+        "label": "Process standardisation",
+        "text": "How standardised and measured is this capability's process across plants, regions and entities?",
+        "options": [
+          {
+            "n": 1,
+            "label": "Ad hoc",
+            "hint": "Person-dependent, undocumented"
+          },
+          {
+            "n": 2,
+            "label": "Documented locally",
+            "hint": "Varies by plant or region"
+          },
+          {
+            "n": 3,
+            "label": "Standardised",
+            "hint": "One enterprise process"
+          },
+          {
+            "n": 4,
+            "label": "Measured",
+            "hint": "Managed with KPIs and owners"
+          },
+          {
+            "n": 5,
+            "label": "Optimised",
+            "hint": "Continuously improved against benchmarks"
+          }
+        ]
+      },
+      {
+        "key": "digital",
+        "label": "Technology & AI enablement",
+        "text": "What level of technology and AI supports this capability today?",
+        "options": [
+          {
+            "n": 1,
+            "label": "Manual / siloed tools",
+            "hint": "Paper, Excel, email or standalone tools"
+          },
+          {
+            "n": 2,
+            "label": "Digitised",
+            "hint": "Work recorded in a system of record; hand-offs still manual"
+          },
+          {
+            "n": 3,
+            "label": "Integrated automation",
+            "hint": "Workflow, RPA or straight-through processing across systems"
+          },
+          {
+            "n": 4,
+            "label": "AI-enabled",
+            "hint": "ML or GenAI assists decisions; people act on recommendations"
+          },
+          {
+            "n": 5,
+            "label": "Agentic AI",
+            "hint": "AI agents plan and execute tasks within guardrails, with human oversight"
+          }
+        ]
+      },
+      {
+        "key": "data",
+        "label": "Data availability & trust",
+        "text": "Is the data this capability needs available, owned and trusted?",
+        "options": [
+          {
+            "n": 1,
+            "label": "Unavailable",
+            "hint": "Missing or unreliable"
+          },
+          {
+            "n": 2,
+            "label": "Siloed",
+            "hint": "Available but scattered"
+          },
+          {
+            "n": 3,
+            "label": "Governed",
+            "hint": "Named owner and quality rules"
+          },
+          {
+            "n": 4,
+            "label": "Trusted",
+            "hint": "Single source of truth"
+          },
+          {
+            "n": 5,
+            "label": "AI-ready",
+            "hint": "Real-time, documented lineage, model-ready"
+          }
+        ]
+      },
+      {
+        "key": "integration",
+        "label": "Integration & hand-offs",
+        "text": "How are hand-offs with other capabilities and systems handled?",
+        "options": [
+          {
+            "n": 1,
+            "label": "Re-keyed",
+            "hint": "Manual re-entry between systems"
+          },
+          {
+            "n": 2,
+            "label": "File / batch",
+            "hint": "Scheduled file transfers"
+          },
+          {
+            "n": 3,
+            "label": "Point-to-point",
+            "hint": "Direct interfaces per system pair"
+          },
+          {
+            "n": 4,
+            "label": "API / event",
+            "hint": "Governed APIs or events"
+          },
+          {
+            "n": 5,
+            "label": "Orchestrated",
+            "hint": "End-to-end orchestration and monitoring"
+          }
+        ]
+      },
+      {
+        "key": "importance",
+        "label": "Importance to 2030 strategy",
+        "text": "How important is this capability to CIL's 2030 strategy?",
+        "options": [
+          {
+            "n": 1,
+            "label": "Low",
+            "hint": "Commodity"
+          },
+          {
+            "n": 2,
+            "label": "Supporting",
+            "hint": "Needed, not differentiating"
+          },
+          {
+            "n": 3,
+            "label": "Important",
+            "hint": "Material to plan"
+          },
+          {
+            "n": 4,
+            "label": "High",
+            "hint": "Key to growth targets"
+          },
+          {
+            "n": 5,
+            "label": "Critical",
+            "hint": "Differentiating for CIL"
+          }
+        ]
+      }
+    ]
+  },
+  "l0": [
+    {
+      "id": "L0-1",
+      "name": "Plan & Innovate",
+      "ref": "R1",
+      "owner": "Executive sponsor (TBC)"
+    },
+    {
+      "id": "L0-2",
+      "name": "Source & Make",
+      "ref": "R2",
+      "owner": "Executive sponsor (TBC)"
+    },
+    {
+      "id": "L0-3",
+      "name": "Plan & Deliver",
+      "ref": "R3",
+      "owner": "Executive sponsor (TBC)"
+    },
+    {
+      "id": "L0-4",
+      "name": "Market, Sell & Serve",
+      "ref": "R4",
+      "owner": "Executive sponsor (TBC)"
+    },
+    {
+      "id": "L0-5",
+      "name": "Enable & Govern",
+      "ref": "R5",
+      "owner": "Executive sponsor (TBC)"
+    }
+  ],
+  "capabilities": [
+    {
+      "id": "C01",
+      "name": "Agri R&D & Product Innovation",
+      "children": [
+        {
+          "id": "C01.1",
+          "name": "Formulation & product development",
+          "q": [
+            3,
+            2,
+            2,
+            2
+          ],
+          "importance": 5,
+          "focus": "F1",
+          "ref": "R1.2.1",
+          "description": "Design and scale new fertiliser, crop protection and specialty formulations.",
+          "owner": "Head of R&D",
+          "depends_on": [
+            "C01.2",
+            "C01.4",
+            "C11.1"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C01.1.1",
+              "name": "Formulation design & recipe management",
+              "ref": "R1.2.1.1",
+              "owner": "Head of R&D"
+            },
+            {
+              "id": "C01.1.2",
+              "name": "Lab-scale & pilot-plant scale-up",
+              "ref": "R1.2.1.2",
+              "owner": "Head of R&D"
+            },
+            {
+              "id": "C01.1.3",
+              "name": "Raw material & specification qualification",
+              "ref": "R1.2.1.3",
+              "owner": "Head of R&D"
+            }
+          ]
+        },
+        {
+          "id": "C01.2",
+          "name": "Field trials & crop response analysis",
+          "q": [
+            3,
+            2,
+            2,
+            1
+          ],
+          "importance": 5,
+          "focus": "F1",
+          "ref": "R1.2.2",
+          "description": "Plan, run and analyse multi-location field trials and crop response.",
+          "owner": "Head of R&D",
+          "depends_on": [
+            "C08.3",
+            "C07.2"
+          ],
+          "automation": "Excel trial sheets on file shares",
+          "l3": [
+            {
+              "id": "C01.2.1",
+              "name": "Trial protocol design & site selection",
+              "ref": "R1.2.2.1",
+              "owner": "Head of R&D"
+            },
+            {
+              "id": "C01.2.2",
+              "name": "Geo-tagged field data capture",
+              "ref": "R1.2.2.2",
+              "owner": "Head of R&D"
+            },
+            {
+              "id": "C01.2.3",
+              "name": "Crop response & yield analysis",
+              "ref": "R1.2.2.3",
+              "owner": "Head of R&D"
+            },
+            {
+              "id": "C01.2.4",
+              "name": "Trial results release to sales & agronomy",
+              "ref": "R1.2.2.4",
+              "owner": "Head of R&D"
+            }
+          ]
+        },
+        {
+          "id": "C01.3",
+          "name": "Regulatory registration (CIB&RC / FCO)",
+          "q": [
+            3,
+            3,
+            3,
+            2
+          ],
+          "importance": 4,
+          "ref": "R1.2.3",
+          "description": "Register products with CIB&RC / FCO and manage label and stewardship duties.",
+          "owner": "Head of Regulatory Affairs",
+          "depends_on": [
+            "C01.1",
+            "C01.2"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C01.3.1",
+              "name": "Registration dossier preparation (CIB&RC / FCO)",
+              "ref": "R1.2.3.1",
+              "owner": "Head of Regulatory Affairs"
+            },
+            {
+              "id": "C01.3.2",
+              "name": "Regulatory submission & query tracking",
+              "ref": "R1.2.3.2",
+              "owner": "Head of Regulatory Affairs"
+            },
+            {
+              "id": "C01.3.3",
+              "name": "Label, SDS & product stewardship",
+              "ref": "R1.2.3.3",
+              "owner": "Head of Regulatory Affairs"
+            },
+            {
+              "id": "C01.3.4",
+              "name": "Registration renewal & compliance calendar",
+              "ref": "R1.2.3.4",
+              "owner": "Head of Regulatory Affairs"
+            }
+          ]
+        },
+        {
+          "id": "C01.4",
+          "name": "R&D knowledge & IP management",
+          "q": [
+            2,
+            2,
+            2,
+            1
+          ],
+          "importance": 4,
+          "focus": "F1",
+          "ref": "R1.2.4",
+          "description": "Capture, search and protect research knowledge and intellectual property.",
+          "owner": "Head of R&D",
+          "depends_on": [
+            "C11.1"
+          ],
+          "automation": "File shares, no enterprise search",
+          "l3": [
+            {
+              "id": "C01.4.1",
+              "name": "Patent & IP portfolio management",
+              "ref": "R1.2.4.1",
+              "owner": "Head of R&D"
+            },
+            {
+              "id": "C01.4.2",
+              "name": "Experiment & trial knowledge repository",
+              "ref": "R1.2.4.2",
+              "owner": "Head of R&D"
+            },
+            {
+              "id": "C01.4.3",
+              "name": "Research collaboration & partner agreements",
+              "ref": "R1.2.4.3",
+              "owner": "Head of R&D"
+            }
+          ]
+        }
+      ],
+      "l0": "L0-1",
+      "ref": "R1.2",
+      "owner": "Head of R&D",
+      "description": ""
+    },
+    {
+      "id": "C02",
+      "name": "Sourcing & Procurement",
+      "children": [
+        {
+          "id": "C02.1",
+          "name": "Raw material sourcing (rock, phos acid, sulphur, ammonia)",
+          "q": [
+            4,
+            3,
+            3,
+            3
+          ],
+          "importance": 5,
+          "ref": "R2.1.1",
+          "description": "Secure rock phosphate, phosphoric acid, sulphur and ammonia at the right cost.",
+          "owner": "Chief Procurement Officer",
+          "depends_on": [
+            "C04.1",
+            "C02.3"
+          ],
+          "automation": "SAP S/4HANA purchasing",
+          "l3": [
+            {
+              "id": "C02.1.1",
+              "name": "Demand-linked raw material planning",
+              "ref": "R2.1.1.1",
+              "owner": "Chief Procurement Officer"
+            },
+            {
+              "id": "C02.1.2",
+              "name": "Category strategy & supplier selection",
+              "ref": "R2.1.1.2",
+              "owner": "Chief Procurement Officer"
+            },
+            {
+              "id": "C02.1.3",
+              "name": "Price-risk & FX hedging",
+              "ref": "R2.1.1.3",
+              "owner": "Chief Procurement Officer"
+            },
+            {
+              "id": "C02.1.4",
+              "name": "Purchase order & contract call-off",
+              "ref": "R2.1.1.4",
+              "owner": "Chief Procurement Officer"
+            }
+          ]
+        },
+        {
+          "id": "C02.2",
+          "name": "Import logistics & port operations",
+          "q": [
+            3,
+            3,
+            3,
+            2
+          ],
+          "importance": 4,
+          "ref": "R2.1.2",
+          "description": "Manage vessels, port handling, demurrage and inbound movement.",
+          "owner": "Chief Procurement Officer",
+          "depends_on": [
+            "C02.1"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C02.2.1",
+              "name": "Vessel nomination & shipment tracking",
+              "ref": "R2.1.2.1",
+              "owner": "Chief Procurement Officer"
+            },
+            {
+              "id": "C02.2.2",
+              "name": "Port handling, customs & clearance",
+              "ref": "R2.1.2.2",
+              "owner": "Chief Procurement Officer"
+            },
+            {
+              "id": "C02.2.3",
+              "name": "Demurrage & ocean freight control",
+              "ref": "R2.1.2.3",
+              "owner": "Chief Procurement Officer"
+            },
+            {
+              "id": "C02.2.4",
+              "name": "Port-to-plant evacuation",
+              "ref": "R2.1.2.4",
+              "owner": "Chief Procurement Officer"
+            }
+          ]
+        },
+        {
+          "id": "C02.3",
+          "name": "Supplier management & contracts",
+          "q": [
+            3,
+            3,
+            3,
+            3
+          ],
+          "importance": 3,
+          "ref": "R2.1.3",
+          "description": "Qualify suppliers, manage contracts and track performance.",
+          "owner": "Chief Procurement Officer",
+          "depends_on": [],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C02.3.1",
+              "name": "Supplier onboarding & qualification",
+              "ref": "R2.1.3.1",
+              "owner": "Chief Procurement Officer"
+            },
+            {
+              "id": "C02.3.2",
+              "name": "Supplier performance scorecards",
+              "ref": "R2.1.3.2",
+              "owner": "Chief Procurement Officer"
+            },
+            {
+              "id": "C02.3.3",
+              "name": "Contract obligation & renewal tracking",
+              "ref": "R2.1.3.3",
+              "owner": "Chief Procurement Officer"
+            }
+          ]
+        }
+      ],
+      "l0": "L0-2",
+      "ref": "R2.1",
+      "owner": "Chief Procurement Officer",
+      "description": ""
+    },
+    {
+      "id": "C03",
+      "name": "Manufacturing & Plant Operations",
+      "children": [
+        {
+          "id": "C03.1",
+          "name": "Production planning & scheduling",
+          "q": [
+            4,
+            3,
+            3,
+            3
+          ],
+          "importance": 4,
+          "ref": "R2.2.1",
+          "description": "Plan granulation and formulation runs against demand and capacity.",
+          "owner": "Head of Manufacturing",
+          "depends_on": [
+            "C04.1",
+            "C02.1",
+            "C03.3"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C03.1.1",
+              "name": "Monthly production plan from S&OP",
+              "ref": "R2.2.1.1",
+              "owner": "Head of Manufacturing"
+            },
+            {
+              "id": "C03.1.2",
+              "name": "Finite-capacity plant scheduling",
+              "ref": "R2.2.1.2",
+              "owner": "Head of Manufacturing"
+            },
+            {
+              "id": "C03.1.3",
+              "name": "Campaign & grade changeover planning",
+              "ref": "R2.2.1.3",
+              "owner": "Head of Manufacturing"
+            },
+            {
+              "id": "C03.1.4",
+              "name": "Plan-vs-actual performance review",
+              "ref": "R2.2.1.4",
+              "owner": "Head of Manufacturing"
+            }
+          ]
+        },
+        {
+          "id": "C03.2",
+          "name": "Process monitoring & plant historian (OT boundary)",
+          "q": [
+            4,
+            4,
+            3,
+            2
+          ],
+          "importance": 4,
+          "ref": "R2.2.2",
+          "description": "Monitor process parameters through DCS and historian systems.",
+          "owner": "Head of Manufacturing",
+          "depends_on": [
+            "C11.4"
+          ],
+          "automation": "AVEVA PI historian (OT)",
+          "l3": [
+            {
+              "id": "C03.2.1",
+              "name": "DCS & process control operations",
+              "ref": "R2.2.2.1",
+              "owner": "Head of Manufacturing"
+            },
+            {
+              "id": "C03.2.2",
+              "name": "Plant historian data collection",
+              "ref": "R2.2.2.2",
+              "owner": "Head of Manufacturing"
+            },
+            {
+              "id": "C03.2.3",
+              "name": "OT data access for analytics (via DMZ)",
+              "ref": "R2.2.2.3",
+              "owner": "Head of Manufacturing"
+            }
+          ]
+        },
+        {
+          "id": "C03.3",
+          "name": "Asset maintenance & reliability",
+          "q": [
+            3,
+            3,
+            3,
+            2
+          ],
+          "importance": 4,
+          "ref": "R2.2.3",
+          "description": "Plan preventive and predictive maintenance for plant assets.",
+          "owner": "Head of Manufacturing",
+          "depends_on": [
+            "C03.2"
+          ],
+          "automation": "Predictive-maintenance models (scaling)",
+          "l3": [
+            {
+              "id": "C03.3.1",
+              "name": "Preventive maintenance planning",
+              "ref": "R2.2.3.1",
+              "owner": "Head of Manufacturing"
+            },
+            {
+              "id": "C03.3.2",
+              "name": "Condition monitoring & predictive maintenance",
+              "ref": "R2.2.3.2",
+              "owner": "Head of Manufacturing"
+            },
+            {
+              "id": "C03.3.3",
+              "name": "Breakdown & work-order management",
+              "ref": "R2.2.3.3",
+              "owner": "Head of Manufacturing"
+            },
+            {
+              "id": "C03.3.4",
+              "name": "Spares & MRO inventory",
+              "ref": "R2.2.3.4",
+              "owner": "Head of Manufacturing"
+            }
+          ]
+        },
+        {
+          "id": "C03.4",
+          "name": "Quality control & laboratory",
+          "q": [
+            3,
+            2,
+            2,
+            2
+          ],
+          "importance": 4,
+          "ref": "R2.2.4",
+          "description": "Test raw materials, in-process and finished goods against specification.",
+          "owner": "Head of Quality",
+          "depends_on": [
+            "C03.1"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C03.4.1",
+              "name": "Raw material & in-process testing",
+              "ref": "R2.2.4.1",
+              "owner": "Head of Quality"
+            },
+            {
+              "id": "C03.4.2",
+              "name": "Finished goods testing & batch release",
+              "ref": "R2.2.4.2",
+              "owner": "Head of Quality"
+            },
+            {
+              "id": "C03.4.3",
+              "name": "Lab sample & results management",
+              "ref": "R2.2.4.3",
+              "owner": "Head of Quality"
+            },
+            {
+              "id": "C03.4.4",
+              "name": "Quality complaints & CAPA",
+              "ref": "R2.2.4.4",
+              "owner": "Head of Quality"
+            }
+          ]
+        },
+        {
+          "id": "C03.5",
+          "name": "HSE & sustainability (ESG reporting)",
+          "q": [
+            3,
+            2,
+            2,
+            1
+          ],
+          "importance": 4,
+          "ref": "R2.2.5",
+          "description": "Manage safety incidents, permits, emissions and compliance.",
+          "owner": "Head of EHS & Sustainability",
+          "depends_on": [
+            "C03.2"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C03.5.1",
+              "name": "Permit-to-work & safety observations",
+              "ref": "R2.2.5.1",
+              "owner": "Head of EHS & Sustainability"
+            },
+            {
+              "id": "C03.5.2",
+              "name": "Incident reporting & investigation",
+              "ref": "R2.2.5.2",
+              "owner": "Head of EHS & Sustainability"
+            },
+            {
+              "id": "C03.5.3",
+              "name": "Environmental monitoring & consents",
+              "ref": "R2.2.5.3",
+              "owner": "Head of EHS & Sustainability"
+            },
+            {
+              "id": "C03.5.4",
+              "name": "ESG data collection & reporting",
+              "ref": "R2.2.5.4",
+              "owner": "Head of EHS & Sustainability"
+            }
+          ]
+        }
+      ],
+      "l0": "L0-2",
+      "ref": "R2.2",
+      "owner": "Head of Manufacturing",
+      "description": ""
+    },
+    {
+      "id": "C04",
+      "name": "Supply Chain & Distribution",
+      "children": [
+        {
+          "id": "C04.1",
+          "name": "Demand forecasting & S&OP",
+          "q": [
+            3,
+            2,
+            2,
+            2
+          ],
+          "importance": 5,
+          "ref": "R3.1.1",
+          "description": "Forecast seasonal demand by region and SKU and agree the monthly plan.",
+          "owner": "Head of Supply Chain",
+          "depends_on": [
+            "C05.1",
+            "C06.2",
+            "C08.3",
+            "C11.1"
+          ],
+          "automation": "Spreadsheet-based S&OP",
+          "l3": [
+            {
+              "id": "C04.1.1",
+              "name": "Statistical baseline forecasting",
+              "ref": "R3.1.1.1",
+              "owner": "Head of Supply Chain"
+            },
+            {
+              "id": "C04.1.2",
+              "name": "Market intelligence & sowing-season inputs",
+              "ref": "R3.1.1.2",
+              "owner": "Head of Supply Chain"
+            },
+            {
+              "id": "C04.1.3",
+              "name": "Consensus demand review (district × SKU)",
+              "ref": "R3.1.1.3",
+              "owner": "Head of Supply Chain"
+            },
+            {
+              "id": "C04.1.4",
+              "name": "S&OP executive sign-off",
+              "ref": "R3.1.1.4",
+              "owner": "Head of Supply Chain"
+            }
+          ]
+        },
+        {
+          "id": "C04.2",
+          "name": "Inventory & warehouse management",
+          "q": [
+            3,
+            3,
+            3,
+            3
+          ],
+          "importance": 4,
+          "ref": "R3.2.1",
+          "description": "Manage stock across plants, depots and buffer warehouses.",
+          "owner": "Head of Supply Chain",
+          "depends_on": [
+            "C03.1",
+            "C04.1"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C04.2.1",
+              "name": "Goods receipt & put-away",
+              "ref": "R3.2.1.1",
+              "owner": "Head of Supply Chain"
+            },
+            {
+              "id": "C04.2.2",
+              "name": "Depot / C&F stock management",
+              "ref": "R3.2.1.2",
+              "owner": "Head of Supply Chain"
+            },
+            {
+              "id": "C04.2.3",
+              "name": "Stock reconciliation & cycle counts",
+              "ref": "R3.2.1.3",
+              "owner": "Head of Supply Chain"
+            },
+            {
+              "id": "C04.2.4",
+              "name": "Dispatch & loading",
+              "ref": "R3.2.1.4",
+              "owner": "Head of Supply Chain"
+            }
+          ]
+        },
+        {
+          "id": "C04.3",
+          "name": "Secondary transport & logistics",
+          "q": [
+            3,
+            2,
+            2,
+            2
+          ],
+          "importance": 3,
+          "ref": "R3.2.2",
+          "description": "Plan and execute road movements and freight settlement.",
+          "owner": "Head of Supply Chain",
+          "depends_on": [
+            "C04.2"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C04.3.1",
+              "name": "Truck indent & carrier allocation",
+              "ref": "R3.2.2.1",
+              "owner": "Head of Supply Chain"
+            },
+            {
+              "id": "C04.3.2",
+              "name": "Shipment tracking & proof of delivery",
+              "ref": "R3.2.2.2",
+              "owner": "Head of Supply Chain"
+            },
+            {
+              "id": "C04.3.3",
+              "name": "Freight settlement & audit",
+              "ref": "R3.2.2.3",
+              "owner": "Head of Supply Chain"
+            }
+          ]
+        },
+        {
+          "id": "C04.4",
+          "name": "Fertiliser movement & subsidy compliance (iFMS)",
+          "q": [
+            4,
+            3,
+            3,
+            2
+          ],
+          "importance": 5,
+          "ref": "R3.2.4",
+          "description": "Record movement and sales for government subsidy compliance.",
+          "owner": "Head of Logistics & Subsidy Compliance",
+          "depends_on": [
+            "C04.2",
+            "C04.3",
+            "C06.1"
+          ],
+          "automation": "Custom subsidy tool, iFMS uploads",
+          "l3": [
+            {
+              "id": "C04.4.1",
+              "name": "Monthly movement plan (DoF)",
+              "ref": "R3.2.4.1",
+              "owner": "Head of Logistics & Subsidy Compliance"
+            },
+            {
+              "id": "C04.4.2",
+              "name": "Primary & secondary movement reporting to iFMS",
+              "ref": "R3.2.4.2",
+              "owner": "Head of Logistics & Subsidy Compliance"
+            },
+            {
+              "id": "C04.4.3",
+              "name": "Dealer receipt acknowledgement",
+              "ref": "R3.2.4.3",
+              "owner": "Head of Logistics & Subsidy Compliance"
+            },
+            {
+              "id": "C04.4.4",
+              "name": "iFMS exception & reconciliation management",
+              "ref": "R3.2.4.4",
+              "owner": "Head of Logistics & Subsidy Compliance"
+            }
+          ]
+        }
+      ],
+      "l0": "L0-3",
+      "ref": "R3.1",
+      "owner": "Head of Supply Chain",
+      "description": ""
+    },
+    {
+      "id": "C05",
+      "name": "Sales & Channel Management",
+      "children": [
+        {
+          "id": "C05.1",
+          "name": "Dealer & distributor management",
+          "q": [
+            3,
+            3,
+            2,
+            2
+          ],
+          "importance": 5,
+          "ref": "R4.1.1",
+          "description": "Onboard, manage and support the dealer and distributor network.",
+          "owner": "Head of Sales & Marketing",
+          "depends_on": [
+            "C05.4",
+            "C05.3"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C05.1.1",
+              "name": "Dealer onboarding & KYC",
+              "ref": "R4.1.1.1",
+              "owner": "Head of Sales & Marketing"
+            },
+            {
+              "id": "C05.1.2",
+              "name": "Dealer order capture & confirmation",
+              "ref": "R4.1.1.2",
+              "owner": "Head of Sales & Marketing"
+            },
+            {
+              "id": "C05.1.3",
+              "name": "Dealer statements & scheme visibility",
+              "ref": "R4.1.1.3",
+              "owner": "Head of Sales & Marketing"
+            }
+          ]
+        },
+        {
+          "id": "C05.2",
+          "name": "Sales force automation",
+          "q": [
+            3,
+            3,
+            3,
+            2
+          ],
+          "importance": 4,
+          "ref": "R4.1.2",
+          "description": "Plan visits, capture orders and track field sales activity.",
+          "owner": "Head of Sales & Marketing",
+          "depends_on": [
+            "C05.1"
+          ],
+          "automation": "Mobile SFA app",
+          "l3": [
+            {
+              "id": "C05.2.1",
+              "name": "Beat planning & visit tracking",
+              "ref": "R4.1.2.1",
+              "owner": "Head of Sales & Marketing"
+            },
+            {
+              "id": "C05.2.2",
+              "name": "Field order booking",
+              "ref": "R4.1.2.2",
+              "owner": "Head of Sales & Marketing"
+            },
+            {
+              "id": "C05.2.3",
+              "name": "Market & competitor intelligence capture",
+              "ref": "R4.1.2.3",
+              "owner": "Head of Sales & Marketing"
+            }
+          ]
+        },
+        {
+          "id": "C05.3",
+          "name": "Pricing, schemes & trade promotions",
+          "q": [
+            3,
+            2,
+            2,
+            2
+          ],
+          "importance": 4,
+          "ref": "R4.1.3",
+          "description": "Set prices and run dealer schemes and promotions.",
+          "owner": "Head of Sales & Marketing",
+          "depends_on": [
+            "C04.1"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C05.3.1",
+              "name": "Price list & MRP management",
+              "ref": "R4.1.3.1",
+              "owner": "Head of Sales & Marketing"
+            },
+            {
+              "id": "C05.3.2",
+              "name": "Scheme design & budgeting",
+              "ref": "R4.1.3.2",
+              "owner": "Head of Sales & Marketing"
+            },
+            {
+              "id": "C05.3.3",
+              "name": "Scheme accrual, claim & settlement",
+              "ref": "R4.1.3.3",
+              "owner": "Head of Sales & Marketing"
+            },
+            {
+              "id": "C05.3.4",
+              "name": "Scheme effectiveness analysis",
+              "ref": "R4.1.3.4",
+              "owner": "Head of Sales & Marketing"
+            }
+          ]
+        },
+        {
+          "id": "C05.4",
+          "name": "Credit & collections",
+          "q": [
+            4,
+            3,
+            3,
+            3
+          ],
+          "importance": 4,
+          "ref": "R4.1.4",
+          "description": "Manage dealer credit limits, ageing and collections.",
+          "owner": "Head of Credit Control",
+          "depends_on": [
+            "C09.1"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C05.4.1",
+              "name": "Dealer credit limit setting",
+              "ref": "R4.1.4.1",
+              "owner": "Head of Credit Control"
+            },
+            {
+              "id": "C05.4.2",
+              "name": "Credit block & release",
+              "ref": "R4.1.4.2",
+              "owner": "Head of Credit Control"
+            },
+            {
+              "id": "C05.4.3",
+              "name": "Collections & dunning",
+              "ref": "R4.1.4.3",
+              "owner": "Head of Credit Control"
+            },
+            {
+              "id": "C05.4.4",
+              "name": "Receivables ageing & provisioning",
+              "ref": "R4.1.4.4",
+              "owner": "Head of Credit Control"
+            }
+          ]
+        },
+        {
+          "id": "C05.5",
+          "name": "Exports & B2B (crop protection, bio)",
+          "q": [
+            3,
+            3,
+            3,
+            2
+          ],
+          "importance": 3,
+          "ref": "R4.1.5",
+          "description": "Serve export and institutional customers for CPC and specialty products.",
+          "owner": "Head of Exports",
+          "depends_on": [
+            "C04.2"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C05.5.1",
+              "name": "Export enquiry & contract management",
+              "ref": "R4.1.5.1",
+              "owner": "Head of Exports"
+            },
+            {
+              "id": "C05.5.2",
+              "name": "Export documentation & compliance",
+              "ref": "R4.1.5.2",
+              "owner": "Head of Exports"
+            },
+            {
+              "id": "C05.5.3",
+              "name": "Institutional tender management",
+              "ref": "R4.1.5.3",
+              "owner": "Head of Exports"
+            }
+          ]
+        }
+      ],
+      "l0": "L0-4",
+      "ref": "R4.1",
+      "owner": "Head of Sales & Marketing",
+      "description": ""
+    },
+    {
+      "id": "C06",
+      "name": "Retail (Gromor stores)",
+      "children": [
+        {
+          "id": "C06.1",
+          "name": "Store operations & POS billing",
+          "q": [
+            4,
+            3,
+            3,
+            3
+          ],
+          "importance": 5,
+          "ref": "R4.2.1",
+          "description": "Run store billing, cash and daily operations across retail outlets.",
+          "owner": "Head of Retail",
+          "depends_on": [
+            "C06.2",
+            "C05.3",
+            "C04.4"
+          ],
+          "automation": "POS with auto-invoicing and SMS updates",
+          "l3": [
+            {
+              "id": "C06.1.1",
+              "name": "POS billing & e-invoicing",
+              "ref": "R4.2.1.1",
+              "owner": "Head of Retail"
+            },
+            {
+              "id": "C06.1.2",
+              "name": "Aadhaar-authenticated subsidised sale (PoS device)",
+              "ref": "R4.2.1.2",
+              "owner": "Head of Retail"
+            },
+            {
+              "id": "C06.1.3",
+              "name": "Store cash & day-end close",
+              "ref": "R4.2.1.3",
+              "owner": "Head of Retail"
+            },
+            {
+              "id": "C06.1.4",
+              "name": "Store staffing & service",
+              "ref": "R4.2.1.4",
+              "owner": "Head of Retail"
+            }
+          ]
+        },
+        {
+          "id": "C06.2",
+          "name": "Store inventory & replenishment",
+          "q": [
+            3,
+            3,
+            3,
+            2
+          ],
+          "importance": 4,
+          "ref": "R4.2.2",
+          "description": "Keep stores stocked through forecasting and replenishment.",
+          "owner": "Head of Retail",
+          "depends_on": [
+            "C04.2"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C06.2.1",
+              "name": "Store stock visibility",
+              "ref": "R4.2.2.1",
+              "owner": "Head of Retail"
+            },
+            {
+              "id": "C06.2.2",
+              "name": "Replenishment indent to depot",
+              "ref": "R4.2.2.2",
+              "owner": "Head of Retail"
+            },
+            {
+              "id": "C06.2.3",
+              "name": "Inter-store stock transfer",
+              "ref": "R4.2.2.3",
+              "owner": "Head of Retail"
+            }
+          ]
+        },
+        {
+          "id": "C06.3",
+          "name": "E-commerce & doorstep delivery",
+          "q": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "importance": 4,
+          "ref": "R4.2.3",
+          "description": "Sell online and fulfil from stores or depots.",
+          "owner": "Head of Digital Commerce",
+          "depends_on": [
+            "C06.2",
+            "C06.1"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C06.3.1",
+              "name": "Online order capture (app / web)",
+              "ref": "R4.2.3.1",
+              "owner": "Head of Digital Commerce"
+            },
+            {
+              "id": "C06.3.2",
+              "name": "Order fulfilment & last-mile delivery",
+              "ref": "R4.2.3.2",
+              "owner": "Head of Digital Commerce"
+            },
+            {
+              "id": "C06.3.3",
+              "name": "Returns & cancellations",
+              "ref": "R4.2.3.3",
+              "owner": "Head of Digital Commerce"
+            }
+          ]
+        },
+        {
+          "id": "C06.4",
+          "name": "Customer 360 & loyalty",
+          "q": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "importance": 5,
+          "focus": "F3",
+          "ref": "R4.2.4",
+          "description": "Build a single view of the farmer customer and loyalty.",
+          "owner": "Head of Retail Marketing",
+          "depends_on": [
+            "C06.1",
+            "C07.4",
+            "C11.1"
+          ],
+          "automation": "AI retention model",
+          "l3": [
+            {
+              "id": "C06.4.1",
+              "name": "Unified farmer profile",
+              "ref": "R4.2.4.1",
+              "owner": "Head of Retail Marketing"
+            },
+            {
+              "id": "C06.4.2",
+              "name": "Loyalty points & rewards",
+              "ref": "R4.2.4.2",
+              "owner": "Head of Retail Marketing"
+            },
+            {
+              "id": "C06.4.3",
+              "name": "Farmer segmentation & propensity models",
+              "ref": "R4.2.4.3",
+              "owner": "Head of Retail Marketing"
+            },
+            {
+              "id": "C06.4.4",
+              "name": "Personalised campaigns & offers",
+              "ref": "R4.2.4.4",
+              "owner": "Head of Retail Marketing"
+            }
+          ]
+        }
+      ],
+      "l0": "L0-4",
+      "ref": "R4.2",
+      "owner": "Head of Retail",
+      "description": ""
+    },
+    {
+      "id": "C07",
+      "name": "Farmer Engagement & Agronomy Services",
+      "children": [
+        {
+          "id": "C07.1",
+          "name": "Digital crop advisory (app / WhatsApp)",
+          "q": [
+            2,
+            3,
+            2,
+            1
+          ],
+          "importance": 5,
+          "focus": "F3",
+          "ref": "R4.3.1",
+          "description": "Advise farmers through app, WhatsApp and call centre.",
+          "owner": "Head of Agronomy & Farmer Services",
+          "depends_on": [
+            "C07.2",
+            "C07.3",
+            "C08.3"
+          ],
+          "automation": "MyGromor app, WhatsApp bot, Nutri Connect",
+          "l3": [
+            {
+              "id": "C07.1.1",
+              "name": "Crop calendar & package of practices",
+              "ref": "R4.3.1.1",
+              "owner": "Head of Agronomy & Farmer Services"
+            },
+            {
+              "id": "C07.1.2",
+              "name": "Personalised advisory (app / WhatsApp / IVR)",
+              "ref": "R4.3.1.2",
+              "owner": "Head of Agronomy & Farmer Services"
+            },
+            {
+              "id": "C07.1.3",
+              "name": "Weather-based alerts",
+              "ref": "R4.3.1.3",
+              "owner": "Head of Agronomy & Farmer Services"
+            }
+          ]
+        },
+        {
+          "id": "C07.2",
+          "name": "Soil & leaf testing (Nutri clinics, central lab)",
+          "q": [
+            3,
+            2,
+            2,
+            1
+          ],
+          "importance": 4,
+          "focus": "F2",
+          "ref": "R4.3.2",
+          "description": "Run soil and leaf tests through clinics and central labs.",
+          "owner": "Head of Nutri Clinics & Labs",
+          "depends_on": [],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C07.2.1",
+              "name": "Sample collection & registration",
+              "ref": "R4.3.2.1",
+              "owner": "Head of Nutri Clinics & Labs"
+            },
+            {
+              "id": "C07.2.2",
+              "name": "Lab analysis & results",
+              "ref": "R4.3.2.2",
+              "owner": "Head of Nutri Clinics & Labs"
+            },
+            {
+              "id": "C07.2.3",
+              "name": "Soil health card & recommendations",
+              "ref": "R4.3.2.3",
+              "owner": "Head of Nutri Clinics & Labs"
+            }
+          ]
+        },
+        {
+          "id": "C07.3",
+          "name": "Crop diagnostics & recommendations",
+          "q": [
+            2,
+            3,
+            2,
+            1
+          ],
+          "importance": 5,
+          "focus": "F2",
+          "ref": "R4.3.3",
+          "description": "Diagnose pest and disease issues and recommend products.",
+          "owner": "Head of Agronomy & Farmer Services",
+          "depends_on": [
+            "C07.2",
+            "C08.3",
+            "C11.2"
+          ],
+          "automation": "Image-based pest and disease detection (AI)",
+          "l3": [
+            {
+              "id": "C07.3.1",
+              "name": "Field symptom capture (image & description)",
+              "ref": "R4.3.3.1",
+              "owner": "Head of Agronomy & Farmer Services"
+            },
+            {
+              "id": "C07.3.2",
+              "name": "Pest & disease diagnosis (AI + agronomist)",
+              "ref": "R4.3.3.2",
+              "owner": "Head of Agronomy & Farmer Services"
+            },
+            {
+              "id": "C07.3.3",
+              "name": "Product & dosage recommendation",
+              "ref": "R4.3.3.3",
+              "owner": "Head of Agronomy & Farmer Services"
+            },
+            {
+              "id": "C07.3.4",
+              "name": "Recommendation fulfilment & follow-up",
+              "ref": "R4.3.3.4",
+              "owner": "Head of Agronomy & Farmer Services"
+            }
+          ]
+        },
+        {
+          "id": "C07.4",
+          "name": "Farmer CRM, helpdesk & complaints",
+          "q": [
+            2,
+            2,
+            2,
+            1
+          ],
+          "importance": 4,
+          "focus": "F3",
+          "ref": "R4.3.4",
+          "description": "Handle farmer queries, complaints and follow-ups.",
+          "owner": "Head of Agronomy & Farmer Services",
+          "depends_on": [
+            "C06.4"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C07.4.1",
+              "name": "Farmer query & complaint intake",
+              "ref": "R4.3.4.1",
+              "owner": "Head of Agronomy & Farmer Services"
+            },
+            {
+              "id": "C07.4.2",
+              "name": "Case assignment & SLA tracking",
+              "ref": "R4.3.4.2",
+              "owner": "Head of Agronomy & Farmer Services"
+            },
+            {
+              "id": "C07.4.3",
+              "name": "Product complaint field investigation",
+              "ref": "R4.3.4.3",
+              "owner": "Head of Agronomy & Farmer Services"
+            }
+          ]
+        }
+      ],
+      "l0": "L0-4",
+      "ref": "R4.3",
+      "owner": "Head of Agronomy & Farmer Services",
+      "description": ""
+    },
+    {
+      "id": "C08",
+      "name": "Precision Ag & Drone Services",
+      "children": [
+        {
+          "id": "C08.1",
+          "name": "Drone spraying service operations (Gromor Drive)",
+          "q": [
+            2,
+            2,
+            2,
+            1
+          ],
+          "importance": 5,
+          "focus": "F4",
+          "ref": "R4.4.1",
+          "description": "Book, schedule and execute drone spraying services.",
+          "owner": "Head of Drone & Precision Ag",
+          "depends_on": [
+            "C08.2",
+            "C08.4",
+            "C07.4"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C08.1.1",
+              "name": "Spray service booking",
+              "ref": "R4.4.1.1",
+              "owner": "Head of Drone & Precision Ag"
+            },
+            {
+              "id": "C08.1.2",
+              "name": "Pilot & drone scheduling",
+              "ref": "R4.4.1.2",
+              "owner": "Head of Drone & Precision Ag"
+            },
+            {
+              "id": "C08.1.3",
+              "name": "Field execution & spray logging",
+              "ref": "R4.4.1.3",
+              "owner": "Head of Drone & Precision Ag"
+            },
+            {
+              "id": "C08.1.4",
+              "name": "Service billing & payment",
+              "ref": "R4.4.1.4",
+              "owner": "Head of Drone & Precision Ag"
+            }
+          ]
+        },
+        {
+          "id": "C08.2",
+          "name": "Drone manufacturing & fleet telemetry (Dhaksha)",
+          "q": [
+            3,
+            2,
+            2,
+            1
+          ],
+          "importance": 4,
+          "focus": "F4",
+          "ref": "R4.4.2",
+          "description": "Build drones and monitor fleet health and flight data.",
+          "owner": "CEO, Dhaksha (subsidiary)",
+          "depends_on": [],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C08.2.1",
+              "name": "Drone production & assembly",
+              "ref": "R4.4.2.1",
+              "owner": "CEO, Dhaksha (subsidiary)"
+            },
+            {
+              "id": "C08.2.2",
+              "name": "Fleet telemetry & health monitoring",
+              "ref": "R4.4.2.2",
+              "owner": "CEO, Dhaksha (subsidiary)"
+            },
+            {
+              "id": "C08.2.3",
+              "name": "DGCA compliance & pilot certification",
+              "ref": "R4.4.2.3",
+              "owner": "CEO, Dhaksha (subsidiary)"
+            }
+          ]
+        },
+        {
+          "id": "C08.3",
+          "name": "Remote sensing & satellite insights",
+          "q": [
+            2,
+            3,
+            2,
+            1
+          ],
+          "importance": 4,
+          "focus": "F3",
+          "ref": "R4.4.3",
+          "description": "Use satellite and drone imagery for crop health insights.",
+          "owner": "Head of Drone & Precision Ag",
+          "depends_on": [
+            "C11.2"
+          ],
+          "automation": "Partner satellite advisory",
+          "l3": [
+            {
+              "id": "C08.3.1",
+              "name": "Satellite imagery acquisition",
+              "ref": "R4.4.3.1",
+              "owner": "Head of Drone & Precision Ag"
+            },
+            {
+              "id": "C08.3.2",
+              "name": "Crop health index analytics",
+              "ref": "R4.4.3.2",
+              "owner": "Head of Drone & Precision Ag"
+            },
+            {
+              "id": "C08.3.3",
+              "name": "Field boundary & acreage estimation",
+              "ref": "R4.4.3.3",
+              "owner": "Head of Drone & Precision Ag"
+            }
+          ]
+        },
+        {
+          "id": "C08.4",
+          "name": "Prescription maps & precision application",
+          "q": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "importance": 4,
+          "focus": "F2",
+          "ref": "R4.4.4",
+          "description": "Create prescription maps for precise input application.",
+          "owner": "Head of Drone & Precision Ag",
+          "depends_on": [
+            "C07.2",
+            "C08.3"
+          ],
+          "automation": "None: manual planning",
+          "l3": [
+            {
+              "id": "C08.4.1",
+              "name": "Prescription map generation",
+              "ref": "R4.4.4.1",
+              "owner": "Head of Drone & Precision Ag"
+            },
+            {
+              "id": "C08.4.2",
+              "name": "Variable-rate application execution",
+              "ref": "R4.4.4.2",
+              "owner": "Head of Drone & Precision Ag"
+            },
+            {
+              "id": "C08.4.3",
+              "name": "Application outcome analysis",
+              "ref": "R4.4.4.3",
+              "owner": "Head of Drone & Precision Ag"
+            }
+          ]
+        }
+      ],
+      "l0": "L0-4",
+      "ref": "R4.4",
+      "owner": "Head of Drone & Precision Ag",
+      "description": ""
+    },
+    {
+      "id": "C09",
+      "name": "Finance & Corporate",
+      "children": [
+        {
+          "id": "C09.1",
+          "name": "Financial accounting & close",
+          "q": [
+            4,
+            4,
+            4,
+            3
+          ],
+          "importance": 4,
+          "ref": "R5.1.1",
+          "description": "Record transactions and close the books across entities.",
+          "owner": "CFO",
+          "depends_on": [
+            "C05.4"
+          ],
+          "automation": "SAP S/4HANA",
+          "l3": [
+            {
+              "id": "C09.1.1",
+              "name": "General ledger & journal processing",
+              "ref": "R5.1.1.1",
+              "owner": "CFO"
+            },
+            {
+              "id": "C09.1.2",
+              "name": "Intercompany & consolidation",
+              "ref": "R5.1.1.2",
+              "owner": "CFO"
+            },
+            {
+              "id": "C09.1.3",
+              "name": "Month-end close & reconciliations",
+              "ref": "R5.1.1.3",
+              "owner": "CFO"
+            }
+          ]
+        },
+        {
+          "id": "C09.2",
+          "name": "Subsidy claims & reconciliation (NBS)",
+          "q": [
+            3,
+            3,
+            3,
+            2
+          ],
+          "importance": 5,
+          "ref": "R5.1.2",
+          "description": "Claim and reconcile nutrient-based subsidy with government.",
+          "owner": "Head of Subsidy Accounting",
+          "depends_on": [
+            "C04.4",
+            "C09.1"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C09.2.1",
+              "name": "Subsidy claim preparation (NBS rates)",
+              "ref": "R5.1.2.1",
+              "owner": "Head of Subsidy Accounting"
+            },
+            {
+              "id": "C09.2.2",
+              "name": "Claim reconciliation with iFMS sales",
+              "ref": "R5.1.2.2",
+              "owner": "Head of Subsidy Accounting"
+            },
+            {
+              "id": "C09.2.3",
+              "name": "Subsidy receivable tracking & follow-up",
+              "ref": "R5.1.2.3",
+              "owner": "Head of Subsidy Accounting"
+            },
+            {
+              "id": "C09.2.4",
+              "name": "Freight subsidy claims",
+              "ref": "R5.1.2.4",
+              "owner": "Head of Subsidy Accounting"
+            }
+          ]
+        },
+        {
+          "id": "C09.3",
+          "name": "Planning, budgeting & performance reporting",
+          "q": [
+            3,
+            3,
+            3,
+            2
+          ],
+          "importance": 4,
+          "ref": "R5.1.3",
+          "description": "Plan, budget and report performance.",
+          "owner": "CFO",
+          "depends_on": [
+            "C09.1",
+            "C11.1"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C09.3.1",
+              "name": "Annual operating plan",
+              "ref": "R5.1.3.1",
+              "owner": "CFO"
+            },
+            {
+              "id": "C09.3.2",
+              "name": "Rolling forecasts",
+              "ref": "R5.1.3.2",
+              "owner": "CFO"
+            },
+            {
+              "id": "C09.3.3",
+              "name": "Management & segment reporting",
+              "ref": "R5.1.3.3",
+              "owner": "CFO"
+            }
+          ]
+        },
+        {
+          "id": "C09.4",
+          "name": "M&A integration (e.g. NACL)",
+          "q": [
+            2,
+            1,
+            2,
+            1
+          ],
+          "importance": 4,
+          "focus": "F5",
+          "ref": "R5.1.4",
+          "description": "Integrate acquired entities into processes, systems and data.",
+          "owner": "Head of Corporate Development",
+          "depends_on": [
+            "C09.1",
+            "C11.3",
+            "C11.4"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C09.4.1",
+              "name": "Day-1 integration planning",
+              "ref": "R5.1.4.1",
+              "owner": "Head of Corporate Development"
+            },
+            {
+              "id": "C09.4.2",
+              "name": "Finance & master data integration",
+              "ref": "R5.1.4.2",
+              "owner": "Head of Corporate Development"
+            },
+            {
+              "id": "C09.4.3",
+              "name": "Application & identity consolidation",
+              "ref": "R5.1.4.3",
+              "owner": "Head of Corporate Development"
+            }
+          ]
+        }
+      ],
+      "l0": "L0-5",
+      "ref": "R5.1",
+      "owner": "CFO",
+      "description": ""
+    },
+    {
+      "id": "C10",
+      "name": "People & Workplace",
+      "children": [
+        {
+          "id": "C10.1",
+          "name": "Core HR & payroll",
+          "q": [
+            4,
+            4,
+            3,
+            3
+          ],
+          "importance": 3,
+          "ref": "R5.2.1",
+          "description": "Manage employee records, payroll and statutory benefits.",
+          "owner": "CHRO",
+          "depends_on": [],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C10.1.1",
+              "name": "Employee master & lifecycle",
+              "ref": "R5.2.1.1",
+              "owner": "CHRO"
+            },
+            {
+              "id": "C10.1.2",
+              "name": "Payroll processing",
+              "ref": "R5.2.1.2",
+              "owner": "CHRO"
+            },
+            {
+              "id": "C10.1.3",
+              "name": "Attendance & leave",
+              "ref": "R5.2.1.3",
+              "owner": "CHRO"
+            }
+          ]
+        },
+        {
+          "id": "C10.2",
+          "name": "Talent, learning & performance",
+          "q": [
+            3,
+            3,
+            3,
+            2
+          ],
+          "importance": 3,
+          "ref": "R5.2.2",
+          "description": "Recruit, develop and assess employees.",
+          "owner": "CHRO",
+          "depends_on": [
+            "C10.1"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C10.2.1",
+              "name": "Performance management",
+              "ref": "R5.2.2.1",
+              "owner": "CHRO"
+            },
+            {
+              "id": "C10.2.2",
+              "name": "Learning & capability development",
+              "ref": "R5.2.2.2",
+              "owner": "CHRO"
+            },
+            {
+              "id": "C10.2.3",
+              "name": "Succession planning",
+              "ref": "R5.2.2.3",
+              "owner": "CHRO"
+            }
+          ]
+        },
+        {
+          "id": "C10.3",
+          "name": "Collaboration & productivity",
+          "q": [
+            4,
+            4,
+            3,
+            3
+          ],
+          "importance": 3,
+          "ref": "R5.2.3",
+          "description": "Provide email, collaboration and productivity tools.",
+          "owner": "CHRO",
+          "depends_on": [
+            "C11.4"
+          ],
+          "automation": "Microsoft 365 Copilot",
+          "l3": [
+            {
+              "id": "C10.3.1",
+              "name": "Email, collaboration & documents",
+              "ref": "R5.2.3.1",
+              "owner": "CHRO"
+            },
+            {
+              "id": "C10.3.2",
+              "name": "AI assistant enablement (Copilot)",
+              "ref": "R5.2.3.2",
+              "owner": "CHRO"
+            },
+            {
+              "id": "C10.3.3",
+              "name": "Intranet & knowledge sharing",
+              "ref": "R5.2.3.3",
+              "owner": "CHRO"
+            }
+          ]
+        }
+      ],
+      "l0": "L0-5",
+      "ref": "R5.2",
+      "owner": "CHRO",
+      "description": ""
+    },
+    {
+      "id": "C11",
+      "name": "Data, AI & Technology Management",
+      "children": [
+        {
+          "id": "C11.1",
+          "name": "Enterprise data & analytics",
+          "q": [
+            2,
+            3,
+            2,
+            2
+          ],
+          "importance": 5,
+          "focus": "F5",
+          "ref": "R5.3.1",
+          "description": "Provide governed data and analytics to the business.",
+          "owner": "CIO / CDO",
+          "depends_on": [
+            "C11.3"
+          ],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C11.1.1",
+              "name": "Data platform & ingestion",
+              "ref": "R5.3.1.1",
+              "owner": "CIO / CDO"
+            },
+            {
+              "id": "C11.1.2",
+              "name": "Data products & semantic layer",
+              "ref": "R5.3.1.2",
+              "owner": "CIO / CDO"
+            },
+            {
+              "id": "C11.1.3",
+              "name": "Self-service BI & reporting",
+              "ref": "R5.3.1.3",
+              "owner": "CIO / CDO"
+            },
+            {
+              "id": "C11.1.4",
+              "name": "Data quality management",
+              "ref": "R5.3.1.4",
+              "owner": "CIO / CDO"
+            }
+          ]
+        },
+        {
+          "id": "C11.2",
+          "name": "AI/ML platform & MLOps",
+          "q": [
+            1,
+            2,
+            2,
+            1
+          ],
+          "importance": 5,
+          "focus": "F5",
+          "ref": "R5.3.2",
+          "description": "Build, deploy and monitor AI and ML models.",
+          "owner": "CIO / CDO",
+          "depends_on": [
+            "C11.1"
+          ],
+          "automation": "No MLOps pipeline",
+          "l3": [
+            {
+              "id": "C11.2.1",
+              "name": "AI use-case intake & prioritisation",
+              "ref": "R5.3.2.1",
+              "owner": "CIO / CDO"
+            },
+            {
+              "id": "C11.2.2",
+              "name": "Model development & experimentation",
+              "ref": "R5.3.2.2",
+              "owner": "CIO / CDO"
+            },
+            {
+              "id": "C11.2.3",
+              "name": "Model deployment & monitoring",
+              "ref": "R5.3.2.3",
+              "owner": "CIO / CDO"
+            },
+            {
+              "id": "C11.2.4",
+              "name": "Responsible-AI review",
+              "ref": "R5.3.2.4",
+              "owner": "CIO / CDO"
+            }
+          ]
+        },
+        {
+          "id": "C11.3",
+          "name": "Integration & API management",
+          "q": [
+            2,
+            2,
+            2,
+            2
+          ],
+          "importance": 5,
+          "focus": "F5",
+          "ref": "R5.3.3",
+          "description": "Connect systems through governed APIs and events.",
+          "owner": "CIO / CDO",
+          "depends_on": [],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C11.3.1",
+              "name": "API design & publishing",
+              "ref": "R5.3.3.1",
+              "owner": "CIO / CDO"
+            },
+            {
+              "id": "C11.3.2",
+              "name": "Integration runtime & monitoring",
+              "ref": "R5.3.3.2",
+              "owner": "CIO / CDO"
+            },
+            {
+              "id": "C11.3.3",
+              "name": "Partner & B2B integration",
+              "ref": "R5.3.3.3",
+              "owner": "CIO / CDO"
+            }
+          ]
+        },
+        {
+          "id": "C11.4",
+          "name": "Cybersecurity & identity",
+          "q": [
+            3,
+            3,
+            3,
+            3
+          ],
+          "importance": 5,
+          "ref": "R5.3.4",
+          "description": "Protect systems and data and manage identities.",
+          "owner": "CISO",
+          "depends_on": [],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C11.4.1",
+              "name": "Identity & access management (SSO, MFA)",
+              "ref": "R5.3.4.1",
+              "owner": "CISO"
+            },
+            {
+              "id": "C11.4.2",
+              "name": "Security monitoring & incident response",
+              "ref": "R5.3.4.2",
+              "owner": "CISO"
+            },
+            {
+              "id": "C11.4.3",
+              "name": "Vulnerability & patch management",
+              "ref": "R5.3.4.3",
+              "owner": "CISO"
+            }
+          ]
+        },
+        {
+          "id": "C11.5",
+          "name": "IT service & architecture management",
+          "q": [
+            2,
+            2,
+            2,
+            2
+          ],
+          "importance": 4,
+          "focus": "F5",
+          "ref": "R5.3.5",
+          "description": "Run IT services and govern architecture.",
+          "owner": "Head of Enterprise Architecture",
+          "depends_on": [],
+          "automation": "",
+          "l3": [
+            {
+              "id": "C11.5.1",
+              "name": "IT service desk & ITSM",
+              "ref": "R5.3.5.1",
+              "owner": "Head of Enterprise Architecture"
+            },
+            {
+              "id": "C11.5.2",
+              "name": "Architecture review board (ARB)",
+              "ref": "R5.3.5.2",
+              "owner": "Head of Enterprise Architecture"
+            },
+            {
+              "id": "C11.5.3",
+              "name": "Architecture repository & standards",
+              "ref": "R5.3.5.3",
+              "owner": "Head of Enterprise Architecture"
+            },
+            {
+              "id": "C11.5.4",
+              "name": "IT demand & portfolio management",
+              "ref": "R5.3.5.4",
+              "owner": "Head of Enterprise Architecture"
+            }
+          ]
+        }
+      ],
+      "l0": "L0-5",
+      "ref": "R5.3",
+      "owner": "CIO / CDO",
+      "description": ""
+    }
+  ]
+}

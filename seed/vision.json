@@ -1,0 +1,915 @@
+{
+  "_meta": {
+    "purpose": "Seed for Screen 1 - Vision & Guardrails (TOGAF Preliminary + Phase A).",
+    "source_legend": {
+      "deck": "KPMG proposal deck (slides 6, 7, 9, 12, 24)",
+      "public": "Coromandel public disclosures / press",
+      "assumed": "Placeholder for demo - to be validated in discovery"
+    }
+  },
+  "engagement": {
+    "client": "Coromandel International Ltd (CIL), Murugappa Group",
+    "request": "Establish a practical, industry-aligned (TOGAF) Enterprise Architecture baseline, define the future-state architecture and governance model, and provide a prioritized roadmap supporting growth through 2030.",
+    "horizon": "FY27-FY30 (2-5 year transition roadmap)",
+    "source": "deck"
+  },
+  "business_drivers": [
+    {
+      "id": "D1",
+      "driver": "Hybrid estate has grown through growth, cloud adoption and new digital investments - needs a common architecture baseline",
+      "source": "deck"
+    },
+    {
+      "id": "D2",
+      "driver": "Architecture decisions and standards must be applied consistently across domains",
+      "source": "deck"
+    },
+    {
+      "id": "D3",
+      "driver": "End-to-end visibility of dependencies across applications, data, infrastructure and security",
+      "source": "deck"
+    },
+    {
+      "id": "D4",
+      "driver": "Scalable foundation for future applications, acquisitions (e.g. NACL Industries, 53% stake 2025) and AI adoption",
+      "source": "deck"
+    },
+    {
+      "id": "D5",
+      "driver": "Shift from digital pilots to connected, intelligent, autonomous operations (AI-accelerated R&D, connected product+service, digital agronomy, drones)",
+      "source": "deck"
+    },
+    {
+      "id": "D6",
+      "driver": "Retail network scale-up (1,075 Gromor stores Nov-2025; plan to roughly double) and 1M+ farmer app users",
+      "source": "public"
+    }
+  ],
+  "digital_focus_areas": [
+    {
+      "id": "F1",
+      "name": "AI-accelerated R&D",
+      "detail": "Formulation, trials, crop response and knowledge reuse",
+      "source": "deck"
+    },
+    {
+      "id": "F2",
+      "name": "Connected product + service",
+      "detail": "Diagnostics, recommendations and precision application",
+      "source": "deck"
+    },
+    {
+      "id": "F3",
+      "name": "Digital agronomy platform",
+      "detail": "Advisory, satellite insights, orders and service journeys",
+      "source": "deck"
+    },
+    {
+      "id": "F4",
+      "name": "Drone & robotics ecosystem",
+      "detail": "Hardware, prescription maps, telemetry and operations",
+      "source": "deck"
+    },
+    {
+      "id": "F5",
+      "name": "Data, AI & EA foundation",
+      "detail": "Data domains, APIs, cloud, security, MLOps and governance",
+      "source": "deck"
+    }
+  ],
+  "scope": {
+    "in_scope": [
+      "Business, Application, Data, Technology architecture (TOGAF B-D)",
+      "Cross-cutting: Security, Integration, AI, Governance, Transition",
+      "50-60 external applications (COTS & custom) + core apps",
+      "EA operating model, governance & repository",
+      "2-5 year transition roadmap"
+    ],
+    "out_of_scope": [
+      "SAP RISE (ERP) detailed assessment - dependencies captured only",
+      "OT systems detailed assessment - dependencies captured only"
+    ],
+    "constraints": [
+      "Microsoft-centric stack (Azure, SQL Server, Entra ID SSO, M365/Copilot)",
+      "DC Hyderabad + DR Chennai + Azure hybrid",
+      "Mostly two/three-tier apps; limited microservices/containers"
+    ],
+    "source": "deck"
+  },
+  "stakeholders": [
+    {
+      "viewpoint": "Business & Functional Leaders",
+      "concerns": "Value, capability and process",
+      "screens": [
+        "business",
+        "roadmap"
+      ],
+      "source": "deck"
+    },
+    {
+      "viewpoint": "CIO & Enterprise Architecture",
+      "concerns": "Standards, target state and roadmap",
+      "screens": [
+        "vision",
+        "roadmap"
+      ],
+      "source": "deck"
+    },
+    {
+      "viewpoint": "Application & Data Owners",
+      "concerns": "Lifecycle, interfaces and ownership",
+      "screens": [
+        "applications",
+        "data_tech"
+      ],
+      "source": "deck"
+    },
+    {
+      "viewpoint": "Infrastructure & Security",
+      "concerns": "Resilience, controls and platforms",
+      "screens": [
+        "data_tech"
+      ],
+      "source": "deck"
+    },
+    {
+      "viewpoint": "Delivery & Governance Forums",
+      "concerns": "Decisions, compliance and change",
+      "screens": [
+        "roadmap"
+      ],
+      "source": "deck"
+    }
+  ],
+  "principles_cil": [
+    {
+      "id": "P-CIL-01",
+      "name": "Cloud-smart on Azure",
+      "statement": "New workloads default to Azure PaaS/containers; DC Hyderabad hosts only what must stay on-prem.",
+      "category": "Technology",
+      "togaf_basis": "Principle 20 Control Technical Diversity",
+      "source": "assumed"
+    },
+    {
+      "id": "P-CIL-02",
+      "name": "Clean-core ERP",
+      "statement": "Keep SAP S/4HANA (RISE) standard; extend side-by-side via APIs, not core modifications.",
+      "category": "Application",
+      "togaf_basis": "Principle 5 Common Use Applications",
+      "source": "assumed"
+    },
+    {
+      "id": "P-CIL-03",
+      "name": "API-first integration",
+      "statement": "Systems integrate through governed APIs/events, not point-to-point file drops or DB links.",
+      "category": "Application",
+      "togaf_basis": "Principle 21 Interoperability",
+      "source": "assumed"
+    },
+    {
+      "id": "P-CIL-04",
+      "name": "One farmer, one record",
+      "statement": "Farmer, dealer and product data have a single owner and system of record shared across retail, app and agronomy.",
+      "category": "Data",
+      "togaf_basis": "Principles 10-14 (Data is an Asset / Shared / Trustee / Common Vocabulary)",
+      "source": "assumed"
+    },
+    {
+      "id": "P-CIL-05",
+      "name": "Acquisition-ready architecture",
+      "statement": "A standard integration playbook (identity, finance, master data) onboards acquired entities like NACL within 2 quarters.",
+      "category": "Business",
+      "togaf_basis": "Principle 2 Maximize Benefit to the Enterprise",
+      "source": "assumed"
+    },
+    {
+      "id": "P-AI-01",
+      "name": "Human-in-the-loop for agronomy",
+      "statement": "AI recommendations that affect farmer inputs or spend are reviewed or confirmable by an agronomist or the farmer.",
+      "category": "AI",
+      "togaf_basis": "Principle 7 Compliance with Law",
+      "source": "assumed"
+    },
+    {
+      "id": "P-AI-02",
+      "name": "Grounded and explainable AI",
+      "statement": "Generative AI answers cite their source data/documents; no ungrounded advice in farmer channels.",
+      "category": "AI",
+      "togaf_basis": "Principle 12 Data is Accessible",
+      "source": "assumed"
+    },
+    {
+      "id": "P-AI-03",
+      "name": "Privacy by design (DPDP Act 2023)",
+      "statement": "Farmer and employee personal data is classified, consented and minimised before any AI use.",
+      "category": "AI",
+      "togaf_basis": "Principle 15 Data Security",
+      "source": "assumed"
+    },
+    {
+      "id": "P-AI-04",
+      "name": "Shared AI platform, no shadow AI",
+      "statement": "AI use cases run on the common Azure AI/ML platform with MLOps, not isolated vendor tools.",
+      "category": "AI",
+      "togaf_basis": "Principle 20 Control Technical Diversity",
+      "source": "assumed"
+    },
+    {
+      "id": "P-AI-05",
+      "name": "AI value tracked",
+      "statement": "Every AI initiative has a measurable business KPI and an owner, reviewed by the ARB.",
+      "category": "AI",
+      "togaf_basis": "Principle 18 Requirements-Based Change",
+      "source": "assumed"
+    }
+  ],
+  "guardrails": [
+    {
+      "id": "G-01",
+      "name": "No new point-to-point links to SAP or retail",
+      "statement": "New integrations to SAP and retail go through the governed API layer.",
+      "category": "Application",
+      "enforced_by": "ARB design review",
+      "source": "assumed"
+    },
+    {
+      "id": "G-02",
+      "name": "SAP core stays standard",
+      "statement": "No core modifications in SAP S/4HANA; extensions are side-by-side.",
+      "category": "Application",
+      "enforced_by": "ARB design review",
+      "source": "assumed"
+    },
+    {
+      "id": "G-03",
+      "name": "SSO for every user-facing app",
+      "statement": "All user-facing applications, including subsidiaries, authenticate through Entra ID.",
+      "category": "Security",
+      "enforced_by": "Go-live checklist",
+      "source": "assumed"
+    },
+    {
+      "id": "G-04",
+      "name": "Tier-1 apps have tested DR",
+      "statement": "Tier-1 applications have defined RPO/RTO and a DR test in the last 12 months.",
+      "category": "Technology",
+      "enforced_by": "Resilience checklist (§48.5)",
+      "source": "assumed"
+    },
+    {
+      "id": "G-05",
+      "name": "Farmer PII never leaves governed AI services",
+      "statement": "Personal data is masked or excluded before use in any external AI model.",
+      "category": "AI",
+      "enforced_by": "AI use-case intake",
+      "source": "assumed"
+    },
+    {
+      "id": "G-06",
+      "name": "Human approval for agentic actions with spend",
+      "statement": "AI agents may not commit spend, credit or farmer-facing advice above set limits without human approval.",
+      "category": "AI",
+      "enforced_by": "AI use-case intake",
+      "source": "assumed"
+    },
+    {
+      "id": "G-07",
+      "name": "Every data domain has a named owner",
+      "statement": "No new system of record goes live without a business data owner and quality rules.",
+      "category": "Data",
+      "enforced_by": "Data governance council",
+      "source": "assumed"
+    },
+    {
+      "id": "G-08",
+      "name": "Buy before build",
+      "statement": "Custom builds need ARB approval showing no fit-for-purpose SaaS or SAP option exists.",
+      "category": "Application",
+      "enforced_by": "Investment gate",
+      "source": "assumed"
+    }
+  ],
+  "patterns": [
+    {
+      "id": "PT-01",
+      "name": "API-led integration",
+      "use": "System, process and experience APIs through one gateway",
+      "principle": "P-CIL-03",
+      "source": "assumed"
+    },
+    {
+      "id": "PT-02",
+      "name": "Side-by-side ERP extension",
+      "use": "Extend SAP outside the core through released APIs and events",
+      "principle": "P-CIL-02",
+      "source": "assumed"
+    },
+    {
+      "id": "PT-03",
+      "name": "Event-driven data sharing",
+      "use": "Publish master and transaction events once for many consumers",
+      "principle": "P-CIL-04",
+      "source": "assumed"
+    },
+    {
+      "id": "PT-04",
+      "name": "Cloud-native on containers",
+      "use": "New custom apps on the container platform with CI/CD",
+      "principle": "P-CIL-01",
+      "source": "assumed"
+    },
+    {
+      "id": "PT-05",
+      "name": "Grounded GenAI (RAG)",
+      "use": "Assistants answer from governed, cited enterprise content",
+      "principle": "P-AI-02",
+      "source": "assumed"
+    },
+    {
+      "id": "PT-06",
+      "name": "Human-in-the-loop agents",
+      "use": "Agents propose; people approve above risk thresholds",
+      "principle": "P-AI-01",
+      "source": "assumed"
+    }
+  ],
+  "ai_initiatives": [
+    {
+      "id": "AI-01",
+      "name": "Microsoft 365 Copilot rollout",
+      "type": "Productivity",
+      "status": "In use",
+      "depends_on_data_domains": [
+        "DD-09"
+      ],
+      "source": "deck"
+    },
+    {
+      "id": "AI-02",
+      "name": "Image-based pest & disease detection (MyGromor app)",
+      "type": "Computer vision",
+      "status": "Live",
+      "depends_on_data_domains": [
+        "DD-06",
+        "DD-01"
+      ],
+      "source": "public"
+    },
+    {
+      "id": "AI-03",
+      "name": "Retail customer 360 / retention model",
+      "type": "Production ML",
+      "status": "Live",
+      "depends_on_data_domains": [
+        "DD-01",
+        "DD-07"
+      ],
+      "source": "public"
+    },
+    {
+      "id": "AI-04",
+      "name": "Predictive maintenance / condition monitoring",
+      "type": "Production ML",
+      "status": "Scaling plant-wide",
+      "depends_on_data_domains": [
+        "DD-05"
+      ],
+      "source": "public"
+    },
+    {
+      "id": "AI-05",
+      "name": "Satellite yield & stress prediction advisory",
+      "type": "Geospatial ML",
+      "status": "Live (partner-led)",
+      "depends_on_data_domains": [
+        "DD-06"
+      ],
+      "source": "public"
+    },
+    {
+      "id": "AI-06",
+      "name": "Farmer conversational assistant (WhatsApp / Nutri Connect)",
+      "type": "Conversational AI",
+      "status": "Live / expanding",
+      "depends_on_data_domains": [
+        "DD-01",
+        "DD-06",
+        "DD-03"
+      ],
+      "source": "public"
+    },
+    {
+      "id": "AI-07",
+      "name": "Agentic AI initiatives",
+      "type": "Agentic AI",
+      "status": "Emerging",
+      "depends_on_data_domains": [
+        "DD-03",
+        "DD-07"
+      ],
+      "source": "deck"
+    },
+    {
+      "id": "AI-08",
+      "name": "AI-accelerated formulation & trial knowledge reuse",
+      "type": "GenAI / RAG",
+      "status": "Target",
+      "depends_on_data_domains": [
+        "DD-10"
+      ],
+      "source": "deck"
+    }
+  ],
+  "engagement_plan": {
+    "start": "2026-10-12",
+    "weeks": 16,
+    "as_of": "2026-11-02",
+    "source": "deck",
+    "note": "Indicative timeline, subject to stakeholder availability, data access and consolidated feedback. Hybrid team approach.",
+    "cadence": {
+      "weekly_connect": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        9,
+        10,
+        11,
+        13,
+        14,
+        15
+      ],
+      "steerco": [
+        4,
+        8,
+        12,
+        16
+      ]
+    },
+    "phases": [
+      {
+        "id": "P1",
+        "name": "Mobilization & Alignment",
+        "short": "Mobilization",
+        "adm": "Preliminary, A",
+        "objective": "Stand up the team and governance, agree the assessment framework and align CIL stakeholders on scope.",
+        "approach": [
+          "Mobilise the KPMG and CIL teams; set governance, cadences and delivery controls",
+          "Define the assessment framework, viewpoints, information requirements and the function-wise focus group plan",
+          "Align stakeholders on scope, architecture domains, exclusions and review gates"
+        ],
+        "outputs": [
+          "Engagement governance and cadence",
+          "Assessment framework and viewpoints",
+          "Focus group discussion plan",
+          "Repository structure"
+        ],
+        "gate": "Scope, framework and review gates agreed with the CIO",
+        "activities": [
+          {
+            "id": "T01",
+            "name": "Mobilize project team & establish the engagement governance, stakeholder structure, communication cadences, and delivery controls.",
+            "start_week": 1,
+            "weeks": 1,
+            "kpmg": "Engagement lead",
+            "cil": "CIO office",
+            "deliverable": "Engagement charter, RACI",
+            "status": "done",
+            "screens": [
+              "approach"
+            ]
+          },
+          {
+            "id": "T02",
+            "name": "Define the assessment framework, architecture viewpoints, information requirements, function wise focus group discussion plan, and repository structure.",
+            "start_week": 1,
+            "weeks": 3,
+            "kpmg": "EA lead",
+            "cil": "EA office",
+            "deliverable": "Assessment framework, FGD plan",
+            "status": "done",
+            "screens": [
+              "approach",
+              "business",
+              "vision"
+            ]
+          },
+          {
+            "id": "T03",
+            "name": "Align CIL stakeholders on the scope, architecture domains, exclusions, working approach, and review gates.",
+            "start_week": 2,
+            "weeks": 2,
+            "kpmg": "Engagement lead",
+            "cil": "CIO, function heads",
+            "deliverable": "Scope and review gates",
+            "status": "done",
+            "screens": [
+              "approach",
+              "vision"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "P2",
+        "name": "As-Is Assessment & Gap Analysis",
+        "short": "As-Is Assessment",
+        "adm": "B, C, D (baseline)",
+        "objective": "Baseline the business, application, data, technology and governance landscape and agree the prioritised gaps.",
+        "approach": [
+          "Run function-wise workshops on business needs, application challenges and future expectations",
+          "Assess data, analytics and AI; infrastructure, cloud and backup; network, identity, security and resilience",
+          "Evaluate EA governance maturity, then prioritise and validate gaps with business stakeholders"
+        ],
+        "outputs": [
+          "Current-state architecture views",
+          "Domain assessments",
+          "Prioritised gap register",
+          "As-Is Assessment & Gap Analysis Report"
+        ],
+        "gate": "As-Is Assessment & Gap Analysis Report accepted at the W8 steering committee",
+        "activities": [
+          {
+            "id": "T04",
+            "name": "Conduct workshops to understand business needs, application challenges, and future expectations.",
+            "start_week": 2,
+            "weeks": 4,
+            "kpmg": "Business architect",
+            "cil": "Function heads",
+            "deliverable": "Workshop notes, discovery questionnaires",
+            "status": "in_progress",
+            "screens": [
+              "business",
+              "applications",
+              "vision"
+            ]
+          },
+          {
+            "id": "T05",
+            "name": "Assess the current data, analytics, and AI landscape and planned capabilities.",
+            "start_week": 2,
+            "weeks": 4,
+            "kpmg": "Data & AI architect",
+            "cil": "Data owners, DPO",
+            "deliverable": "Data & AI assessment",
+            "status": "in_progress",
+            "screens": [
+              "data_tech"
+            ]
+          },
+          {
+            "id": "T06",
+            "name": "Review the current infrastructure, cloud, backup, and deployment architecture.",
+            "start_week": 3,
+            "weeks": 3,
+            "kpmg": "Technology architect",
+            "cil": "Infra lead",
+            "deliverable": "Infrastructure & cloud baseline",
+            "status": "in_progress",
+            "screens": [
+              "data_tech",
+              "applications"
+            ]
+          },
+          {
+            "id": "T07",
+            "name": "Assess the network, identity, cybersecurity, and resilience architecture.",
+            "start_week": 3,
+            "weeks": 4,
+            "kpmg": "Security architect",
+            "cil": "CISO",
+            "deliverable": "Network & security baseline",
+            "status": "in_progress",
+            "screens": [
+              "data_tech"
+            ]
+          },
+          {
+            "id": "T08",
+            "name": "Evaluate the current enterprise architecture governance and maturity.",
+            "start_week": 4,
+            "weeks": 4,
+            "kpmg": "EA lead",
+            "cil": "CIO, EA office",
+            "deliverable": "EA maturity assessment",
+            "status": "in_progress",
+            "screens": [
+              "roadmap"
+            ]
+          },
+          {
+            "id": "T09",
+            "name": "Identify & prioritize architecture gaps across key technology domains. Consolidate and validate the findings with key business stakeholders.",
+            "start_week": 6,
+            "weeks": 3,
+            "kpmg": "Engagement lead",
+            "cil": "Function heads",
+            "deliverable": "Prioritised gap register",
+            "status": "planned",
+            "screens": [
+              "business",
+              "applications",
+              "data_tech",
+              "roadmap"
+            ]
+          },
+          {
+            "id": "M1",
+            "name": "As-Is Assessment & Gap Analysis Report",
+            "start_week": 8,
+            "weeks": 1,
+            "kpmg": "Engagement lead",
+            "cil": "Steering committee",
+            "deliverable": "As-Is Assessment & Gap Analysis Report",
+            "status": "milestone",
+            "screens": [
+              "business",
+              "applications",
+              "data_tech",
+              "roadmap",
+              "approach"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "P3",
+        "name": "To-Be Enterprise Architecture",
+        "short": "To-Be Architecture",
+        "adm": "B-D (target), E",
+        "objective": "Define the target architecture, standards and guardrails across domains, with transition states for priority areas.",
+        "approach": [
+          "Set industry-aligned principles, technology standards, reference patterns and design guardrails",
+          "Design target application & integration, data & AI, infrastructure & Azure, and network & security architectures",
+          "Develop transition states for priority areas and validate them with CIL stakeholders"
+        ],
+        "outputs": [
+          "Principles, standards and guardrails",
+          "Target domain architectures",
+          "Transition-state architectures",
+          "To-Be Enterprise Architecture"
+        ],
+        "gate": "To-Be Enterprise Architecture validated with CIL stakeholders (W13)",
+        "activities": [
+          {
+            "id": "T10",
+            "name": "Define Industry-aligned architecture principles, technology standards, reference patterns, and design guardrails.",
+            "start_week": 9,
+            "weeks": 1,
+            "kpmg": "EA lead",
+            "cil": "ARB members",
+            "deliverable": "Principles, standards, guardrails",
+            "status": "planned",
+            "screens": [
+              "vision",
+              "data_tech"
+            ]
+          },
+          {
+            "id": "T11",
+            "name": "Develop the target application and integration architecture covering portfolio, deployment, APIs, events, and data exchange.",
+            "start_week": 9,
+            "weeks": 2,
+            "kpmg": "Application architect",
+            "cil": "Head of Applications",
+            "deliverable": "Target application & integration architecture",
+            "status": "planned",
+            "screens": [
+              "applications"
+            ]
+          },
+          {
+            "id": "T12",
+            "name": "Define the target data and AI architecture covering platforms, governance, analytics, AI services, security, and MLOps.",
+            "start_week": 9,
+            "weeks": 3,
+            "kpmg": "Data & AI architect",
+            "cil": "Data owners",
+            "deliverable": "Target data & AI architecture",
+            "status": "planned",
+            "screens": [
+              "data_tech"
+            ]
+          },
+          {
+            "id": "T13",
+            "name": "Develop the target infrastructure and Azure architecture covering hybrid hosting, storage, backup, DR, monitoring, and operations.",
+            "start_week": 10,
+            "weeks": 4,
+            "kpmg": "Technology architect",
+            "cil": "Infra lead",
+            "deliverable": "Target infrastructure & Azure architecture",
+            "status": "planned",
+            "screens": [
+              "data_tech"
+            ]
+          },
+          {
+            "id": "T14",
+            "name": "Define the target network and security architecture covering connectivity, identity, access controls, resilience, and observability.",
+            "start_week": 11,
+            "weeks": 3,
+            "kpmg": "Security architect",
+            "cil": "CISO",
+            "deliverable": "Target network & security architecture",
+            "status": "planned",
+            "screens": [
+              "data_tech"
+            ]
+          },
+          {
+            "id": "T15",
+            "name": "Develop transition-state architectures for priority areas.",
+            "start_week": 11,
+            "weeks": 3,
+            "kpmg": "EA lead",
+            "cil": "IT leadership",
+            "deliverable": "Transition-state architectures",
+            "status": "planned",
+            "screens": [
+              "applications",
+              "roadmap"
+            ]
+          },
+          {
+            "id": "T16",
+            "name": "Validate the target architecture, standards, patterns, and transition designs with CIL stakeholders.",
+            "start_week": 11,
+            "weeks": 3,
+            "kpmg": "Engagement lead",
+            "cil": "CIO, ARB",
+            "deliverable": "Validated target architecture",
+            "status": "planned",
+            "screens": [
+              "business",
+              "applications",
+              "data_tech"
+            ]
+          },
+          {
+            "id": "M2",
+            "name": "To-Be Enterprise Architecture",
+            "start_week": 13,
+            "weeks": 1,
+            "kpmg": "Engagement lead",
+            "cil": "Steering committee",
+            "deliverable": "To-Be Enterprise Architecture",
+            "status": "milestone",
+            "screens": [
+              "applications",
+              "data_tech",
+              "approach"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "P4",
+        "name": "Initiatives, Prioritization & Target Operating Model",
+        "short": "Roadmap & TOM",
+        "adm": "E-H",
+        "objective": "Turn prioritised gaps into initiatives, sequence a two-to-five-year roadmap and define the EA operating model.",
+        "approach": [
+          "Translate prioritised gaps into quick-win and strategic modernisation initiatives",
+          "Prioritise and sequence by business need, risk, complexity, effort and dependencies",
+          "Define the EA operating model (roles, forums, review mechanisms, KPIs) and align stakeholders"
+        ],
+        "outputs": [
+          "Initiative portfolio",
+          "Two-to-five-year roadmap",
+          "EA operating model",
+          "Initiatives, Prioritised Roadmap & TOM"
+        ],
+        "gate": "Roadmap and operating model approved at the W16 steering committee",
+        "activities": [
+          {
+            "id": "T17",
+            "name": "Translate prioritized gaps into quick-win and strategic modernization initiatives.",
+            "start_week": 12,
+            "weeks": 2,
+            "kpmg": "Engagement lead",
+            "cil": "IT leadership",
+            "deliverable": "Initiative list",
+            "status": "planned",
+            "screens": [
+              "roadmap"
+            ]
+          },
+          {
+            "id": "T18",
+            "name": "Prioritize and sequence initiatives based on business needs, risk, complexity, effort, and dependencies.",
+            "start_week": 12,
+            "weeks": 3,
+            "kpmg": "EA lead",
+            "cil": "IT PMO",
+            "deliverable": "Prioritised initiatives",
+            "status": "planned",
+            "screens": [
+              "roadmap"
+            ]
+          },
+          {
+            "id": "T19",
+            "name": "Develop a two-to-five-year roadmap covering initiative sequencing, dependencies, and transition stages.",
+            "start_week": 12,
+            "weeks": 4,
+            "kpmg": "EA lead",
+            "cil": "CIO",
+            "deliverable": "Transformation roadmap",
+            "status": "planned",
+            "screens": [
+              "roadmap"
+            ]
+          },
+          {
+            "id": "T20",
+            "name": "Define the EA operating model, including roles, governance forums, review mechanisms, and KPIs.",
+            "start_week": 12,
+            "weeks": 5,
+            "kpmg": "EA lead",
+            "cil": "CIO, EA office",
+            "deliverable": "EA operating model",
+            "status": "planned",
+            "screens": [
+              "roadmap",
+              "vision"
+            ]
+          },
+          {
+            "id": "T21",
+            "name": "Consolidate the deliverable & align stakeholders on the initiatives, roadmap, and operating model.",
+            "start_week": 14,
+            "weeks": 3,
+            "kpmg": "Engagement lead",
+            "cil": "Sponsors",
+            "deliverable": "Final deliverable",
+            "status": "planned",
+            "screens": [
+              "roadmap",
+              "approach"
+            ]
+          },
+          {
+            "id": "M3",
+            "name": "Initiatives, Prioritized Roadmap & TOM",
+            "start_week": 16,
+            "weeks": 1,
+            "kpmg": "Engagement lead",
+            "cil": "Steering committee",
+            "deliverable": "Initiatives, Prioritized Roadmap & TOM",
+            "status": "milestone",
+            "screens": [
+              "roadmap",
+              "approach"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "scope_of_work": {
+    "requirement": "Establish a practical, industry-aligned (TOGAF, etc.) Enterprise Architecture baseline for CIL, define the future-state architecture and governance model, and provide a prioritized roadmap supporting growth through 2030.",
+    "objective": "Assess the current IT architecture, identify technology gaps, define standards and target-state designs, establish a sustainable EA operating model and create an actionable short to long term transformation roadmap.",
+    "items": [
+      {
+        "n": 1,
+        "title": "Current-state discovery & architecture baseline",
+        "icon": "discovery",
+        "activities": "Map business capabilities to the application landscape and document current application, integration, data, infrastructure, network, cloud, security and AI architecture views."
+      },
+      {
+        "n": 2,
+        "title": "Domain assessment & prioritized gap analysis",
+        "icon": "assessment",
+        "activities": "Assess architecture fitness, lifecycle, resilience, scalability, interoperability, security and operational dependencies; prioritize gaps by business and technology impact."
+      },
+      {
+        "n": 3,
+        "title": "Target-state architecture & standards",
+        "icon": "target",
+        "activities": "Define industry-aligned principles, standards, reference patterns and domain target architectures, including transition views for priority areas."
+      },
+      {
+        "n": 4,
+        "title": "AI architecture & adoption direction",
+        "icon": "ai",
+        "activities": "Assess current & potential AI initiatives and define enterprise direction across use cases, data, platforms, models, security, governance and operating capabilities."
+      },
+      {
+        "n": 5,
+        "title": "EA operating model, governance & repository",
+        "icon": "governance",
+        "activities": "Define roles, architecture forums, change-control checkpoints, review templates, compliance scoring, KPIs and a maintainable, editable architecture repository."
+      },
+      {
+        "n": 6,
+        "title": "Transformation roadmap",
+        "icon": "roadmap",
+        "activities": "Sequence quick wins and strategic initiatives over two to five years, capture dependencies and directional effort, and establish repeatable architecture guidance for future needs."
+      }
+    ],
+    "source": "deck"
+  }
+}

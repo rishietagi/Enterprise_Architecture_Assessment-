@@ -1,0 +1,2104 @@
+{
+  "_meta": {
+    "purpose": "Standard-practice capability model for an integrated agri-inputs company (fertiliser, crop protection, retail, agronomy services, precision ag), L0 > L1 > L2 > L3. Step 1 of Business Architecture: CIL adopts (+) or drops (-) entries to form its catalog.",
+    "source": "assumed",
+    "note": "Generated reference for the demo. Replace with the agreed KPMG agri reference model.",
+    "togaf_ref": [
+      "8.4",
+      "32",
+      "36.2.10"
+    ],
+    "levels": {
+      "L0": "Value-chain group",
+      "L1": "Capability area",
+      "L2": "Capability",
+      "L3": "Sub-capability / process"
+    }
+  },
+  "nodes": [
+    {
+      "id": "R1",
+      "level": 0,
+      "parent": null,
+      "name": "Plan & Innovate"
+    },
+    {
+      "id": "R1.1",
+      "level": 1,
+      "parent": "R1",
+      "name": "Strategy & Portfolio"
+    },
+    {
+      "id": "R1.1.1",
+      "level": 2,
+      "parent": "R1.1",
+      "name": "Corporate strategy & portfolio planning",
+      "description": "Set growth priorities across nutrients, crop protection, retail and services.",
+      "practice": "Strategy cascaded to capability investment through an annual capability-based plan."
+    },
+    {
+      "id": "R1.1.1.1",
+      "level": 3,
+      "parent": "R1.1.1",
+      "name": "Strategic planning cycle & 2030 targets"
+    },
+    {
+      "id": "R1.1.1.2",
+      "level": 3,
+      "parent": "R1.1.1",
+      "name": "Capability-based investment planning"
+    },
+    {
+      "id": "R1.1.1.3",
+      "level": 3,
+      "parent": "R1.1.1",
+      "name": "Portfolio performance reviews"
+    },
+    {
+      "id": "R1.1.2",
+      "level": 2,
+      "parent": "R1.1",
+      "name": "Product portfolio & lifecycle management",
+      "description": "Manage SKUs from launch to sunset across fertiliser, CPC and bio ranges.",
+      "practice": "Stage-gated portfolio reviews with margin and agronomic performance per SKU."
+    },
+    {
+      "id": "R1.1.2.1",
+      "level": 3,
+      "parent": "R1.1.2",
+      "name": "SKU rationalisation & lifecycle reviews"
+    },
+    {
+      "id": "R1.1.2.2",
+      "level": 3,
+      "parent": "R1.1.2",
+      "name": "Stage-gate product launches"
+    },
+    {
+      "id": "R1.1.2.3",
+      "level": 3,
+      "parent": "R1.1.2",
+      "name": "Margin & agronomic performance tracking"
+    },
+    {
+      "id": "R1.1.3",
+      "level": 2,
+      "parent": "R1.1",
+      "name": "Sustainability & ESG strategy",
+      "description": "Define decarbonisation, water and soil-health commitments and targets.",
+      "practice": "ESG targets embedded in plant and product KPIs with assured data."
+    },
+    {
+      "id": "R1.1.3.1",
+      "level": 3,
+      "parent": "R1.1.3",
+      "name": "ESG materiality & target setting"
+    },
+    {
+      "id": "R1.1.3.2",
+      "level": 3,
+      "parent": "R1.1.3",
+      "name": "Decarbonisation roadmap (plants & logistics)"
+    },
+    {
+      "id": "R1.1.3.3",
+      "level": 3,
+      "parent": "R1.1.3",
+      "name": "ESG disclosure & assurance (BRSR)"
+    },
+    {
+      "id": "R1.2",
+      "level": 1,
+      "parent": "R1",
+      "name": "Agri R&D & Product Innovation"
+    },
+    {
+      "id": "R1.2.1",
+      "level": 2,
+      "parent": "R1.2",
+      "name": "Formulation & product development",
+      "description": "Design and scale new fertiliser, crop protection and specialty formulations.",
+      "practice": "Digital lab notebooks and formulation databases reused across programmes."
+    },
+    {
+      "id": "R1.2.1.1",
+      "level": 3,
+      "parent": "R1.2.1",
+      "name": "Formulation design & recipe management"
+    },
+    {
+      "id": "R1.2.1.2",
+      "level": 3,
+      "parent": "R1.2.1",
+      "name": "Lab-scale & pilot-plant scale-up"
+    },
+    {
+      "id": "R1.2.1.3",
+      "level": 3,
+      "parent": "R1.2.1",
+      "name": "Raw material & specification qualification"
+    },
+    {
+      "id": "R1.2.1.4",
+      "level": 3,
+      "parent": "R1.2.1",
+      "name": "Product cost & feasibility modelling"
+    },
+    {
+      "id": "R1.2.2",
+      "level": 2,
+      "parent": "R1.2",
+      "name": "Field trials & crop response analysis",
+      "description": "Plan, run and analyse multi-location field trials and crop response.",
+      "practice": "Trial design, capture and analysis on one platform with geo-tagged plots."
+    },
+    {
+      "id": "R1.2.2.1",
+      "level": 3,
+      "parent": "R1.2.2",
+      "name": "Trial protocol design & site selection"
+    },
+    {
+      "id": "R1.2.2.2",
+      "level": 3,
+      "parent": "R1.2.2",
+      "name": "Geo-tagged field data capture"
+    },
+    {
+      "id": "R1.2.2.3",
+      "level": 3,
+      "parent": "R1.2.2",
+      "name": "Crop response & yield analysis"
+    },
+    {
+      "id": "R1.2.2.4",
+      "level": 3,
+      "parent": "R1.2.2",
+      "name": "Trial results release to sales & agronomy"
+    },
+    {
+      "id": "R1.2.3",
+      "level": 2,
+      "parent": "R1.2",
+      "name": "Regulatory registration & product stewardship",
+      "description": "Register products with CIB&RC / FCO and manage label and stewardship duties.",
+      "practice": "Dossier management with reuse of trial and toxicology evidence."
+    },
+    {
+      "id": "R1.2.3.1",
+      "level": 3,
+      "parent": "R1.2.3",
+      "name": "Registration dossier preparation (CIB&RC / FCO)"
+    },
+    {
+      "id": "R1.2.3.2",
+      "level": 3,
+      "parent": "R1.2.3",
+      "name": "Regulatory submission & query tracking"
+    },
+    {
+      "id": "R1.2.3.3",
+      "level": 3,
+      "parent": "R1.2.3",
+      "name": "Label, SDS & product stewardship"
+    },
+    {
+      "id": "R1.2.3.4",
+      "level": 3,
+      "parent": "R1.2.3",
+      "name": "Registration renewal & compliance calendar"
+    },
+    {
+      "id": "R1.2.4",
+      "level": 2,
+      "parent": "R1.2",
+      "name": "R&D knowledge & IP management",
+      "description": "Capture, search and protect research knowledge and intellectual property.",
+      "practice": "Searchable knowledge base with GenAI retrieval over past trials and patents."
+    },
+    {
+      "id": "R1.2.4.1",
+      "level": 3,
+      "parent": "R1.2.4",
+      "name": "Patent & IP portfolio management"
+    },
+    {
+      "id": "R1.2.4.2",
+      "level": 3,
+      "parent": "R1.2.4",
+      "name": "Experiment & trial knowledge repository"
+    },
+    {
+      "id": "R1.2.4.3",
+      "level": 3,
+      "parent": "R1.2.4",
+      "name": "Research collaboration & partner agreements"
+    },
+    {
+      "id": "R1.2.5",
+      "level": 2,
+      "parent": "R1.2",
+      "name": "Biologicals & specialty nutrient research",
+      "description": "Research bio-stimulants, bio-pesticides and water-soluble nutrients.",
+      "practice": "Dedicated pipeline with partner and university collaboration tracking."
+    },
+    {
+      "id": "R1.2.5.1",
+      "level": 3,
+      "parent": "R1.2.5",
+      "name": "Strain & bio-input screening"
+    },
+    {
+      "id": "R1.2.5.2",
+      "level": 3,
+      "parent": "R1.2.5",
+      "name": "University & partner research programmes"
+    },
+    {
+      "id": "R1.2.5.3",
+      "level": 3,
+      "parent": "R1.2.5",
+      "name": "Specialty nutrient product pipeline"
+    },
+    {
+      "id": "R1.2.6",
+      "level": 2,
+      "parent": "R1.2",
+      "name": "AI-assisted discovery & trial design",
+      "description": "Use models to shortlist formulations and design efficient trials.",
+      "practice": "Model-driven candidate screening with human review of every recommendation."
+    },
+    {
+      "id": "R1.2.6.1",
+      "level": 3,
+      "parent": "R1.2.6",
+      "name": "Candidate formulation screening models"
+    },
+    {
+      "id": "R1.2.6.2",
+      "level": 3,
+      "parent": "R1.2.6",
+      "name": "Model-driven trial design"
+    },
+    {
+      "id": "R1.2.6.3",
+      "level": 3,
+      "parent": "R1.2.6",
+      "name": "Scientific review of model outputs"
+    },
+    {
+      "id": "R2",
+      "level": 0,
+      "parent": null,
+      "name": "Source & Make"
+    },
+    {
+      "id": "R2.1",
+      "level": 1,
+      "parent": "R2",
+      "name": "Sourcing & Procurement"
+    },
+    {
+      "id": "R2.1.1",
+      "level": 2,
+      "parent": "R2.1",
+      "name": "Raw material sourcing & hedging",
+      "description": "Secure rock phosphate, phosphoric acid, sulphur and ammonia at the right cost.",
+      "practice": "Category strategies with price-risk hedging and supplier diversification."
+    },
+    {
+      "id": "R2.1.1.1",
+      "level": 3,
+      "parent": "R2.1.1",
+      "name": "Demand-linked raw material planning"
+    },
+    {
+      "id": "R2.1.1.2",
+      "level": 3,
+      "parent": "R2.1.1",
+      "name": "Category strategy & supplier selection"
+    },
+    {
+      "id": "R2.1.1.3",
+      "level": 3,
+      "parent": "R2.1.1",
+      "name": "Price-risk & FX hedging"
+    },
+    {
+      "id": "R2.1.1.4",
+      "level": 3,
+      "parent": "R2.1.1",
+      "name": "Purchase order & contract call-off"
+    },
+    {
+      "id": "R2.1.2",
+      "level": 2,
+      "parent": "R2.1",
+      "name": "Import logistics & port operations",
+      "description": "Manage vessels, port handling, demurrage and inbound movement.",
+      "practice": "Vessel-to-plant visibility with demurrage alerts."
+    },
+    {
+      "id": "R2.1.2.1",
+      "level": 3,
+      "parent": "R2.1.2",
+      "name": "Vessel nomination & shipment tracking"
+    },
+    {
+      "id": "R2.1.2.2",
+      "level": 3,
+      "parent": "R2.1.2",
+      "name": "Port handling, customs & clearance"
+    },
+    {
+      "id": "R2.1.2.3",
+      "level": 3,
+      "parent": "R2.1.2",
+      "name": "Demurrage & ocean freight control"
+    },
+    {
+      "id": "R2.1.2.4",
+      "level": 3,
+      "parent": "R2.1.2",
+      "name": "Port-to-plant evacuation"
+    },
+    {
+      "id": "R2.1.3",
+      "level": 2,
+      "parent": "R2.1",
+      "name": "Supplier management & contracts",
+      "description": "Qualify suppliers, manage contracts and track performance.",
+      "practice": "Supplier scorecards and contract obligations tracked in one system."
+    },
+    {
+      "id": "R2.1.3.1",
+      "level": 3,
+      "parent": "R2.1.3",
+      "name": "Supplier onboarding & qualification"
+    },
+    {
+      "id": "R2.1.3.2",
+      "level": 3,
+      "parent": "R2.1.3",
+      "name": "Supplier performance scorecards"
+    },
+    {
+      "id": "R2.1.3.3",
+      "level": 3,
+      "parent": "R2.1.3",
+      "name": "Contract obligation & renewal tracking"
+    },
+    {
+      "id": "R2.1.4",
+      "level": 2,
+      "parent": "R2.1",
+      "name": "Indirect procurement & P2P",
+      "description": "Buy services, spares and consumables through a controlled purchase-to-pay flow.",
+      "practice": "Catalogue buying and touchless invoice matching."
+    },
+    {
+      "id": "R2.1.4.1",
+      "level": 3,
+      "parent": "R2.1.4",
+      "name": "Purchase requisition & catalogue buying"
+    },
+    {
+      "id": "R2.1.4.2",
+      "level": 3,
+      "parent": "R2.1.4",
+      "name": "Invoice matching & vendor payment"
+    },
+    {
+      "id": "R2.1.4.3",
+      "level": 3,
+      "parent": "R2.1.4",
+      "name": "Spend analytics"
+    },
+    {
+      "id": "R2.2",
+      "level": 1,
+      "parent": "R2",
+      "name": "Manufacturing & Plant Operations"
+    },
+    {
+      "id": "R2.2.1",
+      "level": 2,
+      "parent": "R2.2",
+      "name": "Production planning & scheduling",
+      "description": "Plan granulation and formulation runs against demand and capacity.",
+      "practice": "Finite-capacity scheduling linked to S&OP and plant constraints."
+    },
+    {
+      "id": "R2.2.1.1",
+      "level": 3,
+      "parent": "R2.2.1",
+      "name": "Monthly production plan from S&OP"
+    },
+    {
+      "id": "R2.2.1.2",
+      "level": 3,
+      "parent": "R2.2.1",
+      "name": "Finite-capacity plant scheduling"
+    },
+    {
+      "id": "R2.2.1.3",
+      "level": 3,
+      "parent": "R2.2.1",
+      "name": "Campaign & grade changeover planning"
+    },
+    {
+      "id": "R2.2.1.4",
+      "level": 3,
+      "parent": "R2.2.1",
+      "name": "Plan-vs-actual performance review"
+    },
+    {
+      "id": "R2.2.2",
+      "level": 2,
+      "parent": "R2.2",
+      "name": "Process control & plant historian",
+      "description": "Monitor process parameters through DCS and historian systems.",
+      "practice": "Historian data available to analytics through a governed OT/IT boundary."
+    },
+    {
+      "id": "R2.2.2.1",
+      "level": 3,
+      "parent": "R2.2.2",
+      "name": "DCS & process control operations"
+    },
+    {
+      "id": "R2.2.2.2",
+      "level": 3,
+      "parent": "R2.2.2",
+      "name": "Plant historian data collection"
+    },
+    {
+      "id": "R2.2.2.3",
+      "level": 3,
+      "parent": "R2.2.2",
+      "name": "OT data access for analytics (via DMZ)"
+    },
+    {
+      "id": "R2.2.3",
+      "level": 2,
+      "parent": "R2.2",
+      "name": "Asset maintenance & reliability",
+      "description": "Plan preventive and predictive maintenance for plant assets.",
+      "practice": "Condition-based maintenance driven by sensor analytics."
+    },
+    {
+      "id": "R2.2.3.1",
+      "level": 3,
+      "parent": "R2.2.3",
+      "name": "Preventive maintenance planning"
+    },
+    {
+      "id": "R2.2.3.2",
+      "level": 3,
+      "parent": "R2.2.3",
+      "name": "Condition monitoring & predictive maintenance"
+    },
+    {
+      "id": "R2.2.3.3",
+      "level": 3,
+      "parent": "R2.2.3",
+      "name": "Breakdown & work-order management"
+    },
+    {
+      "id": "R2.2.3.4",
+      "level": 3,
+      "parent": "R2.2.3",
+      "name": "Spares & MRO inventory"
+    },
+    {
+      "id": "R2.2.4",
+      "level": 2,
+      "parent": "R2.2",
+      "name": "Quality control & laboratory",
+      "description": "Test raw materials, in-process and finished goods against specification.",
+      "practice": "LIMS integrated with batch release in ERP."
+    },
+    {
+      "id": "R2.2.4.1",
+      "level": 3,
+      "parent": "R2.2.4",
+      "name": "Raw material & in-process testing"
+    },
+    {
+      "id": "R2.2.4.2",
+      "level": 3,
+      "parent": "R2.2.4",
+      "name": "Finished goods testing & batch release"
+    },
+    {
+      "id": "R2.2.4.3",
+      "level": 3,
+      "parent": "R2.2.4",
+      "name": "Lab sample & results management"
+    },
+    {
+      "id": "R2.2.4.4",
+      "level": 3,
+      "parent": "R2.2.4",
+      "name": "Quality complaints & CAPA"
+    },
+    {
+      "id": "R2.2.5",
+      "level": 2,
+      "parent": "R2.2",
+      "name": "HSE management",
+      "description": "Manage safety incidents, permits, emissions and compliance.",
+      "practice": "Digital permit-to-work and incident analytics."
+    },
+    {
+      "id": "R2.2.5.1",
+      "level": 3,
+      "parent": "R2.2.5",
+      "name": "Permit-to-work & safety observations"
+    },
+    {
+      "id": "R2.2.5.2",
+      "level": 3,
+      "parent": "R2.2.5",
+      "name": "Incident reporting & investigation"
+    },
+    {
+      "id": "R2.2.5.3",
+      "level": 3,
+      "parent": "R2.2.5",
+      "name": "Environmental monitoring & consents"
+    },
+    {
+      "id": "R2.2.5.4",
+      "level": 3,
+      "parent": "R2.2.5",
+      "name": "ESG data collection & reporting"
+    },
+    {
+      "id": "R2.2.6",
+      "level": 2,
+      "parent": "R2.2",
+      "name": "Energy & utilities optimisation",
+      "description": "Optimise steam, power and water consumption across plants.",
+      "practice": "Energy dashboards with AI-recommended set-points."
+    },
+    {
+      "id": "R2.2.6.1",
+      "level": 3,
+      "parent": "R2.2.6",
+      "name": "Energy & steam monitoring"
+    },
+    {
+      "id": "R2.2.6.2",
+      "level": 3,
+      "parent": "R2.2.6",
+      "name": "Utility set-point optimisation"
+    },
+    {
+      "id": "R2.2.6.3",
+      "level": 3,
+      "parent": "R2.2.6",
+      "name": "Emission & water intensity tracking"
+    },
+    {
+      "id": "R2.2.7",
+      "level": 2,
+      "parent": "R2.2",
+      "name": "Packaging & bagging operations",
+      "description": "Run bagging, labelling and track-and-trace at dispatch.",
+      "practice": "Serialised bags enabling traceability to the dealer."
+    },
+    {
+      "id": "R2.2.7.1",
+      "level": 3,
+      "parent": "R2.2.7",
+      "name": "Bagging line operations"
+    },
+    {
+      "id": "R2.2.7.2",
+      "level": 3,
+      "parent": "R2.2.7",
+      "name": "Bag printing, coding & serialisation"
+    },
+    {
+      "id": "R2.2.7.3",
+      "level": 3,
+      "parent": "R2.2.7",
+      "name": "Packaging material planning"
+    },
+    {
+      "id": "R3",
+      "level": 0,
+      "parent": null,
+      "name": "Plan & Deliver"
+    },
+    {
+      "id": "R3.1",
+      "level": 1,
+      "parent": "R3",
+      "name": "Supply Chain Planning"
+    },
+    {
+      "id": "R3.1.1",
+      "level": 2,
+      "parent": "R3.1",
+      "name": "Demand forecasting & S&OP",
+      "description": "Forecast seasonal demand by region and SKU and agree the monthly plan.",
+      "practice": "Consensus S&OP with ML forecasts using weather and sowing signals."
+    },
+    {
+      "id": "R3.1.1.1",
+      "level": 3,
+      "parent": "R3.1.1",
+      "name": "Statistical baseline forecasting"
+    },
+    {
+      "id": "R3.1.1.2",
+      "level": 3,
+      "parent": "R3.1.1",
+      "name": "Market intelligence & sowing-season inputs"
+    },
+    {
+      "id": "R3.1.1.3",
+      "level": 3,
+      "parent": "R3.1.1",
+      "name": "Consensus demand review (district × SKU)"
+    },
+    {
+      "id": "R3.1.1.4",
+      "level": 3,
+      "parent": "R3.1.1",
+      "name": "S&OP executive sign-off"
+    },
+    {
+      "id": "R3.1.2",
+      "level": 2,
+      "parent": "R3.1",
+      "name": "Supply & distribution planning",
+      "description": "Plan plant-to-warehouse and warehouse-to-dealer flows.",
+      "practice": "Network optimisation balancing freight cost and service."
+    },
+    {
+      "id": "R3.1.2.1",
+      "level": 3,
+      "parent": "R3.1.2",
+      "name": "Plant-to-depot allocation"
+    },
+    {
+      "id": "R3.1.2.2",
+      "level": 3,
+      "parent": "R3.1.2",
+      "name": "Network & freight optimisation"
+    },
+    {
+      "id": "R3.1.2.3",
+      "level": 3,
+      "parent": "R3.1.2",
+      "name": "Import plan & supply constraint alignment"
+    },
+    {
+      "id": "R3.1.3",
+      "level": 2,
+      "parent": "R3.1",
+      "name": "Seasonal stock positioning",
+      "description": "Pre-position stock ahead of kharif and rabi peaks.",
+      "practice": "Scenario-based positioning tied to monsoon forecasts."
+    },
+    {
+      "id": "R3.1.3.1",
+      "level": 3,
+      "parent": "R3.1.3",
+      "name": "Pre-season stock build plan"
+    },
+    {
+      "id": "R3.1.3.2",
+      "level": 3,
+      "parent": "R3.1.3",
+      "name": "Monsoon & cropping scenario planning"
+    },
+    {
+      "id": "R3.1.3.3",
+      "level": 3,
+      "parent": "R3.1.3",
+      "name": "In-season stock rebalancing"
+    },
+    {
+      "id": "R3.2",
+      "level": 1,
+      "parent": "R3",
+      "name": "Logistics & Fulfilment"
+    },
+    {
+      "id": "R3.2.1",
+      "level": 2,
+      "parent": "R3.2",
+      "name": "Inventory & warehouse management",
+      "description": "Manage stock across plants, depots and buffer warehouses.",
+      "practice": "Real-time inventory visibility across the network."
+    },
+    {
+      "id": "R3.2.1.1",
+      "level": 3,
+      "parent": "R3.2.1",
+      "name": "Goods receipt & put-away"
+    },
+    {
+      "id": "R3.2.1.2",
+      "level": 3,
+      "parent": "R3.2.1",
+      "name": "Depot / C&F stock management"
+    },
+    {
+      "id": "R3.2.1.3",
+      "level": 3,
+      "parent": "R3.2.1",
+      "name": "Stock reconciliation & cycle counts"
+    },
+    {
+      "id": "R3.2.1.4",
+      "level": 3,
+      "parent": "R3.2.1",
+      "name": "Dispatch & loading"
+    },
+    {
+      "id": "R3.2.2",
+      "level": 2,
+      "parent": "R3.2",
+      "name": "Transport management",
+      "description": "Plan and execute road movements and freight settlement.",
+      "practice": "TMS with carrier tendering and freight audit."
+    },
+    {
+      "id": "R3.2.2.1",
+      "level": 3,
+      "parent": "R3.2.2",
+      "name": "Truck indent & carrier allocation"
+    },
+    {
+      "id": "R3.2.2.2",
+      "level": 3,
+      "parent": "R3.2.2",
+      "name": "Shipment tracking & proof of delivery"
+    },
+    {
+      "id": "R3.2.2.3",
+      "level": 3,
+      "parent": "R3.2.2",
+      "name": "Freight settlement & audit"
+    },
+    {
+      "id": "R3.2.3",
+      "level": 2,
+      "parent": "R3.2",
+      "name": "Rake & rail logistics",
+      "description": "Plan rail rakes for long-haul fertiliser movement.",
+      "practice": "Rake planning integrated with dispatch and subsidy data."
+    },
+    {
+      "id": "R3.2.3.1",
+      "level": 3,
+      "parent": "R3.2.3",
+      "name": "Rake indent & planning"
+    },
+    {
+      "id": "R3.2.3.2",
+      "level": 3,
+      "parent": "R3.2.3",
+      "name": "Rake loading & dispatch"
+    },
+    {
+      "id": "R3.2.3.3",
+      "level": 3,
+      "parent": "R3.2.3",
+      "name": "Rake demurrage & claims"
+    },
+    {
+      "id": "R3.2.4",
+      "level": 2,
+      "parent": "R3.2",
+      "name": "Fertiliser movement & subsidy compliance (iFMS)",
+      "description": "Record movement and sales for government subsidy compliance.",
+      "practice": "Automated, reconciled iFMS reporting with exception alerts."
+    },
+    {
+      "id": "R3.2.4.1",
+      "level": 3,
+      "parent": "R3.2.4",
+      "name": "Monthly movement plan (DoF)"
+    },
+    {
+      "id": "R3.2.4.2",
+      "level": 3,
+      "parent": "R3.2.4",
+      "name": "Primary & secondary movement reporting to iFMS"
+    },
+    {
+      "id": "R3.2.4.3",
+      "level": 3,
+      "parent": "R3.2.4",
+      "name": "Dealer receipt acknowledgement"
+    },
+    {
+      "id": "R3.2.4.4",
+      "level": 3,
+      "parent": "R3.2.4",
+      "name": "iFMS exception & reconciliation management"
+    },
+    {
+      "id": "R4",
+      "level": 0,
+      "parent": null,
+      "name": "Market, Sell & Serve"
+    },
+    {
+      "id": "R4.1",
+      "level": 1,
+      "parent": "R4",
+      "name": "Sales & Channel Management"
+    },
+    {
+      "id": "R4.1.1",
+      "level": 2,
+      "parent": "R4.1",
+      "name": "Dealer & distributor management",
+      "description": "Onboard, manage and support the dealer and distributor network.",
+      "practice": "Dealer portal with self-service ordering, statements and schemes."
+    },
+    {
+      "id": "R4.1.1.1",
+      "level": 3,
+      "parent": "R4.1.1",
+      "name": "Dealer onboarding & KYC"
+    },
+    {
+      "id": "R4.1.1.2",
+      "level": 3,
+      "parent": "R4.1.1",
+      "name": "Dealer order capture & confirmation"
+    },
+    {
+      "id": "R4.1.1.3",
+      "level": 3,
+      "parent": "R4.1.1",
+      "name": "Dealer statements & scheme visibility"
+    },
+    {
+      "id": "R4.1.1.4",
+      "level": 3,
+      "parent": "R4.1.1",
+      "name": "Dealer performance & segmentation"
+    },
+    {
+      "id": "R4.1.2",
+      "level": 2,
+      "parent": "R4.1",
+      "name": "Sales force automation",
+      "description": "Plan visits, capture orders and track field sales activity.",
+      "practice": "Mobile SFA with beat plans and next-best-action prompts."
+    },
+    {
+      "id": "R4.1.2.1",
+      "level": 3,
+      "parent": "R4.1.2",
+      "name": "Beat planning & visit tracking"
+    },
+    {
+      "id": "R4.1.2.2",
+      "level": 3,
+      "parent": "R4.1.2",
+      "name": "Field order booking"
+    },
+    {
+      "id": "R4.1.2.3",
+      "level": 3,
+      "parent": "R4.1.2",
+      "name": "Market & competitor intelligence capture"
+    },
+    {
+      "id": "R4.1.3",
+      "level": 2,
+      "parent": "R4.1",
+      "name": "Pricing, schemes & trade promotions",
+      "description": "Set prices and run dealer schemes and promotions.",
+      "practice": "Scheme effectiveness measured and paid automatically."
+    },
+    {
+      "id": "R4.1.3.1",
+      "level": 3,
+      "parent": "R4.1.3",
+      "name": "Price list & MRP management"
+    },
+    {
+      "id": "R4.1.3.2",
+      "level": 3,
+      "parent": "R4.1.3",
+      "name": "Scheme design & budgeting"
+    },
+    {
+      "id": "R4.1.3.3",
+      "level": 3,
+      "parent": "R4.1.3",
+      "name": "Scheme accrual, claim & settlement"
+    },
+    {
+      "id": "R4.1.3.4",
+      "level": 3,
+      "parent": "R4.1.3",
+      "name": "Scheme effectiveness analysis"
+    },
+    {
+      "id": "R4.1.4",
+      "level": 2,
+      "parent": "R4.1",
+      "name": "Credit & collections",
+      "description": "Manage dealer credit limits, ageing and collections.",
+      "practice": "Risk-based credit limits with automated dunning."
+    },
+    {
+      "id": "R4.1.4.1",
+      "level": 3,
+      "parent": "R4.1.4",
+      "name": "Dealer credit limit setting"
+    },
+    {
+      "id": "R4.1.4.2",
+      "level": 3,
+      "parent": "R4.1.4",
+      "name": "Credit block & release"
+    },
+    {
+      "id": "R4.1.4.3",
+      "level": 3,
+      "parent": "R4.1.4",
+      "name": "Collections & dunning"
+    },
+    {
+      "id": "R4.1.4.4",
+      "level": 3,
+      "parent": "R4.1.4",
+      "name": "Receivables ageing & provisioning"
+    },
+    {
+      "id": "R4.1.5",
+      "level": 2,
+      "parent": "R4.1",
+      "name": "Exports & institutional B2B",
+      "description": "Serve export and institutional customers for CPC and specialty products.",
+      "practice": "Account-based selling with contract pricing."
+    },
+    {
+      "id": "R4.1.5.1",
+      "level": 3,
+      "parent": "R4.1.5",
+      "name": "Export enquiry & contract management"
+    },
+    {
+      "id": "R4.1.5.2",
+      "level": 3,
+      "parent": "R4.1.5",
+      "name": "Export documentation & compliance"
+    },
+    {
+      "id": "R4.1.5.3",
+      "level": 3,
+      "parent": "R4.1.5",
+      "name": "Institutional tender management"
+    },
+    {
+      "id": "R4.1.6",
+      "level": 2,
+      "parent": "R4.1",
+      "name": "Channel loyalty & dealer financing",
+      "description": "Run dealer loyalty programmes and supply-chain finance.",
+      "practice": "Partner-bank financing integrated with dealer credit."
+    },
+    {
+      "id": "R4.1.6.1",
+      "level": 3,
+      "parent": "R4.1.6",
+      "name": "Dealer loyalty programme"
+    },
+    {
+      "id": "R4.1.6.2",
+      "level": 3,
+      "parent": "R4.1.6",
+      "name": "Channel finance with partner banks"
+    },
+    {
+      "id": "R4.1.6.3",
+      "level": 3,
+      "parent": "R4.1.6",
+      "name": "Retailer engagement"
+    },
+    {
+      "id": "R4.2",
+      "level": 1,
+      "parent": "R4",
+      "name": "Retail"
+    },
+    {
+      "id": "R4.2.1",
+      "level": 2,
+      "parent": "R4.2",
+      "name": "Store operations & POS",
+      "description": "Run store billing, cash and daily operations across retail outlets.",
+      "practice": "Cloud POS with offline mode and central price control."
+    },
+    {
+      "id": "R4.2.1.1",
+      "level": 3,
+      "parent": "R4.2.1",
+      "name": "POS billing & e-invoicing"
+    },
+    {
+      "id": "R4.2.1.2",
+      "level": 3,
+      "parent": "R4.2.1",
+      "name": "Aadhaar-authenticated subsidised sale (PoS device)"
+    },
+    {
+      "id": "R4.2.1.3",
+      "level": 3,
+      "parent": "R4.2.1",
+      "name": "Store cash & day-end close"
+    },
+    {
+      "id": "R4.2.1.4",
+      "level": 3,
+      "parent": "R4.2.1",
+      "name": "Store staffing & service"
+    },
+    {
+      "id": "R4.2.2",
+      "level": 2,
+      "parent": "R4.2",
+      "name": "Store inventory & replenishment",
+      "description": "Keep stores stocked through forecasting and replenishment.",
+      "practice": "Auto-replenishment from store sell-through."
+    },
+    {
+      "id": "R4.2.2.1",
+      "level": 3,
+      "parent": "R4.2.2",
+      "name": "Store stock visibility"
+    },
+    {
+      "id": "R4.2.2.2",
+      "level": 3,
+      "parent": "R4.2.2",
+      "name": "Replenishment indent to depot"
+    },
+    {
+      "id": "R4.2.2.3",
+      "level": 3,
+      "parent": "R4.2.2",
+      "name": "Inter-store stock transfer"
+    },
+    {
+      "id": "R4.2.3",
+      "level": 2,
+      "parent": "R4.2",
+      "name": "E-commerce & doorstep delivery",
+      "description": "Sell online and fulfil from stores or depots.",
+      "practice": "Single order platform across app, web and store."
+    },
+    {
+      "id": "R4.2.3.1",
+      "level": 3,
+      "parent": "R4.2.3",
+      "name": "Online order capture (app / web)"
+    },
+    {
+      "id": "R4.2.3.2",
+      "level": 3,
+      "parent": "R4.2.3",
+      "name": "Order fulfilment & last-mile delivery"
+    },
+    {
+      "id": "R4.2.3.3",
+      "level": 3,
+      "parent": "R4.2.3",
+      "name": "Returns & cancellations"
+    },
+    {
+      "id": "R4.2.4",
+      "level": 2,
+      "parent": "R4.2",
+      "name": "Customer 360 & loyalty",
+      "description": "Build a single view of the farmer customer and loyalty.",
+      "practice": "Unified farmer ID with consented profile and propensity models."
+    },
+    {
+      "id": "R4.2.4.1",
+      "level": 3,
+      "parent": "R4.2.4",
+      "name": "Unified farmer profile"
+    },
+    {
+      "id": "R4.2.4.2",
+      "level": 3,
+      "parent": "R4.2.4",
+      "name": "Loyalty points & rewards"
+    },
+    {
+      "id": "R4.2.4.3",
+      "level": 3,
+      "parent": "R4.2.4",
+      "name": "Farmer segmentation & propensity models"
+    },
+    {
+      "id": "R4.2.4.4",
+      "level": 3,
+      "parent": "R4.2.4",
+      "name": "Personalised campaigns & offers"
+    },
+    {
+      "id": "R4.2.5",
+      "level": 2,
+      "parent": "R4.2",
+      "name": "Store network planning & expansion",
+      "description": "Choose new store locations and formats.",
+      "practice": "Geo-analytics using cropping, demand and competition data."
+    },
+    {
+      "id": "R4.2.5.1",
+      "level": 3,
+      "parent": "R4.2.5",
+      "name": "Catchment & geo-analytics"
+    },
+    {
+      "id": "R4.2.5.2",
+      "level": 3,
+      "parent": "R4.2.5",
+      "name": "New store business case"
+    },
+    {
+      "id": "R4.2.5.3",
+      "level": 3,
+      "parent": "R4.2.5",
+      "name": "Store performance benchmarking"
+    },
+    {
+      "id": "R4.3",
+      "level": 1,
+      "parent": "R4",
+      "name": "Farmer Engagement & Agronomy Services"
+    },
+    {
+      "id": "R4.3.1",
+      "level": 2,
+      "parent": "R4.3",
+      "name": "Digital crop advisory",
+      "description": "Advise farmers through app, WhatsApp and call centre.",
+      "practice": "Personalised advisory grounded in soil, weather and crop stage."
+    },
+    {
+      "id": "R4.3.1.1",
+      "level": 3,
+      "parent": "R4.3.1",
+      "name": "Crop calendar & package of practices"
+    },
+    {
+      "id": "R4.3.1.2",
+      "level": 3,
+      "parent": "R4.3.1",
+      "name": "Personalised advisory (app / WhatsApp / IVR)"
+    },
+    {
+      "id": "R4.3.1.3",
+      "level": 3,
+      "parent": "R4.3.1",
+      "name": "Weather-based alerts"
+    },
+    {
+      "id": "R4.3.1.4",
+      "level": 3,
+      "parent": "R4.3.1",
+      "name": "Multilingual advisory content management"
+    },
+    {
+      "id": "R4.3.2",
+      "level": 2,
+      "parent": "R4.3",
+      "name": "Soil & leaf testing",
+      "description": "Run soil and leaf tests through clinics and central labs.",
+      "practice": "Digital soil health card linked to the farmer profile."
+    },
+    {
+      "id": "R4.3.2.1",
+      "level": 3,
+      "parent": "R4.3.2",
+      "name": "Sample collection & registration"
+    },
+    {
+      "id": "R4.3.2.2",
+      "level": 3,
+      "parent": "R4.3.2",
+      "name": "Lab analysis & results"
+    },
+    {
+      "id": "R4.3.2.3",
+      "level": 3,
+      "parent": "R4.3.2",
+      "name": "Soil health card & recommendations"
+    },
+    {
+      "id": "R4.3.3",
+      "level": 2,
+      "parent": "R4.3",
+      "name": "Crop diagnostics & recommendations",
+      "description": "Diagnose pest and disease issues and recommend products.",
+      "practice": "Image-based diagnosis with agronomist review of recommendations."
+    },
+    {
+      "id": "R4.3.3.1",
+      "level": 3,
+      "parent": "R4.3.3",
+      "name": "Field symptom capture (image & description)"
+    },
+    {
+      "id": "R4.3.3.2",
+      "level": 3,
+      "parent": "R4.3.3",
+      "name": "Pest & disease diagnosis (AI + agronomist)"
+    },
+    {
+      "id": "R4.3.3.3",
+      "level": 3,
+      "parent": "R4.3.3",
+      "name": "Product & dosage recommendation"
+    },
+    {
+      "id": "R4.3.3.4",
+      "level": 3,
+      "parent": "R4.3.3",
+      "name": "Recommendation fulfilment & follow-up"
+    },
+    {
+      "id": "R4.3.4",
+      "level": 2,
+      "parent": "R4.3",
+      "name": "Farmer CRM, helpdesk & grievance",
+      "description": "Handle farmer queries, complaints and follow-ups.",
+      "practice": "Omnichannel case management with SLA tracking."
+    },
+    {
+      "id": "R4.3.4.1",
+      "level": 3,
+      "parent": "R4.3.4",
+      "name": "Farmer query & complaint intake"
+    },
+    {
+      "id": "R4.3.4.2",
+      "level": 3,
+      "parent": "R4.3.4",
+      "name": "Case assignment & SLA tracking"
+    },
+    {
+      "id": "R4.3.4.3",
+      "level": 3,
+      "parent": "R4.3.4",
+      "name": "Product complaint field investigation"
+    },
+    {
+      "id": "R4.3.5",
+      "level": 2,
+      "parent": "R4.3",
+      "name": "Farmer onboarding, KYC & consent",
+      "description": "Register farmers and manage consent for data use.",
+      "practice": "DPDP-compliant consent captured once and reused."
+    },
+    {
+      "id": "R4.3.5.1",
+      "level": 3,
+      "parent": "R4.3.5",
+      "name": "Farmer registration & KYC"
+    },
+    {
+      "id": "R4.3.5.2",
+      "level": 3,
+      "parent": "R4.3.5",
+      "name": "DPDP consent capture & management"
+    },
+    {
+      "id": "R4.3.5.3",
+      "level": 3,
+      "parent": "R4.3.5",
+      "name": "Farmer master data maintenance"
+    },
+    {
+      "id": "R4.3.6",
+      "level": 2,
+      "parent": "R4.3",
+      "name": "Farm credit & insurance partnerships",
+      "description": "Connect farmers to credit and crop insurance partners.",
+      "practice": "Embedded finance through partner APIs."
+    },
+    {
+      "id": "R4.3.6.1",
+      "level": 3,
+      "parent": "R4.3.6",
+      "name": "Partner credit origination"
+    },
+    {
+      "id": "R4.3.6.2",
+      "level": 3,
+      "parent": "R4.3.6",
+      "name": "Crop insurance enrolment support"
+    },
+    {
+      "id": "R4.3.6.3",
+      "level": 3,
+      "parent": "R4.3.6",
+      "name": "Partner settlement"
+    },
+    {
+      "id": "R4.3.7",
+      "level": 2,
+      "parent": "R4.3",
+      "name": "Agri marketing & brand",
+      "description": "Plan campaigns, demos and brand activity in the field.",
+      "practice": "Campaign ROI tracked to sell-out."
+    },
+    {
+      "id": "R4.3.7.1",
+      "level": 3,
+      "parent": "R4.3.7",
+      "name": "Campaign planning & execution"
+    },
+    {
+      "id": "R4.3.7.2",
+      "level": 3,
+      "parent": "R4.3.7",
+      "name": "Farmer meetings & demo plots"
+    },
+    {
+      "id": "R4.3.7.3",
+      "level": 3,
+      "parent": "R4.3.7",
+      "name": "Campaign ROI tracking"
+    },
+    {
+      "id": "R4.4",
+      "level": 1,
+      "parent": "R4",
+      "name": "Precision Agriculture & Drone Services"
+    },
+    {
+      "id": "R4.4.1",
+      "level": 2,
+      "parent": "R4.4",
+      "name": "Drone spraying service operations",
+      "description": "Book, schedule and execute drone spraying services.",
+      "practice": "Booking-to-billing workflow with pilot and drone scheduling."
+    },
+    {
+      "id": "R4.4.1.1",
+      "level": 3,
+      "parent": "R4.4.1",
+      "name": "Spray service booking"
+    },
+    {
+      "id": "R4.4.1.2",
+      "level": 3,
+      "parent": "R4.4.1",
+      "name": "Pilot & drone scheduling"
+    },
+    {
+      "id": "R4.4.1.3",
+      "level": 3,
+      "parent": "R4.4.1",
+      "name": "Field execution & spray logging"
+    },
+    {
+      "id": "R4.4.1.4",
+      "level": 3,
+      "parent": "R4.4.1",
+      "name": "Service billing & payment"
+    },
+    {
+      "id": "R4.4.2",
+      "level": 2,
+      "parent": "R4.4",
+      "name": "Drone manufacturing & fleet telemetry",
+      "description": "Build drones and monitor fleet health and flight data.",
+      "practice": "Fleet telemetry streamed to a common data platform."
+    },
+    {
+      "id": "R4.4.2.1",
+      "level": 3,
+      "parent": "R4.4.2",
+      "name": "Drone production & assembly"
+    },
+    {
+      "id": "R4.4.2.2",
+      "level": 3,
+      "parent": "R4.4.2",
+      "name": "Fleet telemetry & health monitoring"
+    },
+    {
+      "id": "R4.4.2.3",
+      "level": 3,
+      "parent": "R4.4.2",
+      "name": "DGCA compliance & pilot certification"
+    },
+    {
+      "id": "R4.4.3",
+      "level": 2,
+      "parent": "R4.4",
+      "name": "Remote sensing & satellite insights",
+      "description": "Use satellite and drone imagery for crop health insights.",
+      "practice": "Field-level indices feeding advisory and demand sensing."
+    },
+    {
+      "id": "R4.4.3.1",
+      "level": 3,
+      "parent": "R4.4.3",
+      "name": "Satellite imagery acquisition"
+    },
+    {
+      "id": "R4.4.3.2",
+      "level": 3,
+      "parent": "R4.4.3",
+      "name": "Crop health index analytics"
+    },
+    {
+      "id": "R4.4.3.3",
+      "level": 3,
+      "parent": "R4.4.3",
+      "name": "Field boundary & acreage estimation"
+    },
+    {
+      "id": "R4.4.4",
+      "level": 2,
+      "parent": "R4.4",
+      "name": "Prescription maps & variable-rate application",
+      "description": "Create prescription maps for precise input application.",
+      "practice": "Prescriptions generated from soil and imagery, executed by drones."
+    },
+    {
+      "id": "R4.4.4.1",
+      "level": 3,
+      "parent": "R4.4.4",
+      "name": "Prescription map generation"
+    },
+    {
+      "id": "R4.4.4.2",
+      "level": 3,
+      "parent": "R4.4.4",
+      "name": "Variable-rate application execution"
+    },
+    {
+      "id": "R4.4.4.3",
+      "level": 3,
+      "parent": "R4.4.4",
+      "name": "Application outcome analysis"
+    },
+    {
+      "id": "R4.4.5",
+      "level": 2,
+      "parent": "R4.4",
+      "name": "Carbon farming & MRV",
+      "description": "Measure, report and verify regenerative practices for carbon programmes.",
+      "practice": "Remote-sensing MRV with auditable farm records."
+    },
+    {
+      "id": "R4.4.5.1",
+      "level": 3,
+      "parent": "R4.4.5",
+      "name": "Farmer enrolment in carbon programmes"
+    },
+    {
+      "id": "R4.4.5.2",
+      "level": 3,
+      "parent": "R4.4.5",
+      "name": "Practice monitoring & verification"
+    },
+    {
+      "id": "R4.4.5.3",
+      "level": 3,
+      "parent": "R4.4.5",
+      "name": "Carbon credit reporting"
+    },
+    {
+      "id": "R5",
+      "level": 0,
+      "parent": null,
+      "name": "Enable & Govern"
+    },
+    {
+      "id": "R5.1",
+      "level": 1,
+      "parent": "R5",
+      "name": "Finance & Corporate"
+    },
+    {
+      "id": "R5.1.1",
+      "level": 2,
+      "parent": "R5.1",
+      "name": "Financial accounting & close",
+      "description": "Record transactions and close the books across entities.",
+      "practice": "Fast close with automated reconciliations."
+    },
+    {
+      "id": "R5.1.1.1",
+      "level": 3,
+      "parent": "R5.1.1",
+      "name": "General ledger & journal processing"
+    },
+    {
+      "id": "R5.1.1.2",
+      "level": 3,
+      "parent": "R5.1.1",
+      "name": "Intercompany & consolidation"
+    },
+    {
+      "id": "R5.1.1.3",
+      "level": 3,
+      "parent": "R5.1.1",
+      "name": "Month-end close & reconciliations"
+    },
+    {
+      "id": "R5.1.2",
+      "level": 2,
+      "parent": "R5.1",
+      "name": "Subsidy claims & reconciliation",
+      "description": "Claim and reconcile nutrient-based subsidy with government.",
+      "practice": "Claims generated from reconciled movement and sales data."
+    },
+    {
+      "id": "R5.1.2.1",
+      "level": 3,
+      "parent": "R5.1.2",
+      "name": "Subsidy claim preparation (NBS rates)"
+    },
+    {
+      "id": "R5.1.2.2",
+      "level": 3,
+      "parent": "R5.1.2",
+      "name": "Claim reconciliation with iFMS sales"
+    },
+    {
+      "id": "R5.1.2.3",
+      "level": 3,
+      "parent": "R5.1.2",
+      "name": "Subsidy receivable tracking & follow-up"
+    },
+    {
+      "id": "R5.1.2.4",
+      "level": 3,
+      "parent": "R5.1.2",
+      "name": "Freight subsidy claims"
+    },
+    {
+      "id": "R5.1.3",
+      "level": 2,
+      "parent": "R5.1",
+      "name": "Planning, budgeting & performance",
+      "description": "Plan, budget and report performance.",
+      "practice": "Driver-based planning with self-service reporting."
+    },
+    {
+      "id": "R5.1.3.1",
+      "level": 3,
+      "parent": "R5.1.3",
+      "name": "Annual operating plan"
+    },
+    {
+      "id": "R5.1.3.2",
+      "level": 3,
+      "parent": "R5.1.3",
+      "name": "Rolling forecasts"
+    },
+    {
+      "id": "R5.1.3.3",
+      "level": 3,
+      "parent": "R5.1.3",
+      "name": "Management & segment reporting"
+    },
+    {
+      "id": "R5.1.4",
+      "level": 2,
+      "parent": "R5.1",
+      "name": "M&A integration",
+      "description": "Integrate acquired entities into processes, systems and data.",
+      "practice": "Standard integration playbook for identity, finance and master data."
+    },
+    {
+      "id": "R5.1.4.1",
+      "level": 3,
+      "parent": "R5.1.4",
+      "name": "Day-1 integration planning"
+    },
+    {
+      "id": "R5.1.4.2",
+      "level": 3,
+      "parent": "R5.1.4",
+      "name": "Finance & master data integration"
+    },
+    {
+      "id": "R5.1.4.3",
+      "level": 3,
+      "parent": "R5.1.4",
+      "name": "Application & identity consolidation"
+    },
+    {
+      "id": "R5.1.5",
+      "level": 2,
+      "parent": "R5.1",
+      "name": "Treasury & working capital",
+      "description": "Manage cash, banking and working capital.",
+      "practice": "Cash forecasting linked to subsidy receipts and collections."
+    },
+    {
+      "id": "R5.1.5.1",
+      "level": 3,
+      "parent": "R5.1.5",
+      "name": "Cash forecasting"
+    },
+    {
+      "id": "R5.1.5.2",
+      "level": 3,
+      "parent": "R5.1.5",
+      "name": "Borrowing & investment management"
+    },
+    {
+      "id": "R5.1.5.3",
+      "level": 3,
+      "parent": "R5.1.5",
+      "name": "Working capital monitoring"
+    },
+    {
+      "id": "R5.1.6",
+      "level": 2,
+      "parent": "R5.1",
+      "name": "Tax & statutory compliance",
+      "description": "Comply with GST, e-invoicing and statutory reporting.",
+      "practice": "Tax engine integrated with ERP and e-invoice portals."
+    },
+    {
+      "id": "R5.1.6.1",
+      "level": 3,
+      "parent": "R5.1.6",
+      "name": "GST returns & e-invoicing"
+    },
+    {
+      "id": "R5.1.6.2",
+      "level": 3,
+      "parent": "R5.1.6",
+      "name": "Direct tax & transfer pricing"
+    },
+    {
+      "id": "R5.1.6.3",
+      "level": 3,
+      "parent": "R5.1.6",
+      "name": "Statutory audit support"
+    },
+    {
+      "id": "R5.2",
+      "level": 1,
+      "parent": "R5",
+      "name": "People & Workplace"
+    },
+    {
+      "id": "R5.2.1",
+      "level": 2,
+      "parent": "R5.2",
+      "name": "Core HR & payroll",
+      "description": "Manage employee records, payroll and statutory benefits.",
+      "practice": "Single HR system of record with self-service."
+    },
+    {
+      "id": "R5.2.1.1",
+      "level": 3,
+      "parent": "R5.2.1",
+      "name": "Employee master & lifecycle"
+    },
+    {
+      "id": "R5.2.1.2",
+      "level": 3,
+      "parent": "R5.2.1",
+      "name": "Payroll processing"
+    },
+    {
+      "id": "R5.2.1.3",
+      "level": 3,
+      "parent": "R5.2.1",
+      "name": "Attendance & leave"
+    },
+    {
+      "id": "R5.2.2",
+      "level": 2,
+      "parent": "R5.2",
+      "name": "Talent, learning & performance",
+      "description": "Recruit, develop and assess employees.",
+      "practice": "Skills-based talent management with learning paths."
+    },
+    {
+      "id": "R5.2.2.1",
+      "level": 3,
+      "parent": "R5.2.2",
+      "name": "Performance management"
+    },
+    {
+      "id": "R5.2.2.2",
+      "level": 3,
+      "parent": "R5.2.2",
+      "name": "Learning & capability development"
+    },
+    {
+      "id": "R5.2.2.3",
+      "level": 3,
+      "parent": "R5.2.2",
+      "name": "Succession planning"
+    },
+    {
+      "id": "R5.2.3",
+      "level": 2,
+      "parent": "R5.2",
+      "name": "Collaboration & productivity",
+      "description": "Provide email, collaboration and productivity tools.",
+      "practice": "Secure modern workplace with governed AI assistants."
+    },
+    {
+      "id": "R5.2.3.1",
+      "level": 3,
+      "parent": "R5.2.3",
+      "name": "Email, collaboration & documents"
+    },
+    {
+      "id": "R5.2.3.2",
+      "level": 3,
+      "parent": "R5.2.3",
+      "name": "AI assistant enablement (Copilot)"
+    },
+    {
+      "id": "R5.2.3.3",
+      "level": 3,
+      "parent": "R5.2.3",
+      "name": "Intranet & knowledge sharing"
+    },
+    {
+      "id": "R5.2.4",
+      "level": 2,
+      "parent": "R5.2",
+      "name": "Workforce planning & contract labour",
+      "description": "Plan headcount and manage contract labour at plants.",
+      "practice": "Contract labour compliance tracked digitally."
+    },
+    {
+      "id": "R5.2.4.1",
+      "level": 3,
+      "parent": "R5.2.4",
+      "name": "Contract labour onboarding & compliance"
+    },
+    {
+      "id": "R5.2.4.2",
+      "level": 3,
+      "parent": "R5.2.4",
+      "name": "Manpower planning"
+    },
+    {
+      "id": "R5.2.4.3",
+      "level": 3,
+      "parent": "R5.2.4",
+      "name": "Gate attendance & wage compliance"
+    },
+    {
+      "id": "R5.3",
+      "level": 1,
+      "parent": "R5",
+      "name": "Data, AI & Technology Management"
+    },
+    {
+      "id": "R5.3.1",
+      "level": 2,
+      "parent": "R5.3",
+      "name": "Enterprise data & analytics",
+      "description": "Provide governed data and analytics to the business.",
+      "practice": "Domain-owned data products on a common platform."
+    },
+    {
+      "id": "R5.3.1.1",
+      "level": 3,
+      "parent": "R5.3.1",
+      "name": "Data platform & ingestion"
+    },
+    {
+      "id": "R5.3.1.2",
+      "level": 3,
+      "parent": "R5.3.1",
+      "name": "Data products & semantic layer"
+    },
+    {
+      "id": "R5.3.1.3",
+      "level": 3,
+      "parent": "R5.3.1",
+      "name": "Self-service BI & reporting"
+    },
+    {
+      "id": "R5.3.1.4",
+      "level": 3,
+      "parent": "R5.3.1",
+      "name": "Data quality management"
+    },
+    {
+      "id": "R5.3.2",
+      "level": 2,
+      "parent": "R5.3",
+      "name": "AI/ML platform & MLOps",
+      "description": "Build, deploy and monitor AI and ML models.",
+      "practice": "Shared AI platform with MLOps, evaluation and responsible-AI controls."
+    },
+    {
+      "id": "R5.3.2.1",
+      "level": 3,
+      "parent": "R5.3.2",
+      "name": "AI use-case intake & prioritisation"
+    },
+    {
+      "id": "R5.3.2.2",
+      "level": 3,
+      "parent": "R5.3.2",
+      "name": "Model development & experimentation"
+    },
+    {
+      "id": "R5.3.2.3",
+      "level": 3,
+      "parent": "R5.3.2",
+      "name": "Model deployment & monitoring"
+    },
+    {
+      "id": "R5.3.2.4",
+      "level": 3,
+      "parent": "R5.3.2",
+      "name": "Responsible-AI review"
+    },
+    {
+      "id": "R5.3.3",
+      "level": 2,
+      "parent": "R5.3",
+      "name": "Integration & API management",
+      "description": "Connect systems through governed APIs and events.",
+      "practice": "API-first integration with a central gateway and catalogue."
+    },
+    {
+      "id": "R5.3.3.1",
+      "level": 3,
+      "parent": "R5.3.3",
+      "name": "API design & publishing"
+    },
+    {
+      "id": "R5.3.3.2",
+      "level": 3,
+      "parent": "R5.3.3",
+      "name": "Integration runtime & monitoring"
+    },
+    {
+      "id": "R5.3.3.3",
+      "level": 3,
+      "parent": "R5.3.3",
+      "name": "Partner & B2B integration"
+    },
+    {
+      "id": "R5.3.4",
+      "level": 2,
+      "parent": "R5.3",
+      "name": "Cybersecurity & identity",
+      "description": "Protect systems and data and manage identities.",
+      "practice": "Zero-trust identity with SSO and continuous monitoring."
+    },
+    {
+      "id": "R5.3.4.1",
+      "level": 3,
+      "parent": "R5.3.4",
+      "name": "Identity & access management (SSO, MFA)"
+    },
+    {
+      "id": "R5.3.4.2",
+      "level": 3,
+      "parent": "R5.3.4",
+      "name": "Security monitoring & incident response"
+    },
+    {
+      "id": "R5.3.4.3",
+      "level": 3,
+      "parent": "R5.3.4",
+      "name": "Vulnerability & patch management"
+    },
+    {
+      "id": "R5.3.4.4",
+      "level": 3,
+      "parent": "R5.3.4",
+      "name": "OT security"
+    },
+    {
+      "id": "R5.3.5",
+      "level": 2,
+      "parent": "R5.3",
+      "name": "IT service & architecture management",
+      "description": "Run IT services and govern architecture.",
+      "practice": "Architecture repository and ARB tied to the investment process."
+    },
+    {
+      "id": "R5.3.5.1",
+      "level": 3,
+      "parent": "R5.3.5",
+      "name": "IT service desk & ITSM"
+    },
+    {
+      "id": "R5.3.5.2",
+      "level": 3,
+      "parent": "R5.3.5",
+      "name": "Architecture review board (ARB)"
+    },
+    {
+      "id": "R5.3.5.3",
+      "level": 3,
+      "parent": "R5.3.5",
+      "name": "Architecture repository & standards"
+    },
+    {
+      "id": "R5.3.5.4",
+      "level": 3,
+      "parent": "R5.3.5",
+      "name": "IT demand & portfolio management"
+    },
+    {
+      "id": "R5.3.6",
+      "level": 2,
+      "parent": "R5.3",
+      "name": "Master data management",
+      "description": "Govern customer, product, dealer and supplier master data.",
+      "practice": "Golden records with stewardship workflow."
+    },
+    {
+      "id": "R5.3.6.1",
+      "level": 3,
+      "parent": "R5.3.6",
+      "name": "Material & product master"
+    },
+    {
+      "id": "R5.3.6.2",
+      "level": 3,
+      "parent": "R5.3.6",
+      "name": "Customer & dealer master"
+    },
+    {
+      "id": "R5.3.6.3",
+      "level": 3,
+      "parent": "R5.3.6",
+      "name": "Vendor master"
+    },
+    {
+      "id": "R5.3.7",
+      "level": 2,
+      "parent": "R5.3",
+      "name": "OT/IT convergence & IIoT",
+      "description": "Connect plant OT data securely to enterprise systems.",
+      "practice": "Segmented OT/IT architecture with an IIoT data layer."
+    },
+    {
+      "id": "R5.3.7.1",
+      "level": 3,
+      "parent": "R5.3.7",
+      "name": "OT network segmentation"
+    },
+    {
+      "id": "R5.3.7.2",
+      "level": 3,
+      "parent": "R5.3.7",
+      "name": "IIoT sensor data platform"
+    },
+    {
+      "id": "R5.3.7.3",
+      "level": 3,
+      "parent": "R5.3.7",
+      "name": "OT/IT data exchange"
+    },
+    {
+      "id": "R5.4",
+      "level": 1,
+      "parent": "R5",
+      "name": "Governance, Risk & Compliance"
+    },
+    {
+      "id": "R5.4.1",
+      "level": 2,
+      "parent": "R5.4",
+      "name": "Enterprise risk & internal control",
+      "description": "Identify, assess and monitor enterprise risks and controls.",
+      "practice": "Integrated risk register with continuous control monitoring."
+    },
+    {
+      "id": "R5.4.1.1",
+      "level": 3,
+      "parent": "R5.4.1",
+      "name": "Enterprise risk register"
+    },
+    {
+      "id": "R5.4.1.2",
+      "level": 3,
+      "parent": "R5.4.1",
+      "name": "Internal controls testing"
+    },
+    {
+      "id": "R5.4.1.3",
+      "level": 3,
+      "parent": "R5.4.1",
+      "name": "Internal audit"
+    },
+    {
+      "id": "R5.4.2",
+      "level": 2,
+      "parent": "R5.4",
+      "name": "Legal & contract management",
+      "description": "Manage legal matters and contracts.",
+      "practice": "Contract lifecycle management with obligation tracking."
+    },
+    {
+      "id": "R5.4.2.1",
+      "level": 3,
+      "parent": "R5.4.2",
+      "name": "Contract drafting & approval"
+    },
+    {
+      "id": "R5.4.2.2",
+      "level": 3,
+      "parent": "R5.4.2",
+      "name": "Litigation management"
+    },
+    {
+      "id": "R5.4.2.3",
+      "level": 3,
+      "parent": "R5.4.2",
+      "name": "Legal obligation tracking"
+    },
+    {
+      "id": "R5.4.3",
+      "level": 2,
+      "parent": "R5.4",
+      "name": "Data privacy (DPDP) compliance",
+      "description": "Comply with India's DPDP Act for personal data.",
+      "practice": "Privacy by design with consent, retention and breach workflows."
+    },
+    {
+      "id": "R5.4.3.1",
+      "level": 3,
+      "parent": "R5.4.3",
+      "name": "Personal data inventory"
+    },
+    {
+      "id": "R5.4.3.2",
+      "level": 3,
+      "parent": "R5.4.3",
+      "name": "Consent & data-principal rights"
+    },
+    {
+      "id": "R5.4.3.3",
+      "level": 3,
+      "parent": "R5.4.3",
+      "name": "Breach notification"
+    }
+  ]
+}

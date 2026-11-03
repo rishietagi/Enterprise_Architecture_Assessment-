@@ -1,0 +1,1146 @@
+{
+  "_meta": "Deterministic rule parameters. Every number here is editable in the UI (Settings sheet) and must never be hard-coded elsewhere.",
+  "gap_register": {
+    "_rule": "Transactional gap: answered L3 with maturity <= l3_maturity_max or any dimension at 1; weak dimension = answer <= weak_dimension_max. Thematic gap: >= theme_min L3 gaps in one L1 share a weak dimension (L0 theme if it recurs in two or more L1s).",
+    "l3_maturity_max": 2.5,
+    "weak_dimension_max": 2,
+    "high_criticality_min": 4,
+    "high_maturity_max": 2.0,
+    "theme_min": 2
+  },
+  "capability_rules": {
+    "maturity_formula": "mean(process, digital, data, integration)",
+    "heat_bands": [
+      [
+        0,
+        1.5,
+        "critical"
+      ],
+      [
+        1.5,
+        2.5,
+        "weak"
+      ],
+      [
+        2.5,
+        3.5,
+        "developing"
+      ],
+      [
+        3.5,
+        5.01,
+        "strong"
+      ]
+    ],
+    "gap_if": "importance >= 4 AND maturity <= 2.5",
+    "gap_importance_min": 4,
+    "gap_maturity_max": 2.5,
+    "alignment_min": 3,
+    "quadrant_split": 2.5,
+    "critical_maturity_max": 1.5,
+    "urgency_focus": 5,
+    "urgency_default": 3,
+    "impact": "importance",
+    "urgency": "5 if focus area set else 3; +1 if maturity <= 1.5 (max 5)",
+    "togaf_ref": [
+      "8.4",
+      "27",
+      "32",
+      "36.2.10"
+    ],
+    "target_maturity": {
+      "5": 4.0,
+      "4": 3.5,
+      "3": 3.0,
+      "2": 2.5,
+      "1": 2.0
+    },
+    "entanglement_high": 8
+  },
+  "rationalization": {
+    "framework": "Business fit x technical fit quadrant (TIME-style) with principle-driven rules, mapped onto TOGAF gap analysis (§27) and the Application Portfolio Catalog (§35.6.5)",
+    "business_fit": "mean(bf)",
+    "technical_fit": "mean(tf)",
+    "threshold": 3.0,
+    "matrix": {
+      "high_bf_high_tf": "Invest",
+      "high_bf_low_tf": "Migrate",
+      "low_bf_high_tf": "Tolerate",
+      "low_bf_low_tf": "Eliminate"
+    },
+    "overrides": [
+      {
+        "if": "in_scope == false",
+        "then": "Retain (out of scope)",
+        "why": "SAP RISE and OT are outside detailed assessment per proposal"
+      },
+      {
+        "if": "lifecycle == 'EOL < 24m' AND disposition in ['Invest','Tolerate']",
+        "then": "Migrate",
+        "why": "Vendor support ends inside the roadmap horizon"
+      },
+      {
+        "if": "lifecycle == 'Unknown'",
+        "then": "flag 'Validate lifecycle'",
+        "why": "Discovery gap, not a disposition"
+      }
+    ],
+    "duplication": "Any capability L2 served by >= 2 in-scope apps -> 'Consolidation candidate' cluster; the app that is system-of-record (sor non-empty) or has highest business_fit is the proposed survivor.",
+    "gap_if": "disposition in ['Migrate','Eliminate'] OR member of a duplication cluster (one gap per cluster)",
+    "togaf_ref": [
+      "11.4",
+      "27",
+      "28.2",
+      "35.6.5"
+    ],
+    "bf_weights": [
+      1,
+      1,
+      1
+    ],
+    "tf_weights": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "labels": {
+      "Invest": {
+        "label": "Invest",
+        "desc": "Strategic and healthy: extend and enhance"
+      },
+      "Tolerate": {
+        "label": "Retain",
+        "desc": "Technically sound, limited business fit: maintain as-is, no new investment, reassess at renewal"
+      },
+      "Migrate": {
+        "label": "Modernise",
+        "desc": "Valuable but technically weak: upgrade, re-platform or re-architect"
+      },
+      "Eliminate": {
+        "label": "Replace",
+        "desc": "Low business and technical fit: replace with a fit-for-purpose solution or retire"
+      },
+      "Consolidate": {
+        "label": "Consolidate",
+        "desc": "Duplicates a survivor app: migrate users and data, then retire"
+      },
+      "Retain (out of scope)": {
+        "label": "Out of scope",
+        "desc": "Retained outside this assessment (SAP RISE, OT); dependencies only"
+      }
+    },
+    "rules": [
+      {
+        "id": "RR-01",
+        "name": "Out-of-scope systems are retained",
+        "when": "out_of_scope",
+        "then": "Retain (out of scope)",
+        "enabled": true,
+        "locked": true,
+        "basis": [
+          "Scope: SAP RISE and OT excluded (deck)"
+        ],
+        "togaf_ref": "7.4",
+        "why": "SAP RISE and OT are outside detailed assessment per the proposal"
+      },
+      {
+        "id": "RR-02",
+        "name": "Vendor support ends inside the roadmap",
+        "when": "eol_24m",
+        "then": "Migrate",
+        "enabled": true,
+        "basis": [
+          "TOGAF-20 Control Technical Diversity",
+          "D4"
+        ],
+        "togaf_ref": "28.2",
+        "why": "Lifecycle 'EOL < 24m' turns Invest or Retain into Modernise"
+      },
+      {
+        "id": "RR-03",
+        "name": "Security floor for critical apps",
+        "when": "security_floor",
+        "then": "Migrate",
+        "params": {
+          "max_security": 2,
+          "min_criticality": 4
+        },
+        "enabled": false,
+        "basis": [
+          "G-03",
+          "TOGAF-15 Data Security"
+        ],
+        "togaf_ref": "23.6.2",
+        "why": "A critical app scoring ≤ 2 on security & compliance cannot stay Invest or Retain"
+      },
+      {
+        "id": "RR-04",
+        "name": "Consolidate duplicates onto the survivor",
+        "when": "duplicate",
+        "then": "Consolidate",
+        "enabled": false,
+        "basis": [
+          "P-CIL-04",
+          "TOGAF-05 Common Use Applications"
+        ],
+        "togaf_ref": "27",
+        "why": "Non-survivor members of a duplication cluster are consolidated unless already Replace"
+      },
+      {
+        "id": "RR-05",
+        "name": "Clean core: custom apps overlapping SAP",
+        "when": "clean_core",
+        "then": "Eliminate",
+        "params": {
+          "core_vendor": "SAP"
+        },
+        "enabled": false,
+        "basis": [
+          "P-CIL-02",
+          "G-02",
+          "G-08"
+        ],
+        "togaf_ref": "23.6.4",
+        "why": "A custom app serving a capability the core ERP already serves is replaced by the standard"
+      },
+      {
+        "id": "RR-06",
+        "name": "Protect strategically aligned apps",
+        "when": "strategic_protect",
+        "then": "Migrate",
+        "params": {
+          "min_alignment": 4
+        },
+        "enabled": false,
+        "basis": [
+          "D5",
+          "TOGAF-02 Maximize Benefit"
+        ],
+        "togaf_ref": "23.6.1",
+        "why": "Strategic alignment ≥ 4 turns Replace into Modernise"
+      }
+    ],
+    "conditions": {
+      "out_of_scope": "in_scope is false",
+      "eol_24m": "lifecycle is 'EOL < 24m' and quadrant is Invest or Retain",
+      "security_floor": "security & compliance ≤ max_security and criticality ≥ min_criticality and quadrant is Invest or Retain",
+      "duplicate": "member of a duplication cluster, not the survivor, quadrant is not Replace",
+      "clean_core": "type Custom and shares a capability with an app from core_vendor",
+      "strategic_protect": "quadrant is Replace and strategic alignment ≥ min_alignment"
+    }
+  },
+  "data_rules": {
+    "score_weights": {
+      "owner": 20,
+      "sor": 10,
+      "mdm": 20,
+      "quality": 30,
+      "lineage": 10,
+      "classified_if_pii": 10
+    },
+    "mdm_values": {
+      "none": 0,
+      "partial": 0.5,
+      "full": 1
+    },
+    "quality": "mean(quality)/5",
+    "note": "If pii == false, the 10 points for classification are granted automatically.",
+    "bands": [
+      [
+        0,
+        40,
+        "critical"
+      ],
+      [
+        40,
+        60,
+        "weak"
+      ],
+      [
+        60,
+        80,
+        "developing"
+      ],
+      [
+        80,
+        101,
+        "strong"
+      ]
+    ],
+    "gap_if": "score < 60 OR owner == false OR (pii AND NOT classified)",
+    "gap_score_below": 60,
+    "ai_ready_min": 60,
+    "impact": "5 if (pii AND NOT classified) else 4 if len(consumers) >= 3 else 3",
+    "urgency": "5 if (pii AND NOT classified) [DPDP Act 2023] else 3",
+    "togaf_ref": [
+      "10.4",
+      "23.6.2",
+      "34.6",
+      "35.6.4"
+    ]
+  },
+  "tech_rules": {
+    "status_scores": {
+      "pass": 100,
+      "partial": 50,
+      "fail": 0,
+      "unknown": null
+    },
+    "gap_if": "status in ['fail','partial','unknown']",
+    "impact_urgency": {
+      "fail": [
+        4,
+        4
+      ],
+      "partial": [
+        3,
+        3
+      ],
+      "unknown": [
+        3,
+        2
+      ]
+    },
+    "unknown_label": "Validate in discovery",
+    "togaf_ref": [
+      "12.4",
+      "48.5",
+      "35.6.6"
+    ]
+  },
+  "governance": {
+    "acmm_levels": [
+      "0 None",
+      "1 Initial",
+      "2 Under development",
+      "3 Defined",
+      "4 Managed",
+      "5 Measured"
+    ],
+    "acmm_elements": [
+      {
+        "id": "G1",
+        "name": "Architecture process",
+        "seed": 1
+      },
+      {
+        "id": "G2",
+        "name": "Architecture development",
+        "seed": 1
+      },
+      {
+        "id": "G3",
+        "name": "Business linkage",
+        "seed": 2
+      },
+      {
+        "id": "G4",
+        "name": "Senior management involvement",
+        "seed": 2
+      },
+      {
+        "id": "G5",
+        "name": "Operating unit participation",
+        "seed": 1
+      },
+      {
+        "id": "G6",
+        "name": "Architecture communication",
+        "seed": 1
+      },
+      {
+        "id": "G7",
+        "name": "IT security",
+        "seed": 3
+      },
+      {
+        "id": "G8",
+        "name": "Architecture governance",
+        "seed": 1
+      },
+      {
+        "id": "G9",
+        "name": "IT investment and acquisition strategy",
+        "seed": 2
+      }
+    ],
+    "acmm_source": "TOGAF 9.1 s51.3.2 (US DoC ACMM). Seed levels are 'assumed'.",
+    "gap_if": "level <= 1 -> impact 4, urgency 4; level == 2 -> impact 3, urgency 3",
+    "arb": {
+      "chair": "CIO",
+      "members": [
+        "Enterprise Architect (EA lead)",
+        "Business & Application domain architects",
+        "Data & AI architect",
+        "Infrastructure & Security (CISO delegate)",
+        "Business relationship managers (rotating)"
+      ],
+      "cadence": "Fortnightly; ad-hoc for urgent dispensations",
+      "checkpoints": [
+        "Concept review (before funding)",
+        "Design review (before build)",
+        "Pre-go-live compliance review",
+        "Post-implementation review"
+      ],
+      "togaf_ref": [
+        "47",
+        "48.4",
+        "49",
+        "50.2"
+      ]
+    },
+    "compliance_levels": [
+      "Irrelevant",
+      "Consistent",
+      "Compliant",
+      "Conformant",
+      "Fully Conformant",
+      "Non-conformant"
+    ],
+    "compliance_levels_ref": "48.2",
+    "principles_limit": {
+      "min": 10,
+      "max": 20,
+      "ref": "23.6"
+    }
+  },
+  "themes": [
+    {
+      "id": "TH1",
+      "name": "Digital agronomy & farmer platform",
+      "focus": [
+        "F2",
+        "F3"
+      ],
+      "caps": [
+        "C07.1",
+        "C07.2",
+        "C07.3",
+        "C07.4",
+        "C06.4",
+        "C08.3",
+        "C08.4"
+      ],
+      "data": [
+        "DD-01",
+        "DD-06"
+      ],
+      "size": "XL",
+      "depends_on": [
+        "TH4",
+        "TH5"
+      ]
+    },
+    {
+      "id": "TH2",
+      "name": "Drone & precision-ag operations",
+      "focus": [
+        "F4"
+      ],
+      "caps": [
+        "C08.1",
+        "C08.2"
+      ],
+      "data": [],
+      "size": "L",
+      "depends_on": [
+        "TH1",
+        "TH5"
+      ]
+    },
+    {
+      "id": "TH3",
+      "name": "AI-accelerated R&D",
+      "focus": [
+        "F1"
+      ],
+      "caps": [
+        "C01.1",
+        "C01.2",
+        "C01.3",
+        "C01.4"
+      ],
+      "data": [
+        "DD-10"
+      ],
+      "size": "L",
+      "depends_on": [
+        "TH4"
+      ]
+    },
+    {
+      "id": "TH4",
+      "name": "Data & AI foundation (domains, MDM, MLOps)",
+      "focus": [
+        "F5"
+      ],
+      "caps": [
+        "C11.1",
+        "C11.2"
+      ],
+      "data": [
+        "*"
+      ],
+      "tech": [
+        "R09"
+      ],
+      "size": "XL",
+      "foundation": true
+    },
+    {
+      "id": "TH5",
+      "name": "Integration & API layer",
+      "focus": [
+        "F5"
+      ],
+      "caps": [
+        "C11.3"
+      ],
+      "tech": [
+        "R05",
+        "R06"
+      ],
+      "size": "L",
+      "foundation": true
+    },
+    {
+      "id": "TH6",
+      "name": "Application consolidation & modernisation",
+      "caps": [],
+      "apps_default": true,
+      "size": "L"
+    },
+    {
+      "id": "TH7",
+      "name": "Resilience & cyber security",
+      "caps": [
+        "C11.4"
+      ],
+      "tech": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R07",
+        "R08"
+      ],
+      "size": "M",
+      "foundation": true
+    },
+    {
+      "id": "TH8",
+      "name": "EA governance & operating model",
+      "caps": [
+        "C11.5"
+      ],
+      "tech": [
+        "R10"
+      ],
+      "governance": true,
+      "size": "S",
+      "foundation": true
+    },
+    {
+      "id": "TH9",
+      "name": "Operations & commercial excellence",
+      "caps_default": true,
+      "size": "L"
+    },
+    {
+      "id": "TH10",
+      "name": "Acquisition integration playbook (NACL)",
+      "caps": [
+        "C09.4"
+      ],
+      "apps": [
+        "A26"
+      ],
+      "size": "M",
+      "depends_on": [
+        "TH5",
+        "TH8"
+      ]
+    }
+  ],
+  "roadmap": {
+    "start": "2026-12",
+    "waves": [
+      {
+        "id": "W0",
+        "name": "Quick wins",
+        "window": "0-6 months",
+        "fy_split": {
+          "FY27": 0.5,
+          "FY28": 0.5
+        }
+      },
+      {
+        "id": "W1",
+        "name": "Foundation",
+        "window": "6-18 months",
+        "fy_split": {
+          "FY28": 1.0
+        }
+      },
+      {
+        "id": "W2",
+        "name": "Scale",
+        "window": "18-36 months",
+        "fy_split": {
+          "FY29": 1.0
+        }
+      },
+      {
+        "id": "W3",
+        "name": "Optimise to 2030",
+        "window": "36-48 months",
+        "fy_split": {
+          "FY30": 1.0
+        }
+      }
+    ],
+    "gap_priority": "impact * urgency (1-25)",
+    "initiative_priority": "max gap priority in theme",
+    "size_adjust": "n_gaps <= 2 -> one size smaller; n_gaps >= 6 -> one size larger (S..XL bounds)",
+    "wave_rules": [
+      "size in [S, M] AND priority >= 16 -> W0",
+      "foundation -> W1 (W0 if size == S)",
+      "priority >= 16 -> W1; 9-15 -> W2; else W3",
+      "wave >= max(wave of depends_on) + 1, capped at W3 (apply until stable)"
+    ],
+    "rate_card_inr_cr": {
+      "S": [
+        0.5,
+        1.5
+      ],
+      "M": [
+        1.5,
+        4
+      ],
+      "L": [
+        4,
+        10
+      ],
+      "XL": [
+        10,
+        25
+      ]
+    },
+    "rate_card_note": "Indicative one-time investment bands (Rs crore), editable. Not a quote.",
+    "togaf_ref": [
+      "13.4",
+      "14.4",
+      "28.1",
+      "28.2",
+      "28.3",
+      "28.5",
+      "32",
+      "36.2.7",
+      "36.2.14"
+    ]
+  },
+  "templates": {
+    "applications": {
+      "sheet": "Application Portfolio",
+      "togaf_ref": "s35.6.5 Application Portfolio Catalog; s34.6 Application Component attributes",
+      "columns": [
+        {
+          "key": "id",
+          "label": "App ID",
+          "required": true
+        },
+        {
+          "key": "name",
+          "label": "Application name",
+          "required": true
+        },
+        {
+          "key": "description",
+          "label": "What it does"
+        },
+        {
+          "key": "vendor",
+          "label": "Vendor / product",
+          "hint": "Write TBD if unknown"
+        },
+        {
+          "key": "version",
+          "label": "Version",
+          "togaf": "34.6 Physical Technology Component: Version"
+        },
+        {
+          "key": "type",
+          "label": "Type",
+          "enum": [
+            "COTS",
+            "SaaS",
+            "Custom",
+            "Platform",
+            "Ad hoc tool"
+          ]
+        },
+        {
+          "key": "business_owner",
+          "label": "Business owner"
+        },
+        {
+          "key": "it_owner",
+          "label": "IT owner"
+        },
+        {
+          "key": "caps",
+          "label": "Capabilities served (L2 IDs, comma-separated)",
+          "required": true
+        },
+        {
+          "key": "users",
+          "label": "Number of users"
+        },
+        {
+          "key": "criticality",
+          "label": "Business criticality",
+          "enum": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "key": "hosting",
+          "label": "Hosting",
+          "enum": [
+            "RISE (SAP-managed)",
+            "SaaS",
+            "Azure",
+            "DC-HYD",
+            "Partner-hosted",
+            "Unknown"
+          ]
+        },
+        {
+          "key": "layer",
+          "label": "Architecture layer",
+          "enum": [
+            "Customer & Sales",
+            "Logistics & Operations",
+            "Enterprise Apps",
+            "Admin Apps",
+            "Data & AI"
+          ]
+        },
+        {
+          "key": "platform",
+          "label": "Platform / technology stack",
+          "togaf": "Tech DD: platform/architecture"
+        },
+        {
+          "key": "customisation",
+          "label": "Level of customisation",
+          "enum": [
+            "None",
+            "Low",
+            "Medium",
+            "High (custom)",
+            "n/a (end-user tools)",
+            "TBD"
+          ]
+        },
+        {
+          "key": "licence_model",
+          "label": "Licence model",
+          "enum": [
+            "Perpetual",
+            "Subscription",
+            "Open source",
+            "Custom-built",
+            "TBD"
+          ]
+        },
+        {
+          "key": "support_model",
+          "label": "Support arrangement",
+          "enum": [
+            "In-house",
+            "Vendor SaaS",
+            "Vendor AMS",
+            "Vendor-managed (RISE)",
+            "Partner-managed",
+            "Subsidiary IT",
+            "TBD"
+          ]
+        },
+        {
+          "key": "contract_end",
+          "label": "Contract / licence end date"
+        },
+        {
+          "key": "scalability",
+          "label": "Scalability",
+          "enum": [
+            "Low",
+            "Medium",
+            "High",
+            "TBD"
+          ]
+        },
+        {
+          "key": "dr",
+          "label": "Redundancy / DR",
+          "enum": [
+            "None",
+            "Backup only",
+            "Warm standby",
+            "Active-active",
+            "TBD"
+          ]
+        },
+        {
+          "key": "in_scope",
+          "label": "In assessment scope?",
+          "enum": [
+            "Y",
+            "N"
+          ]
+        },
+        {
+          "key": "standards_class",
+          "label": "Standards class",
+          "enum": [
+            "Non-Standard",
+            "Proposed Standard",
+            "Provisional Standard",
+            "Standard",
+            "Phasing-Out Standard",
+            "Retired Standard"
+          ],
+          "togaf": "34.6 Standards class"
+        },
+        {
+          "key": "lifecycle",
+          "label": "Lifecycle status",
+          "enum": [
+            "Current",
+            "Ageing",
+            "EOL < 24m",
+            "Unknown"
+          ]
+        },
+        {
+          "key": "retire_date",
+          "label": "Planned retire date",
+          "togaf": "34.6 Retire date"
+        },
+        {
+          "key": "interfaces",
+          "label": "Key interfaces (system names)",
+          "togaf": "35.6.5 Interface Catalog"
+        },
+        {
+          "key": "sor",
+          "label": "Data domains mastered (DD IDs)"
+        },
+        {
+          "key": "pii",
+          "label": "Holds personal data?",
+          "enum": [
+            "Y",
+            "N"
+          ]
+        },
+        {
+          "key": "run_cost",
+          "label": "Annual run cost band",
+          "enum": [
+            "< Rs 25L",
+            "Rs 25L-1Cr",
+            "Rs 1-5Cr",
+            "> Rs 5Cr"
+          ]
+        },
+        {
+          "key": "bf_functional_fit",
+          "label": "Functional fit (1-5)",
+          "enum": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "key": "bf_strategic_alignment",
+          "label": "Strategic alignment (1-5)",
+          "enum": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "key": "bf_user_satisfaction",
+          "label": "User satisfaction (1-5)",
+          "enum": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "key": "tf_tech_currency",
+          "label": "Technology currency (1-5)",
+          "enum": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "key": "tf_integration_readiness",
+          "label": "Integration / API readiness (1-5)",
+          "enum": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "key": "tf_security_compliance",
+          "label": "Security & compliance (1-5)",
+          "enum": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "key": "tf_cost_efficiency",
+          "label": "Cost efficiency (1-5)",
+          "enum": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "key": "issues",
+          "label": "Known issues / pain points"
+        }
+      ]
+    },
+    "technology": {
+      "sheet": "Technology Portfolio",
+      "togaf_ref": "s35.6.6 Technology Portfolio Catalog; s34.6 Physical Technology Component attributes",
+      "columns": [
+        {
+          "key": "id",
+          "label": "Tech ID",
+          "required": true
+        },
+        {
+          "key": "name",
+          "label": "Product / platform",
+          "required": true
+        },
+        {
+          "key": "vendor",
+          "label": "Vendor"
+        },
+        {
+          "key": "version",
+          "label": "Version"
+        },
+        {
+          "key": "category",
+          "label": "Category (TOGAF TRM)",
+          "enum": [
+            "Compute & hosting",
+            "Database",
+            "Identity & access",
+            "Application platform",
+            "Integration",
+            "AI & analytics",
+            "Network",
+            "Resilience",
+            "End-user"
+          ]
+        },
+        {
+          "key": "location",
+          "label": "Location",
+          "enum": [
+            "Primary DC - Hyderabad",
+            "DR site - Chennai",
+            "Microsoft Azure",
+            "SAP RISE",
+            "Plant / edge",
+            "Retail store"
+          ]
+        },
+        {
+          "key": "standard",
+          "label": "Standards class",
+          "enum": [
+            "Non-Standard",
+            "Proposed Standard",
+            "Provisional Standard",
+            "Standard",
+            "Phasing-Out Standard",
+            "Retired Standard"
+          ]
+        },
+        {
+          "key": "lifecycle",
+          "label": "Lifecycle status",
+          "enum": [
+            "Current",
+            "Ageing",
+            "EOL < 24m",
+            "Unknown"
+          ]
+        },
+        {
+          "key": "eos_date",
+          "label": "Vendor end-of-support date"
+        },
+        {
+          "key": "apps",
+          "label": "Applications hosted (App IDs)"
+        }
+      ]
+    }
+  },
+  "architecture_views": [
+    {
+      "n": 1,
+      "name": "Enterprise-level architecture and overall technology landscape",
+      "screen": "overview",
+      "view": "landscape",
+      "artifact": "Solution Concept Diagram",
+      "togaf_ref": "35.6.2"
+    },
+    {
+      "n": 2,
+      "name": "Business capability and business-IT alignment views",
+      "screen": "business",
+      "view": "heatmap",
+      "artifact": "Business Footprint Diagram; Application/Function matrix",
+      "togaf_ref": "35.6.3"
+    },
+    {
+      "n": 3,
+      "name": "Application portfolio and application architecture",
+      "screen": "applications",
+      "view": "architecture",
+      "artifact": "Application Architecture (layered)",
+      "togaf_ref": "35.6.5"
+    },
+    {
+      "n": 4,
+      "name": "Application dependencies and interaction views",
+      "screen": "applications",
+      "view": "interaction",
+      "artifact": "Application Communication Diagram",
+      "togaf_ref": "35.6.5"
+    },
+    {
+      "n": 5,
+      "name": "Integration, API and data-flow architecture",
+      "screen": "applications",
+      "view": "interaction",
+      "artifact": "Interface Catalog (edited from the interaction view)",
+      "togaf_ref": "35.6.5"
+    },
+    {
+      "n": 6,
+      "name": "Data and analytics architecture",
+      "screen": "data_tech",
+      "view": "data_arch",
+      "artifact": "Information & Data Architecture",
+      "togaf_ref": "35.6.4"
+    },
+    {
+      "n": 7,
+      "name": "Infrastructure and platform architecture",
+      "screen": "data_tech",
+      "view": "infra",
+      "artifact": "Technology & Infrastructure Architecture",
+      "togaf_ref": "35.6.6"
+    },
+    {
+      "n": 8,
+      "name": "Network and connectivity architecture",
+      "screen": "data_tech",
+      "view": "infra",
+      "artifact": "Network & Connectivity layer of the infrastructure architecture",
+      "togaf_ref": "35.6.6"
+    },
+    {
+      "n": 9,
+      "name": "Cloud and hybrid architecture",
+      "screen": "data_tech",
+      "view": "infra",
+      "artifact": "Hybrid & Public Cloud layer of the infrastructure architecture",
+      "togaf_ref": "35.6.6"
+    },
+    {
+      "n": 10,
+      "name": "Cybersecurity and resilience architecture",
+      "screen": "data_tech",
+      "view": "infra",
+      "artifact": "IT & OT Cyber Security column; compliance checklists",
+      "togaf_ref": "48.5"
+    },
+    {
+      "n": 11,
+      "name": "Technology standards and technology lifecycle views",
+      "screen": "data_tech",
+      "view": "tech",
+      "artifact": "Technology Standards Catalog",
+      "togaf_ref": "35.6.6"
+    },
+    {
+      "n": 12,
+      "name": "Key architecture decisions, principles, standards and patterns",
+      "screen": "vision",
+      "view": "guardrails",
+      "artifact": "Principles Catalog; decision log",
+      "togaf_ref": "23.6"
+    },
+    {
+      "n": 13,
+      "name": "Current-state, target-state and transition-state views",
+      "screen": "overview",
+      "view": "states",
+      "artifact": "Transition Architecture",
+      "togaf_ref": "36.2.14"
+    },
+    {
+      "n": 14,
+      "name": "E2E views for critical business processes / services",
+      "screen": "business",
+      "view": "models",
+      "artifact": "Process Flow Diagram (ARIS EPC)",
+      "togaf_ref": "35.6.3"
+    }
+  ],
+  "integration_rules": {
+    "hotspot_min": 5,
+    "note": "Apps with >= hotspot_min interfaces are integration hotspots (Interface Catalog s35.6.5)"
+  }
+}

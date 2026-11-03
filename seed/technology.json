@@ -1,0 +1,394 @@
+{
+  "_meta": {
+    "purpose": "Seed for Screen 4 tab 'Technology' - TOGAF Phase D (Technology Portfolio Catalog s35.6.6; Environments & Locations; compliance checklists s48.5).",
+    "status_values": [
+      "pass",
+      "partial",
+      "fail",
+      "unknown"
+    ]
+  },
+  "facts": [
+    {
+      "k": "Hosting model",
+      "v": "Hybrid: DC Hyderabad + DR Chennai + Microsoft Azure",
+      "source": "deck"
+    },
+    {
+      "k": "Identity",
+      "v": "5,000-6,000 AD users; Microsoft Entra ID SSO",
+      "source": "deck"
+    },
+    {
+      "k": "Data platform",
+      "v": "Microsoft SQL Server databases; ~100 TB data",
+      "source": "deck"
+    },
+    {
+      "k": "Backup",
+      "v": "VM- and storage-level backup arrangements",
+      "source": "deck"
+    },
+    {
+      "k": "App patterns",
+      "v": "Two-tier and three-tier; limited microservices or containers",
+      "source": "deck"
+    },
+    {
+      "k": "Footprint",
+      "v": "2 corporate offices (Chennai, Hyderabad), 19 factories, 10-12 regional sales offices (deck); 21 manufacturing locations FY25 (investor deck) - reconcile incl. NACL",
+      "source": "deck"
+    },
+    {
+      "k": "Retail edge",
+      "v": "1,075 Gromor stores (Nov-2025) across AP, Telangana, Karnataka, Tamil Nadu, Maharashtra",
+      "source": "public"
+    }
+  ],
+  "locations": [
+    {
+      "id": "L1",
+      "name": "Primary DC - Hyderabad",
+      "type": "Data centre",
+      "source": "deck"
+    },
+    {
+      "id": "L2",
+      "name": "DR site - Chennai",
+      "type": "DR",
+      "source": "deck"
+    },
+    {
+      "id": "L3",
+      "name": "Microsoft Azure (region TBD)",
+      "type": "Public cloud",
+      "source": "deck"
+    },
+    {
+      "id": "L4",
+      "name": "SAP RISE (SAP-managed)",
+      "type": "Managed cloud",
+      "source": "deck"
+    },
+    {
+      "id": "L5",
+      "name": "Plants (19-21) incl. Vizag, Kakinada, Ennore, Ankleshwar, Sarigam, Dahej",
+      "type": "Edge / OT",
+      "source": "public"
+    },
+    {
+      "id": "L6",
+      "name": "Gromor retail stores (1,075)",
+      "type": "Edge / retail",
+      "source": "public"
+    },
+    {
+      "id": "L7",
+      "name": "Corporate offices (Chennai, Hyderabad)",
+      "type": "Office",
+      "source": "deck"
+    },
+    {
+      "id": "L8",
+      "name": "Regional sales offices (10-12)",
+      "type": "Office",
+      "source": "deck"
+    },
+    {
+      "id": "L9",
+      "name": "Farmers, dealers & partners (internet)",
+      "type": "External",
+      "source": "public"
+    }
+  ],
+  "platforms": [
+    {
+      "id": "T01",
+      "name": "Microsoft Azure IaaS/PaaS",
+      "category": "Compute & hosting",
+      "lifecycle": "Current",
+      "standard": "Standard",
+      "source": "deck",
+      "location": "Microsoft Azure",
+      "version": "TBD"
+    },
+    {
+      "id": "T02",
+      "name": "On-prem virtualisation (DC-HYD)",
+      "category": "Compute & hosting",
+      "lifecycle": "Unknown",
+      "standard": "Phasing-Out Standard",
+      "source": "assumed",
+      "location": "Primary DC - Hyderabad",
+      "version": "TBD"
+    },
+    {
+      "id": "T03",
+      "name": "Microsoft SQL Server",
+      "category": "Database",
+      "lifecycle": "Unknown",
+      "standard": "Standard",
+      "source": "deck",
+      "location": "Primary DC - Hyderabad",
+      "version": "TBD"
+    },
+    {
+      "id": "T04",
+      "name": "Microsoft Entra ID / AD",
+      "category": "Identity & access",
+      "lifecycle": "Current",
+      "standard": "Standard",
+      "source": "deck",
+      "location": "Microsoft Azure",
+      "version": "TBD"
+    },
+    {
+      "id": "T05",
+      "name": "Container platform (AKS)",
+      "category": "Application platform",
+      "lifecycle": "Current",
+      "standard": "Proposed Standard",
+      "source": "assumed",
+      "location": "Microsoft Azure",
+      "version": "TBD"
+    },
+    {
+      "id": "T06",
+      "name": "Integration middleware / API gateway",
+      "category": "Integration",
+      "lifecycle": "Unknown",
+      "standard": "Non-Standard",
+      "source": "assumed",
+      "location": "Primary DC - Hyderabad",
+      "version": "TBD"
+    },
+    {
+      "id": "T07",
+      "name": "Azure ML / AI services",
+      "category": "AI & analytics",
+      "lifecycle": "Current",
+      "standard": "Provisional Standard",
+      "source": "assumed",
+      "location": "Microsoft Azure",
+      "version": "TBD"
+    },
+    {
+      "id": "T08",
+      "name": "Backup (VM & storage-level)",
+      "category": "Resilience",
+      "lifecycle": "Unknown",
+      "standard": "Standard",
+      "source": "deck",
+      "location": "Primary DC - Hyderabad",
+      "version": "TBD"
+    }
+  ],
+  "resilience_checks": [
+    {
+      "id": "R01",
+      "check": "DR site exists for tier-1 workloads",
+      "status": "pass",
+      "togaf_ref": "48.5.1",
+      "source": "deck"
+    },
+    {
+      "id": "R02",
+      "check": "RPO/RTO defined and tested per application tier",
+      "status": "unknown",
+      "togaf_ref": "48.5.6",
+      "source": "assumed"
+    },
+    {
+      "id": "R03",
+      "check": "Application-consistent backups (not only VM/storage snapshots) with restore tests",
+      "status": "partial",
+      "togaf_ref": "48.5.6",
+      "source": "deck"
+    },
+    {
+      "id": "R04",
+      "check": "OS/DB versions within vendor support (no EOL in 24 months)",
+      "status": "unknown",
+      "togaf_ref": "48.5.1",
+      "source": "assumed"
+    },
+    {
+      "id": "R05",
+      "check": "Central API/integration layer (no point-to-point)",
+      "status": "partial",
+      "togaf_ref": "48.5.2",
+      "source": "assumed"
+    },
+    {
+      "id": "R06",
+      "check": "Containerised, cloud-native pattern available for new apps",
+      "status": "partial",
+      "togaf_ref": "48.5.7",
+      "source": "deck",
+      "note": "Deck: limited microservices or containers"
+    },
+    {
+      "id": "R07",
+      "check": "SSO enforced for all user-facing apps (incl. subsidiaries)",
+      "status": "partial",
+      "togaf_ref": "48.5.5",
+      "source": "deck"
+    },
+    {
+      "id": "R08",
+      "check": "Security monitoring covers OT/IT boundary and retail edge",
+      "status": "unknown",
+      "togaf_ref": "48.5.5",
+      "source": "assumed"
+    },
+    {
+      "id": "R09",
+      "check": "MLOps pipeline (versioning, monitoring) for production ML",
+      "status": "fail",
+      "togaf_ref": "48.5.8",
+      "source": "assumed"
+    },
+    {
+      "id": "R10",
+      "check": "Architecture repository with current technology standards catalog",
+      "status": "fail",
+      "togaf_ref": "41.4",
+      "source": "deck",
+      "note": "Implied: deck scope asks to create a maintainable architecture repository"
+    }
+  ],
+  "network": [
+    {
+      "id": "N1",
+      "from": "L5",
+      "to": "L1",
+      "type": "Enterprise WAN (technology TBD)",
+      "note": "Plants to primary DC",
+      "source": "assumed"
+    },
+    {
+      "id": "N2",
+      "from": "L7",
+      "to": "L1",
+      "type": "Enterprise WAN (technology TBD)",
+      "note": "Corporate offices",
+      "source": "assumed"
+    },
+    {
+      "id": "N3",
+      "from": "L8",
+      "to": "L1",
+      "type": "Enterprise WAN / VPN (TBD)",
+      "note": "Regional sales offices",
+      "source": "assumed"
+    },
+    {
+      "id": "N4",
+      "from": "L6",
+      "to": "L3",
+      "type": "Broadband + VPN (TBD)",
+      "note": "Stores reach POS and cloud apps",
+      "source": "assumed"
+    },
+    {
+      "id": "N5",
+      "from": "L1",
+      "to": "L2",
+      "type": "DC-DR replication link",
+      "note": "DR Chennai (deck)",
+      "source": "deck"
+    },
+    {
+      "id": "N6",
+      "from": "L1",
+      "to": "L3",
+      "type": "Hybrid connectivity (private link or VPN, TBD)",
+      "note": "DC to Azure",
+      "source": "assumed"
+    },
+    {
+      "id": "N7",
+      "from": "L1",
+      "to": "L4",
+      "type": "Private connectivity to RISE (TBD)",
+      "note": "SAP-managed cloud",
+      "source": "assumed"
+    },
+    {
+      "id": "N8",
+      "from": "L9",
+      "to": "L3",
+      "type": "Internet via gateway / WAF (TBD)",
+      "note": "Farmer and dealer apps",
+      "source": "assumed"
+    }
+  ],
+  "security_zones": [
+    {
+      "id": "Z1",
+      "name": "Internet & partners",
+      "holds": "Farmer and dealer apps, partner platforms",
+      "checks": [
+        "R07",
+        "R08"
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "Z2",
+      "name": "Cloud (Azure)",
+      "holds": "Digital apps, analytics, AI services",
+      "checks": [
+        "R06",
+        "R07",
+        "R09"
+      ],
+      "source": "deck"
+    },
+    {
+      "id": "Z3",
+      "name": "Data centre & DR",
+      "holds": "On-prem apps, SQL Server, backups",
+      "checks": [
+        "R01",
+        "R02",
+        "R03",
+        "R04"
+      ],
+      "source": "deck"
+    },
+    {
+      "id": "Z4",
+      "name": "SAP RISE (managed)",
+      "holds": "ERP core, SAP-operated",
+      "checks": [
+        "R05"
+      ],
+      "source": "deck"
+    },
+    {
+      "id": "Z5",
+      "name": "Plant OT networks",
+      "holds": "DCS, historian, plant systems",
+      "checks": [
+        "R08"
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "Z6",
+      "name": "Retail edge",
+      "holds": "1,075 stores, POS terminals",
+      "checks": [
+        "R07",
+        "R08"
+      ],
+      "source": "public"
+    }
+  ],
+  "identity_plane": {
+    "name": "Microsoft Entra ID (SSO)",
+    "check": "R07",
+    "source": "deck"
+  }
+}

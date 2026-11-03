@@ -1,0 +1,9 @@
+backend/.env
+data/togaf/*.pdf
+data/index/
+data/models/
+data/cil.db
+__pycache__/
+.pytest_cache/
+frontend/node_modules/
+frontend/dist/

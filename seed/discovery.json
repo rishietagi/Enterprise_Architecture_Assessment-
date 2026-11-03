@@ -1,0 +1,1819 @@
+{
+  "_meta": {
+    "purpose": "Current-state discovery for Business Architecture: an L3 questionnaire template, generated contextual questions, and demo survey responses. L2 Process / Technology / Data / Integration / Business criticality are inferred from L3 answers when the L2 is analysed.",
+    "source": "assumed",
+    "note": "Demo responses are illustrative and calibrated so the inferred L2 scores equal the assumed seed baseline. Replace with real owner responses. Owner names are roles; emails are left blank until confirmed.",
+    "inference": "Dimension score = mean of L3 answers rounded half up; business criticality = highest L3 answer; business-IT alignment = mean of the five alignment questions (system fit, partnering, information & reporting, responsiveness to change, user adoption).",
+    "togaf_ref": [
+      "8.4",
+      "32",
+      "35.6.3"
+    ]
+  },
+  "template": [
+    {
+      "id": "owner",
+      "dim": null,
+      "type": "text",
+      "label": "Business owner",
+      "text": "Who is accountable for {l3}, and which team performs it day to day?",
+      "help": "Name the role accountable for outcomes (not the system owner), plus the team and approximate headcount that execute it."
+    },
+    {
+      "id": "systems",
+      "dim": null,
+      "type": "apps",
+      "label": "Systems & tools",
+      "text": "Which systems, tools or files are used to perform {l3}?",
+      "help": "Tick every application involved and list anything else: Excel trackers, email, WhatsApp groups, government portals."
+    },
+    {
+      "id": "process",
+      "dim": "P",
+      "type": "choice",
+      "label": "Process standardisation",
+      "text": "How is {l3} documented and measured across plants, regions and entities?",
+      "help": "Think about whether two regions would run it the same way, and whether anyone reviews a KPI for it each month.",
+      "options": [
+        "Not documented; depends on individuals",
+        "Local SOPs or desk notes that vary by site",
+        "One enterprise SOP, followed consistently",
+        "Enterprise SOP with KPIs reviewed monthly by an owner",
+        "KPIs benchmarked and continuously improved"
+      ]
+    },
+    {
+      "id": "tech",
+      "dim": "T",
+      "type": "choice",
+      "label": "Technology & AI enablement",
+      "text": "How is the work in {l3} executed in those systems?",
+      "help": "Pick the level that describes most of the volume, not the best-case pilot.",
+      "options": [
+        "Paper, Excel, email or WhatsApp",
+        "Recorded in a system of record; checks and hand-offs manual",
+        "Workflow, rules or RPA automate most steps",
+        "AI / ML recommends; people decide",
+        "AI agents execute steps within guardrails; people supervise exceptions"
+      ]
+    },
+    {
+      "id": "data",
+      "dim": "D",
+      "type": "choice",
+      "label": "Data availability & trust",
+      "text": "How available and trusted is the data {l3} depends on?",
+      "help": "Consider how often numbers are reconciled by hand before they are used, and whether a single owner signs them off.",
+      "options": [
+        "Missing or unreliable; re-collected each time",
+        "Available but scattered; reconciled manually",
+        "Owned, with defined quality rules",
+        "Single trusted source reused across functions",
+        "Near real-time with lineage; ready for analytics and AI"
+      ]
+    },
+    {
+      "id": "integration",
+      "dim": "I",
+      "type": "choice",
+      "label": "Integration & hand-offs",
+      "text": "How does {l3} hand off to upstream and downstream processes and systems?",
+      "help": "Follow one transaction: is anything typed twice, uploaded as a file, or passed through an interface?",
+      "options": [
+        "Re-keyed manually between systems",
+        "File uploads or scheduled batch",
+        "Direct point-to-point interfaces",
+        "Governed APIs or events",
+        "Orchestrated end to end with monitoring"
+      ]
+    },
+    {
+      "id": "fit",
+      "dim": "A1",
+      "type": "choice",
+      "label": "System fit (business–IT alignment)",
+      "text": "How well do the current systems fit what {l3} needs?",
+      "help": "Count the workarounds: offline trackers, manual checks, or steps done outside the system because it cannot support them.",
+      "options": [
+        "Major workarounds outside the system",
+        "Partial fit; frequent manual workarounds",
+        "Adequate fit; known gaps tolerated",
+        "Good fit; minor enhancements pending",
+        "Full fit; the system drives the process"
+      ]
+    },
+    {
+      "id": "partnering",
+      "dim": "A2",
+      "type": "choice",
+      "label": "Business–IT partnering (business–IT alignment)",
+      "text": "How do business and IT work together on changes to {l3}?",
+      "help": "Is there a named IT counterpart, a shared backlog, and an agreed, funded roadmap?",
+      "options": [
+        "No IT counterpart; changes are ad hoc",
+        "IT engaged reactively through tickets",
+        "Named IT counterpart and a joint backlog",
+        "Joint roadmap with agreed priorities and funding",
+        "Product team (business + IT) with shared outcomes"
+      ]
+    },
+    {
+      "id": "reporting",
+      "dim": "A3",
+      "type": "choice",
+      "label": "Information & reporting support (business–IT alignment)",
+      "text": "How well do the systems give you the information you need to run and steer {l3}?",
+      "help": "Think about the last monthly review: did the numbers come straight from a system, or were they assembled by hand?",
+      "options": [
+        "No system reporting; numbers are compiled by hand",
+        "Basic extracts; most analysis is rebuilt in Excel",
+        "Standard reports cover the main KPIs",
+        "Self-service dashboards with trusted, timely data",
+        "Real-time insight with alerts and recommendations"
+      ]
+    },
+    {
+      "id": "change",
+      "dim": "A4",
+      "type": "choice",
+      "label": "IT responsiveness to change (business–IT alignment)",
+      "text": "When {l3} needs a change in a system, how quickly and predictably does IT deliver it?",
+      "help": "Take a recent request, such as a new field, report or rule change, and how long it took from request to go-live.",
+      "options": [
+        "Changes rarely happen or take more than six months",
+        "Months, with unclear priority",
+        "Weeks, through an agreed release cycle",
+        "Days to weeks, prioritised jointly with the business",
+        "Continuous delivery; the business can configure most changes itself"
+      ]
+    },
+    {
+      "id": "adoption",
+      "dim": "A5",
+      "type": "choice",
+      "label": "User adoption (business–IT alignment)",
+      "text": "How consistently do the people performing {l3} work in the system rather than around it?",
+      "help": "Consider plants, regions and field teams: is the system the single place the work is recorded?",
+      "options": [
+        "Systems are largely bypassed",
+        "Used for the final record only; the work happens outside",
+        "Used by most teams with some local workarounds",
+        "Used consistently across sites and teams",
+        "Embedded in daily work; users push for more capability"
+      ]
+    },
+    {
+      "id": "importance",
+      "dim": "IMP",
+      "type": "choice",
+      "label": "Business criticality",
+      "text": "How critical is {l3} to Coromandel's business and its 2030 strategy?",
+      "help": "High means it directly moves revenue, margin, farmer reach or regulatory compliance (subsidy, DPDP, CIB&RC).",
+      "options": [
+        "Peripheral",
+        "Supporting",
+        "Important",
+        "High: directly affects revenue, margin or compliance",
+        "Critical: differentiating or a regulatory must-have"
+      ]
+    }
+  ],
+  "generic_context": "Which Kharif / Rabi seasonal peaks or regulatory obligations shape how {l3} runs, and where does it break under load?",
+  "contextual": {
+    "R3.1.1.1": "What forecast grain is used today (SKU × district × month?), and how is forecast accuracy measured and reported?",
+    "R3.1.1.2": "How are IMD monsoon outlooks, reservoir levels and sowing progress brought into the demand plan, and by whom?",
+    "R3.1.1.3": "Roughly what share of the statistical forecast is overridden at the consensus review, and who approves overrides?",
+    "R3.1.1.4": "How are supply constraints (phosphoric acid and ammonia imports, plant capacity) reflected before the plan is signed off?",
+    "R4.3.3.1": "Through which channels do farmers report crop problems today, and what share arrive with a usable photo?",
+    "R4.3.3.2": "What share of AI pre-diagnoses are confirmed by an agronomist, and what turnaround does the farmer see?",
+    "R4.3.3.3": "How are recommended products checked against label claims, local stock and the farmer's crop stage?",
+    "R4.3.3.4": "How do you know whether the farmer bought the recommended product and the problem was resolved?",
+    "R5.1.2.1": "How are NBS rates, freight and additional subsidy components applied when a claim is prepared?",
+    "R5.1.2.2": "What share of claim lines fail the first iFMS match, and what are the top reasons?",
+    "R5.1.2.3": "How is the subsidy receivable aged and escalated, and how does it feed cash forecasting?",
+    "R5.1.2.4": "How are rail and road freight subsidy claims evidenced, and how long does a claim cycle take?",
+    "R3.2.4.1": "How is the monthly movement plan agreed with DoF, and how often is it revised in-season?",
+    "R3.2.4.2": "Is primary and secondary movement posted to iFMS from SAP automatically or uploaded, and how often?",
+    "R3.2.4.3": "What share of dispatches are acknowledged by dealers within the DoF window, and how are laggards chased?",
+    "R3.2.4.4": "How are iFMS exceptions (unacknowledged, mismatched quantities) logged, assigned and closed?",
+    "R4.2.4.1": "How many farmer identities exist across MyGromor, stores, Nutri clinics and the call centre, and how are they matched?",
+    "R4.2.4.2": "How are loyalty points earned and redeemed across stores and the app, and who funds them?",
+    "R4.2.4.3": "Which segmentation or propensity models are live, and how are their outputs used by store or field teams?",
+    "R4.2.4.4": "How are campaigns targeted and measured, and is farmer consent checked before outreach (DPDP Act 2023)?",
+    "R2.2.1.1": "How does the monthly production plan reconcile S&OP demand with plant capacity and raw-material availability?",
+    "R2.2.1.2": "Which plants schedule in a planning tool versus spreadsheets, and how often is the schedule frozen?",
+    "R2.2.1.3": "How are grade changeovers (e.g. DAP to NPK complexes) sequenced to minimise downtime and off-spec product?",
+    "R2.2.1.4": "Which plan-vs-actual KPIs are reviewed, at what cadence, and by whom?",
+    "R4.4.1.1": "How do farmers and dealers book a spray today, and how is the slot confirmed?",
+    "R4.4.1.2": "How are pilots, drones and batteries assigned across districts in peak season?",
+    "R4.4.1.3": "How is spray execution (area, dose, chemical) recorded and evidenced to the farmer?",
+    "R4.4.1.4": "How are services priced, invoiced and collected, including dealer-led bookings?",
+    "R4.1.3.1": "How are price lists and MRP changes approved and pushed to dealers, stores and the dealer portal?",
+    "R4.1.3.2": "How are schemes designed and budgeted by season and crop, and who approves them?",
+    "R4.1.3.3": "How are scheme accruals calculated and dealer claims validated before settlement?",
+    "R4.1.3.4": "How is scheme ROI measured against sell-out?",
+    "R1.2.2.1": "How are trial sites selected across agro-climatic zones, and where is the protocol stored?",
+    "R4.3.1.2": "Which advisory channels are live (app, WhatsApp, IVR), and is advice personalised to crop stage and soil?"
+  },
+  "response_options": [
+    {
+      "key": "submitted",
+      "label": "Submit answers",
+      "hint": "Owner completes the questionnaire and replies"
+    },
+    {
+      "key": "redirected",
+      "label": "Not the right owner: redirect",
+      "hint": "Owner names the right person"
+    },
+    {
+      "key": "walkthrough",
+      "label": "Request a walkthrough",
+      "hint": "Owner asks for a call; we resend with explanations"
+    }
+  ],
+  "engagement_start": "2026-10-12",
+  "surveys": [
+    {
+      "id": "C04.1.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Supply Chain",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Statistical baseline rebuilt every month from SAP extracts; no forecasting tool.",
+      "answers": {
+        "owner": "Head of Demand Planning; central demand planning cell (4 planners)",
+        "systems": {
+          "apps": [
+            "A01",
+            "A23"
+          ],
+          "other": "Excel forecast workbook, SAP sales history extracts"
+        },
+        "process": 3,
+        "tech": 2,
+        "data": 2,
+        "integration": 2,
+        "fit": 2,
+        "partnering": 2,
+        "importance": 5,
+        "context": "SKU × state × month in Excel; accuracy tracked informally at state level only (MAPE not reported).",
+        "reporting": 2,
+        "change": 1,
+        "adoption": 2
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Supply Chain"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Supply Chain"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C04.1.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Supply Chain",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Market intelligence is anecdotal and arrives late for Kharif pre-positioning.",
+      "answers": {
+        "owner": "Regional Sales Managers (6 regions); collated by demand planning",
+        "systems": {
+          "apps": [],
+          "other": "Email and WhatsApp updates from regions, IMD website"
+        },
+        "process": 2,
+        "tech": 1,
+        "data": 2,
+        "integration": 1,
+        "fit": 1,
+        "partnering": 2,
+        "importance": 4,
+        "context": "Monsoon and sowing inputs arrive as regional emails; no structured feed into the plan.",
+        "reporting": 2,
+        "change": 2,
+        "adoption": 1
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Supply Chain"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Supply Chain"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C04.1.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Supply Chain",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Consensus meeting is held monthly but the override trail is lost after sign-off.",
+      "answers": {
+        "owner": "Head of Supply Chain (chair); regional sales and marketing",
+        "systems": {
+          "apps": [
+            "A01",
+            "A23"
+          ],
+          "other": "Consensus template in Excel, Power BI sales dashboard"
+        },
+        "process": 3,
+        "tech": 2,
+        "data": 2,
+        "integration": 2,
+        "fit": 2,
+        "partnering": 3,
+        "importance": 5,
+        "context": "Around 40% of district lines are overridden; overrides approved by the regional head without a log.",
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Supply Chain"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Supply Chain"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C04.1.4",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Supply Chain",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Executive S&OP works well as a forum; inputs are prepared by hand.",
+      "answers": {
+        "owner": "COO (sign-off); Head of Supply Chain (prepares)",
+        "systems": {
+          "apps": [
+            "A01",
+            "A23"
+          ],
+          "other": "S&OP deck in PowerPoint"
+        },
+        "process": 4,
+        "tech": 2,
+        "data": 3,
+        "integration": 2,
+        "fit": 3,
+        "partnering": 3,
+        "importance": 5,
+        "context": "Import plan constraints are added manually by procurement a day before the executive review.",
+        "reporting": 3,
+        "change": 2,
+        "adoption": 4
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Supply Chain"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Supply Chain"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C07.3.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Agronomy & Farmer Services",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Cases from the call centre are not linked to app cases for the same farmer.",
+      "answers": {
+        "owner": "Head of Agronomy & Farmer Services; field agronomists and call centre",
+        "systems": {
+          "apps": [
+            "A06",
+            "A08"
+          ],
+          "other": "Call centre notes"
+        },
+        "process": 2,
+        "tech": 3,
+        "data": 2,
+        "integration": 1,
+        "fit": 3,
+        "partnering": 2,
+        "importance": 4,
+        "context": "App, WhatsApp bot and call centre; about half of app cases carry a usable photo.",
+        "reporting": 2,
+        "change": 1,
+        "adoption": 3
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Agronomy & Farmer Services"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Agronomy & Farmer Services"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C07.3.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Agronomy & Farmer Services",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Model is promising but agronomist review is a bottleneck in Kharif.",
+      "answers": {
+        "owner": "Lead Agronomist (digital); agronomy panel of 12",
+        "systems": {
+          "apps": [
+            "A06"
+          ],
+          "other": "Image-based pest and disease model in MyGromor"
+        },
+        "process": 2,
+        "tech": 4,
+        "data": 2,
+        "integration": 1,
+        "fit": 3,
+        "partnering": 3,
+        "importance": 5,
+        "context": "About 70% of AI pre-diagnoses are confirmed; agronomist turnaround 24-48 hours in peak season.",
+        "reporting": 2,
+        "change": 4,
+        "adoption": 3
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Agronomy & Farmer Services"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Agronomy & Farmer Services"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C07.3.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Agronomy & Farmer Services",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Recommendations do not check stock at the nearest Gromor store.",
+      "answers": {
+        "owner": "Lead Agronomist (digital); product management for label checks",
+        "systems": {
+          "apps": [
+            "A06",
+            "A07"
+          ],
+          "other": "Product label PDFs on SharePoint"
+        },
+        "process": 2,
+        "tech": 3,
+        "data": 2,
+        "integration": 2,
+        "fit": 3,
+        "partnering": 2,
+        "importance": 5,
+        "context": "Recommendation picks from a product list; label claims and local stock are checked manually.",
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Agronomy & Farmer Services"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Agronomy & Farmer Services"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C07.3.4",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Agronomy & Farmer Services",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "We cannot prove the advisory drives sales or yield.",
+      "answers": {
+        "owner": "Head of Agronomy & Farmer Services",
+        "systems": {
+          "apps": [
+            "A06"
+          ],
+          "other": "Ad hoc follow-up calls"
+        },
+        "process": 1,
+        "tech": 2,
+        "data": 1,
+        "integration": 1,
+        "fit": 2,
+        "partnering": 2,
+        "importance": 4,
+        "context": "No closed loop: purchase and outcome are not linked back to the recommendation.",
+        "reporting": 2,
+        "change": 1,
+        "adoption": 3
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Agronomy & Farmer Services"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Agronomy & Farmer Services"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C09.2.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Subsidy Accounting",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Rate changes mid-season cause re-work across open claims.",
+      "answers": {
+        "owner": "Head of Subsidy Accounting; subsidy desk (6)",
+        "systems": {
+          "apps": [
+            "A20",
+            "A01"
+          ],
+          "other": "DoF NBS rate notifications"
+        },
+        "process": 3,
+        "tech": 3,
+        "data": 3,
+        "integration": 2,
+        "fit": 3,
+        "partnering": 3,
+        "importance": 5,
+        "context": "Claims generated in the subsidy tool from SAP sales; NBS rate changes keyed in manually.",
+        "reporting": 3,
+        "change": 3,
+        "adoption": 3
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Subsidy Accounting"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Subsidy Accounting"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C09.2.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Subsidy Accounting",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Matching is done in Excel against iFMS downloads.",
+      "answers": {
+        "owner": "Head of Subsidy Accounting",
+        "systems": {
+          "apps": [
+            "A20"
+          ],
+          "other": "iFMS reports downloaded as Excel"
+        },
+        "process": 3,
+        "tech": 2,
+        "data": 3,
+        "integration": 2,
+        "fit": 2,
+        "partnering": 3,
+        "importance": 5,
+        "context": "Roughly 15% of lines fail the first match, mostly unacknowledged dealer receipts and quantity mismatches.",
+        "reporting": 2,
+        "change": 4,
+        "adoption": 2
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Subsidy Accounting"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Subsidy Accounting"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C09.2.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Subsidy Accounting",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "",
+      "answers": {
+        "owner": "CFO office; treasury",
+        "systems": {
+          "apps": [
+            "A20",
+            "A01",
+            "A23"
+          ],
+          "other": "Receivable ageing in Power BI"
+        },
+        "process": 3,
+        "tech": 3,
+        "data": 3,
+        "integration": 2,
+        "fit": 3,
+        "partnering": 3,
+        "importance": 4,
+        "context": "Ageing is reviewed fortnightly; receipt timing is not fed into the cash forecast automatically.",
+        "reporting": 3,
+        "change": 2,
+        "adoption": 3
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Subsidy Accounting"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Subsidy Accounting"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C09.2.4",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Subsidy Accounting",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Freight claims are the slowest part of the subsidy cycle.",
+      "answers": {
+        "owner": "Head of Logistics & Subsidy Compliance",
+        "systems": {
+          "apps": [
+            "A21"
+          ],
+          "other": "Rake and freight bills on file, Excel claim register"
+        },
+        "process": 2,
+        "tech": 3,
+        "data": 2,
+        "integration": 1,
+        "fit": 2,
+        "partnering": 2,
+        "importance": 4,
+        "context": "Freight subsidy evidence is collated by hand from rake documents; cycle is 60-90 days.",
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Subsidy Accounting"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Subsidy Accounting"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C04.4.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Logistics & Subsidy Compliance",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "",
+      "answers": {
+        "owner": "Head of Logistics & Subsidy Compliance",
+        "systems": {
+          "apps": [
+            "A20",
+            "A01"
+          ],
+          "other": "DoF movement plan portal"
+        },
+        "process": 4,
+        "tech": 3,
+        "data": 3,
+        "integration": 2,
+        "fit": 3,
+        "partnering": 3,
+        "importance": 5,
+        "context": "Plan agreed monthly with DoF and revised two to three times in-season.",
+        "reporting": 3,
+        "change": 2,
+        "adoption": 4
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Logistics & Subsidy Compliance"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Logistics & Subsidy Compliance"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C04.4.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Logistics & Subsidy Compliance",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Uploads are reliable but depend on one analyst.",
+      "answers": {
+        "owner": "Head of Logistics & Subsidy Compliance; depot teams",
+        "systems": {
+          "apps": [
+            "A20",
+            "A01"
+          ],
+          "other": "iFMS upload files"
+        },
+        "process": 4,
+        "tech": 3,
+        "data": 3,
+        "integration": 2,
+        "fit": 3,
+        "partnering": 3,
+        "importance": 5,
+        "context": "Primary movement is uploaded daily from SAP extracts; secondary movement weekly.",
+        "reporting": 2,
+        "change": 3,
+        "adoption": 3
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Logistics & Subsidy Compliance"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Logistics & Subsidy Compliance"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C04.4.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Logistics & Subsidy Compliance",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Late acknowledgements delay subsidy claims.",
+      "answers": {
+        "owner": "Regional Sales Managers; dealers",
+        "systems": {
+          "apps": [
+            "A10",
+            "A20"
+          ],
+          "other": "Dealer reminder calls"
+        },
+        "process": 3,
+        "tech": 3,
+        "data": 3,
+        "integration": 2,
+        "fit": 2,
+        "partnering": 3,
+        "importance": 5,
+        "context": "Around 80% of dispatches acknowledged within the window; the rest are chased by phone.",
+        "reporting": 2,
+        "change": 3,
+        "adoption": 3
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Logistics & Subsidy Compliance"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Logistics & Subsidy Compliance"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C04.4.4",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Logistics & Subsidy Compliance",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "",
+      "answers": {
+        "owner": "Subsidy compliance analyst",
+        "systems": {
+          "apps": [
+            "A20"
+          ],
+          "other": "Exception tracker in Excel"
+        },
+        "process": 4,
+        "tech": 2,
+        "data": 2,
+        "integration": 1,
+        "fit": 2,
+        "partnering": 2,
+        "importance": 4,
+        "context": "Exceptions logged in Excel and assigned by email; no SLA or ageing.",
+        "reporting": 2,
+        "change": 3,
+        "adoption": 2
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Logistics & Subsidy Compliance"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Logistics & Subsidy Compliance"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C06.4.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Retail Marketing",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "No consented golden farmer record.",
+      "answers": {
+        "owner": "Head of Retail Marketing",
+        "systems": {
+          "apps": [
+            "A05",
+            "A06",
+            "A13"
+          ],
+          "other": "Nutri clinic registers"
+        },
+        "process": 2,
+        "tech": 2,
+        "data": 2,
+        "integration": 2,
+        "fit": 2,
+        "partnering": 2,
+        "importance": 5,
+        "context": "At least four farmer IDs (store POS, MyGromor, Nutri clinics, call centre); matched on mobile number only.",
+        "reporting": 2,
+        "change": 2,
+        "adoption": 2
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Retail Marketing"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Retail Marketing"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C06.4.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Retail Marketing",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "",
+      "answers": {
+        "owner": "Head of Retail Marketing; store managers",
+        "systems": {
+          "apps": [
+            "A05"
+          ],
+          "other": ""
+        },
+        "process": 3,
+        "tech": 3,
+        "data": 2,
+        "integration": 2,
+        "fit": 3,
+        "partnering": 2,
+        "importance": 4,
+        "context": "Points earned at stores; app redemption not live. Funded from the retail marketing budget.",
+        "reporting": 3,
+        "change": 3,
+        "adoption": 3
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Retail Marketing"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Retail Marketing"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C06.4.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Retail Marketing",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Model outputs are not in the hands of store staff at the point of sale.",
+      "answers": {
+        "owner": "Retail analytics lead",
+        "systems": {
+          "apps": [
+            "A13",
+            "A23"
+          ],
+          "other": ""
+        },
+        "process": 2,
+        "tech": 4,
+        "data": 2,
+        "integration": 2,
+        "fit": 3,
+        "partnering": 3,
+        "importance": 5,
+        "context": "AI retention model scores store customers monthly; outputs shared as lists, not in the POS.",
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Retail Marketing"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Retail Marketing"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C06.4.4",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Retail Marketing",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "DPDP consent check is a known gap.",
+      "answers": {
+        "owner": "Head of Retail Marketing",
+        "systems": {
+          "apps": [
+            "A06",
+            "A08"
+          ],
+          "other": "Bulk SMS vendor (TBD)"
+        },
+        "process": 2,
+        "tech": 3,
+        "data": 2,
+        "integration": 2,
+        "fit": 2,
+        "partnering": 2,
+        "importance": 4,
+        "context": "Campaigns targeted by store and crop; consent is not checked consistently before outreach.",
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Retail Marketing"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Retail Marketing"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C03.1.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Manufacturing",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "",
+      "answers": {
+        "owner": "Head of Manufacturing; central planning",
+        "systems": {
+          "apps": [
+            "A01",
+            "A16"
+          ],
+          "other": ""
+        },
+        "process": 4,
+        "tech": 3,
+        "data": 3,
+        "integration": 3,
+        "fit": 4,
+        "partnering": 3,
+        "importance": 4,
+        "context": "Monthly plan in SAP PP from S&OP numbers; raw-material checks done with procurement offline.",
+        "reporting": 4,
+        "change": 3,
+        "adoption": 4
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Manufacturing"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Manufacturing"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C03.1.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Manufacturing",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Different scheduling practice by plant.",
+      "answers": {
+        "owner": "Plant planning managers (Kakinada, Visakhapatnam, Ennore)",
+        "systems": {
+          "apps": [
+            "A01"
+          ],
+          "other": "Excel scheduling sheets at two plants"
+        },
+        "process": 3,
+        "tech": 2,
+        "data": 3,
+        "integration": 3,
+        "fit": 3,
+        "partnering": 3,
+        "importance": 4,
+        "context": "Kakinada schedules in SAP; Visakhapatnam and Ennore in spreadsheets. Frozen weekly.",
+        "reporting": 3,
+        "change": 3,
+        "adoption": 3
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Manufacturing"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Manufacturing"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C03.1.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Manufacturing",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "",
+      "answers": {
+        "owner": "Plant planning managers",
+        "systems": {
+          "apps": [
+            "A01"
+          ],
+          "other": ""
+        },
+        "process": 4,
+        "tech": 3,
+        "data": 3,
+        "integration": 2,
+        "fit": 3,
+        "partnering": 3,
+        "importance": 3,
+        "context": "Changeover sequence follows a standard grade wheel; deviations agreed on the plant floor.",
+        "reporting": 3,
+        "change": 3,
+        "adoption": 3
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Manufacturing"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Manufacturing"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C03.1.4",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Manufacturing",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "",
+      "answers": {
+        "owner": "Head of Manufacturing",
+        "systems": {
+          "apps": [
+            "A01",
+            "A16",
+            "A23"
+          ],
+          "other": ""
+        },
+        "process": 4,
+        "tech": 3,
+        "data": 3,
+        "integration": 3,
+        "fit": 4,
+        "partnering": 3,
+        "importance": 4,
+        "context": "OEE, plan adherence and specific energy reviewed weekly per plant.",
+        "reporting": 4,
+        "change": 3,
+        "adoption": 4
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Manufacturing"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Manufacturing"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C08.1.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Drone & Precision Ag",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Peak-season demand is lost because bookings are not captured.",
+      "answers": {
+        "owner": "Head of Drone & Precision Ag; booking desk",
+        "systems": {
+          "apps": [
+            "A14"
+          ],
+          "other": "Booking via call centre and dealer WhatsApp groups"
+        },
+        "process": 2,
+        "tech": 2,
+        "data": 2,
+        "integration": 1,
+        "fit": 2,
+        "partnering": 2,
+        "importance": 5,
+        "context": "Bookings come by phone and dealer WhatsApp; slots confirmed by call. No farmer self-service.",
+        "reporting": 3,
+        "change": 3,
+        "adoption": 2
+      },
+      "history": [
+        {
+          "at": "2026-10-27T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-27T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Drone & Precision Ag"
+        },
+        {
+          "at": "2026-10-30T17:30:00",
+          "event": "submitted",
+          "by": "Head of Drone & Precision Ag"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C05.3.2",
+      "status": "responded",
+      "channel": "workshop",
+      "recipient": {
+        "role": "Head of Sales & Marketing",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Captured in the Andhra Pradesh regional workshop.",
+      "answers": {
+        "owner": "Head of Sales & Marketing; trade marketing",
+        "systems": {
+          "apps": [
+            "A10"
+          ],
+          "other": "Scheme circulars in Excel and PDF"
+        },
+        "process": 3,
+        "tech": 2,
+        "data": 2,
+        "integration": 2,
+        "fit": 2,
+        "partnering": 2,
+        "importance": 4,
+        "context": "Schemes designed per season in Excel; approved by the Head of Sales; budgets tracked offline.",
+        "reporting": 2,
+        "change": 1,
+        "adoption": 2
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T14:00:00",
+          "event": "workshop",
+          "by": "KPMG EA team",
+          "note": "Filled live in the Andhra Pradesh sales workshop"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C08.1.2",
+      "status": "walkthrough",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Drone & Precision Ag",
+        "email": ""
+      },
+      "outcome": "walkthrough",
+      "redirect_to": null,
+      "note": "Need a walkthrough of the technology and integration questions; happy to do 30 minutes this week.",
+      "answers": {},
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T16:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Drone & Precision Ag"
+        },
+        {
+          "at": "2026-10-31T11:20:00",
+          "event": "walkthrough",
+          "by": "Head of Drone & Precision Ag",
+          "note": "Need a walkthrough of the technology and integration questions; happy to do 30 minutes this week."
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C08.1.3",
+      "status": "sent",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Drone & Precision Ag",
+        "email": ""
+      },
+      "outcome": null,
+      "redirect_to": null,
+      "note": "",
+      "answers": {},
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T16:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Drone & Precision Ag"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C08.1.4",
+      "status": "redirected",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Drone & Precision Ag",
+        "email": ""
+      },
+      "outcome": "redirected",
+      "redirect_to": "Finance Controller, Dhaksha (to confirm)",
+      "note": "Billing sits with Dhaksha finance; please send to the Dhaksha Finance Controller.",
+      "answers": {},
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T16:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Drone & Precision Ag"
+        },
+        {
+          "at": "2026-10-31T11:20:00",
+          "event": "redirected",
+          "by": "Head of Drone & Precision Ag",
+          "note": "Billing sits with Dhaksha finance; please send to the Dhaksha Finance Controller."
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C05.3.1",
+      "status": "sent",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Sales & Marketing",
+        "email": ""
+      },
+      "outcome": null,
+      "redirect_to": null,
+      "note": "",
+      "answers": {},
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T16:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Sales & Marketing"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C05.3.3",
+      "status": "draft",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Sales & Marketing",
+        "email": ""
+      },
+      "outcome": null,
+      "redirect_to": null,
+      "note": "",
+      "answers": {},
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C01.2.1",
+      "status": "draft",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of R&D",
+        "email": ""
+      },
+      "outcome": null,
+      "redirect_to": null,
+      "note": "",
+      "answers": {},
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C07.1.2",
+      "status": "sent",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Agronomy & Farmer Services",
+        "email": ""
+      },
+      "outcome": null,
+      "redirect_to": null,
+      "note": "",
+      "answers": {},
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T16:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Agronomy & Farmer Services"
+        }
+      ],
+      "source": "assumed"
+    }
+  ],
+  "analyses": [
+    {
+      "id": "C04.1",
+      "analysed_at": "2026-11-01T12:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "T": "Forecasting is spreadsheet-led end to end; the S&OP forum is sound but runs on hand-built inputs. Priority for an ML forecast with weather and sowing signals.",
+        "I": "Regional intelligence arrives by email and WhatsApp; nothing flows into the plan without re-keying."
+      }
+    },
+    {
+      "id": "C07.3",
+      "analysed_at": "2026-11-01T12:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "T": "AI diagnosis is live and well adopted, which lifts T to 3; the rest of the journey is manual.",
+        "I": "No closed loop from recommendation to store purchase or outcome. This is the root cause of the low I score."
+      }
+    },
+    {
+      "id": "C09.2",
+      "analysed_at": "2026-11-01T12:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "D": "Data is owned and reconciled, but the 15% first-match failure rate shows dealer acknowledgements are the weak link (see C04.4.3).",
+        "I": "iFMS matching is Excel-based; freight claims are evidenced by hand."
+      }
+    },
+    {
+      "id": "C04.4",
+      "analysed_at": "2026-11-01T12:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "P": "Mature, well-run compliance process with a clear owner; strength to build on.",
+        "I": "Exception handling is the weak point: Excel tracker, no SLA."
+      }
+    },
+    {
+      "id": "C06.4",
+      "analysed_at": "2026-11-01T12:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "D": "Four farmer identities matched on mobile number only: the golden farmer record is the prerequisite for loyalty and personalisation.",
+        "T": "Propensity model exists (AI-enabled) but outputs do not reach the POS."
+      }
+    },
+    {
+      "id": "C03.1",
+      "analysed_at": "2026-11-01T12:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "P": "Practice differs by plant: Kakinada schedules in SAP, two plants in spreadsheets. Standardise before tooling."
+      }
+    }
+  ]
+}

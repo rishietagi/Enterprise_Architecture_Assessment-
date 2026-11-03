@@ -1,0 +1,753 @@
+{
+  "_meta": {
+    "purpose": "ARIS-style EPC swimlane models for priority CIL processes (Architecture views). Functions link to L3 capabilities, systems to applications.",
+    "source": "assumed",
+    "note": "Drafted from the capability model for the demo; validate in process workshops.",
+    "togaf_ref": [
+      "35.6.3"
+    ]
+  },
+  "models": [
+    {
+      "id": "PM-01",
+      "name": "Dealer order to subsidy claim (fertiliser)",
+      "description": "Order-to-cash for subsidised fertiliser, from dealer order through iFMS movement and Aadhaar-authenticated sale to the NBS subsidy claim.",
+      "notation": "EPC (swimlane)",
+      "lanes": [
+        {
+          "id": "Dealer / retailer",
+          "name": "Dealer / retailer"
+        },
+        {
+          "id": "Sales & credit",
+          "name": "Sales & credit"
+        },
+        {
+          "id": "Depot & logistics",
+          "name": "Depot & logistics"
+        },
+        {
+          "id": "Subsidy & finance",
+          "name": "Subsidy & finance"
+        }
+      ],
+      "lane_h": 132,
+      "nodes": [
+        {
+          "id": "ev1",
+          "type": "event",
+          "label": "Dealer needs stock for the season",
+          "lane": "Dealer / retailer",
+          "x": 84,
+          "y": 41,
+          "w": 132,
+          "h": 50
+        },
+        {
+          "id": "f1",
+          "type": "function",
+          "label": "Place order on dealer portal or via SFA",
+          "lane": "Dealer / retailer",
+          "x": 250,
+          "y": 37,
+          "w": 136,
+          "h": 58,
+          "cap": "C05.1.2"
+        },
+        {
+          "id": "s1",
+          "type": "system",
+          "label": "Dealer portal",
+          "lane": "Dealer / retailer",
+          "x": 259,
+          "y": 101,
+          "w": 118,
+          "h": 30,
+          "app": "A10"
+        },
+        {
+          "id": "f2",
+          "type": "function",
+          "label": "Check credit limit and scheme eligibility",
+          "lane": "Sales & credit",
+          "x": 418,
+          "y": 169,
+          "w": 136,
+          "h": 58,
+          "cap": "C05.4.2"
+        },
+        {
+          "id": "s2",
+          "type": "system",
+          "label": "SAP S/4HANA",
+          "lane": "Sales & credit",
+          "x": 427,
+          "y": 233,
+          "w": 118,
+          "h": 30,
+          "app": "A01"
+        },
+        {
+          "id": "x1",
+          "type": "xor",
+          "label": "XOR",
+          "lane": "Sales & credit",
+          "x": 634,
+          "y": 178,
+          "w": 40,
+          "h": 40
+        },
+        {
+          "id": "f3",
+          "type": "function",
+          "label": "Release credit block or collect advance",
+          "lane": "Sales & credit",
+          "x": 754,
+          "y": 143,
+          "w": 136,
+          "h": 58,
+          "cap": "C05.4.3"
+        },
+        {
+          "id": "f4",
+          "type": "function",
+          "label": "Allocate truck or rake and plan dispatch",
+          "lane": "Depot & logistics",
+          "x": 754,
+          "y": 301,
+          "w": 136,
+          "h": 58,
+          "cap": "C04.3.1"
+        },
+        {
+          "id": "s4",
+          "type": "system",
+          "label": "Transport management",
+          "lane": "Depot & logistics",
+          "x": 763,
+          "y": 365,
+          "w": 118,
+          "h": 30,
+          "app": "A21"
+        },
+        {
+          "id": "f5",
+          "type": "function",
+          "label": "Dispatch and post goods issue",
+          "lane": "Depot & logistics",
+          "x": 922,
+          "y": 301,
+          "w": 136,
+          "h": 58,
+          "cap": "C04.2.4"
+        },
+        {
+          "id": "f6",
+          "type": "function",
+          "label": "Report primary / secondary movement to iFMS",
+          "lane": "Depot & logistics",
+          "x": 1090,
+          "y": 301,
+          "w": 136,
+          "h": 58,
+          "cap": "C04.4.2"
+        },
+        {
+          "id": "s6",
+          "type": "system",
+          "label": "Subsidy & iFMS tool",
+          "lane": "Depot & logistics",
+          "x": 1099,
+          "y": 365,
+          "w": 118,
+          "h": 30,
+          "app": "A20"
+        },
+        {
+          "id": "ev2",
+          "type": "event",
+          "label": "Stock received at dealer",
+          "lane": "Dealer / retailer",
+          "x": 1260,
+          "y": 41,
+          "w": 132,
+          "h": 50
+        },
+        {
+          "id": "f7",
+          "type": "function",
+          "label": "Acknowledge receipt in iFMS",
+          "lane": "Dealer / retailer",
+          "x": 1426,
+          "y": 37,
+          "w": 136,
+          "h": 58,
+          "cap": "C04.4.3"
+        },
+        {
+          "id": "f8",
+          "type": "function",
+          "label": "Sell to farmer on Aadhaar-authenticated PoS",
+          "lane": "Dealer / retailer",
+          "x": 1594,
+          "y": 37,
+          "w": 136,
+          "h": 58,
+          "cap": "C06.1.2"
+        },
+        {
+          "id": "s8",
+          "type": "system",
+          "label": "mFMS PoS device (DoF)",
+          "lane": "Dealer / retailer",
+          "x": 1603,
+          "y": 101,
+          "w": 118,
+          "h": 30
+        },
+        {
+          "id": "f9",
+          "type": "function",
+          "label": "Prepare subsidy claim at NBS rates",
+          "lane": "Subsidy & finance",
+          "x": 1594,
+          "y": 433,
+          "w": 136,
+          "h": 58,
+          "cap": "C09.2.1"
+        },
+        {
+          "id": "f10",
+          "type": "function",
+          "label": "Reconcile claim with iFMS sales",
+          "lane": "Subsidy & finance",
+          "x": 1762,
+          "y": 433,
+          "w": 136,
+          "h": 58,
+          "cap": "C09.2.2"
+        },
+        {
+          "id": "x2",
+          "type": "xor",
+          "label": "XOR",
+          "lane": "Subsidy & finance",
+          "x": 1978,
+          "y": 442,
+          "w": 40,
+          "h": 40
+        },
+        {
+          "id": "f11",
+          "type": "function",
+          "label": "Resolve iFMS exceptions",
+          "lane": "Depot & logistics",
+          "x": 1930,
+          "y": 301,
+          "w": 136,
+          "h": 58,
+          "cap": "C04.4.4"
+        },
+        {
+          "id": "f12",
+          "type": "function",
+          "label": "Track subsidy receivable to receipt",
+          "lane": "Subsidy & finance",
+          "x": 2098,
+          "y": 433,
+          "w": 136,
+          "h": 58,
+          "cap": "C09.2.3"
+        },
+        {
+          "id": "ev3",
+          "type": "event",
+          "label": "Subsidy received",
+          "lane": "Subsidy & finance",
+          "x": 2268,
+          "y": 437,
+          "w": 132,
+          "h": 50
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1",
+          "from": "ev1",
+          "to": "f1"
+        },
+        {
+          "id": "e2",
+          "from": "f1",
+          "to": "s1",
+          "kind": "assoc"
+        },
+        {
+          "id": "e3",
+          "from": "f1",
+          "to": "f2"
+        },
+        {
+          "id": "e4",
+          "from": "f2",
+          "to": "s2",
+          "kind": "assoc"
+        },
+        {
+          "id": "e5",
+          "from": "f2",
+          "to": "x1"
+        },
+        {
+          "id": "e6",
+          "from": "x1",
+          "to": "f3",
+          "label": "Credit blocked"
+        },
+        {
+          "id": "e7",
+          "from": "x1",
+          "to": "f4",
+          "label": "Within limit"
+        },
+        {
+          "id": "e8",
+          "from": "f3",
+          "to": "f4"
+        },
+        {
+          "id": "e9",
+          "from": "f4",
+          "to": "s4",
+          "kind": "assoc"
+        },
+        {
+          "id": "e10",
+          "from": "f4",
+          "to": "f5"
+        },
+        {
+          "id": "e11",
+          "from": "f5",
+          "to": "f6"
+        },
+        {
+          "id": "e12",
+          "from": "f6",
+          "to": "s6",
+          "kind": "assoc"
+        },
+        {
+          "id": "e13",
+          "from": "f6",
+          "to": "ev2"
+        },
+        {
+          "id": "e14",
+          "from": "ev2",
+          "to": "f7"
+        },
+        {
+          "id": "e15",
+          "from": "f7",
+          "to": "f8"
+        },
+        {
+          "id": "e16",
+          "from": "f8",
+          "to": "s8",
+          "kind": "assoc"
+        },
+        {
+          "id": "e17",
+          "from": "f8",
+          "to": "f9"
+        },
+        {
+          "id": "e18",
+          "from": "f9",
+          "to": "f10"
+        },
+        {
+          "id": "e19",
+          "from": "f10",
+          "to": "x2"
+        },
+        {
+          "id": "e20",
+          "from": "x2",
+          "to": "f11",
+          "label": "Mismatch"
+        },
+        {
+          "id": "e21",
+          "from": "f11",
+          "to": "f10"
+        },
+        {
+          "id": "e22",
+          "from": "x2",
+          "to": "f12",
+          "label": "Matched"
+        },
+        {
+          "id": "e23",
+          "from": "f12",
+          "to": "ev3"
+        }
+      ],
+      "source": "assumed",
+      "version": 1
+    },
+    {
+      "id": "PM-02",
+      "name": "Farmer crop issue to recommendation & fulfilment",
+      "description": "Connected product + service journey: a farmer reports a crop problem, receives an AI-assisted, agronomist-confirmed recommendation and buys or books the remedy.",
+      "notation": "EPC (swimlane)",
+      "lanes": [
+        {
+          "id": "Farmer",
+          "name": "Farmer"
+        },
+        {
+          "id": "Digital channels",
+          "name": "Digital channels"
+        },
+        {
+          "id": "Agronomy team",
+          "name": "Agronomy team"
+        },
+        {
+          "id": "Store & drone service",
+          "name": "Store & drone service"
+        }
+      ],
+      "lane_h": 132,
+      "nodes": [
+        {
+          "id": "ev1",
+          "type": "event",
+          "label": "Farmer notices a crop symptom",
+          "lane": "Farmer",
+          "x": 84,
+          "y": 41,
+          "w": 132,
+          "h": 50
+        },
+        {
+          "id": "f1",
+          "type": "function",
+          "label": "Share photo and description",
+          "lane": "Farmer",
+          "x": 250,
+          "y": 37,
+          "w": 136,
+          "h": 58,
+          "cap": "C07.3.1"
+        },
+        {
+          "id": "s1",
+          "type": "system",
+          "label": "MyGromor app / WhatsApp bot",
+          "lane": "Farmer",
+          "x": 259,
+          "y": 101,
+          "w": 118,
+          "h": 30,
+          "app": "A06"
+        },
+        {
+          "id": "f2",
+          "type": "function",
+          "label": "AI pre-diagnosis of pest or disease",
+          "lane": "Digital channels",
+          "x": 418,
+          "y": 169,
+          "w": 136,
+          "h": 58,
+          "cap": "C07.3.2"
+        },
+        {
+          "id": "s2",
+          "type": "system",
+          "label": "Image diagnosis model",
+          "lane": "Digital channels",
+          "x": 427,
+          "y": 233,
+          "w": 118,
+          "h": 30,
+          "app": "A06"
+        },
+        {
+          "id": "x1",
+          "type": "xor",
+          "label": "XOR",
+          "lane": "Digital channels",
+          "x": 634,
+          "y": 178,
+          "w": 40,
+          "h": 40
+        },
+        {
+          "id": "f3",
+          "type": "function",
+          "label": "Agronomist reviews and confirms diagnosis",
+          "lane": "Agronomy team",
+          "x": 754,
+          "y": 301,
+          "w": 136,
+          "h": 58,
+          "cap": "C07.3.2"
+        },
+        {
+          "id": "x2",
+          "type": "xor",
+          "label": "XOR",
+          "lane": "Agronomy team",
+          "x": 970,
+          "y": 310,
+          "w": 40,
+          "h": 40
+        },
+        {
+          "id": "f4",
+          "type": "function",
+          "label": "Collect sample and run soil test",
+          "lane": "Agronomy team",
+          "x": 1090,
+          "y": 271,
+          "w": 136,
+          "h": 58,
+          "cap": "C07.2.2"
+        },
+        {
+          "id": "s4",
+          "type": "system",
+          "label": "Soil & leaf LIMS",
+          "lane": "Agronomy team",
+          "x": 1099,
+          "y": 339,
+          "w": 118,
+          "h": 30,
+          "app": "A17"
+        },
+        {
+          "id": "f5",
+          "type": "function",
+          "label": "Recommend product and dosage",
+          "lane": "Digital channels",
+          "x": 1258,
+          "y": 169,
+          "w": 136,
+          "h": 58,
+          "cap": "C07.3.3"
+        },
+        {
+          "id": "ev2",
+          "type": "event",
+          "label": "Recommendation received",
+          "lane": "Farmer",
+          "x": 1428,
+          "y": 41,
+          "w": 132,
+          "h": 50
+        },
+        {
+          "id": "x3",
+          "type": "xor",
+          "label": "XOR",
+          "lane": "Farmer",
+          "x": 1642,
+          "y": 46,
+          "w": 40,
+          "h": 40
+        },
+        {
+          "id": "f6",
+          "type": "function",
+          "label": "Buy at Gromor store or order for delivery",
+          "lane": "Store & drone service",
+          "x": 1762,
+          "y": 405,
+          "w": 136,
+          "h": 58,
+          "cap": "C06.1.1"
+        },
+        {
+          "id": "s6",
+          "type": "system",
+          "label": "Retail POS",
+          "lane": "Store & drone service",
+          "x": 1939,
+          "y": 419,
+          "w": 118,
+          "h": 30,
+          "app": "A05"
+        },
+        {
+          "id": "f7",
+          "type": "function",
+          "label": "Book and execute drone spray",
+          "lane": "Store & drone service",
+          "x": 1762,
+          "y": 467,
+          "w": 136,
+          "h": 58,
+          "cap": "C08.1.1"
+        },
+        {
+          "id": "s7",
+          "type": "system",
+          "label": "Gromor Drive ops",
+          "lane": "Store & drone service",
+          "x": 1939,
+          "y": 481,
+          "w": 118,
+          "h": 30,
+          "app": "A14"
+        },
+        {
+          "id": "f8",
+          "type": "function",
+          "label": "Follow up on crop outcome",
+          "lane": "Agronomy team",
+          "x": 2098,
+          "y": 301,
+          "w": 136,
+          "h": 58,
+          "cap": "C07.3.4"
+        },
+        {
+          "id": "ev3",
+          "type": "event",
+          "label": "Issue resolved; outcome logged to farmer profile",
+          "lane": "Farmer",
+          "x": 2268,
+          "y": 41,
+          "w": 132,
+          "h": 50
+        }
+      ],
+      "edges": [
+        {
+          "id": "e1",
+          "from": "ev1",
+          "to": "f1"
+        },
+        {
+          "id": "e2",
+          "from": "f1",
+          "to": "s1",
+          "kind": "assoc"
+        },
+        {
+          "id": "e3",
+          "from": "f1",
+          "to": "f2"
+        },
+        {
+          "id": "e4",
+          "from": "f2",
+          "to": "s2",
+          "kind": "assoc"
+        },
+        {
+          "id": "e5",
+          "from": "f2",
+          "to": "x1"
+        },
+        {
+          "id": "e6",
+          "from": "x1",
+          "to": "f3",
+          "label": "Low confidence"
+        },
+        {
+          "id": "e7",
+          "from": "x1",
+          "to": "f5",
+          "label": "High confidence"
+        },
+        {
+          "id": "e8",
+          "from": "f3",
+          "to": "x2"
+        },
+        {
+          "id": "e9",
+          "from": "x2",
+          "to": "f4",
+          "label": "Soil test needed"
+        },
+        {
+          "id": "e10",
+          "from": "x2",
+          "to": "f5",
+          "label": "Confirmed"
+        },
+        {
+          "id": "e11",
+          "from": "f4",
+          "to": "s4",
+          "kind": "assoc"
+        },
+        {
+          "id": "e12",
+          "from": "f4",
+          "to": "f5"
+        },
+        {
+          "id": "e13",
+          "from": "f5",
+          "to": "ev2"
+        },
+        {
+          "id": "e14",
+          "from": "ev2",
+          "to": "x3"
+        },
+        {
+          "id": "e15",
+          "from": "x3",
+          "to": "f6",
+          "label": "Buy product"
+        },
+        {
+          "id": "e16",
+          "from": "x3",
+          "to": "f7",
+          "label": "Spray service"
+        },
+        {
+          "id": "e17",
+          "from": "f6",
+          "to": "s6",
+          "kind": "assoc"
+        },
+        {
+          "id": "e18",
+          "from": "f7",
+          "to": "s7",
+          "kind": "assoc"
+        },
+        {
+          "id": "e19",
+          "from": "f6",
+          "to": "f8"
+        },
+        {
+          "id": "e20",
+          "from": "f7",
+          "to": "f8"
+        },
+        {
+          "id": "e21",
+          "from": "f8",
+          "to": "ev3"
+        }
+      ],
+      "source": "assumed",
+      "version": 1
+    }
+  ]
+}

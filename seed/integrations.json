@@ -1,0 +1,379 @@
+{
+  "_meta": {
+    "purpose": "Interface Catalog (TOGAF §35.6.5) for the Application Communication and data-flow views.",
+    "patterns": [
+      "API",
+      "Event",
+      "File / batch",
+      "DB link",
+      "Manual / re-key"
+    ],
+    "middleware": "Point-to-point unless routed through the governed API layer (R05 partial). All records are assumed until the interface inventory is collected in discovery."
+  },
+  "external": [
+    {
+      "id": "X-IFMS",
+      "name": "Govt iFMS portal",
+      "source": "public"
+    },
+    {
+      "id": "X-BANK",
+      "name": "Banks / payment partners",
+      "source": "assumed"
+    }
+  ],
+  "interfaces": [
+    {
+      "id": "I01",
+      "from": "A05",
+      "to": "A01",
+      "data": "Store sales and stock movements",
+      "domain": "DD-07",
+      "pattern": "File / batch",
+      "frequency": "Daily",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I02",
+      "from": "A01",
+      "to": "A05",
+      "data": "Product and price master",
+      "domain": "DD-03",
+      "pattern": "File / batch",
+      "frequency": "Daily",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I03",
+      "from": "A06",
+      "to": "A05",
+      "data": "App orders fulfilled by stores",
+      "domain": "DD-07",
+      "pattern": "API",
+      "frequency": "Real time",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I04",
+      "from": "A01",
+      "to": "A06",
+      "data": "Product catalogue",
+      "domain": "DD-03",
+      "pattern": "File / batch",
+      "frequency": "Daily",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I05",
+      "from": "A09",
+      "to": "A06",
+      "data": "Satellite advisory and NDVI",
+      "domain": "DD-06",
+      "pattern": "API",
+      "frequency": "Daily",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I06",
+      "from": "A08",
+      "to": "A06",
+      "data": "Farmer profile lookup",
+      "domain": "DD-01",
+      "pattern": "API",
+      "frequency": "Real time",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I07",
+      "from": "A07",
+      "to": "A17",
+      "data": "Soil-test bookings",
+      "domain": "DD-06",
+      "pattern": "Manual / re-key",
+      "frequency": "Ad hoc",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I08",
+      "from": "A17",
+      "to": "A06",
+      "data": "Soil-test results",
+      "domain": "DD-06",
+      "pattern": "File / batch",
+      "frequency": "Weekly",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I09",
+      "from": "A07",
+      "to": "A14",
+      "data": "Drone spraying bookings",
+      "domain": "DD-01",
+      "pattern": "Manual / re-key",
+      "frequency": "Ad hoc",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I10",
+      "from": "A15",
+      "to": "A14",
+      "data": "Flight logs and fleet status",
+      "domain": "DD-06",
+      "pattern": "File / batch",
+      "frequency": "Daily",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I11",
+      "from": "A10",
+      "to": "A01",
+      "data": "Dealer orders",
+      "domain": "DD-02",
+      "pattern": "File / batch",
+      "frequency": "Hourly",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I12",
+      "from": "A01",
+      "to": "A10",
+      "data": "Credit limits, invoices, statements",
+      "domain": "DD-08",
+      "pattern": "File / batch",
+      "frequency": "Daily",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I13",
+      "from": "A11",
+      "to": "A10",
+      "data": "Visit notes and field orders",
+      "domain": "DD-02",
+      "pattern": "API",
+      "frequency": "Real time",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I14",
+      "from": "A12",
+      "to": "A05",
+      "data": "Online orders for store fulfilment",
+      "domain": "DD-07",
+      "pattern": "API",
+      "frequency": "Real time",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I15",
+      "from": "A05",
+      "to": "A13",
+      "data": "Retail transactions",
+      "domain": "DD-07",
+      "pattern": "File / batch",
+      "frequency": "Daily",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I16",
+      "from": "A06",
+      "to": "A13",
+      "data": "Farmer profiles and app activity",
+      "domain": "DD-01",
+      "pattern": "File / batch",
+      "frequency": "Daily",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I17",
+      "from": "A13",
+      "to": "A06",
+      "data": "Retention offers",
+      "domain": "DD-01",
+      "pattern": "API",
+      "frequency": "Daily",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I18",
+      "from": "A04",
+      "to": "A16",
+      "data": "Plant sensor streams",
+      "domain": "DD-05",
+      "pattern": "Event",
+      "frequency": "Streaming",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I19",
+      "from": "A04",
+      "to": "A23",
+      "data": "Plant KPIs",
+      "domain": "DD-05",
+      "pattern": "File / batch",
+      "frequency": "Daily",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I20",
+      "from": "A01",
+      "to": "A23",
+      "data": "Finance and procurement data",
+      "domain": "DD-08",
+      "pattern": "File / batch",
+      "frequency": "Daily",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I21",
+      "from": "A01",
+      "to": "A20",
+      "data": "Dispatch and sales for subsidy",
+      "domain": "DD-08",
+      "pattern": "File / batch",
+      "frequency": "Daily",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I22",
+      "from": "A20",
+      "to": "X-IFMS",
+      "data": "Movement and sales reporting",
+      "domain": "DD-08",
+      "pattern": "File / batch",
+      "frequency": "Daily",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I23",
+      "from": "A02",
+      "to": "A03",
+      "data": "Employee master",
+      "domain": "DD-09",
+      "pattern": "File / batch",
+      "frequency": "Daily",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I24",
+      "from": "A03",
+      "to": "A01",
+      "data": "Payroll postings",
+      "domain": "DD-08",
+      "pattern": "File / batch",
+      "frequency": "Monthly",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I25",
+      "from": "A02",
+      "to": "A25",
+      "data": "Identity provisioning",
+      "domain": "DD-09",
+      "pattern": "API",
+      "frequency": "Real time",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I26",
+      "from": "A25",
+      "to": "A24",
+      "data": "Single sign-on",
+      "domain": "DD-09",
+      "pattern": "API",
+      "frequency": "Real time",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I27",
+      "from": "A26",
+      "to": "A23",
+      "data": "NACL financials",
+      "domain": "DD-08",
+      "pattern": "Manual / re-key",
+      "frequency": "Monthly",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I28",
+      "from": "A21",
+      "to": "A01",
+      "data": "Shipments and freight",
+      "domain": "DD-03",
+      "pattern": "File / batch",
+      "frequency": "Daily",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I29",
+      "from": "A18",
+      "to": "A01",
+      "data": "Batch quality results",
+      "domain": "DD-03",
+      "pattern": "Manual / re-key",
+      "frequency": "Per batch",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I30",
+      "from": "A19",
+      "to": "A23",
+      "data": "ESG metrics",
+      "domain": "DD-05",
+      "pattern": "Manual / re-key",
+      "frequency": "Quarterly",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I31",
+      "from": "A22",
+      "to": "A23",
+      "data": "Trial summaries",
+      "domain": "DD-10",
+      "pattern": "Manual / re-key",
+      "frequency": "Ad hoc",
+      "via": "Point-to-point",
+      "source": "assumed"
+    },
+    {
+      "id": "I32",
+      "from": "A01",
+      "to": "X-BANK",
+      "data": "Payments and collections",
+      "domain": "DD-08",
+      "pattern": "File / batch",
+      "frequency": "Daily",
+      "via": "Point-to-point",
+      "source": "assumed"
+    }
+  ]
+}

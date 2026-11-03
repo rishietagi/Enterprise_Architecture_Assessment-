@@ -1,0 +1,1561 @@
+{
+  "_meta": {
+    "note": "Reference architectures adapted to CIL and the agri-inputs sector. Statuses are assumed until validated in discovery; blocks with a 'check' take their status from the resilience checklist.",
+    "statuses": [
+      "ok",
+      "partial",
+      "missing",
+      "validate"
+    ]
+  },
+  "views": [
+    {
+      "id": "APP-REF",
+      "screen": "applications",
+      "kind": "application",
+      "title": "Application Architecture for CIL",
+      "subtitle": "Application layers across CIL's core functions; each building block is rated for architectural gaps and mapped to the applications that realise it.",
+      "source": "assumed",
+      "functions": [
+        "Manufacturing",
+        "Supply Chain & Logistics",
+        "Sales & Dealer Network",
+        "Retail & Farmer Services",
+        "R&D & Crop Science",
+        "Finance & Corporate Services"
+      ],
+      "layers": [
+        {
+          "id": "ap-cog",
+          "name": "Cognitive Experiences",
+          "rows": [
+            [
+              {
+                "id": "b-crop-advisory-ai",
+                "name": "Crop Advisory AI",
+                "status": "partial",
+                "apps": [
+                  "A09",
+                  "A08"
+                ],
+                "note": "Satellite advisory via partner; no in-house agronomy model",
+                "span": 1
+              },
+              {
+                "id": "b-demand-season-forecasting",
+                "name": "Demand & Season Forecasting",
+                "status": "missing",
+                "apps": [],
+                "note": "Kharif / rabi demand planned in spreadsheets",
+                "span": 1
+              },
+              {
+                "id": "b-predictive-maintenance",
+                "name": "Predictive Maintenance",
+                "status": "partial",
+                "apps": [
+                  "A16"
+                ],
+                "note": "Pilot on Azure for select plants",
+                "span": 1
+              },
+              {
+                "id": "b-gen-ai-assistant",
+                "name": "Gen AI Assistant",
+                "status": "partial",
+                "apps": [
+                  "A24"
+                ],
+                "note": "Microsoft 365 Copilot licences; no domain grounding",
+                "span": 1
+              },
+              {
+                "id": "b-dealer-credit-risk-scoring",
+                "name": "Dealer Credit Risk Scoring",
+                "status": "missing",
+                "apps": [],
+                "note": "Credit limits set manually",
+                "span": 1
+              },
+              {
+                "id": "b-pest-disease-detection",
+                "name": "Pest & Disease Detection",
+                "status": "missing",
+                "apps": [],
+                "note": "Computer vision on farmer photos not yet available",
+                "span": 1
+              },
+              {
+                "id": "b-retail-retention-model",
+                "name": "Retail Retention Model",
+                "status": "partial",
+                "apps": [
+                  "A13"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-ai-knowledge-management",
+                "name": "AI Knowledge Management",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              }
+            ]
+          ]
+        },
+        {
+          "id": "ap-cx",
+          "name": "Customer & Sales Channels",
+          "rows": [
+            [
+              {
+                "id": "b-farmer-app-mygromor",
+                "name": "Farmer App (MyGromor)",
+                "status": "partial",
+                "apps": [
+                  "A06",
+                  "A07"
+                ],
+                "note": "Two farmer apps overlap on advisory",
+                "span": 1
+              },
+              {
+                "id": "b-dealer-retailer-portal",
+                "name": "Dealer & Retailer Portal",
+                "status": "partial",
+                "apps": [
+                  "A10"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-sales-force-automation",
+                "name": "Sales Force Automation",
+                "status": "partial",
+                "apps": [
+                  "A11"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-gromor-retail-pos",
+                "name": "Gromor Retail POS",
+                "status": "partial",
+                "apps": [
+                  "A05"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-e-commerce",
+                "name": "E-commerce",
+                "status": "partial",
+                "apps": [
+                  "A12"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-whatsapp-contact-centre",
+                "name": "WhatsApp & Contact Centre",
+                "status": "partial",
+                "apps": [
+                  "A08"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-supplier-vendor-portal",
+                "name": "Supplier & Vendor Portal",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-employee-self-service",
+                "name": "Employee Self-Service",
+                "status": "ok",
+                "apps": [
+                  "A02"
+                ],
+                "note": "",
+                "span": 1
+              }
+            ]
+          ]
+        },
+        {
+          "id": "ap-bps",
+          "name": "Business Process & Services",
+          "rows": [
+            [
+              {
+                "id": "b-business-process-modelling",
+                "name": "Business Process Modelling",
+                "status": "missing",
+                "apps": [],
+                "note": "ARIS-style models start with this engagement",
+                "span": 2
+              },
+              {
+                "id": "b-business-rules-engine-pricin",
+                "name": "Business Rules Engine (pricing, schemes, credit)",
+                "status": "missing",
+                "apps": [],
+                "note": "Scheme and pricing rules sit in ERP custom code",
+                "span": 2
+              },
+              {
+                "id": "b-process-automation-orchestra",
+                "name": "Process Automation & Orchestration (RPA, workflow)",
+                "status": "partial",
+                "apps": [],
+                "note": "Isolated bots; no enterprise workflow platform",
+                "span": 3
+              }
+            ]
+          ]
+        },
+        {
+          "id": "ap-data",
+          "name": "Data & Information Management",
+          "rows": [
+            [
+              {
+                "id": "b-unified-data-platform-operat",
+                "name": "Unified Data Platform: Operational Data Lake, Enterprise Lakehouse, Data Marts",
+                "status": "partial",
+                "apps": [
+                  "A23",
+                  "A16"
+                ],
+                "note": "Power BI on source extracts; Azure analytics in pockets",
+                "span": 6
+              }
+            ]
+          ]
+        },
+        {
+          "id": "ap-int",
+          "name": "Integrations & Middleware",
+          "rows": [
+            [
+              {
+                "id": "b-api-gateway",
+                "name": "API Gateway",
+                "status": "partial",
+                "apps": [],
+                "note": "Gateway exists; most links still point-to-point",
+                "span": 1,
+                "check": "R05"
+              },
+              {
+                "id": "b-event-broker",
+                "name": "Event Broker",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-sap-integration-cpi-btp",
+                "name": "SAP Integration (CPI / BTP)",
+                "status": "partial",
+                "apps": [
+                  "A01"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-partner-government-connector",
+                "name": "Partner & Government Connectors (iFMS, GST, e-way bill)",
+                "status": "partial",
+                "apps": [
+                  "A20"
+                ],
+                "note": "",
+                "span": 2
+              },
+              {
+                "id": "b-observability",
+                "name": "Observability",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              }
+            ]
+          ]
+        },
+        {
+          "id": "ap-apps",
+          "name": "Applications & Platforms",
+          "rows": [
+            [
+              {
+                "id": "b-erp-s-4hana-rise",
+                "name": "ERP (S/4HANA RISE)",
+                "status": "ok",
+                "apps": [
+                  "A01",
+                  "A26"
+                ],
+                "note": "NACL runs a separate ERP",
+                "span": 1
+              },
+              {
+                "id": "b-dealer-management-crm",
+                "name": "Dealer Management / CRM",
+                "status": "partial",
+                "apps": [
+                  "A10",
+                  "A11"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-retail-management",
+                "name": "Retail Management",
+                "status": "partial",
+                "apps": [
+                  "A05",
+                  "A12"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-hcm-payroll",
+                "name": "HCM & Payroll",
+                "status": "ok",
+                "apps": [
+                  "A02",
+                  "A03"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-source-to-pay",
+                "name": "Source-to-Pay",
+                "status": "partial",
+                "apps": [
+                  "A01"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-transport-management",
+                "name": "Transport Management",
+                "status": "partial",
+                "apps": [
+                  "A21"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-warehouse-management",
+                "name": "Warehouse Management",
+                "status": "missing",
+                "apps": [],
+                "note": "Depot stock managed in ERP and spreadsheets",
+                "span": 1
+              }
+            ],
+            [
+              {
+                "id": "b-quality-lims",
+                "name": "Quality & LIMS",
+                "status": "partial",
+                "apps": [
+                  "A17",
+                  "A18"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-ehs-esg-reporting",
+                "name": "EHS & ESG Reporting",
+                "status": "partial",
+                "apps": [
+                  "A19"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-r-d-trials-plm",
+                "name": "R&D Trials & PLM",
+                "status": "missing",
+                "apps": [
+                  "A22"
+                ],
+                "note": "Trial data in spreadsheets and file shares",
+                "span": 1
+              },
+              {
+                "id": "b-subsidy-management",
+                "name": "Subsidy Management",
+                "status": "partial",
+                "apps": [
+                  "A20"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-drone-fleet-service-ops",
+                "name": "Drone Fleet & Service Ops",
+                "status": "partial",
+                "apps": [
+                  "A14",
+                  "A15"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-document-management",
+                "name": "Document Management",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-office-collaboration",
+                "name": "Office & Collaboration",
+                "status": "ok",
+                "apps": [
+                  "A24"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-analytics-reporting",
+                "name": "Analytics & Reporting",
+                "status": "partial",
+                "apps": [
+                  "A23"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-grc-risk-management",
+                "name": "GRC & Risk Management",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              }
+            ]
+          ]
+        },
+        {
+          "id": "ap-ot",
+          "name": "Operational Technology",
+          "rows": [
+            [
+              {
+                "id": "b-manufacturing-execution",
+                "name": "Manufacturing Execution",
+                "status": "missing",
+                "apps": [],
+                "note": "Plant execution on DCS screens and logbooks",
+                "span": 1
+              },
+              {
+                "id": "b-plant-historian-aveva-pi",
+                "name": "Plant Historian (AVEVA PI)",
+                "status": "ok",
+                "apps": [
+                  "A04"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-dcs-scada-plc",
+                "name": "DCS / SCADA / PLC",
+                "status": "ok",
+                "apps": [],
+                "note": "Out of scope: dependencies only",
+                "span": 1
+              },
+              {
+                "id": "b-lab-instruments",
+                "name": "Lab Instruments",
+                "status": "partial",
+                "apps": [
+                  "A18"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-field-iot-soil-weather",
+                "name": "Field IoT (soil, weather)",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "b-drone-telemetry",
+                "name": "Drone Telemetry",
+                "status": "partial",
+                "apps": [
+                  "A15"
+                ],
+                "note": "",
+                "span": 1
+              }
+            ]
+          ]
+        }
+      ],
+      "aside": null,
+      "edges": []
+    },
+    {
+      "id": "DATA-REF",
+      "screen": "data_tech",
+      "kind": "data",
+      "title": "Information & Data Architecture for CIL",
+      "subtitle": "How plant, enterprise, channel and agronomy data is acquired, processed, stored, governed and consumed; arrows show the main flows.",
+      "source": "assumed",
+      "functions": [],
+      "layers": [
+        {
+          "id": "dl-exp",
+          "name": "Experiences & Engagement",
+          "rows": [
+            [
+              {
+                "id": "d-supply-sales-command-centre",
+                "name": "Supply & Sales Command Centre",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-dealer-retail-analytics",
+                "name": "Dealer & Retail Analytics",
+                "status": "partial",
+                "apps": [
+                  "A23"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-demand-season-forecasting",
+                "name": "Demand & Season Forecasting",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-dynamic-pricing-schemes",
+                "name": "Dynamic Pricing & Schemes",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-farmer-360-crop-advisory",
+                "name": "Farmer 360 & Crop Advisory",
+                "status": "partial",
+                "apps": [
+                  "A13",
+                  "A09"
+                ],
+                "note": "",
+                "span": 1
+              }
+            ]
+          ]
+        },
+        {
+          "id": "dl-gov",
+          "name": "Data Governance",
+          "rows": [
+            [
+              {
+                "id": "d-data-lifecycle-management",
+                "name": "Data Lifecycle Management",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-metadata-management",
+                "name": "Metadata Management",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-data-policy-dpdp-consent",
+                "name": "Data Policy & DPDP Consent",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-data-stewardship",
+                "name": "Data Stewardship",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              }
+            ]
+          ]
+        },
+        {
+          "id": "dl-con",
+          "name": "Data Consumption",
+          "rows": [
+            [
+              {
+                "id": "d-real-time-dashboards",
+                "name": "Real-time Dashboards",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-mis-reports",
+                "name": "MIS Reports",
+                "status": "ok",
+                "apps": [
+                  "A23"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-bi-power-bi",
+                "name": "BI (Power BI)",
+                "status": "ok",
+                "apps": [
+                  "A23"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-rpa",
+                "name": "RPA",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-machine-learning",
+                "name": "Machine Learning",
+                "status": "partial",
+                "apps": [
+                  "A13",
+                  "A16"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-data-science",
+                "name": "Data Science",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-master-data-management-mater",
+                "name": "Master Data Management (material, dealer, farmer)",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-external-systems-ifms-gst",
+                "name": "External Systems (iFMS, GST)",
+                "status": "partial",
+                "apps": [
+                  "A20"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-downstream-systems",
+                "name": "Downstream Systems",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1
+              }
+            ]
+          ]
+        },
+        {
+          "id": "dl-sto",
+          "name": "Data Storage",
+          "rows": [
+            [
+              {
+                "id": "d-operational-data-lake-raw-zo",
+                "name": "Operational Data Lake (Raw Zone)",
+                "status": "partial",
+                "apps": [
+                  "A16"
+                ],
+                "note": "",
+                "span": 2,
+                "group": "Process & Store"
+              },
+              {
+                "id": "d-enterprise-lakehouse-clean-z",
+                "name": "Enterprise Lakehouse (Clean Zone)",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 2,
+                "group": "Process & Store"
+              },
+              {
+                "id": "d-enterprise-data-marts-truste",
+                "name": "Enterprise Data Marts (Trusted Zone)",
+                "status": "partial",
+                "apps": [
+                  "A23"
+                ],
+                "note": "",
+                "span": 2,
+                "group": "Serve"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "dl-pro",
+          "name": "Data Processing",
+          "rows": [
+            [
+              {
+                "id": "d-stream-processing",
+                "name": "Stream Processing",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1,
+                "group": "Process"
+              },
+              {
+                "id": "d-batch-processing",
+                "name": "Batch Processing",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1,
+                "group": "Process"
+              },
+              {
+                "id": "d-change-data-processing",
+                "name": "Change Data Processing",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1,
+                "group": "Process"
+              },
+              {
+                "id": "d-data-quality-management",
+                "name": "Data Quality Management",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1,
+                "group": "Process"
+              },
+              {
+                "id": "d-data-cataloguing",
+                "name": "Data Cataloguing",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1,
+                "group": "Serve"
+              },
+              {
+                "id": "d-metadata",
+                "name": "Metadata",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1,
+                "group": "Serve"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "dl-ing",
+          "name": "Data Ingestion",
+          "rows": [
+            [
+              {
+                "id": "d-real-time-near-real-time-ing",
+                "name": "Real-time / Near Real-time Ingestion",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1,
+                "group": "Acquire"
+              },
+              {
+                "id": "d-batch-ingestion",
+                "name": "Batch Ingestion",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1,
+                "group": "Acquire"
+              },
+              {
+                "id": "d-change-data-capture",
+                "name": "Change Data Capture",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1,
+                "group": "Acquire"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "dl-int",
+          "name": "Integrations & Middleware",
+          "rows": [
+            [
+              {
+                "id": "d-api-gateway",
+                "name": "API Gateway",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1,
+                "check": "R05"
+              },
+              {
+                "id": "d-event-broker",
+                "name": "Event Broker",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-standard-connectors-sap-sale",
+                "name": "Standard Connectors (SAP, Salesforce-style SaaS)",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 2
+              },
+              {
+                "id": "d-api-library",
+                "name": "API Library",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-observability",
+                "name": "Observability",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              }
+            ]
+          ]
+        },
+        {
+          "id": "dl-src",
+          "name": "Data Sources",
+          "rows": [
+            [
+              {
+                "id": "d-plant-ot-aveva-pi-lims",
+                "name": "Plant OT: AVEVA PI, LIMS",
+                "status": "partial",
+                "apps": [
+                  "A04",
+                  "A18"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-enterprise-sap-s-4-successfa",
+                "name": "Enterprise: SAP S/4, SuccessFactors, NACL ERP",
+                "status": "ok",
+                "apps": [
+                  "A01",
+                  "A02",
+                  "A26"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-channels-mygromor-dealer-por",
+                "name": "Channels: MyGromor, Dealer Portal, POS, SFA",
+                "status": "partial",
+                "apps": [
+                  "A06",
+                  "A10",
+                  "A05",
+                  "A11"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-agronomy-soil-tests-satellit",
+                "name": "Agronomy: soil tests, satellite, drone imagery",
+                "status": "partial",
+                "apps": [
+                  "A17",
+                  "A09",
+                  "A15"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-government-market-ifms-subsi",
+                "name": "Government & Market: iFMS subsidy, weather, mandi prices",
+                "status": "partial",
+                "apps": [
+                  "A20"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "d-documents-sharepoint-m365",
+                "name": "Documents: SharePoint, M365",
+                "status": "ok",
+                "apps": [
+                  "A24"
+                ],
+                "note": "",
+                "span": 1
+              }
+            ]
+          ]
+        }
+      ],
+      "aside": null,
+      "edges": [
+        {
+          "from": "d-plant-ot-aveva-pi-lims",
+          "to": "d-api-gateway"
+        },
+        {
+          "from": "d-enterprise-sap-s-4-successfa",
+          "to": "d-api-gateway"
+        },
+        {
+          "from": "d-channels-mygromor-dealer-por",
+          "to": "d-api-gateway"
+        },
+        {
+          "from": "d-agronomy-soil-tests-satellit",
+          "to": "d-api-gateway"
+        },
+        {
+          "from": "d-government-market-ifms-subsi",
+          "to": "d-api-gateway"
+        },
+        {
+          "from": "d-documents-sharepoint-m365",
+          "to": "d-api-gateway"
+        },
+        {
+          "from": "d-api-gateway",
+          "to": "d-real-time-near-real-time-ing"
+        },
+        {
+          "from": "d-api-gateway",
+          "to": "d-batch-ingestion"
+        },
+        {
+          "from": "d-standard-connectors-sap-sale",
+          "to": "d-change-data-capture"
+        },
+        {
+          "from": "d-real-time-near-real-time-ing",
+          "to": "d-stream-processing"
+        },
+        {
+          "from": "d-batch-ingestion",
+          "to": "d-batch-processing"
+        },
+        {
+          "from": "d-change-data-capture",
+          "to": "d-change-data-processing"
+        },
+        {
+          "from": "d-stream-processing",
+          "to": "d-operational-data-lake-raw-zo"
+        },
+        {
+          "from": "d-batch-processing",
+          "to": "d-operational-data-lake-raw-zo"
+        },
+        {
+          "from": "d-change-data-processing",
+          "to": "d-operational-data-lake-raw-zo"
+        },
+        {
+          "from": "d-data-quality-management",
+          "to": "d-enterprise-lakehouse-clean-z"
+        },
+        {
+          "from": "d-operational-data-lake-raw-zo",
+          "to": "d-enterprise-lakehouse-clean-z"
+        },
+        {
+          "from": "d-enterprise-lakehouse-clean-z",
+          "to": "d-enterprise-data-marts-truste"
+        },
+        {
+          "from": "d-data-cataloguing",
+          "to": "d-enterprise-data-marts-truste"
+        },
+        {
+          "from": "d-metadata",
+          "to": "d-enterprise-data-marts-truste"
+        },
+        {
+          "from": "d-operational-data-lake-raw-zo",
+          "to": "d-real-time-dashboards"
+        },
+        {
+          "from": "d-operational-data-lake-raw-zo",
+          "to": "d-mis-reports"
+        },
+        {
+          "from": "d-operational-data-lake-raw-zo",
+          "to": "d-rpa"
+        },
+        {
+          "from": "d-enterprise-lakehouse-clean-z",
+          "to": "d-machine-learning"
+        },
+        {
+          "from": "d-enterprise-lakehouse-clean-z",
+          "to": "d-data-science"
+        },
+        {
+          "from": "d-enterprise-data-marts-truste",
+          "to": "d-bi-power-bi"
+        },
+        {
+          "from": "d-enterprise-data-marts-truste",
+          "to": "d-master-data-management-mater"
+        },
+        {
+          "from": "d-enterprise-data-marts-truste",
+          "to": "d-external-systems-ifms-gst"
+        },
+        {
+          "from": "d-enterprise-data-marts-truste",
+          "to": "d-downstream-systems"
+        },
+        {
+          "from": "d-real-time-dashboards",
+          "to": "d-supply-sales-command-centre"
+        },
+        {
+          "from": "d-bi-power-bi",
+          "to": "d-dealer-retail-analytics"
+        },
+        {
+          "from": "d-machine-learning",
+          "to": "d-demand-season-forecasting"
+        },
+        {
+          "from": "d-data-science",
+          "to": "d-dynamic-pricing-schemes"
+        },
+        {
+          "from": "d-machine-learning",
+          "to": "d-farmer-360-crop-advisory"
+        }
+      ]
+    },
+    {
+      "id": "INFRA-REF",
+      "screen": "data_tech",
+      "kind": "infrastructure",
+      "title": "Technology & Infrastructure Architecture for CIL",
+      "subtitle": "Data centre, hybrid cloud, network, platform services and OT in one view, with IT/OT security as the cross-cutting layer. Blocks linked to a resilience check take their status from it.",
+      "source": "assumed",
+      "functions": [],
+      "layers": [
+        {
+          "id": "il-ps",
+          "name": "Platform Services",
+          "rows": [
+            [
+              {
+                "id": "i-sso-federation-entra-id",
+                "name": "SSO Federation (Entra ID)",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1,
+                "check": "R07"
+              },
+              {
+                "id": "i-identity-access-management",
+                "name": "Identity & Access Management",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "i-devops-automation",
+                "name": "DevOps & Automation",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "i-monitoring-observability",
+                "name": "Monitoring & Observability",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "i-mlops",
+                "name": "MLOps",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1,
+                "check": "R09"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "il-pc",
+          "name": "Private Hosting (Hyderabad DC, Chennai DR)",
+          "rows": [
+            [
+              {
+                "id": "i-containers",
+                "name": "Containers",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "i-operating-systems",
+                "name": "Operating Systems",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1,
+                "check": "R04"
+              },
+              {
+                "id": "i-database-clusters-sql-server",
+                "name": "Database Clusters (SQL Server)",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "i-virtual-servers",
+                "name": "Virtual Servers",
+                "status": "ok",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "i-physical-servers",
+                "name": "Physical Servers",
+                "status": "ok",
+                "apps": [],
+                "note": "",
+                "span": 1
+              }
+            ],
+            [
+              {
+                "id": "i-storage-san-nas",
+                "name": "Storage: SAN / NAS",
+                "status": "ok",
+                "apps": [],
+                "note": "",
+                "span": 2
+              },
+              {
+                "id": "i-backup-restore",
+                "name": "Backup & Restore",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1,
+                "check": "R03"
+              },
+              {
+                "id": "i-private-cloud",
+                "name": "Private Cloud",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              }
+            ],
+            [
+              {
+                "id": "i-primary-data-centre-hyderaba",
+                "name": "Primary Data Centre: Hyderabad",
+                "status": "ok",
+                "apps": [],
+                "note": "",
+                "span": 2,
+                "hosting": "DC-HYD"
+              },
+              {
+                "id": "i-dr-data-centre-chennai",
+                "name": "DR Data Centre: Chennai",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 2,
+                "check": "R01"
+              },
+              {
+                "id": "i-rpo-rto-by-tier",
+                "name": "RPO / RTO by Tier",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1,
+                "check": "R02"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "il-cl",
+          "name": "Hybrid & Public Cloud",
+          "rows": [
+            [
+              {
+                "id": "i-azure-iaas-paas",
+                "name": "Azure IaaS / PaaS",
+                "status": "ok",
+                "apps": [],
+                "note": "",
+                "span": 2,
+                "hosting": "Azure"
+              },
+              {
+                "id": "i-container-as-a-service-aks",
+                "name": "Container-as-a-Service (AKS)",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1,
+                "check": "R06"
+              },
+              {
+                "id": "i-sap-rise-sap-managed",
+                "name": "SAP RISE (SAP-managed)",
+                "status": "ok",
+                "apps": [],
+                "note": "",
+                "span": 2,
+                "hosting": "RISE (SAP-managed)"
+              }
+            ],
+            [
+              {
+                "id": "i-saas-m365-successfactors-pow",
+                "name": "SaaS (M365, SuccessFactors, Power BI)",
+                "status": "ok",
+                "apps": [],
+                "note": "",
+                "span": 2,
+                "hosting": "SaaS"
+              },
+              {
+                "id": "i-partner-clouds-satellite-dro",
+                "name": "Partner Clouds (satellite, drones)",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 2,
+                "hosting": "Partner-hosted"
+              },
+              {
+                "id": "i-hosting-to-confirm",
+                "name": "Hosting to Confirm",
+                "status": "validate",
+                "apps": [],
+                "note": "",
+                "span": 1,
+                "hosting": "Unknown"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "il-nw",
+          "name": "Network & Connectivity",
+          "rows": [
+            [
+              {
+                "id": "i-sd-wan-plants-offices",
+                "name": "SD-WAN (plants, offices)",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "i-mpls-internet-links",
+                "name": "MPLS / Internet Links",
+                "status": "validate",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "i-azure-connectivity-vpn-expre",
+                "name": "Azure Connectivity (VPN / ExpressRoute)",
+                "status": "validate",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "i-internet-dmz",
+                "name": "Internet DMZ",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "i-retail-store-connectivity-1-",
+                "name": "Retail Store Connectivity (1,075 stores)",
+                "status": "validate",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "i-field-mobile-4g",
+                "name": "Field & Mobile (4G)",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1
+              }
+            ]
+          ]
+        },
+        {
+          "id": "il-ot",
+          "name": "Operational Technology",
+          "rows": [
+            [
+              {
+                "id": "i-industrial-dmz",
+                "name": "Industrial DMZ",
+                "status": "partial",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "i-plant-historian",
+                "name": "Plant Historian",
+                "status": "ok",
+                "apps": [
+                  "A04"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "i-laboratory-quality-systems",
+                "name": "Laboratory & Quality Systems",
+                "status": "partial",
+                "apps": [
+                  "A18"
+                ],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "i-iot-gateways",
+                "name": "IoT Gateways",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              },
+              {
+                "id": "i-drone-edge-telemetry",
+                "name": "Drone Edge & Telemetry",
+                "status": "partial",
+                "apps": [
+                  "A15"
+                ],
+                "note": "",
+                "span": 1
+              }
+            ],
+            [
+              {
+                "id": "i-supervisory-control-dcs-scad",
+                "name": "Supervisory Control: DCS, SCADA, HMI",
+                "status": "ok",
+                "apps": [],
+                "note": "",
+                "span": 3
+              },
+              {
+                "id": "i-edge-analytics",
+                "name": "Edge Analytics",
+                "status": "missing",
+                "apps": [],
+                "note": "",
+                "span": 1
+              }
+            ],
+            [
+              {
+                "id": "i-basic-control-plc-pid-contro",
+                "name": "Basic Control: PLC, PID Controllers, RTU",
+                "status": "ok",
+                "apps": [],
+                "note": "",
+                "span": 3
+              },
+              {
+                "id": "i-field-instrumentation",
+                "name": "Field Instrumentation",
+                "status": "ok",
+                "apps": [],
+                "note": "",
+                "span": 1
+              }
+            ]
+          ]
+        }
+      ],
+      "aside": {
+        "title": "IT & OT Cyber Security",
+        "boxes": [
+          {
+            "id": "i-zero-trust-micro-segmentatio",
+            "name": "Zero Trust & Micro-segmentation",
+            "status": "missing",
+            "apps": [],
+            "note": "",
+            "span": 1
+          },
+          {
+            "id": "i-siem-soc-monitoring-it-ot-re",
+            "name": "SIEM / SOC Monitoring (IT, OT, retail edge)",
+            "status": "partial",
+            "apps": [],
+            "note": "",
+            "span": 1,
+            "check": "R08"
+          },
+          {
+            "id": "i-endpoint-anti-ransomware",
+            "name": "Endpoint & Anti-ransomware",
+            "status": "partial",
+            "apps": [],
+            "note": "",
+            "span": 1
+          },
+          {
+            "id": "i-firewalls-ddos-protection",
+            "name": "Firewalls & DDoS Protection",
+            "status": "partial",
+            "apps": [],
+            "note": "",
+            "span": 1
+          },
+          {
+            "id": "i-privileged-access-management",
+            "name": "Privileged Access Management",
+            "status": "missing",
+            "apps": [],
+            "note": "",
+            "span": 1
+          },
+          {
+            "id": "i-data-protection-dpdp-act-202",
+            "name": "Data Protection (DPDP Act 2023)",
+            "status": "partial",
+            "apps": [],
+            "note": "",
+            "span": 1
+          }
+        ]
+      },
+      "edges": []
+    }
+  ]
+}

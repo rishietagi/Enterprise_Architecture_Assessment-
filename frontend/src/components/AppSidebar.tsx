@@ -1,0 +1,83 @@
+import { useQuery } from '@tanstack/react-query'
+import { NavLink, useLocation } from 'react-router-dom'
+import { GraduationCap, Settings } from 'lucide-react'
+import {
+  Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader,
+  SidebarMenu, SidebarMenuButton, SidebarMenuItem,
+} from '@/components/ui/sidebar'
+import { SCREENS, screenForPath } from '@/lib/screens'
+import { useShell } from '@/lib/shell'
+import { BAND, SLATE_LIGHT } from '@/lib/theme'
+
+export function AppSidebar() {
+  const { pathname } = useLocation()
+  const active = screenForPath(pathname)
+  const { setCoachOpen, setSettingsOpen } = useShell()
+  const health = useQuery({
+    queryKey: ['health'],
+    queryFn: () => fetch('/api/health').then((r) => r.json() as Promise<{ rag: string; llm_key: boolean }>),
+    staleTime: 60_000,
+  })
+
+  return (
+    <Sidebar collapsible="icon">
+      <SidebarHeader className="px-3 pt-4 pb-3">
+        <div className="flex items-center gap-2.5">
+          <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-white text-[13px] font-bold tracking-tight text-navy">
+            EA
+          </div>
+          <div className="min-w-0 group-data-[collapsible=icon]:hidden">
+            <div className="truncate text-sm font-semibold text-white">CIL EA Navigator</div>
+            <div className="truncate text-[11px] text-white/60">Coromandel · TOGAF 9.1</div>
+          </div>
+        </div>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel className="text-white/45">Assessment</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu className="gap-0.5">
+              {SCREENS.map((s) => (
+                <SidebarMenuItem key={s.key}>
+                  <SidebarMenuButton asChild isActive={active.key === s.key} tooltip={s.nav} className="h-10">
+                    <NavLink to={s.path} end={s.path === '/'}>
+                      <s.icon />
+                      <span className="flex-1 truncate">{s.nav}</span>
+                    </NavLink>
+                  </SidebarMenuButton>
+                  <div className="pointer-events-none absolute top-2.5 right-2 flex gap-0.5 group-data-[collapsible=icon]:hidden">
+                    {s.badges.map((p) => (
+                      <span key={p} className="rounded bg-white/10 px-1 py-px text-[9.5px] leading-[14px] font-semibold text-white/75">
+                        {p}
+                      </span>
+                    ))}
+                  </div>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter className="gap-1 px-2 pb-3">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton tooltip="TOGAF Coach" onClick={() => setCoachOpen(true)}>
+              <GraduationCap /> <span>TOGAF Coach</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton tooltip="Settings" onClick={() => setSettingsOpen(true)}>
+              <Settings /> <span>Settings</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+        {health.data && (
+          <div className="mx-2 mt-1 flex items-center gap-1.5 text-[11px] text-white/50 group-data-[collapsible=icon]:hidden">
+            <span className="size-1.5 rounded-full" style={{ background: health.data.llm_key ? BAND.strong : SLATE_LIGHT }} />
+            {health.data.llm_key ? 'Gemini on' : 'Offline mode'} · {health.data.rag === 'hybrid' ? 'hybrid RAG' : `${health.data.rag} RAG`}
+          </div>
+        )}
+      </SidebarFooter>
+    </Sidebar>
+  )
+}
