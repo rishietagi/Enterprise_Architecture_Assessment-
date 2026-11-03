@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { NavLink, useLocation } from 'react-router-dom'
-import { GraduationCap, Settings } from 'lucide-react'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { ArrowLeftRight, GraduationCap, Settings } from 'lucide-react'
+import { useEngagement } from '@/components/Gate'
 import {
   Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader,
   SidebarMenu, SidebarMenuButton, SidebarMenuItem,
@@ -13,6 +14,8 @@ export function AppSidebar() {
   const { pathname } = useLocation()
   const active = screenForPath(pathname)
   const { setCoachOpen, setSettingsOpen } = useShell()
+  const { leave } = useEngagement()
+  const navigate = useNavigate()
   const health = useQuery({
     queryKey: ['health'],
     queryFn: () => fetch('/api/health').then((r) => r.json() as Promise<{ rag: string; llm_key: boolean }>),
@@ -22,13 +25,11 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="px-3 pt-4 pb-3">
-        <div className="flex items-center gap-2.5">
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-white text-[13px] font-bold tracking-tight text-navy">
-            EA
-          </div>
+        <div className="flex flex-col gap-1.5">
+          <img src="/kpmg-logo-white.png" alt="KPMG" className="h-9 w-auto self-start object-contain group-data-[collapsible=icon]:h-5" />
           <div className="min-w-0 group-data-[collapsible=icon]:hidden">
-            <div className="truncate text-sm font-semibold text-white">CIL EA Navigator</div>
-            <div className="truncate text-[11px] text-white/60">Coromandel · TOGAF 9.1</div>
+            <div className="truncate text-[12.5px] font-semibold text-white">EA Assessment Tool</div>
+            <div className="truncate text-[11px] text-white/60">Coromandel International · TOGAF 9.1</div>
           </div>
         </div>
       </SidebarHeader>
@@ -68,6 +69,11 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton tooltip="Settings" onClick={() => setSettingsOpen(true)}>
               <Settings /> <span>Settings</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton tooltip="Switch engagement" onClick={() => { leave(); navigate('/') }}>
+              <ArrowLeftRight /> <span>Switch Engagement</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

@@ -72,7 +72,7 @@
       "support_model": "Vendor-managed (RISE)",
       "licence_model": "TBD",
       "platform": "TBD",
-      "dr": "TBD",
+      "dr": "Warm standby",
       "contract_end": "TBD",
       "assumed_fields": [
         "bf",
@@ -82,8 +82,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "Medium",
+      "peak_load": "Handles peak comfortably",
+      "scale_model": "Elastic (auto-scale)",
+      "failover_tested": "TBD",
+      "key_person": "No",
+      "vendor_lock": "High",
+      "scalability": "High"
     },
     {
       "id": "A02",
@@ -132,8 +145,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "TBD",
+      "peak_load": "TBD",
+      "scale_model": "TBD",
+      "failover_tested": "TBD",
+      "key_person": "TBD",
+      "vendor_lock": "TBD",
+      "scalability": "TBD"
     },
     {
       "id": "A03",
@@ -170,7 +196,7 @@
       "support_model": "TBD",
       "licence_model": "TBD",
       "platform": "TBD",
-      "dr": "TBD",
+      "dr": "Backup only",
       "contract_end": "TBD",
       "assumed_fields": [
         "bf",
@@ -180,8 +206,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "High",
+      "peak_load": "Slows at peak",
+      "scale_model": "Fixed capacity",
+      "failover_tested": "No",
+      "key_person": "Yes",
+      "vendor_lock": "Medium",
+      "scalability": "Low"
     },
     {
       "id": "A04",
@@ -231,8 +270,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "TBD",
+      "peak_load": "TBD",
+      "scale_model": "TBD",
+      "failover_tested": "TBD",
+      "key_person": "TBD",
+      "vendor_lock": "TBD",
+      "scalability": "TBD"
     },
     {
       "id": "A05",
@@ -272,7 +324,7 @@
       "support_model": "TBD",
       "licence_model": "TBD",
       "platform": "TBD",
-      "dr": "TBD",
+      "dr": "None",
       "contract_end": "TBD",
       "assumed_fields": [
         "bf",
@@ -282,8 +334,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "High",
+      "peak_load": "Fails or needs manual workarounds at peak",
+      "scale_model": "Fixed capacity",
+      "failover_tested": "No",
+      "key_person": "No",
+      "vendor_lock": "Medium",
+      "scalability": "Low"
     },
     {
       "id": "A06",
@@ -324,7 +389,7 @@
       "support_model": "TBD",
       "licence_model": "Custom-built",
       "platform": "TBD",
-      "dr": "TBD",
+      "dr": "Backup only",
       "contract_end": "TBD",
       "assumed_fields": [
         "bf",
@@ -334,8 +399,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "High",
+      "peak_load": "Slows at peak",
+      "scale_model": "Manual scale-up",
+      "failover_tested": "No",
+      "key_person": "Yes",
+      "vendor_lock": "Medium",
+      "scalability": "Medium"
     },
     {
       "id": "A07",
@@ -373,7 +451,7 @@
       "support_model": "TBD",
       "licence_model": "Custom-built",
       "platform": "TBD",
-      "dr": "TBD",
+      "dr": "None",
       "contract_end": "TBD",
       "assumed_fields": [
         "bf",
@@ -383,8 +461,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "High",
+      "peak_load": "Slows at peak",
+      "scale_model": "Manual scale-up",
+      "failover_tested": "No",
+      "key_person": "Yes",
+      "vendor_lock": "Medium",
+      "scalability": "Low"
     },
     {
       "id": "A08",
@@ -431,8 +522,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "TBD",
+      "peak_load": "TBD",
+      "scale_model": "TBD",
+      "failover_tested": "TBD",
+      "key_person": "TBD",
+      "vendor_lock": "TBD",
+      "scalability": "TBD"
     },
     {
       "id": "A09",
@@ -480,8 +584,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "TBD",
+      "peak_load": "TBD",
+      "scale_model": "TBD",
+      "failover_tested": "TBD",
+      "key_person": "TBD",
+      "vendor_lock": "TBD",
+      "scalability": "TBD"
     },
     {
       "id": "A10",
@@ -530,8 +647,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "Medium",
+      "peak_load": "Slows at peak",
+      "scale_model": "Manual scale-up",
+      "failover_tested": "TBD",
+      "key_person": "No",
+      "vendor_lock": "Medium",
+      "scalability": "Medium"
     },
     {
       "id": "A11",
@@ -578,8 +708,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "Medium",
+      "peak_load": "Handles peak comfortably",
+      "scale_model": "Elastic (auto-scale)",
+      "failover_tested": "TBD",
+      "key_person": "No",
+      "vendor_lock": "High",
+      "scalability": "Medium"
     },
     {
       "id": "A12",
@@ -626,8 +769,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "TBD",
+      "peak_load": "TBD",
+      "scale_model": "TBD",
+      "failover_tested": "TBD",
+      "key_person": "TBD",
+      "vendor_lock": "TBD",
+      "scalability": "TBD"
     },
     {
       "id": "A13",
@@ -673,8 +829,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "TBD",
+      "peak_load": "TBD",
+      "scale_model": "TBD",
+      "failover_tested": "TBD",
+      "key_person": "TBD",
+      "vendor_lock": "TBD",
+      "scalability": "TBD"
     },
     {
       "id": "A14",
@@ -711,7 +880,7 @@
       "support_model": "TBD",
       "licence_model": "Custom-built",
       "platform": "TBD",
-      "dr": "TBD",
+      "dr": "None",
       "contract_end": "TBD",
       "assumed_fields": [
         "bf",
@@ -721,8 +890,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "Medium",
+      "peak_load": "Slows at peak",
+      "scale_model": "Manual scale-up",
+      "failover_tested": "No",
+      "key_person": "Yes",
+      "vendor_lock": "Medium",
+      "scalability": "Low"
     },
     {
       "id": "A15",
@@ -760,7 +942,7 @@
       "support_model": "Subsidiary IT",
       "licence_model": "Custom-built",
       "platform": "TBD",
-      "dr": "TBD",
+      "dr": "Backup only",
       "contract_end": "TBD",
       "assumed_fields": [
         "bf",
@@ -770,8 +952,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "Medium",
+      "peak_load": "Handles peak comfortably",
+      "scale_model": "Manual scale-up",
+      "failover_tested": "No",
+      "key_person": "Yes",
+      "vendor_lock": "High",
+      "scalability": "Medium"
     },
     {
       "id": "A16",
@@ -818,8 +1013,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "TBD",
+      "peak_load": "TBD",
+      "scale_model": "TBD",
+      "failover_tested": "TBD",
+      "key_person": "TBD",
+      "vendor_lock": "TBD",
+      "scalability": "TBD"
     },
     {
       "id": "A17",
@@ -849,7 +1057,7 @@
         "DD-06"
       ],
       "source": "assumed",
-      "note": "58 Nutri clinics + central lab (public); system assumed",
+      "note": "58 Nutri clinics + central lab",
       "description": "Soil and leaf sample management for Nutri clinics and central lab",
       "layer": "Logistics & Operations",
       "business_owner": "Head of Nutri Clinics & Labs",
@@ -859,7 +1067,7 @@
       "support_model": "TBD",
       "licence_model": "TBD",
       "platform": "TBD",
-      "dr": "TBD",
+      "dr": "None",
       "contract_end": "TBD",
       "assumed_fields": [
         "bf",
@@ -869,8 +1077,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "High",
+      "peak_load": "Fails or needs manual workarounds at peak",
+      "scale_model": "Fixed capacity",
+      "failover_tested": "No",
+      "key_person": "Yes",
+      "vendor_lock": "Low",
+      "scalability": "Low"
     },
     {
       "id": "A18",
@@ -906,7 +1127,7 @@
       "support_model": "TBD",
       "licence_model": "TBD",
       "platform": "TBD",
-      "dr": "TBD",
+      "dr": "Backup only",
       "contract_end": "TBD",
       "assumed_fields": [
         "bf",
@@ -916,8 +1137,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "Medium",
+      "peak_load": "Handles peak comfortably",
+      "scale_model": "Fixed capacity",
+      "failover_tested": "No",
+      "key_person": "No",
+      "vendor_lock": "Medium",
+      "scalability": "Low"
     },
     {
       "id": "A19",
@@ -963,8 +1197,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "TBD",
+      "peak_load": "TBD",
+      "scale_model": "TBD",
+      "failover_tested": "TBD",
+      "key_person": "TBD",
+      "vendor_lock": "TBD",
+      "scalability": "TBD"
     },
     {
       "id": "A20",
@@ -1002,7 +1249,7 @@
       "support_model": "In-house",
       "licence_model": "Custom-built",
       "platform": "TBD",
-      "dr": "TBD",
+      "dr": "Backup only",
       "contract_end": "TBD",
       "assumed_fields": [
         "bf",
@@ -1012,8 +1259,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "High",
+      "peak_load": "Fails or needs manual workarounds at peak",
+      "scale_model": "Fixed capacity",
+      "failover_tested": "No",
+      "key_person": "Yes",
+      "vendor_lock": "Low",
+      "scalability": "Low"
     },
     {
       "id": "A21",
@@ -1059,8 +1319,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "Medium",
+      "peak_load": "Slows at peak",
+      "scale_model": "Fixed capacity",
+      "failover_tested": "TBD",
+      "key_person": "No",
+      "vendor_lock": "Medium",
+      "scalability": "Medium"
     },
     {
       "id": "A22",
@@ -1100,7 +1373,7 @@
       "support_model": "In-house",
       "licence_model": "Subscription",
       "platform": "TBD",
-      "dr": "TBD",
+      "dr": "Backup only",
       "contract_end": "TBD",
       "assumed_fields": [
         "bf",
@@ -1110,8 +1383,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "High",
+      "peak_load": "TBD",
+      "scale_model": "Fixed capacity",
+      "failover_tested": "No",
+      "key_person": "Yes",
+      "vendor_lock": "Low",
+      "scalability": "Low"
     },
     {
       "id": "A23",
@@ -1148,7 +1434,7 @@
       "support_model": "In-house",
       "licence_model": "Subscription",
       "platform": "TBD",
-      "dr": "TBD",
+      "dr": "Active-active",
       "contract_end": "TBD",
       "assumed_fields": [
         "bf",
@@ -1158,8 +1444,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "Low",
+      "peak_load": "Handles peak comfortably",
+      "scale_model": "Elastic (auto-scale)",
+      "failover_tested": "Yes",
+      "key_person": "No",
+      "vendor_lock": "High",
+      "scalability": "High"
     },
     {
       "id": "A24",
@@ -1195,7 +1494,7 @@
       "support_model": "Vendor SaaS",
       "licence_model": "Subscription",
       "platform": "TBD",
-      "dr": "TBD",
+      "dr": "Active-active",
       "contract_end": "TBD",
       "assumed_fields": [
         "bf",
@@ -1205,8 +1504,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "Low",
+      "peak_load": "Handles peak comfortably",
+      "scale_model": "Elastic (auto-scale)",
+      "failover_tested": "Yes",
+      "key_person": "No",
+      "vendor_lock": "High",
+      "scalability": "High"
     },
     {
       "id": "A25",
@@ -1245,7 +1557,7 @@
       "support_model": "Vendor SaaS",
       "licence_model": "Subscription",
       "platform": "TBD",
-      "dr": "TBD",
+      "dr": "Active-active",
       "contract_end": "TBD",
       "assumed_fields": [
         "bf",
@@ -1255,8 +1567,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "Low",
+      "peak_load": "Handles peak comfortably",
+      "scale_model": "Elastic (auto-scale)",
+      "failover_tested": "Yes",
+      "key_person": "No",
+      "vendor_lock": "High",
+      "scalability": "High"
     },
     {
       "id": "A26",
@@ -1295,7 +1620,7 @@
       "support_model": "TBD",
       "licence_model": "TBD",
       "platform": "TBD",
-      "dr": "TBD",
+      "dr": "Backup only",
       "contract_end": "TBD",
       "assumed_fields": [
         "bf",
@@ -1305,8 +1630,21 @@
         "business_owner",
         "it_owner",
         "customisation",
-        "support_model"
-      ]
+        "support_model",
+        "tech_debt",
+        "peak_load",
+        "scale_model",
+        "failover_tested",
+        "key_person",
+        "vendor_lock"
+      ],
+      "tech_debt": "High",
+      "peak_load": "Slows at peak",
+      "scale_model": "Fixed capacity",
+      "failover_tested": "No",
+      "key_person": "Yes",
+      "vendor_lock": "Medium",
+      "scalability": "Low"
     }
   ]
 }

@@ -403,6 +403,53 @@
       "min": 10,
       "max": 20,
       "ref": "23.6"
+    },
+    "repository": {
+      "tooling": "A dedicated EA repository (for example ArchiMate-capable tooling) as the system of record, with this navigator as the assessment front end; diagrams exchanged as draw.io or ArchiMate files.",
+      "ownership": [
+        {
+          "view": "Business capability and alignment views",
+          "owner": "Business architect (EA office)",
+          "cadence": "Half-yearly"
+        },
+        {
+          "view": "Application portfolio, architecture and interactions",
+          "owner": "Head of Applications",
+          "cadence": "Quarterly"
+        },
+        {
+          "view": "Integration, API and data-flow",
+          "owner": "Integration lead",
+          "cadence": "On every new interface"
+        },
+        {
+          "view": "Data and analytics architecture",
+          "owner": "Data & AI lead",
+          "cadence": "Quarterly"
+        },
+        {
+          "view": "Infrastructure, network, cloud and security",
+          "owner": "Infrastructure lead and CISO",
+          "cadence": "Quarterly"
+        },
+        {
+          "view": "Standards, principles and decisions",
+          "owner": "ARB secretary",
+          "cadence": "Every ARB"
+        },
+        {
+          "view": "Roadmap and transition states",
+          "owner": "EA lead",
+          "cadence": "Half-yearly"
+        }
+      ],
+      "process": [
+        "Change request raised with the view owner",
+        "Owner updates the model and records the source",
+        "ARB reviews material changes",
+        "Repository version published; superseded views archived"
+      ],
+      "source": "assumed"
     }
   },
   "themes": [
@@ -430,6 +477,18 @@
       "depends_on": [
         "TH4",
         "TH5"
+      ],
+      "benefits": [
+        "Single farmer record across apps, stores and field teams",
+        "Advisory reach and repeat purchase from digitally engaged farmers",
+        "Retire one of the two overlapping farmer apps"
+      ],
+      "risks": [
+        "Farmer adoption in low-connectivity districts",
+        "Content quality of agronomy advice"
+      ],
+      "constraints": [
+        "Depends on the data foundation (TH4) and API layer (TH5)"
       ]
     },
     {
@@ -447,6 +506,17 @@
       "depends_on": [
         "TH1",
         "TH5"
+      ],
+      "benefits": [
+        "Higher drone service utilisation and spray-acre throughput",
+        "Telemetry and service data in one platform"
+      ],
+      "risks": [
+        "DGCA regulation changes",
+        "Partner platform lock-in"
+      ],
+      "constraints": [
+        "Dhaksha systems sit with a subsidiary"
       ]
     },
     {
@@ -467,6 +537,17 @@
       "size": "L",
       "depends_on": [
         "TH4"
+      ],
+      "benefits": [
+        "Faster trial-to-registration cycle",
+        "Searchable trial and formulation knowledge"
+      ],
+      "risks": [
+        "Scientist adoption of a new system",
+        "IP protection of trial data"
+      ],
+      "constraints": [
+        "Regulatory dossiers follow CIB&RC formats"
       ]
     },
     {
@@ -486,7 +567,19 @@
         "R09"
       ],
       "size": "XL",
-      "foundation": true
+      "foundation": true,
+      "benefits": [
+        "Trusted data domains with named owners",
+        "AI use cases unblocked by data readiness",
+        "DPDP Act 2023 compliance for personal data"
+      ],
+      "risks": [
+        "Data ownership not accepted by the business",
+        "Data quality effort underestimated"
+      ],
+      "constraints": [
+        "Foundation for TH1, TH3 and most AI initiatives"
+      ]
     },
     {
       "id": "TH5",
@@ -502,14 +595,36 @@
         "R06"
       ],
       "size": "L",
-      "foundation": true
+      "foundation": true,
+      "benefits": [
+        "New integrations through governed APIs instead of point-to-point",
+        "Lower change cost when SAP or retail systems change"
+      ],
+      "risks": [
+        "Integration skills in-house",
+        "Legacy interfaces that cannot be wrapped"
+      ],
+      "constraints": [
+        "SAP RISE integration rules (BTP/CPI)"
+      ]
     },
     {
       "id": "TH6",
       "name": "Application consolidation & modernisation",
       "caps": [],
       "apps_default": true,
-      "size": "L"
+      "size": "L",
+      "benefits": [
+        "Fewer overlapping applications and lower run cost",
+        "Clean SAP core with extensions on BTP"
+      ],
+      "risks": [
+        "Business resistance to retiring local tools",
+        "Contract exit costs"
+      ],
+      "constraints": [
+        "Contracts and licence end dates"
+      ]
     },
     {
       "id": "TH7",
@@ -526,7 +641,19 @@
         "R08"
       ],
       "size": "M",
-      "foundation": true
+      "foundation": true,
+      "benefits": [
+        "Tested recovery for tier-1 workloads",
+        "Security monitoring across IT, OT and retail edge",
+        "Lower cyber and outage risk"
+      ],
+      "risks": [
+        "OT change windows limited to plant shutdowns",
+        "Tooling sprawl without a SOC operating model"
+      ],
+      "constraints": [
+        "OT remains outside detailed scope"
+      ]
     },
     {
       "id": "TH8",
@@ -539,13 +666,34 @@
       ],
       "governance": true,
       "size": "S",
-      "foundation": true
+      "foundation": true,
+      "benefits": [
+        "Architecture decisions made once and reused",
+        "Repository kept current after the engagement"
+      ],
+      "risks": [
+        "ARB seen as a bottleneck",
+        "No owner for the repository after handover"
+      ],
+      "constraints": [
+        "Needs a named EA lead in the CIO office"
+      ]
     },
     {
       "id": "TH9",
       "name": "Operations & commercial excellence",
       "caps_default": true,
-      "size": "L"
+      "size": "L",
+      "benefits": [
+        "Standard processes in plants, supply chain and sales",
+        "Better forecast accuracy and working capital"
+      ],
+      "risks": [
+        "Change fatigue in plants and regions"
+      ],
+      "constraints": [
+        "Peak-season freeze windows (kharif and rabi)"
+      ]
     },
     {
       "id": "TH10",
@@ -560,6 +708,15 @@
       "depends_on": [
         "TH5",
         "TH8"
+      ],
+      "benefits": [
+        "Faster, repeatable integration of acquired entities such as NACL"
+      ],
+      "risks": [
+        "Different ERP and data models in the acquired business"
+      ],
+      "constraints": [
+        "Legal-entity and statutory reporting timelines"
       ]
     }
   ],
@@ -638,7 +795,24 @@
       "32",
       "36.2.7",
       "36.2.14"
-    ]
+    ],
+    "severity_scores": {
+      "High": [
+        5,
+        4
+      ],
+      "Medium": [
+        4,
+        3
+      ],
+      "Low": [
+        3,
+        2
+      ]
+    },
+    "size_up_high": 6,
+    "size_up_gaps": 12,
+    "register_note": "Initiatives are built from the Business, Application and Data & Technology gap registers plus ACMM governance gaps; severity sets impact x urgency; size steps up at 6 high-severity or 12 total gaps."
   },
   "templates": {
     "applications": {
@@ -940,6 +1114,70 @@
         {
           "key": "issues",
           "label": "Known issues / pain points"
+        },
+        {
+          "key": "tech_debt",
+          "label": "Technical debt (self-assessed)",
+          "enum": [
+            "Low",
+            "Medium",
+            "High",
+            "TBD"
+          ],
+          "togaf": "RFP: technical debt"
+        },
+        {
+          "key": "peak_load",
+          "label": "Peak-season load handling",
+          "enum": [
+            "Handles peak comfortably",
+            "Slows at peak",
+            "Fails or needs manual workarounds at peak",
+            "TBD"
+          ],
+          "togaf": "RFP: scalability limitations"
+        },
+        {
+          "key": "scale_model",
+          "label": "Scaling model",
+          "enum": [
+            "Elastic (auto-scale)",
+            "Manual scale-up",
+            "Fixed capacity",
+            "TBD"
+          ],
+          "togaf": "RFP: scalability limitations"
+        },
+        {
+          "key": "failover_tested",
+          "label": "Failover tested in last 12 months",
+          "enum": [
+            "Yes",
+            "No",
+            "TBD"
+          ],
+          "togaf": "RFP: single points of failure"
+        },
+        {
+          "key": "key_person",
+          "label": "Depends on one key person or vendor resource",
+          "enum": [
+            "Yes",
+            "No",
+            "TBD"
+          ],
+          "togaf": "RFP: single points of failure"
+        },
+        {
+          "key": "vendor_lock",
+          "label": "Vendor lock-in",
+          "enum": [
+            "Low",
+            "Medium",
+            "High",
+            "TBD"
+          ],
+          "togaf": "RFP: vendor dependency"
         }
       ]
     },
@@ -1142,5 +1380,93 @@
   "integration_rules": {
     "hotspot_min": 5,
     "note": "Apps with >= hotspot_min interfaces are integration hotspots (Interface Catalog s35.6.5)"
+  },
+  "tech_health": {
+    "debt_weights": {
+      "customisation": 2,
+      "lifecycle": 2,
+      "standards_class": 1,
+      "tech_debt": 2,
+      "tech_currency": 2
+    },
+    "debt_maps": {
+      "customisation": {
+        "None": 0,
+        "Low": 1,
+        "Medium": 2,
+        "High (custom)": 3,
+        "n/a (end-user tools)": 1
+      },
+      "lifecycle": {
+        "Current": 0,
+        "Ageing": 2,
+        "EOL < 24m": 3,
+        "Unknown": 1
+      },
+      "standards_class": {
+        "Standard": 0,
+        "Provisional Standard": 1,
+        "Proposed Standard": 1,
+        "Non-Standard": 2,
+        "Phasing-Out Standard": 3,
+        "Retired Standard": 3
+      },
+      "tech_debt": {
+        "Low": 0,
+        "Medium": 2,
+        "High": 3
+      }
+    },
+    "debt_bands": [
+      [
+        60,
+        "High"
+      ],
+      [
+        35,
+        "Medium"
+      ],
+      [
+        0,
+        "Low"
+      ]
+    ],
+    "critical_min": 4,
+    "weak_dr": [
+      "None",
+      "Backup only"
+    ],
+    "process_answer_max": 2,
+    "togaf_ref": "35.6.5"
+  },
+  "prioritization": {
+    "value_split": 16,
+    "effort_split": 2,
+    "effort": {
+      "S": 1,
+      "M": 2,
+      "L": 3,
+      "XL": 4
+    },
+    "quadrants": {
+      "quick_win": "Quick win",
+      "strategic": "Strategic bet",
+      "fill_in": "Fill-in",
+      "reconsider": "Reconsider"
+    },
+    "togaf_ref": "28.4"
+  },
+  "budget_rules": {
+    "benchmark_pct_revenue": [
+      0.8,
+      1.5
+    ],
+    "benchmark_note": "Indicative band for agri-inputs and chemicals manufacturers",
+    "variance_tolerance_pct": 5,
+    "capex_share_target": [
+      25,
+      40
+    ],
+    "togaf_ref": "28.3"
   }
 }

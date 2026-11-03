@@ -1,7 +1,6 @@
 import { ArrowRight } from 'lucide-react'
 import { AppChip, LadderChip } from '@/components/CapabilityModules'
 import { Explain } from '@/components/Explain'
-import { ProvenanceBadge } from '@/components/ProvenanceBadge'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import type { Business, CapRow } from '@/lib/api'
@@ -21,7 +20,7 @@ export function CapabilitySheet({ cap, b, onClose, onDiscover }: { cap: CapRow |
           <>
             <DialogHeader className="border-b px-5 py-4 text-left">
               <DialogTitle className="pr-8">{cap.name}</DialogTitle>
-              <DialogDescription className="flex flex-wrap items-center gap-2">{cap.id} · {cap.l1}{cap.focus ? ` · ${cap.focus}` : ''} <ProvenanceBadge source={cap.source} />
+              <DialogDescription className="flex flex-wrap items-center gap-2">{cap.id} · {cap.l1}{cap.focus ? ` · ${cap.focus}` : ''}
                 <span className="rounded bg-navy-soft px-1.5 text-[10.5px] font-semibold text-navy">{disc ? 'Scored from discovery' : 'Not yet scored'}</span></DialogDescription>
             </DialogHeader>
             <div className="scrollbar-thin flex-1 space-y-4 overflow-y-auto px-5 py-4">

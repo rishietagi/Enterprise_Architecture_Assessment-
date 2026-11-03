@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, CalendarRange, ChevronDown, Flag } from 'lucide-react'
 import { Explain } from '@/components/Explain'
-import { ProvenanceBadge } from '@/components/ProvenanceBadge'
 import type { PhasePlanT } from '@/lib/api'
 import { NAVY, PHASE_STATUS, PLAN_STATUS, tint } from '@/lib/theme'
 import { cn } from '@/lib/utils'
@@ -85,7 +84,7 @@ export function PhasePlan({ p }: { p: PhasePlanT | null }) {
               </div>
             )
           })}
-          <div className="mt-1 flex items-center gap-2 text-[10.5px] text-muted-foreground"><ProvenanceBadge source={p.source} /> Status is maintained on Approach &amp; Plan › Detailed Work Plan.</div>
+          <div className="mt-1 flex items-center gap-2 text-[10.5px] text-muted-foreground"> Status is maintained on Approach &amp; Plan › Detailed Work Plan.</div>
 
         </div>
       )}

@@ -62,13 +62,14 @@ def result(res: dict, payload: dict, hits: list[dict]) -> dict:
 
 # --------------------------------------------------------------------------- 1. coach(screen)
 NEXT_ACTIONS = {
-    "overview": ["Confirm the ADM tailoring and phase owners with the CIO", "Validate assumed scores in discovery workshops"],
+    "overview": ["Confirm the ADM tailoring and phase owners with the CIO", "Validate scores in discovery workshops"],
     "approach": ["Confirm the scope of work and phase gates with the CIO at kick-off", "Name a CIL counterpart for every phase"],
     "vision": ["Agree 10-20 principles with the ARB and record rationale", "Generate and review the Architecture Vision with sponsors"],
     "business": ["Run the capability questionnaire with business owners", "Validate the top capability gaps against 2030 strategy"],
     "applications": ["Send the intake template to app owners for the 50-60 external apps", "Confirm survivors for each duplication cluster"],
     "data_tech": ["Name a business data owner for every domain", "Classify PII domains under DPDP Act 2023"],
     "roadmap": ["Review wave sequencing and dependencies with the ARB", "Validate the Rs rate card with finance"],
+    "budget": ["Load finance actuals for the last two years", "Tag every capex line to a roadmap initiative"],
 }
 
 
@@ -331,6 +332,11 @@ def rule_findings(s: Session, screen: str) -> list[dict]:
         return [{"text": f"{k['gaps']} gaps roll up into {k['initiatives']} initiatives costing Rs {k['total_cr'][0]:.1f}-{k['total_cr'][1]:.1f} Cr.", "rule": "rate card x size"},
                 {"text": "ACMM elements at level ≤ 1: " + ", ".join(f["acmm_low"]) + ".", "rule": "§51.3 ACMM"},
                 {"text": "Sequencing: " + "; ".join(f["initiatives"][:3]) + ".", "rule": "wave rules + dependencies"}]
+    if screen == "budget":
+        p = f["per_fy"]
+        return [{"text": f"{p[-1]['fy']} IT spend ₹{p[-1]['total']} Cr ({p[-1]['pct_revenue']}% of revenue).", "rule": "opex + salaries + capex"},
+                {"text": "Largest opex heads: " + ", ".join(f["largest_heads"][:3]) + ".", "rule": "opex by cost head"},
+                {"text": ("Reconcile: " + "; ".join(f["reconciliation"][:2]) + ".") if f["reconciliation"] else "Detail and totals reconcile.", "rule": "detail vs overall"}]
     if screen == "approach":
         return [{"text": f"Week {f['current_week']} of {f['weeks']}; {f['progress']}% of planned activities are done.", "rule": "plan status"},
                 {"text": "Phases: " + "; ".join(f"{p['name']} {p['weeks']} ({p['progress']}%)" for p in f["phases"]) + ".", "rule": "phase roll-up"},
@@ -353,6 +359,12 @@ TAB_QUERY = {  # extra retrieval terms for per-tab insights
     "intake": "application portfolio catalog inventory", "rationalization": "application portfolio rationalization gap analysis",
     "capability": "application business function matrix capability", "architecture": "application architecture baseline",
     "interaction": "application communication diagram interfaces", "integration": "interface catalog interoperability integration",
+    "health": "technology currency resilience single point of failure scalability", "inputs": "data entity catalog technology portfolio",
+    "data": "data governance data quality", "tech": "technology standards compliance checklist", "engineering": "technology standards lifecycle automation",
+    "data_arch": "data architecture data dissemination", "infra": "technology architecture platform decomposition network",
+    "longlist": "work packages consolidated gaps solutions", "priority": "prioritization business value risk migration planning",
+    "roadmap": "transition architecture architecture roadmap migration plan", "governance": "architecture board compliance governance repository",
+    "analysis": "implementation and migration plan cost benefit business value", "budget": "migration planning cost value",
 }
 
 

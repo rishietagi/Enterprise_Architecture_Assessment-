@@ -2,14 +2,15 @@ import { useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Pencil, Plus, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
+import { Explain } from '@/components/Explain'
 import { ExportMenu } from '@/components/ExportMenu'
 import { FlowDiagram, Legend, type FNode } from '@/components/FlowDiagram'
-import { ProvenanceBadge } from '@/components/ProvenanceBadge'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { interactionDrawio } from '@/lib/drawio'
 import { api, type Applications, type Iface, type IfaceIn } from '@/lib/api'
 import { BAND, DEFAULT_LAYER, LAYER_COLOR, PATTERN_COLOR, SLATE, tint } from '@/lib/theme'
 
@@ -41,7 +42,7 @@ export function InteractionGraph({ a }: { a: Applications }) {
         <span className="ml-auto flex items-center gap-2">
           <span className="text-[11px] text-muted-foreground">Select an application to trace it · HOT = ≥ {a.integration.hotspot_min} interfaces</span>
           <Button size="sm" variant="outline" onClick={() => setCatalog(true)}><Pencil /> Edit Interfaces ({a.interfaces.length})</Button>
-          <ExportMenu target={box} name="Application Interactions" csv={csv} />
+          <ExportMenu target={box} name="Application Interactions" csv={csv} drawio={() => interactionDrawio(a)} />
         </span>
       </div>
       <div ref={box} className="bg-card"><FlowDiagram columns={columns} edges={edges} selected={sel} onSelect={setSel} nodeH={38} /></div>
@@ -63,7 +64,7 @@ export function InteractionGraph({ a }: { a: Applications }) {
         <DialogContent className="sm:max-w-5xl">
           <DialogHeader>
             <DialogTitle>Interface Catalog</DialogTitle>
-            <DialogDescription>Add, edit or delete the interfaces behind this view (TOGAF §35.6.5). Records are assumed until the interface inventory is collected.</DialogDescription>
+            <DialogDescription>Add, edit or delete the interfaces behind this view (TOGAF §35.6.5).</DialogDescription>
           </DialogHeader>
           <InterfaceCatalog a={a} />
         </DialogContent>
@@ -130,6 +131,57 @@ function InterfaceDialog({ a, edit, onClose }: { a: Applications; edit: Iface | 
   )
 }
 
+/** RFP view 5: integration, API and data-flow architecture: pattern mix, hotspots, governance and the editable Interface Catalog. */
+export function IntegrationView({ a }: { a: Applications }) {
+  const ig = a.integration
+  const total = Math.max(1, ig.count)
+  const box = useRef<HTMLDivElement>(null)
+  const via = a.interfaces.reduce<Record<string, number>>((m, i) => ({ ...m, [i.via]: (m[i.via] ?? 0) + 1 }), {})
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-end">
+        <ExportMenu target={box} name="Integration and API Architecture" csv={() => [['Pattern', 'Interfaces'], ...Object.entries(ig.by_pattern)]} />
+      </div>
+      <div ref={box} className="grid grid-cols-12 gap-4 bg-card">
+        <div className="col-span-5 rounded-lg border p-3">
+          <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold">Integration Patterns <Explain x={a.explain.p2p_share} /></div>
+          <div className="flex h-7 overflow-hidden rounded-md">
+            {Object.entries(ig.by_pattern).map(([p, n]) => (
+              <div key={p} title={`${p}: ${n}`} className="flex items-center justify-center text-[10.5px] font-semibold text-white" style={{ width: `${(n / total) * 100}%`, background: PATTERN_COLOR[p] ?? SLATE }}>{n}</div>
+            ))}
+          </div>
+          <div className="mt-2"><Legend items={Object.entries(PATTERN_COLOR).map(([k, c]) => ({ label: `${k} (${ig.by_pattern[k] ?? 0})`, color: c }))} /></div>
+          <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+            {[[`${ig.p2p_share}%`, 'point-to-point'], [`${ig.legacy_share}%`, 'file, DB or manual'], [String(ig.manual), 'manual hand-offs']].map(([v, l]) => (
+              <div key={l} className="rounded-md bg-muted/60 px-2 py-1.5"><div className="tabular text-lg font-semibold text-navy">{v}</div><div className="text-[10.5px] text-muted-foreground">{l}</div></div>
+            ))}
+          </div>
+        </div>
+        <div className="col-span-4 rounded-lg border p-3">
+          <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold">Integration Hotspots <Explain x={a.explain.hotspots} /></div>
+          <ul className="space-y-1.5">
+            {ig.hotspots.map((h) => (
+              <li key={h.id} className="flex items-center gap-2 text-[12.5px]">
+                <span className="w-9 text-[11px] font-semibold text-muted-foreground">{h.id}</span><span className="flex-1 truncate">{short(h.name)}</span>
+                <span className="h-1.5 w-20 overflow-hidden rounded-full bg-muted"><span className="block h-full rounded-full bg-navy" style={{ width: `${Math.min(100, (h.degree / 12) * 100)}%` }} /></span>
+                <span className="tabular w-5 text-right font-semibold">{h.degree}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="col-span-3 rounded-lg border p-3 text-[12px]">
+          <div className="mb-2 text-xs font-semibold">Integration Governance</div>
+          <div className="space-y-1.5">
+            {Object.entries(via).map(([k, n]) => <div key={k} className="flex justify-between"><span>{k}</span><b className="tabular">{n}</b></div>)}
+            <p className="text-[11px] text-muted-foreground">Target: new integrations through the governed API layer (P-CIL-03, guardrail G-01); events for plant and channel updates; no new point-to-point links to SAP or retail. Middleware status follows resilience check R05.</p>
+          </div>
+        </div>
+      </div>
+      <InterfaceCatalog a={a} />
+    </div>
+  )
+}
+
 /** Editable Interface Catalog: add, edit and delete interfaces. */
 export function InterfaceCatalog({ a }: { a: Applications }) {
   const qc = useQueryClient()
@@ -149,7 +201,7 @@ export function InterfaceCatalog({ a }: { a: Applications }) {
           <TableHeader className="sticky top-0 bg-card">
             <TableRow>
               <TableHead className="w-12">ID</TableHead><TableHead>From</TableHead><TableHead>To</TableHead><TableHead>Data</TableHead>
-              <TableHead>Pattern</TableHead><TableHead>Routing</TableHead><TableHead>Frequency</TableHead><TableHead className="w-24">Source</TableHead><TableHead className="w-16" />
+              <TableHead>Pattern</TableHead><TableHead>Routing</TableHead><TableHead>Frequency</TableHead><TableHead className="w-16" />
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -162,7 +214,6 @@ export function InterfaceCatalog({ a }: { a: Applications }) {
                 <TableCell><span className="inline-flex items-center gap-1.5 text-xs"><span className="size-2 rounded-full" style={{ background: PATTERN_COLOR[i.pattern] }} />{i.pattern}</span></TableCell>
                 <TableCell className="text-xs text-muted-foreground">{i.via}</TableCell>
                 <TableCell className="text-xs text-muted-foreground">{i.frequency}</TableCell>
-                <TableCell><ProvenanceBadge source={i.source} /></TableCell>
                 <TableCell>
                   <span className="flex gap-0.5">
                     <Button variant="ghost" size="icon-sm" onClick={() => setEdit(i)} aria-label="Edit interface"><Pencil /></Button>

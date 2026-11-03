@@ -14,7 +14,7 @@ from ..llm import calls
 from ..models import ContextDoc, Guideline, PlanTask, PrincipleSelection, SettingOverride, VisionDoc
 
 router = APIRouter(prefix="/api/vision", tags=["vision"])
-PREFIX = {"principle": "P-CIL-", "guardrail": "G-", "pattern": "PT-"}
+PREFIX = {"principle": "P-CIL-", "guardrail": "G-", "pattern": "PT-", "viewpoint": "VP-", "tailoring": "TL-"}
 
 
 class VisionDocIn(BaseModel):
@@ -31,8 +31,8 @@ class PrincipleIn(BaseModel):
 
 
 class GuidelineIn(BaseModel):
-    kind: Literal["principle", "guardrail", "pattern"]
-    name: str = Field(min_length=2)
+    kind: Literal["principle", "guardrail", "pattern", "viewpoint", "tailoring"]
+    name: str = ""
     statement: str = ""
     category: str = ""
     togaf_basis: str = ""
@@ -42,6 +42,15 @@ class GuidelineIn(BaseModel):
     use: str = ""
     principle: str = ""
     active: bool = True
+    stakeholder: str = ""
+    concerns: str = ""
+    views: list[int] = []
+    model_kind: str = ""
+    screen: str = ""
+    framework: str = ""
+    element: str = ""
+    decision: Literal["Adopted", "Tailored", "Excluded", ""] = ""
+    approval: str = ""
 
 
 class RulesIn(BaseModel):
@@ -101,8 +110,14 @@ def _payload(body: GuidelineIn) -> dict:
     d = body.model_dump(exclude={"kind"})
     keep = {"principle": ("name", "statement", "category", "togaf_basis", "rationale", "implications"),
             "guardrail": ("name", "statement", "category", "enforced_by", "active"),
-            "pattern": ("name", "use", "principle", "active")}[body.kind]
+            "pattern": ("name", "use", "principle", "active"),
+            "viewpoint": ("name", "stakeholder", "concerns", "views", "model_kind", "screen"),
+            "tailoring": ("framework", "element", "decision", "rationale", "approval")}[body.kind]
+    need = "element" if body.kind == "tailoring" else "name"
+    if len(d.get(need, "").strip()) < 2:
+        raise HTTPException(422, f"{need} is required")
     return {k: d[k] for k in keep}
+
 
 
 @router.post("/guidelines")

@@ -19,7 +19,8 @@ from .rules.technology import check_explain
 DISPOSITIONS = ["Invest", "Tolerate", "Migrate", "Eliminate", "Consolidate", "Retain (out of scope)"]
 ACTIONS = ("Migrate", "Eliminate", "Consolidate")
 KIND = {"capability": "Capability", "application": "Application", "duplication": "Duplication", "data": "Data",
-        "technology": "Technology", "governance": "Governance"}
+        "technology": "Technology", "governance": "Governance", "business": "Business", "data_tech": "Data & Technology"}
+
 WHEEL = [  # ADM wheel nodes -> screen
     ("PRELIM", "Preliminary", "vision"), ("A", "A. Architecture Vision", "vision"),
     ("B", "B. Business Architecture", "business"), ("C", "C. Information Systems", "applications"),
@@ -35,8 +36,45 @@ def labels(cfg: dict) -> dict:
 
 
 def ctx(s: Session) -> tuple[dict, dict]:
+    """Inputs and rule outputs. The roadmap (gaps, initiatives, FY budget, total) and the state projections are rebuilt
+    from the Business, Application and Data & Technology gap registers; the parity-port roadmap stays in r['parity']."""
     state = load_state(s)
-    return state, rules.run_all(state, state["acmm"])
+    r = rules.run_all(state, state["acmm"])
+    r["parity"] = {k: r[k] for k in ("gaps", "initiatives", "fy_budget", "total_cr", "states")}
+    r["registers"] = _registers(s, state, r)
+    gov = [g for g in r["gaps"] if g["kind"] == "governance"]
+    r["gaps"] = rules.unify_gaps(r["registers"], gov, state["cfg"])
+    r["initiatives"], r["fy_budget"], r["total_cr"] = rules.register_roadmap(r["gaps"], state["cfg"])
+    r["states"] = rules.architecture_states(r, state)
+    return state, r
+
+
+def _clusters(state: dict, r: dict) -> list[dict]:
+    l2 = l2_index(state)
+    rows = {a["id"]: a for a in r["app_rows"]}
+    name = {a["id"]: a["name"] for a in state["apps"]} | {x["id"]: x["name"] for x in state["external"]}
+    return [dict(c, cap_name=l2.get(c["cap"], {}).get("name", c["cap"]),
+                 members=[{"id": a, "name": name[a], "disposition": rows[a]["disposition"], "label": rows[a]["label"]} for a in c["apps"]],
+                 survivor_name=name[c["survivor"]]) for c in r["clusters"]]
+
+
+def _registers(s: Session, state: dict, r: dict) -> dict:
+    """The three gap registers, built once per request and shared by their screens and the roadmap."""
+    cfg = state["cfg"]
+    notes = {k: (o.value if (o := s.get(SettingOverride, k)) else {}) for k in ("gap_notes", "app_gap_notes", "dt_gap_notes")}
+    app_names = {a["id"]: short(a["name"]) for a in state["apps"]}
+    biz = rules.gap_register(state["caps"], state["surveys"], cfg, app_names, notes["gap_notes"])
+    integ = r["integration"]
+    health = rules.tech_health(state["apps"], state["surveys"], integ["degree"], integ["hotspot_min"], cfg)
+    cap_tree = _app_cap_tree(state, r)
+    app_ref = ref_view(state, "APP-REF", r)
+    app = rules.application_gaps(state["apps"], r["app_rows"], _clusters(state, r), health,
+                                 [c for l1 in cap_tree["l1"] for c in l1["children"]], integ, app_ref, labels(cfg), cfg, notes["app_gap_notes"])
+    eng = state["tech"].get("engineering_checks", [])
+    refs = [v for v in (ref_view(state, "DATA-REF", r), ref_view(state, "INFRA-REF", r)) if v]
+    dt = rules.data_tech_gaps(state["data"], r["data_rows"], state["tech"]["resilience_checks"], eng, state["tech"]["platforms"],
+                              refs, state["tech"].get("landing_zones", []), cfg, notes["dt_gap_notes"])
+    return {"business": biz, "application": app, "data_tech": dt, "health": health, "cap_tree": cap_tree, "app_ref": app_ref}
 
 
 def l2_index(state: dict) -> dict:
@@ -187,6 +225,81 @@ def _landscape(state: dict, r: dict) -> dict:
                           for p in state["tech"]["platforms"]]}
 
 
+def _pct_band(p: float | None) -> str | None:
+    return None if p is None else "strong" if p >= 70 else "developing" if p >= 50 else "weak" if p >= 30 else "critical"
+
+
+def _overview_health(state: dict, r: dict) -> tuple[dict, list[dict], dict]:
+    """Engagement status, one health line per architecture domain and the IT cost headline for the dashboard."""
+    cfg = state["cfg"]
+    p = engagement_plan(state["vision"], state["plan_status"])
+    wk = p.get("current_week", 1)
+    cur = next((ph for ph in p.get("phases", []) if ph["start_week"] <= wk <= ph["end_week"] and ph["progress"] < 100), None)
+    mss = [a for ph in p.get("phases", []) for a in ph["activities"] if a["status"] == "milestone" and a["start_week"] >= wk]
+    steer = [w for w in (p.get("cadence") or {}).get("steerco", []) if w >= wk]
+    eng = {"week": wk, "weeks": p.get("weeks", 16), "progress": p.get("progress", 0), "phase": cur["name"] if cur else None,
+           "phase_weeks": f"W{cur['start_week']}–W{cur['end_week']}" if cur else None,
+           "milestone": {"name": mss[0]["name"], "week": mss[0]["start_week"]} if mss else None,
+           "steerco": steer[0] if steer else None, "counts": p.get("counts", {})}
+    th = rules.tech_health(state["apps"], state["surveys"], r["integration"]["degree"], r["integration"]["hotspot_min"], cfg)
+    eng_s = rules.engineering_score(state["tech"].get("engineering_checks", []), cfg)
+    bv = budget_view(state, r)
+    caps = r["cap_rows"]
+    avg_cap = st.mean(c["maturity"] for c in caps) if caps else 0
+    by_l1 = collections.defaultdict(list)
+    for c in caps:
+        by_l1[c["l1"]].append(c["maturity"])
+    weakest = min(by_l1.items(), key=lambda kv: st.mean(kv[1]))[0] if by_l1 else "–"
+    action = [a for a in r["app_rows"] if a["disposition"] in ACTIONS]
+    inscope = [a for a in r["app_rows"] if a["disposition"] != "Retain (out of scope)"]
+    data_avg = st.mean(d["score"] for d in r["data_rows"]) if r["data_rows"] else 0
+    risk = sum(d["privacy_risk"] for d in r["data_rows"])
+    checks = state["tech"]["resilience_checks"]
+    lt = bv["latest"]
+    lo, hi = bv["benchmark"]
+    health = [
+        {"key": "business", "label": "Business capabilities", "screen": "business", "value": f"{avg_cap:.2f} / 5", "pct": round(avg_cap / 5 * 100),
+         "note": f"{sum(c['is_gap'] for c in caps)} capability gaps; weakest area {weakest}"},
+        {"key": "applications", "label": "Application portfolio", "screen": "applications",
+         "value": f"{len(inscope) - len(action)} of {len(inscope)} fit", "pct": round(100 * (len(inscope) - len(action)) / max(1, len(inscope))),
+         "note": f"{len(action)} to modernise, replace or consolidate; {th['counts']['high_debt']} with high technical debt"},
+        {"key": "health", "label": "Technical health", "screen": "applications", "view": "health",
+         "value": f"Debt {th['counts']['avg_debt']}/100", "pct": 100 - (th["counts"]["avg_debt"] or 0),
+         "note": f"{th['counts']['spof']} single points of failure; {th['counts']['scal_risk']} apps at scalability risk"},
+        {"key": "data", "label": "Data governance", "screen": "data_tech", "view": "data", "value": f"{round(data_avg)} / 100", "pct": round(data_avg),
+         "note": f"{risk} domains with unclassified personal data; {sum(not d['owner'] for d in state['data'])} without an owner"},
+        {"key": "resilience", "label": "Resilience & security", "screen": "data_tech", "view": "tech",
+         "value": f"{r['tech']['resilience_score']} / 100", "pct": r["tech"]["resilience_score"],
+         "note": f"{sum(c['status'] == 'fail' for c in checks)} failed and {r['tech']['unknown']} unknown checks"},
+        {"key": "engineering", "label": "Engineering practices", "screen": "data_tech", "view": "engineering",
+         "value": f"{eng_s['score']} / 100", "pct": eng_s["score"],
+         "note": f"{eng_s['counts']['fail']} practices not in place; {eng_s['unknown']} to validate"},
+        {"key": "governance", "label": "EA governance (ACMM)", "screen": "roadmap", "view": "governance",
+         "value": f"{r['gov']['acmm_mean']} / 5", "pct": round(r["gov"]["acmm_mean"] / 5 * 100),
+         "note": f"{sum(lv <= 1 for lv in r['gov']['levels'].values())} of {len(r['gov']['levels'])} elements at level 1 or below"},
+    ]
+    for h in health:
+        h["band"] = _pct_band(h["pct"])
+    cost = {"fy": lt["fy"], "total": lt["total"], "pct_revenue": lt["pct_revenue"], "benchmark": [lo, hi], "cagr": bv["cagr"],
+            "change_share": lt["change_share"], "afford": bv["afford"][:2],
+            "health": th["counts"], "engineering": eng_s["score"], "actions": len(action), "in_scope": len(inscope)}
+    return eng, health, cost
+
+
+def overview_insights(o: dict) -> list[dict]:
+    e, h, c = o["engagement"], {x["key"]: x for x in o["health"]}, o["cost"]
+    weakest = sorted(o["health"], key=lambda x: x["pct"] if x["pct"] is not None else 101)[:2]
+    af = c["afford"][1] if len(c["afford"]) > 1 else (c["afford"][0] if c["afford"] else None)
+    return [
+        {"text": f"Week {e['week']} of {e['weeks']}" + (f", {e['phase']}" if e["phase"] else "") + f"; {e['progress']}% of tasks done"
+                 + (f". Next deliverable: {e['milestone']['name']} (W{e['milestone']['week']})." if e["milestone"] else "."), "rule": "work plan"},
+        {"text": "Weakest domains: " + "; ".join(f"{x['label']} {x['value']} ({x['note'].split(';')[0]})" for x in weakest) + ".", "rule": "domain health score"},
+        {"text": f"{o['counts']['gaps']} gaps roll up into {o['counts']['initiatives']} initiatives; {h['applications']['note'].split(';')[0]}.", "rule": "gap register, dispositions"},
+        {"text": f"{c['fy']} IT spend ₹{c['total']} Cr is {c['pct_revenue']}% of revenue (benchmark {c['benchmark'][0]}-{c['benchmark'][1]}%)"
+                 + (f"; the {af['fy']} roadmap needs {af['share'][0]}-{af['share'][1]}% of planned capex." if af else "."), "rule": "IT Budget"},
+    ]
+
+
 def overview(s: Session) -> dict:
     state, r = ctx(s)
     cfg = state["cfg"]
@@ -214,10 +327,10 @@ def overview(s: Session) -> dict:
     status_why = {
         "PRELIM": (f"{pv['adopted']} principles adopted", f"Assessed when {lim['min']}-{lim['max']} principles are adopted (§23.6)"),
         "A": ("Vision saved" if vd["vision_statement"] else "No vision statement saved", "Assessed once a vision statement is saved"),
-        "B": (f"{caps_share:.0%} of L2 scores are client/deck/public (rest assumed)", "Assessed when ≥ 50% of scores are not assumed"),
-        "C": (f"{c_share:.0%} of apps and data domains are not assumed", "Assessed when ≥ 50% are not assumed"),
-        "D": (f"{d_share:.0%} of checks not assumed; {r['tech']['unknown']} unknown",
-              "Assessed when ≥ 50% not assumed and no check is unknown"),
+        "B": (f"{caps_share:.0%} of L2 scores validated", "Assessed when ≥ 50% of L2 scores are validated"),
+        "C": (f"{c_share:.0%} of apps and data domains validated", "Assessed when ≥ 50% are validated"),
+        "D": (f"{d_share:.0%} of checks validated; {r['tech']['unknown']} unknown",
+              "Assessed when ≥ 50% are validated and no check is unknown"),
         "E": (f"{len(r['initiatives'])} initiatives derived from gaps", "Assessed once gaps roll up into initiatives"),
         "F": ("Rate card is indicative", "Stays in progress until the budget is validated with finance"),
         "G": (f"{n_dec} decisions in the log", "In progress once the ARB logs decisions"),
@@ -247,7 +360,9 @@ def overview(s: Session) -> dict:
         "transitions": {w["id"]: [i["name"] for i in w["initiatives"]] for w in waves},
     }
     states = dict(r["states"], narrative=narrative)
-    return {
+    eng, health, cost = _overview_health(state, r)
+    o = {
+        "engagement": eng, "health": health, "cost": cost,
         "kpis": {"acmm_mean": r["gov"]["acmm_mean"],
                  "avg_cap_maturity": round(st.mean(c["maturity"] for c in r["cap_rows"]), 2),
                  "data_avg": round(st.mean(d["score"] for d in r["data_rows"])),
@@ -269,6 +384,8 @@ def overview(s: Session) -> dict:
         "counts": {"gaps": len(r["gaps"]), "initiatives": len(r["initiatives"]), "apps": len(state["apps"]),
                    "capabilities": len(r["cap_rows"])},
     }
+    o["insights"] = {"summary": overview_insights(o)}
+    return o
 
 
 # --------------------------------------------------------------------------- vision
@@ -388,6 +505,8 @@ def vision(s: Session) -> dict:
         "engagement": v["engagement"], "drivers": v["business_drivers"], "focus_areas": v["digital_focus_areas"],
         "scope": v["scope"], "stakeholders": v["stakeholders"], "principles": pv, "ai_initiatives": ai,
         "guardrails": v.get("guardrails", []), "patterns": v.get("patterns", []), "rules": rules_config(state["cfg"]),
+        "viewpoints": v.get("viewpoints", []), "tailoring": v.get("tailoring", []),
+        "rfp_views": {x["n"]: {"name": x["name"], "screen": x["screen"], "view": x["view"]} for x in state["cfg"].get("architecture_views", [])},
         "vision_doc": vision_doc(s), "ai_ready_min": state["cfg"]["data_rules"].get("ai_ready_min", 60),
         "kpis": {"drivers": len(v["business_drivers"]), "principles_adopted": pv["adopted"],
                  "principles_max": pv["limit"]["max"], "ai_ready": sum(i["ready"] for i in ai), "ai_total": len(ai),
@@ -396,7 +515,7 @@ def vision(s: Session) -> dict:
                  "rules_on": sum(x.get("enabled", False) for x in state["cfg"]["rationalization"].get("rules", []))},
         "explain": {
             "drivers": xp("Business drivers", [(d["id"], f"{d['driver'][:70]} ({d['source']})") for d in v["business_drivers"]],
-                          f"{len(v['business_drivers'])} drivers", "Captured from the proposal deck and public sources", "§7.4, §36.2.9"),
+                          f"{len(v['business_drivers'])} drivers", "Captured from the engagement brief", "§7.4, §36.2.9"),
             "principles_adopted": xp("Principles adopted", [
                 ("CIL & AI principles", f"{sum(p['adopted'] for p in pv['cil'])} of {len(pv['cil'])}"),
                 ("TOGAF examples (§23.6)", f"{sum(p['adopted'] for p in pv['togaf'])} of {len(pv['togaf'])}: "
@@ -604,7 +723,7 @@ def business(s: Session) -> dict:
     L = labels(cfg)
     rows = {c["id"]: c for c in r["cap_rows"]}
     rowa = {a["id"]: a for a in r["app_rows"]}
-    gap_ids = {g["ref"]: g for g in r["gaps"] if g["kind"] == "capability"}
+    gap_ids = {g["ref"]: g for g in r["parity"]["gaps"] if g["kind"] == "capability"}
     serving = collections.defaultdict(list)
     for a in state["apps"]:
         for c in a["caps"]:
@@ -669,8 +788,7 @@ def business(s: Session) -> dict:
     n_l2 = sum(len(l1["children"]) for l1 in state["caps"]["capabilities"])
     d_seed = read_seed()["discovery"]
     app_names = {a["id"]: short(a["name"]) for a in state["apps"]}
-    notes = s.get(SettingOverride, "gap_notes")
-    register = rules.gap_register(state["caps"], surveys, cfg, app_names, notes.value if notes else {})
+    register = r["registers"]["business"]
     ent_l3 = rules.l3_entanglement(state["caps"], surveys, r["entanglement"]["nodes"], app_names)
     b = {
         "l0": l0s, "l1": l1s, "questionnaire": state["caps"]["questionnaire"], "gaps": cap_gaps,
@@ -695,7 +813,7 @@ def business(s: Session) -> dict:
                  "analysed_l2": len(analysed), "alignment_avg": al_avg, "underserved": len(under)},
         "explain": {
             "avg_maturity": xp("Average capability maturity", cap_avg_xp(r)["lines"]
-                               + [("Basis", f"{len(analysed)} L2 scored from L3 discovery; {len(r['cap_rows']) - len(analysed)} on the assumed baseline")],
+                               + [("Basis", f"{len(analysed)} L2 scored from L3 discovery; {len(r['cap_rows']) - len(analysed)} on the baseline")],
                                cap_avg_xp(r)["result"], cap_avg_xp(r)["rule"], "§8.4, §32"),
             "weak_critical": xp("Weak or critical capabilities", [(bd, ", ".join(c["id"] for c in r["cap_rows"] if c["band"] == bd) or "none")
                                                                   for bd in ("critical", "weak")],
@@ -775,13 +893,13 @@ def application_insights(a: dict, state: dict) -> dict:
     apps, k, L = a["apps"], a["kpis"], a["labels"]
     inscope = [x for x in apps if x["in_scope"]]
     out = {}
-    assumed = [x for x in apps if x["source"] == "assumed" or x.get("assumed_fields")]
+    no_owner = [x for x in apps if not x.get("business_owner")]
     unknown = [x["name"] for x in apps if x["lifecycle"] == "Unknown"]
     tbd = [x["name"] for x in apps if x["vendor"] == "TBD"]
     host = collections.Counter(x["hosting"] for x in apps)
     out["intake"] = [
-        {"text": f"{len(apps)} applications inventoried against a target of {k['target']} external; {len(assumed)} still carry "
-                 f"assumed fields until the Tech DD intake comes back.", "rule": "source = assumed or assumed fields present"},
+        {"text": f"{len(apps)} applications inventoried against a target of {k['target']} external; {len(no_owner)} have no named "
+                 f"business owner yet.", "rule": "business owner missing"},
         {"text": (f"{len(unknown)} lifecycles to validate: {_names(unknown, 4)}." if unknown else "Every lifecycle status is recorded."),
          "rule": "lifecycle = Unknown"},
         {"text": (f"Vendor is TBD for {len(tbd)} applications ({_names(tbd, 3)}); confirm with the IT owners before fit scoring."
@@ -842,8 +960,8 @@ def application_insights(a: dict, state: dict) -> dict:
          "rule": f"≥ {ig['hotspot_min']} interfaces"},
         {"text": f"{len(a['external'])} external parties exchange data with CIL systems: {_names([x['name'] for x in a['external']], 3)}.",
          "rule": "external endpoints"},
-        {"text": f"{len(a['interfaces'])} interfaces recorded; the Interface Catalog is assumed until the interface inventory is collected.",
-         "rule": "interface source"}]
+        {"text": f"{len(a['interfaces'])} interfaces recorded across {len({x for i in a['interfaces'] for x in (i['from'], i['to'])})} applications and partners.",
+         "rule": "Interface Catalog"}]
     out["integration"] = [
         {"text": f"{ig['p2p_share']}% of {ig['count']} interfaces are point-to-point; route the hotspots through the governed API layer first.",
          "rule": "via = Point-to-point"},
@@ -864,15 +982,13 @@ def applications(s: Session) -> dict:
                  interfaces=sum(i["from"] == a["id"] or i["to"] == a["id"] for i in state["integrations"]))
             for a in state["apps"]]
     name = {a["id"]: a["name"] for a in state["apps"]} | {x["id"]: x["name"] for x in state["external"]}
-    clusters = [dict(c, cap_name=l2.get(c["cap"], {}).get("name", c["cap"]),
-                     members=[{"id": a, "name": name[a], "disposition": rows[a]["disposition"], "label": rows[a]["label"]} for a in c["apps"]],
-                     survivor_name=name[c["survivor"]]) for c in r["clusters"]]
+    clusters = _clusters(state, r)
     disp = collections.Counter(a["disposition"] for a in r["app_rows"])
     integ = r["integration"]
     rule_off = [x for x in cfg["rationalization"].get("rules", []) if not x.get("enabled")]
     a = {
-        "plan": phase_plan(state, "applications"), "cap_tree": _app_cap_tree(state, r),
-        "ref_view": ref_view(state, "APP-REF", r),
+        "plan": phase_plan(state, "applications"), "cap_tree": r["registers"]["cap_tree"],
+        "ref_view": r["registers"]["app_ref"],
         "apps": apps, "clusters": clusters, "l2": list(l2.values()), "labels": L,
         "label_desc": {d: cfg["rationalization"].get("labels", {}).get(d, {}).get("desc", "") for d in DISPOSITIONS},
         "threshold": cfg["rationalization"]["threshold"], "layers": LAYERS,
@@ -886,9 +1002,9 @@ def applications(s: Session) -> dict:
                  "interfaces": integ["count"], "p2p_share": integ["p2p_share"],
                  "overridden": sum(a["overridden"] for a in r["app_rows"])},
         "explain": {
-            "inventoried": xp("Applications inventoried", [(k, str(v)) for k, v in collections.Counter(a["source"] for a in apps).items()],
+            "inventoried": xp("Applications inventoried", [(k, str(v)) for k, v in collections.Counter(a.get("layer") or "Enterprise Apps" for a in apps).items()],
                               f"{len(apps)} applications in the catalog",
-                              "Seed is a representative subset; the deck cites core apps + 50-60 external apps", "§35.6.5"),
+                              "Representative subset; the estate has core apps plus 50-60 external apps", "§35.6.5"),
             "dispositions": disp_xp(r, cfg),
             "clusters": xp("Duplication clusters", [(c["cap"], f"{', '.join(c['apps'])} → {c['survivor']}") for c in clusters],
                            f"{len(clusters)} clusters", "An L2 capability served by ≥ 2 in-scope apps forms a cluster"
@@ -899,8 +1015,108 @@ def applications(s: Session) -> dict:
             "p2p_share": integ["explain"]["p2p_share"], "manual": integ["explain"]["manual"], "hotspots": integ["explain"]["hotspots"],
         },
     }
+    a["tech_health"] = r["registers"]["health"]
+    a["gap_register"] = r["registers"]["application"]
     a["insights"] = application_insights(a, state)
+    a["insights"]["health"] = health_insights(a, budget_view(state, r))
+    a["insights"]["gaps"] = gap_insights(a["gap_register"], "application")
     return a
+
+
+def gap_insights(reg: dict, what: str) -> list[dict]:
+    """3-4 insights for a domain gap register (applications or data & technology)."""
+    g, c = reg["gaps"], reg["counts"]
+    high = [x for x in g if x["severity"] == "High"]
+    by_init = collections.Counter(x["initiative_name"] for x in g if x["initiative_name"])
+    cats = sorted(c["by_category"].items(), key=lambda t: -t[1])
+    return [
+        {"text": f"{len(g)} {what} gaps: {c['item']} on individual items and {c['portfolio']} across the portfolio; "
+                 f"{c['High']} high, {c['Medium']} medium, {c['Low']} low severity.", "rule": "one gap per item, highest severity wins"},
+        {"text": "By category: " + ", ".join(f"{k} {v}" for k, v in cats) + ".", "rule": "gap category"},
+        {"text": ("High severity: " + _names([x["title"].split(" (")[0] for x in high], 4) + ".") if high else "No high-severity gaps.", "rule": "severity = High"},
+        {"text": "Closed mainly by: " + ", ".join(f"{k} ({v})" for k, v in by_init.most_common(3)) + ".", "rule": "gap → roadmap initiative"},
+    ]
+
+
+def health_insights(a: dict, bv: dict) -> list[dict]:
+    th = a["tech_health"]
+    rows = {x["id"]: x for x in th["rows"]}
+    k = th["counts"]
+    high = sorted((x for x in th["rows"] if x["debt_band"] == "High" and x["in_scope"]), key=lambda x: -(x["debt"] or 0))
+    spof = [x for x in th["rows"] if x["spof_status"] == "SPOF" and x["in_scope"]]
+    scal = [x for x in th["rows"] if x["scal_status"] == "At risk" and x["in_scope"]]
+    sup = next((h for h in bv["heads"] if h["kind"] == "applications"), None)
+    out = [
+        {"text": f"{k['high_debt']} of {k['in_scope']} in-scope applications carry high technical debt (average {k['avg_debt']}/100); highest: "
+                 + ", ".join(f"{short(x['name'])} ({x['debt']})" for x in high[:3]) + ".", "rule": "weighted debt score ≥ 60"},
+        {"text": (f"{len(spof)} single points of failure: " + "; ".join(f"{short(x['name'])} ({x['spof'][0]})" for x in spof[:3]) + "."
+                  if spof else "No single point of failure found in the intake; confirm DR for applications marked Check."), "rule": "criticality ≥ 4 with weak DR, key person, hub or no fallback"},
+        {"text": (f"{len(scal)} applications are at scalability risk at peak season: {_names([short(x['name']) for x in scal], 3)}."
+                  if scal else "No application is flagged at scalability risk."), "rule": "peak load, scaling model, L3 answers"},
+    ]
+    if sup:
+        out.append({"text": f"Application support & AMC is ₹{sup['latest']} Cr a year ({sup['growth']}% over the period); "
+                            f"retiring high-debt applications is the main lever to bend it.", "rule": "IT Budget opex head"})
+    return out
+
+
+# --------------------------------------------------------------------------- IT budget
+def budget_view(state: dict, r: dict) -> dict:
+    return rules.assess_budget(state["budget"], state["cfg"], r.get("fy_budget"))
+
+
+def budget_facts(state: dict, r: dict) -> dict:
+    """Compact cost facts shared with every screen's AI prompts and insights."""
+    bv = budget_view(state, r)
+    lt = bv["latest"]
+    nxt = next((x for x in bv["per_fy"] if not x["actual"]), None)
+    return {"unit": "INR Cr", "provenance": state["budget"].get("source", "assumed"),
+            "latest_actual": {k: lt[k] for k in ("fy", "total", "opex", "salaries", "capex", "pct_revenue", "change_share")},
+            "next_plan": {k: nxt[k] for k in ("fy", "total", "capex", "pct_revenue")} if nxt else None,
+            "cagr_pct": bv["cagr"], "benchmark_pct_revenue": bv["benchmark"],
+            "largest_opex_heads": [f"{h['name']} {h['latest']}" for h in bv["heads"][:3]],
+            "roadmap_vs_capex": [f"{x['fy']}: roadmap {x['roadmap'][0]}-{x['roadmap'][1]} vs capex {x['capex']}" for x in bv["afford"]]}
+
+
+def budget_insights(b: dict) -> dict:
+    bv = b["analysis"]
+    lt, per = bv["latest"], bv["per_fy"]
+    lo, hi = bv["benchmark"]
+    nxt = next((x for x in per if not x["actual"]), per[-1])
+    pos = "below" if (lt["pct_revenue"] or 0) < lo else "above" if (lt["pct_revenue"] or 0) > hi else "within"
+    fast = max(bv["heads"], key=lambda h: h["growth"] or -999) if bv["heads"] else None
+    inputs = [
+        {"text": f"{len(b['inputs']['capex'])} capex initiatives and {len(b['inputs']['opex'])} opex cost heads across {len(per)} years "
+                 f"({sum(x['actual'] for x in per)} actual, {sum(not x['actual'] for x in per)} projected).", "rule": "input count"},
+        {"text": ("Detail and totals reconcile within tolerance." if not bv["recon"] else "Reconcile: " + "; ".join(bv["recon"][:3]) + "."),
+         "rule": "detail sum vs overall row"},
+        {"text": f"{sum(bool(c.get('theme')) for c in b['inputs']['capex'])} of {len(b['inputs']['capex'])} capex lines are tagged to a roadmap initiative; "
+                 f"{len({h.get('kind') for h in b['inputs']['opex']})} opex cost types are tracked.", "rule": "capex theme tags, opex cost types"},
+    ]
+    analysis = [
+        {"text": f"{lt['fy']} IT spend ₹{lt['total']} Cr is {lt['pct_revenue']}% of revenue, {pos} the {lo}-{hi}% benchmark band.", "rule": "total / revenue"},
+        {"text": f"Run vs change: {lt['run_share']}% run (opex + salaries), {lt['change_share']}% change (capex); "
+                 f"{nxt['fy']} plans {nxt['change_share']}% change.", "rule": "capex / total"},
+        {"text": f"IT spend grows at {bv['cagr']}% a year from {per[0]['fy']} to {per[-1]['fy']}; "
+                 + (f"fastest-growing head is {fast['name']} (+{fast['growth']}%)." if fast else ""), "rule": "CAGR, head growth"},
+    ]
+    if bv["afford"]:
+        x = bv["afford"][0]
+        analysis.append({"text": f"Roadmap investment in {x['fy']} (₹{x['roadmap'][0]}-{x['roadmap'][1]} Cr) is {x['share'][0]}-{x['share'][1]}% "
+                                 f"of planned IT capex (₹{x['capex']} Cr).", "rule": "roadmap FY budget / projected capex"})
+    return {"inputs": inputs, "analysis": analysis}
+
+
+def budget(s: Session) -> dict:
+    state, r = ctx(s)
+    b = state["budget"]
+    out = {"plan": phase_plan(state, "budget"), "source": b.get("source", "assumed"),
+           "inputs": {k: b.get(k, []) for k in ("fys", "overall", "capex", "opex", "factors")},
+           "themes": [{"id": t["id"], "name": t["name"]} for t in state["cfg"]["themes"]],
+           "kinds": ["software", "cloud", "infrastructure", "network", "workplace", "applications", "services", "security", "other"],
+           "analysis": budget_view(state, r), "note": read_seed()["budget"]["_meta"]["note"]}
+    out["insights"] = budget_insights(out)
+    return out
 
 
 # --------------------------------------------------------------------------- data & technology
@@ -934,7 +1150,7 @@ def ref_view(state: dict, vid: str, r: dict | None = None) -> dict | None:
     if v is None:
         return None
     v = copy.deepcopy(v)
-    chk = {c["id"]: c for c in state["tech"]["resilience_checks"]}
+    chk = {c["id"]: c for c in state["tech"]["resilience_checks"] + state["tech"].get("engineering_checks", [])}
     disp = {a["id"]: a for a in (r or {}).get("app_rows", [])}
     L = labels(state["cfg"])
     apps = {a["id"]: a for a in state["apps"]}
@@ -963,7 +1179,7 @@ def ref_view(state: dict, vid: str, r: dict | None = None) -> dict | None:
     v["counts"] = {k: counts.get(k, 0) for k in REF_STATUSES} | {"total": len(blocks)}
     v["explain"] = xp(v["title"], [(k, str(counts.get(k, 0))) for k in REF_STATUSES],
                       f"{len(blocks)} building blocks; {counts.get('missing', 0)} do not exist, {counts.get('partial', 0)} have gaps",
-                      "Status is the architect's rating (assumed until validated); blocks linked to a resilience check take its status "
+                      "Status is the architect's rating; blocks linked to a resilience check take its status "
                       "(pass → no gap, partial → some gaps, fail → does not exist, unknown → validate)", "§35.6, §43")
     return v
 
@@ -1010,6 +1226,15 @@ def data_tech_insights(d: dict, state: dict) -> dict:
         {"text": ("Failed checks: " + _names(fails, 3) + ".") if fails else "No resilience check has failed.", "rule": "status = fail"},
         {"text": f"{sum(p.get('lifecycle') == 'Unknown' for p in plat)} of {len(plat)} platforms have an unknown lifecycle; "
                  f"{sum(p.get('standard') == 'Non-Standard' for p in plat)} are non-standard.", "rule": "technology portfolio"}]
+    # RFP assessment items 3 (obsolescence) and 10 (standardisation opportunities)
+    old_p = [p["name"] for p in plat if p.get("lifecycle") in ("Ageing", "EOL < 24m") or p.get("standard") in ("Phasing-Out Standard", "Retired Standard")]
+    old_a = [short(a["name"]) for a in state["apps"] if a.get("lifecycle") in ("Ageing", "EOL < 24m")]
+    nonstd = [short(a["name"]) for a in state["apps"] if a.get("in_scope", True) and a.get("standards_class") == "Non-Standard"]
+    out["tech"].append({"text": f"Obsolescence: {len(old_p)} platforms and {len(old_a)} applications are ageing or near end of life"
+                                + (f" ({_names(old_p + old_a, 3)})" if old_p or old_a else "")
+                                + f". Standardisation opportunity: {len(nonstd)} in-scope applications are non-standard"
+                                + (f" ({_names(nonstd, 3)})." if nonstd else "."),
+                        "rule": "lifecycle Ageing / EOL < 24m; standards class"})
     return out
 
 
@@ -1033,9 +1258,21 @@ def data_tech(s: Session) -> dict:
                                       "disposition": rowa[a["id"]]["disposition"], "label": L[rowa[a["id"]]["disposition"]]})
     zones = [dict(z, statuses=[{"id": c, "status": status.get(c, "unknown")} for c in z["checks"]])
              for z in state["tech"].get("security_zones", [])]
+    eng = state["tech"].get("engineering_checks", [])
+    bv = budget_view(state, r)
+    infra_heads = [h for h in state["budget"].get("opex", []) if h.get("kind") in ("cloud", "infrastructure", "network", "security")]
     d = {
         "plan": phase_plan(state, "data_tech"),
         "data_ref": ref_view(state, "DATA-REF", r), "infra_ref": ref_view(state, "INFRA-REF", r),
+        "engineering_checks": eng, "engineering": rules.engineering_score(eng, state["cfg"]),
+        "landing_zones": state["tech"].get("landing_zones", []), "sites_source": state["tech"].get("sites_source", "deck"),
+        "apps": [{"id": a["id"], "name": a["name"], "hosting": a.get("hosting")} for a in state["apps"]],
+        "budget_fys": state["budget"].get("fys", []), "budget_infra": infra_heads,
+        "options": {"mdm": ["none", "partial", "full"], "data_types": ["Master", "Transactional", "Reference", "Analytical", "Unstructured", "IoT / time-series", "Geospatial"],
+                    "sensitivity": ["Public", "Internal", "Confidential", "Personal (DPDP)", "Restricted"],
+                    "standards": ["Standard", "Provisional Standard", "Proposed Standard", "Phasing-Out Standard", "Non-Standard", "Retired Standard"],
+                    "lifecycle": ["Current", "Ageing", "EOL < 24m", "Unknown"], "check": ["pass", "partial", "fail", "unknown"],
+                    "location_types": ["Data centre", "DR", "Public cloud", "Managed cloud", "Edge / OT", "Edge / retail", "Office", "External"]},
         "domains": domains, "matrix": matrix, "bands": state["cfg"]["data_rules"]["bands"],
         "weights": state["cfg"]["data_rules"]["score_weights"],
         "facts": state["tech"]["facts"], "locations": state["tech"]["locations"], "platforms": plat,
@@ -1061,7 +1298,25 @@ def data_tech(s: Session) -> dict:
         },
         "check_explain": {c["id"]: check_explain(c, state["cfg"]) for c in checks},
     }
+    d["gap_register"] = r["registers"]["data_tech"]
     d["insights"] = data_tech_insights(d, state)
+    d["insights"]["gaps"] = gap_insights(d["gap_register"], "data and technology")
+    e = d["engineering"]
+    fails = [c["check"] for c in eng if c["status"] == "fail"]
+    d["insights"]["engineering"] = [
+        {"text": f"Engineering practices score {e['score']}/100 on known checks; {e['unknown']} still to validate.", "rule": "pass 100 · partial 50 · fail 0"},
+        {"text": ("Not in place: " + _names(fails, 3) + ".") if fails else "No engineering practice check has failed.", "rule": "status = fail"},
+        {"text": "DevSecOps, IaC and observability gaps raise change risk for the farmer, dealer and data platforms planned in the roadmap.", "rule": "E02-E04, E08 vs TH1, TH4"}]
+    doms = d["domains"]
+    d["insights"]["inputs"] = [
+        {"text": f"{len(doms)} data domains, {len(d['platforms'])} technology platforms, {len(d['locations'])} sites and {len(d['network'])} network links captured.", "rule": "input count"},
+        {"text": f"{len({t for x in doms for t in x.get('data_types', [])})} data types across the domains; "
+                 f"{sum(not x.get('steward') for x in doms)} domains have no data steward yet.", "rule": "data types, steward"},
+        {"text": f"Personal data sits in {sum(bool(x.get('pii')) for x in doms)} domains; {sum(bool(x.get('pii')) and not x.get('classified') for x in doms)} are not yet classified.", "rule": "pii, classified"}]
+    cloud = next((h for h in bv["heads"] if h["kind"] == "cloud"), None)
+    if cloud and "infra" in d["insights"]:
+        d["insights"]["infra"] = d["insights"]["infra"][:3] + [{"text": f"Cloud & hosting opex is ₹{cloud['latest']} Cr a year (+{cloud['growth']}% over the period) "
+                                                                          f"while landing zones are only partly built; set cost guardrails with the Data & AI landing zone.", "rule": "IT Budget opex head"}]
     return d
 
 
@@ -1071,12 +1326,38 @@ def roadmap(s: Session) -> dict:
     cfg = state["cfg"]
     theme_name = {t["id"]: t["name"] for t in cfg["themes"]}
     gaps = sorted((dict(g, theme_name=theme_name[g["theme"]]) for g in r["gaps"]), key=lambda g: -g["priority"])
+    themes = {t["id"]: t for t in cfg["themes"]}
+    nov = s.get(SettingOverride, "initiative_notes")
+    notes = nov.value if nov else {}
+    pri = {p["id"]: p for p in rules.prioritise(r["initiatives"], cfg)}
+    capex_by_theme = collections.defaultdict(float)
+    for c in state["budget"].get("capex", []):
+        if c.get("theme"):
+            capex_by_theme[c["theme"]] += sum(v for v in c["values"] if isinstance(v, (int, float)))
+    inits = []
+    for i in r["initiatives"]:
+        t, n = themes[i["id"]], notes.get(i["id"], {})
+        inits.append(dict(i, prio=pri[i["id"]], theme_focus=t.get("focus", []),
+                          benefits=n.get("benefits", t.get("benefits", [])), risks=n.get("risks", t.get("risks", [])),
+                          constraints=n.get("constraints", t.get("constraints", [])), notes_source="client" if n else "assumed",
+                          kpis=n.get("kpis", ""), owner=n.get("owner", ""),
+                          gap_list=[{"id": g["id"], "title": g["title"], "kind": KIND[g["kind"]], "priority": g["priority"], "ref": g["ref"],
+                                     "severity": g.get("severity"), "register": g.get("register", KIND[g["kind"]])}
+                                    for g in gaps if g["theme"] == i["id"]],
+                          budget_capex=round(capex_by_theme.get(i["id"], 0), 1)))
+    bv = budget_view(state, r)
+    rov = s.get(SettingOverride, "repository")
+    repo = {**cfg["governance"].get("repository", {}), **(rov.value if rov else {})}
+    if rov:
+        repo["source"] = "client"
     gov = cfg["governance"]
     acmm = [{"id": e["id"], "name": e["name"], "level": r["gov"]["levels"][e["id"]],
              "source": state["acmm_source"].get(e["id"], "assumed")} for e in gov["acmm_elements"]]
     decisions = [d.model_dump(mode="json") for d in s.exec(select(Decision).order_by(Decision.id))]
     pv = principles_view(s, state)
-    return {
+    out = {
+        "plan": phase_plan(state, "roadmap"), "long_list": inits, "budget": {k: bv[k] for k in ("afford", "per_fy", "benchmark")},
+        "repository": repo, "prio_cfg": cfg["prioritization"],
         "gaps": gaps, "initiatives": r["initiatives"], "waves": cfg["roadmap"]["waves"], "fy_budget": r["fy_budget"],
         "total_cr": r["total_cr"], "rate_card": cfg["roadmap"]["rate_card_inr_cr"],
         "rate_card_note": cfg["roadmap"]["rate_card_note"], "start": cfg["roadmap"]["start"],
@@ -1089,7 +1370,7 @@ def roadmap(s: Session) -> dict:
         "explain": {
             "gaps": xp("Gap register", [(KIND[k], str(n)) for k, n in collections.Counter(g["kind"] for g in gaps).items()],
                        f"{len(gaps)} gaps; {sum(g['priority'] >= 20 for g in gaps)} at priority ≥ 20",
-                       "Every gap comes from a rule on screens 2-4 or governance; priority = impact × urgency", "§27"),
+                       "Every gap comes from the Business, Application or Data & Technology gap register, or ACMM governance; priority = impact × urgency from severity", "§27"),
             "initiatives": xp("Initiatives", [(f"{i['wave_id']} {i['id']}", f"{i['name']} · {i['gaps']} gaps · size {i['size']}")
                                               for i in r["initiatives"]],
                               f"{len(r['initiatives'])} initiatives from {len(gaps)} gaps",
@@ -1097,21 +1378,65 @@ def roadmap(s: Session) -> dict:
             "total_cr": total_xp(r), "acmm_mean": r["gov"]["explain"], "fy_budget": fy_xp(r),
         },
     }
+    out["insights"] = roadmap_insights(out)
+    return out
+
+
+def roadmap_insights(rm: dict) -> dict:
+    ll, k = rm["long_list"], rm["kpis"]
+    q = collections.Counter(i["prio"]["label"] for i in ll)
+    top = sorted(ll, key=lambda i: i["prio"]["rank"])[:3]
+    no_capex = [i["name"] for i in ll if not i["budget_capex"]]
+    af = rm["budget"]["afford"]
+    risky = sorted(ll, key=lambda i: -len(i["risks"]))[:2]
+    low = [a["name"] for a in rm["acmm"] if a["level"] <= 1]
+    return {
+        "longlist": [
+            {"text": f"{k['gaps']} gaps roll up into {len(ll)} initiatives costing ₹{fmt(k['total_cr'][0])}-{fmt(k['total_cr'][1])} Cr.", "rule": "gap → theme → initiative"},
+            {"text": "Most gaps: " + ", ".join(f"{i['name']} ({i['gaps']})" for i in sorted(ll, key=lambda i: -i["gaps"])[:3]) + ".", "rule": "gaps per initiative"},
+            {"text": (f"{len(no_capex)} initiatives have no matching line in the IT capex plan: {_names(no_capex, 3)}." if no_capex
+                      else "Every initiative maps to a line in the IT capex plan."), "rule": "IT Budget capex theme"}],
+        "priority": [
+            {"text": "Quadrants: " + ", ".join(f"{n} {lbl.lower()}" for lbl, n in q.most_common()) + ".", "rule": "value ≥ split, effort ≤ split"},
+            {"text": "Top of the list: " + "; ".join(f"{i['prio']['rank']}. {i['name']} ({i['prio']['label']})" for i in top) + ".", "rule": "quadrant, then value / effort"},
+            {"text": "Highest-risk initiatives: " + "; ".join(f"{i['name']} ({len(i['risks'])} risks)" for i in risky) + ".", "rule": "risk register"}],
+        "roadmap": [
+            {"text": "Waves: " + "; ".join(f"{w['id']} {w['name']}: {sum(i['wave'] == n for i in ll)}" for n, w in enumerate(rm["waves"])) + ".", "rule": "wave rules + dependency push"},
+            {"text": (f"{af[0]['fy']} roadmap investment ₹{af[0]['roadmap'][0]}-{af[0]['roadmap'][1]} Cr is {af[0]['share'][0]}-{af[0]['share'][1]}% "
+                      f"of planned IT capex ₹{af[0]['capex']} Cr." if af else "Add projected capex on IT Budget to test affordability."), "rule": "roadmap FY / IT capex"},
+            {"text": "Foundations first: " + ", ".join(i["name"] for i in ll if i["foundation"]) + ".", "rule": "foundation themes"}],
+        "governance": [
+            {"text": f"ACMM mean {rm['acmm_mean']}/5; elements at level ≤ 1: {_names(low, 3) if low else 'none'}.", "rule": "§51.3 ACMM"},
+            {"text": f"{len(rm['decisions'])} architecture decisions recorded; {sum(d['status'] == 'Proposed' for d in rm['decisions'])} awaiting ARB approval.", "rule": "decision log"},
+            {"text": f"{len(rm['repository'].get('ownership', []))} view families have a named owner and update cadence in the repository model.", "rule": "repository ownership"}],
+    }
 
 
 SCREENS = {"overview": overview, "approach": approach, "vision": vision, "business": business, "applications": applications,
-           "data_tech": data_tech, "roadmap": roadmap}
+           "data_tech": data_tech, "budget": budget, "roadmap": roadmap}
 
 
 def tab_insights(s: Session, screen: str, tab: str) -> list[dict]:
     """Rule-derived insights for one tab of a screen (screens without per-tab insights return [])."""
-    if screen in ("business", "applications", "data_tech"):
+    if screen in ("overview", "business", "applications", "data_tech", "roadmap", "budget"):
         return SCREENS[screen](s)["insights"].get(tab, [])
     return []
 
 
 # --------------------------------------------------------------------------- prompt facts (computed outputs only)
 def summary(s: Session, screen: str) -> dict:
+    """Facts for the AI prompts of a screen, always with the IT cost baseline so every inference can use it."""
+    out = _summary(s, screen)
+    state, r = ctx(s)
+    return dict(out, it_budget=budget_facts(state, r))
+
+
+def _summary(s: Session, screen: str) -> dict:
+    if screen == "budget":
+        b = budget(s)
+        return {"per_fy": [{k: x[k] for k in ("fy", "total", "opex", "salaries", "capex", "pct_revenue", "change_share")} for x in b["analysis"]["per_fy"]],
+                "largest_heads": [f"{h['name']} {h['latest']} ({h['growth']}%)" for h in b["analysis"]["heads"][:5]],
+                "reconciliation": b["analysis"]["recon"], "provenance": b["source"]}
     if screen == "overview":
         o = overview(s)
         return {"kpis": o["kpis"], "dispositions": o["dispositions"], "top_gaps": [g["title"] for g in o["top_gaps"]],
@@ -1152,17 +1477,24 @@ def summary(s: Session, screen: str) -> dict:
                                  if x["computed"]["disposition"] in ACTIONS],
                 "clusters": [f"{c['cap']} {c['cap_name']}: {', '.join(m['name'] for m in c['members'])} -> {c['survivor_name']}"
                              for c in a["clusters"]],
-                "integration": {k: a["integration"][k] for k in ("count", "p2p_share", "manual")}, "provenance": "fit scores assumed"}
+                "integration": {k: a["integration"][k] for k in ("count", "p2p_share", "manual")}, "provenance": "fit scores assumed",
+                "technical_health": a["tech_health"]["counts"],
+                "spof": [f"{x['name']}: {'; '.join(x['spof'])}" for x in a["tech_health"]["rows"] if x["spof"]][:6]}
     if screen == "data_tech":
         d = data_tech(s)
         return {"kpis": d["kpis"], "domain_scores": {x["name"]: x["computed"]["score"] for x in d["domains"]},
                 "privacy_risk_domains": [x["name"] for x in d["domains"] if x["computed"]["privacy_risk"]],
                 "domains_without_owner": [x["name"] for x in d["domains"] if not x["owner"]],
-                "checks_not_passing": [f"{c['id']} {c['check']}: {c['status']}" for c in d["checks"] if c["status"] != "pass"]}
+                "checks_not_passing": [f"{c['id']} {c['check']}: {c['status']}" for c in d["checks"] if c["status"] != "pass"],
+                "engineering_score": d["engineering"]["score"],
+                "engineering_not_passing": [f"{c['id']} {c['check']}: {c['status']}" for c in d["engineering_checks"] if c["status"] != "pass"]}
     if screen == "roadmap":
         rm = roadmap(s)
         return {"kpis": rm["kpis"], "initiatives": [f"{i['wave_id']} {i['id']} {i['name']} size {i['size']} gaps {i['gaps']} "
                                                     f"Rs {i['cost_cr'][0]}-{i['cost_cr'][1]} Cr" for i in rm["initiatives"]],
                 "fy_budget_cr": rm["fy_budget"], "acmm_low": [a["name"] for a in rm["acmm"] if a["level"] <= 1],
-                "decisions": len(rm["decisions"]), "top_gaps": [g["title"] for g in rm["gaps"][:5]]}
+                "decisions": len(rm["decisions"]), "top_gaps": [g["title"] for g in rm["gaps"][:5]],
+                "prioritisation": [f"{i['prio']['rank']}. {i['name']} {i['prio']['label']}" for i in sorted(rm["long_list"], key=lambda i: i["prio"]["rank"])],
+                "risks": {i["name"]: i["risks"] for i in rm["long_list"]}}
+
     return {}

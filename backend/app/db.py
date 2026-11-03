@@ -16,7 +16,10 @@ from .models import (AcmmLevel, Application, ArchView, Capability, ContextDoc, D
 
 # Demo defaults (assumed): CIL principles plus the TOGAF principles they build on.
 SEED_ADOPTED_TOGAF = ["TOGAF-01", "TOGAF-02", "TOGAF-10", "TOGAF-15", "TOGAF-21"]
+GUIDE_KINDS = (("principle", "principles_cil"), ("guardrail", "guardrails"), ("pattern", "patterns"),
+               ("viewpoint", "viewpoints"), ("tailoring", "tailoring"))
 SEED_DECISIONS = [
+
     {"title": "Adopt TOGAF 9.1 ADM as the EA method",
      "context": "Proposal asks for an industry-aligned EA baseline, target state and governance model.",
      "decision": "Run Preliminary to Phase H with a lightweight repository; ARB chaired by the CIO reviews all solution designs.",
@@ -28,7 +31,7 @@ SEED_DECISIONS = [
 ]
 TABLES = (Capability, Application, DataDomain, Platform, TechCheck, AcmmLevel, PrincipleSelection, VisionDoc, Decision,
           SettingOverride, Guideline, Integration, Survey, ProcessModel, PlanTask, ContextDoc, ArchView)
-SEED_VERSION = 5  # bump when the seed shape changes so existing demo databases are rebuilt once
+SEED_VERSION = 6  # bump when the seed shape changes so existing demo databases are rebuilt once
 
 _engine = None
 
@@ -58,7 +61,8 @@ def read_seed() -> dict:
             "data": j("data_domains.json")["domains"], "tech": j("technology.json"), "cfg": j("config.json"),
             "reference": j("reference_model.json")["nodes"], "integrations": integ["interfaces"],
             "external": integ["external"], "integration_meta": integ["_meta"], "discovery": j("discovery.json"),
-            "process_models": j("process_models.json")["models"], "ref_views": j("reference_views.json")["views"]}
+            "process_models": j("process_models.json")["models"], "ref_views": j("reference_views.json")["views"],
+            "budget": j("budget.json")}
 
 
 def nat_key(s: str) -> list:
@@ -92,11 +96,11 @@ def seed_all(s: Session) -> None:
         s.add(DataDomain(id=d["id"], data=copy.deepcopy(d), source=d.get("source", "assumed")))
     for p in seed["tech"]["platforms"]:
         s.add(Platform(id=p["id"], data=copy.deepcopy(p), source=p.get("source", "assumed")))
-    for c in seed["tech"]["resilience_checks"]:
+    for c in seed["tech"]["resilience_checks"] + seed["tech"].get("engineering_checks", []):
         s.add(TechCheck(id=c["id"], status=c["status"], source=c.get("source", "assumed")))
     for e in seed["cfg"]["governance"]["acmm_elements"]:
         s.add(AcmmLevel(id=e["id"], level=e["seed"], source="assumed"))
-    for kind, key in (("principle", "principles_cil"), ("guardrail", "guardrails"), ("pattern", "patterns")):
+    for kind, key in GUIDE_KINDS:
         for g in seed["vision"].get(key, []):
             s.add(Guideline(id=g["id"], kind=kind, data={**copy.deepcopy(g), "active": True}, source=g.get("source", "assumed")))
     for i in seed["integrations"]:
@@ -178,16 +182,28 @@ def load_state(s: Session) -> dict:
     data = [dict(d.data, source=d.source) for d in s.exec(select(DataDomain).order_by(DataDomain.id))]
     tech = copy.deepcopy(seed["tech"])
     status = {c.id: c for c in s.exec(select(TechCheck))}
-    for c in tech["resilience_checks"]:
+    for c in tech["resilience_checks"] + tech.get("engineering_checks", []):
         if c["id"] in status:
             c["status"], c["source"] = status[c["id"]].status, status[c["id"]].source
+    sites = s.get(SettingOverride, "sites")
+    if sites:
+        tech["locations"], tech["network"] = sites.value.get("locations", tech["locations"]), sites.value.get("network", tech.get("network", []))
+        tech["sites_source"] = "client"
+    lz = s.get(SettingOverride, "landing_zones")
+    if lz:
+        tech["landing_zones"] = lz.value.get("items", tech.get("landing_zones", []))
     tech["platforms"] = [dict(p.data, source=p.source) for p in s.exec(select(Platform).order_by(Platform.id))]
     acmm = {a.id: a.level for a in s.exec(select(AcmmLevel))}
     acmm_src = {a.id: a.source for a in s.exec(select(AcmmLevel))}
     vision = copy.deepcopy(seed["vision"])
     guides = sorted(s.exec(select(Guideline)), key=lambda g: nat_key(g.id))
-    for kind, key in (("principle", "principles_cil"), ("guardrail", "guardrails"), ("pattern", "patterns")):
+    for kind, key in GUIDE_KINDS:
         vision[key] = [dict(g.data, id=g.id, source=g.source) for g in guides if g.kind == kind]
+    sow = s.get(SettingOverride, "scope_of_work")
+    if sow:
+        vision["scope_of_work"] = {**vision.get("scope_of_work", {}), **sow.value, "source": "client"}
+    bud = s.get(SettingOverride, "budget")
+    budget = copy.deepcopy(bud.value) if bud else copy.deepcopy(seed["budget"])
     integrations = [dict(i.data, id=i.id, source=i.source) for i in sorted(s.exec(select(Integration)), key=lambda i: nat_key(i.id))]
     return {"vision": vision, "caps": load_caps(s), "apps": apps, "data": data, "tech": tech,
             "cfg": effective_config(s), "acmm": acmm, "acmm_source": acmm_src, "reference": seed["reference"],
@@ -195,4 +211,5 @@ def load_state(s: Session) -> dict:
             "surveys": {v.id: dict(v.data, source=v.source) for v in s.exec(select(Survey))},
             "process_models": [dict(m.data, id=m.id, source=m.source) for m in sorted(s.exec(select(ProcessModel)), key=lambda m: m.id)],
             "plan_status": {t.id: (t.status, t.source) for t in s.exec(select(PlanTask))},
-            "ref_views": {v.id: dict(v.data, id=v.id, source=v.source) for v in s.exec(select(ArchView))}}
+            "ref_views": {v.id: dict(v.data, id=v.id, source=v.source) for v in s.exec(select(ArchView))},
+            "budget": budget}

@@ -163,6 +163,51 @@
       ]
     },
     {
+      "id": "peak",
+      "dim": null,
+      "type": "choice",
+      "label": "Peak-season performance (scalability)",
+      "text": "How do the systems behind {l3} cope at peak season (kharif and rabi) or month-end?",
+      "help": "Think of the busiest week last season: did screens slow down, batches overrun or teams switch to offline workarounds?",
+      "options": [
+        "Fails; we switch to manual workarounds",
+        "Slows badly; deadlines slip",
+        "Slows but copes",
+        "Copes with minor delays",
+        "No impact at peak"
+      ]
+    },
+    {
+      "id": "fallback",
+      "dim": null,
+      "type": "choice",
+      "label": "Fallback if a system or person is unavailable (single points of failure)",
+      "text": "If the main system or the one person who knows it is unavailable, can {l3} continue?",
+      "help": "Consider an outage of a day, or the key user or vendor resource being away for a week.",
+      "options": [
+        "Stops completely; no fallback",
+        "Continues only on paper or Excel",
+        "A manual fallback exists but is untested",
+        "Tested fallback for most scenarios",
+        "Fully redundant; no single person or system"
+      ]
+    },
+    {
+      "id": "workarounds",
+      "dim": null,
+      "type": "choice",
+      "label": "Workarounds and fixes (technical debt)",
+      "text": "How much effort goes into workarounds, patches or reconciliations to keep {l3} running?",
+      "help": "Count recurring fixes, custom scripts, manual reconciliations and change requests waiting on old code.",
+      "options": [
+        "Constant firefighting; changes are risky",
+        "Frequent fixes and reconciliations",
+        "Some known workarounds",
+        "Rare; changes are routine",
+        "None; the platform is clean and current"
+      ]
+    },
+    {
       "id": "importance",
       "dim": "IMP",
       "type": "choice",
@@ -264,7 +309,10 @@
         "context": "SKU × state × month in Excel; accuracy tracked informally at state level only (MAPE not reported).",
         "reporting": 2,
         "change": 1,
-        "adoption": 2
+        "adoption": 2,
+        "peak": 3,
+        "fallback": 1,
+        "workarounds": 2
       },
       "history": [
         {
@@ -313,7 +361,10 @@
         "context": "Monsoon and sowing inputs arrive as regional emails; no structured feed into the plan.",
         "reporting": 2,
         "change": 2,
-        "adoption": 1
+        "adoption": 1,
+        "peak": 1,
+        "fallback": 2,
+        "workarounds": 1
       },
       "history": [
         {
@@ -365,7 +416,10 @@
         "context": "Around 40% of district lines are overridden; overrides approved by the regional head without a log.",
         "reporting": 2,
         "change": 2,
-        "adoption": 3
+        "adoption": 3,
+        "peak": 2,
+        "fallback": 2,
+        "workarounds": 2
       },
       "history": [
         {
@@ -417,7 +471,10 @@
         "context": "Import plan constraints are added manually by procurement a day before the executive review.",
         "reporting": 3,
         "change": 2,
-        "adoption": 4
+        "adoption": 4,
+        "peak": 3,
+        "fallback": 3,
+        "workarounds": 3
       },
       "history": [
         {
@@ -469,7 +526,10 @@
         "context": "App, WhatsApp bot and call centre; about half of app cases carry a usable photo.",
         "reporting": 2,
         "change": 1,
-        "adoption": 3
+        "adoption": 3,
+        "peak": 1,
+        "fallback": 1,
+        "workarounds": 3
       },
       "history": [
         {
@@ -520,7 +580,10 @@
         "context": "About 70% of AI pre-diagnoses are confirmed; agronomist turnaround 24-48 hours in peak season.",
         "reporting": 2,
         "change": 4,
-        "adoption": 3
+        "adoption": 3,
+        "peak": 1,
+        "fallback": 2,
+        "workarounds": 3
       },
       "history": [
         {
@@ -572,7 +635,10 @@
         "context": "Recommendation picks from a product list; label claims and local stock are checked manually.",
         "reporting": 2,
         "change": 2,
-        "adoption": 3
+        "adoption": 3,
+        "peak": 3,
+        "fallback": 2,
+        "workarounds": 3
       },
       "history": [
         {
@@ -623,7 +689,10 @@
         "context": "No closed loop: purchase and outcome are not linked back to the recommendation.",
         "reporting": 2,
         "change": 1,
-        "adoption": 3
+        "adoption": 3,
+        "peak": 1,
+        "fallback": 1,
+        "workarounds": 2
       },
       "history": [
         {
@@ -675,7 +744,10 @@
         "context": "Claims generated in the subsidy tool from SAP sales; NBS rate changes keyed in manually.",
         "reporting": 3,
         "change": 3,
-        "adoption": 3
+        "adoption": 3,
+        "peak": 2,
+        "fallback": 2,
+        "workarounds": 3
       },
       "history": [
         {
@@ -726,7 +798,10 @@
         "context": "Roughly 15% of lines fail the first match, mostly unacknowledged dealer receipts and quantity mismatches.",
         "reporting": 2,
         "change": 4,
-        "adoption": 2
+        "adoption": 2,
+        "peak": 3,
+        "fallback": 3,
+        "workarounds": 2
       },
       "history": [
         {
@@ -779,7 +854,10 @@
         "context": "Ageing is reviewed fortnightly; receipt timing is not fed into the cash forecast automatically.",
         "reporting": 3,
         "change": 2,
-        "adoption": 3
+        "adoption": 3,
+        "peak": 2,
+        "fallback": 3,
+        "workarounds": 3
       },
       "history": [
         {
@@ -830,7 +908,10 @@
         "context": "Freight subsidy evidence is collated by hand from rake documents; cycle is 60-90 days.",
         "reporting": 2,
         "change": 2,
-        "adoption": 3
+        "adoption": 3,
+        "peak": 1,
+        "fallback": 2,
+        "workarounds": 2
       },
       "history": [
         {
@@ -882,7 +963,10 @@
         "context": "Plan agreed monthly with DoF and revised two to three times in-season.",
         "reporting": 3,
         "change": 2,
-        "adoption": 4
+        "adoption": 4,
+        "peak": 3,
+        "fallback": 2,
+        "workarounds": 3
       },
       "history": [
         {
@@ -934,7 +1018,10 @@
         "context": "Primary movement is uploaded daily from SAP extracts; secondary movement weekly.",
         "reporting": 2,
         "change": 3,
-        "adoption": 3
+        "adoption": 3,
+        "peak": 2,
+        "fallback": 3,
+        "workarounds": 3
       },
       "history": [
         {
@@ -986,7 +1073,10 @@
         "context": "Around 80% of dispatches acknowledged within the window; the rest are chased by phone.",
         "reporting": 2,
         "change": 3,
-        "adoption": 3
+        "adoption": 3,
+        "peak": 2,
+        "fallback": 3,
+        "workarounds": 2
       },
       "history": [
         {
@@ -1037,7 +1127,10 @@
         "context": "Exceptions logged in Excel and assigned by email; no SLA or ageing.",
         "reporting": 2,
         "change": 3,
-        "adoption": 2
+        "adoption": 2,
+        "peak": 2,
+        "fallback": 2,
+        "workarounds": 2
       },
       "history": [
         {
@@ -1090,7 +1183,10 @@
         "context": "At least four farmer IDs (store POS, MyGromor, Nutri clinics, call centre); matched on mobile number only.",
         "reporting": 2,
         "change": 2,
-        "adoption": 2
+        "adoption": 2,
+        "peak": 2,
+        "fallback": 1,
+        "workarounds": 2
       },
       "history": [
         {
@@ -1141,7 +1237,10 @@
         "context": "Points earned at stores; app redemption not live. Funded from the retail marketing budget.",
         "reporting": 3,
         "change": 3,
-        "adoption": 3
+        "adoption": 3,
+        "peak": 2,
+        "fallback": 2,
+        "workarounds": 3
       },
       "history": [
         {
@@ -1193,7 +1292,10 @@
         "context": "AI retention model scores store customers monthly; outputs shared as lists, not in the POS.",
         "reporting": 2,
         "change": 2,
-        "adoption": 3
+        "adoption": 3,
+        "peak": 3,
+        "fallback": 2,
+        "workarounds": 3
       },
       "history": [
         {
@@ -1245,7 +1347,10 @@
         "context": "Campaigns targeted by store and crop; consent is not checked consistently before outreach.",
         "reporting": 2,
         "change": 2,
-        "adoption": 3
+        "adoption": 3,
+        "peak": 2,
+        "fallback": 2,
+        "workarounds": 2
       },
       "history": [
         {
@@ -1297,7 +1402,10 @@
         "context": "Monthly plan in SAP PP from S&OP numbers; raw-material checks done with procurement offline.",
         "reporting": 4,
         "change": 3,
-        "adoption": 4
+        "adoption": 4,
+        "peak": 3,
+        "fallback": 2,
+        "workarounds": 4
       },
       "history": [
         {
@@ -1348,7 +1456,10 @@
         "context": "Kakinada schedules in SAP; Visakhapatnam and Ennore in spreadsheets. Frozen weekly.",
         "reporting": 3,
         "change": 3,
-        "adoption": 3
+        "adoption": 3,
+        "peak": 4,
+        "fallback": 3,
+        "workarounds": 3
       },
       "history": [
         {
@@ -1399,7 +1510,10 @@
         "context": "Changeover sequence follows a standard grade wheel; deviations agreed on the plant floor.",
         "reporting": 3,
         "change": 3,
-        "adoption": 3
+        "adoption": 3,
+        "peak": 2,
+        "fallback": 3,
+        "workarounds": 3
       },
       "history": [
         {
@@ -1452,7 +1566,10 @@
         "context": "OEE, plan adherence and specific energy reviewed weekly per plant.",
         "reporting": 4,
         "change": 3,
-        "adoption": 4
+        "adoption": 4,
+        "peak": 3,
+        "fallback": 3,
+        "workarounds": 4
       },
       "history": [
         {
@@ -1503,7 +1620,10 @@
         "context": "Bookings come by phone and dealer WhatsApp; slots confirmed by call. No farmer self-service.",
         "reporting": 3,
         "change": 3,
-        "adoption": 2
+        "adoption": 2,
+        "peak": 2,
+        "fallback": 1,
+        "workarounds": 2
       },
       "history": [
         {
@@ -1554,7 +1674,10 @@
         "context": "Schemes designed per season in Excel; approved by the Head of Sales; budgets tracked offline.",
         "reporting": 2,
         "change": 1,
-        "adoption": 2
+        "adoption": 2,
+        "peak": 2,
+        "fallback": 2,
+        "workarounds": 2
       },
       "history": [
         {

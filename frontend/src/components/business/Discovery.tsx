@@ -4,7 +4,6 @@ import { ChevronsDownUp, ChevronsUpDown, ClipboardCheck, Mail, Minus, Plus, Sear
 import { toast } from 'sonner'
 import { NodeDialog, useBusinessUpdate, type NodeEdit } from '@/components/CapabilityModules'
 import { Explain } from '@/components/Explain'
-import { ProvenanceBadge } from '@/components/ProvenanceBadge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
@@ -294,7 +293,7 @@ export function Discovery({ b }: { b: Business }) {
         <div className="flex flex-col justify-center rounded-lg border px-3.5 py-2.5 text-[11px]">
           <div className="text-[10.5px] font-semibold tracking-wide text-muted-foreground uppercase">Adopted from the standard</div>
           <div className="tabular text-[15px] font-semibold">{cov.adopted}<span className="text-[11px] font-normal text-muted-foreground">/{cov.total} L2</span> · {cov.l3_adopted}<span className="text-[11px] font-normal text-muted-foreground">/{cov.l3_total} L3</span></div>
-          <div className="flex items-center gap-1.5 text-muted-foreground"><ProvenanceBadge source="assumed" /> agri-inputs standard <Explain x={cov.explain} /></div>
+          <div className="flex items-center gap-1.5 text-muted-foreground"> agri-inputs standard <Explain x={cov.explain} /></div>
         </div>
       </div>
 

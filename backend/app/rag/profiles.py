@@ -14,12 +14,14 @@ PROFILES: dict[str, dict] = {
                      "query": "Application Architecture Application Portfolio Catalog baseline target gap analysis rationalization"},
     "data_tech": {"phases": ["C_DATA", "D"], "types": ["artifact", "steps", "checklist", "principle"],
                   "query": "Data Architecture data entity data governance Technology Architecture technology standards resilience checklist"},
+    "budget": {"phases": ["E", "F"], "types": ["technique", "deliverable"],
+               "query": "Migration Planning cost benefit analysis business value implementation and migration plan resources"},
     "roadmap": {"phases": ["E", "F", "G", "H", "REQ"], "types": ["technique", "deliverable", "governance"],
                 "query": "Opportunities and Solutions Migration Planning transition architecture work packages architecture roadmap implementation governance architecture board"},
 }
 
 SCREENS = list(PROFILES)
-TAG_ALIAS = {"approach": "vision"}  # screens that reuse another screen's chunk tags (index built before they existed)
+TAG_ALIAS = {"approach": "vision", "budget": "roadmap"}  # screens that reuse another screen's chunk tags (index built before they existed)
 
 
 def profile(screen: str | None) -> dict:

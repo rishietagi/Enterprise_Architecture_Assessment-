@@ -15,6 +15,11 @@ def architecture_states(r: dict, seed: dict) -> dict:
     cfg = seed["cfg"]
     waves = cfg["roadmap"]["waves"]
     gap_wave = {gid: i["wave"] for i in r["initiatives"] for gid in i["gap_ids"]}
+    # what each gap closes ("kind:ref"); register-based initiatives list it in "closes", the parity port uses the gap ids
+    key_wave: dict[str, int] = {}
+    for i in r["initiatives"]:
+        for key in i.get("closes", i["gap_ids"]):
+            key_wave[key] = max(key_wave.get(key, -1), i["wave"])
     init_wave = {i["id"]: i["wave"] for i in r["initiatives"]}
     integ_theme = next((t["id"] for t in cfg["themes"] if "R05" in t.get("tech", [])), None)
     dmin = cfg["data_rules"].get("gap_score_below", 60)
@@ -23,7 +28,8 @@ def architecture_states(r: dict, seed: dict) -> dict:
     interfaces = seed.get("integrations", [])
 
     def snap(k: int) -> dict:  # k = -1 current, 0..3 after wave k, 4 target
-        done = set(gap_wave) if k >= 4 else {g for g, w in gap_wave.items() if w <= k}
+        done = set(key_wave) if k >= 4 else {g for g, w in key_wave.items() if w <= k}
+        open_gaps = 0 if k >= 4 else sum(w > k for w in gap_wave.values())
         closed = lambda kind, ref: k >= 4 or f"{kind}:{ref}" in done  # noqa: E731
         caps = [max(c["maturity"], c["target"]) if closed("capability", c["id"]) or k >= 4 else c["maturity"]
                 for c in r["cap_rows"]]
@@ -43,7 +49,7 @@ def architecture_states(r: dict, seed: dict) -> dict:
         p2p = [i for i in interfaces if i.get("via", "Point-to-point") == "Point-to-point"
                and not (api_done and i["from"] in in_scope and i["to"] in in_scope)]
         return {"cap": round(st.mean(caps), 2) if caps else 0, "below": below,
-                "gaps": len(gap_wave) - len(done), "apps": len(action), "clusters": len(clusters),
+                "gaps": open_gaps, "apps": len(action), "clusters": len(clusters),
                 "cloud": round(100 * sum(h in CLOUD or h == "Azure" for h in hosts) / max(1, len(hosts))),
                 "data": round(st.mean(data)) if data else 0, "resilience": round(st.mean(known)) if known else None,
                 "p2p": round(100 * len(p2p) / max(1, len(interfaces)))}

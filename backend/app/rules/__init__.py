@@ -2,7 +2,11 @@
 Pure functions over seed-shaped dicts; parameters come from config (seed/config.json + Settings overrides)."""
 from __future__ import annotations
 
+from .budget import assess_budget
 from .capabilities import assess_capabilities, coverage, entanglement
+from .domain_gaps import application_gaps, data_tech_gaps
+from .prioritization import engineering_score, prioritise
+from .tech_health import tech_health
 from .data import assess_data, data_readiness
 from .discovery import ALIGN_Q, STATUSES, infer_l2, quadrant, rollup, score_l3, status_of
 from .gap_register import gap_register, l3_entanglement
@@ -10,6 +14,7 @@ from .governance import assess_governance
 from .integration import assess_integration
 from .rationalization import label, rationalize
 from .roadmap import build_roadmap, theme_for
+from .roadmap_registers import build as register_roadmap, unify as unify_gaps
 from .states import architecture_states
 from .technology import assess_tech
 
@@ -31,7 +36,7 @@ def run_all(seed: dict, acmm_levels: dict | None = None) -> dict:
     return out
 
 
-__all__ = ["architecture_states", "assess_capabilities", "assess_data", "assess_governance", "assess_integration",
+__all__ = ["register_roadmap", "unify_gaps", "application_gaps", "data_tech_gaps", "assess_budget", "engineering_score", "prioritise", "tech_health", "architecture_states", "assess_capabilities", "assess_data", "assess_governance", "assess_integration",
            "assess_tech", "build_roadmap", "coverage", "data_readiness", "entanglement", "gap_register", "infer_l2",
            "l3_entanglement", "label", "quadrant", "ALIGN_Q",
            "rationalize", "rollup", "run_all", "score_l3", "status_of", "theme_for", "STATUSES"]

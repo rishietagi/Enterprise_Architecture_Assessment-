@@ -1,10 +1,10 @@
 import { Fragment, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Link2, Pencil, Plus, RotateCcw, Server, Trash2, X } from 'lucide-react'
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Info, Link2, Pencil, Plus, RotateCcw, Server, Trash2, X } from 'lucide-react'
+
 import { toast } from 'sonner'
 import { ExportMenu } from '@/components/ExportMenu'
 import { Explain } from '@/components/Explain'
-import { ProvenanceBadge } from '@/components/ProvenanceBadge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
+import { refViewDrawio } from '@/lib/drawio'
 import { api, type RefBlock, type RefLayer, type RefStatus, type RefView, type RefViewIn } from '@/lib/api'
 import { NAVY, REF_STATUS, SLATE, dispositionColor, tint } from '@/lib/theme'
 import { cn } from '@/lib/utils'
@@ -125,7 +126,7 @@ function BlockDialog({ v, block, ctx, kind, onClose, onSave, onDelete, onMove }:
       <DialogContent className="sm:max-w-xl">
         <DialogHeader>
           <DialogTitle>{isNew ? 'Add Building Block' : 'Edit Building Block'}</DialogTitle>
-          <DialogDescription>Rate the block against the CIL estate, map what realises it and note the evidence. Status is assumed until validated.</DialogDescription>
+          <DialogDescription>Rate the block against the CIL estate, map what realises it and note the evidence.</DialogDescription>
         </DialogHeader>
         <div className="scrollbar-thin grid max-h-[62vh] grid-cols-2 gap-3 overflow-y-auto pr-1">
           <label className={cn(label, 'col-span-2')}>Name<Input value={f.name} onChange={(e) => set({ name: e.target.value })} className="h-8 text-foreground" /></label>
@@ -211,9 +212,15 @@ function BlockDialog({ v, block, ctx, kind, onClose, onSave, onDelete, onMove }:
 
 /** Reference architecture view (layers of building blocks rated for architectural gaps), editable in place and exportable
  * as an image or CSV. Used for the application, data and infrastructure views. */
-export function RefArchitecture({ v, queryKey, ctx = {}, appToggle = false }: { v: RefView; queryKey: string; ctx?: Ctx; appToggle?: boolean }) {
+export function RefArchitecture({ v, queryKey, ctx = {}, appToggle = false, layerDetail }: {
+  v: RefView; queryKey: string; ctx?: Ctx; appToggle?: boolean
+  /** Optional drill-down for a layer (or 'aside'): opens a panel with the detail behind it. */
+  layerDetail?: (layerId: string) => { title: string; body: React.ReactNode } | null
+}) {
   const qc = useQueryClient()
   const [edit, setEdit] = useState(false)
+  const [detail, setDetail] = useState<string | null>(null)
+  const det = detail && layerDetail ? layerDetail(detail) : null
   const [showApps, setShowApps] = useState(false)
   const [open, setOpen] = useState<{ b: RefBlock; at?: { list: 'aside' } | { layer: string; row: number } } | null>(null)
   const [hover, setHover] = useState<string | null>(null)
@@ -313,13 +320,12 @@ export function RefArchitecture({ v, queryKey, ctx = {}, appToggle = false }: { 
             <span key={s} className="flex items-center gap-1.5"><span className="h-3 w-5 rounded-sm border" style={{ borderColor: tint(REF_STATUS[s].color, 0.55), background: tint(REF_STATUS[s].color, 0.16) }} />{REF_STATUS[s].label} <b className="tabular">{v.counts[s]}</b></span>
           ))}
           <Explain x={v.explain} />
-          <ProvenanceBadge source={v.source} />
         </span>
         <span className="ml-auto flex items-center gap-2">
           {appToggle && <label className="flex items-center gap-1.5 text-[11.5px] font-medium"><Switch checked={showApps} onCheckedChange={setShowApps} /> Show Applications</label>}
           {edit && <Button size="sm" variant="ghost" onClick={() => reset.mutate()} disabled={reset.isPending}><RotateCcw /> Restore Default</Button>}
           <Button size="sm" variant={edit ? 'default' : 'outline'} onClick={() => setEdit(!edit)}>{edit ? 'Done Editing' : <><Pencil /> Edit Layout</>}</Button>
-          <ExportMenu target={box} name={v.title} csv={csv} />
+          <ExportMenu target={box} name={v.title} csv={csv} drawio={() => refViewDrawio(v)} />
         </span>
       </div>
 
@@ -385,7 +391,12 @@ export function RefArchitecture({ v, queryKey, ctx = {}, appToggle = false }: { 
                         }}><Trash2 /></Button>
                       </span>
                     </>
-                  ) : <span className={cn(headCls, 'uppercase')}>{l.name}</span>}
+                  ) : (
+                    <>
+                      <span className={cn(headCls, 'uppercase')}>{l.name}</span>
+                      {layerDetail?.(l.id) && <button data-export-ignore onClick={() => setDetail(l.id)} className="flex w-fit items-center gap-1 rounded bg-white/15 px-1.5 py-px text-[10px] font-medium text-white hover:bg-white/25"><Info className="size-3" /> Details</button>}
+                    </>
+                  )}
                 </div>
                 <div className="flex flex-col justify-center gap-1.5">
                   {l.rows.map((r, ri) => (
@@ -406,6 +417,7 @@ export function RefArchitecture({ v, queryKey, ctx = {}, appToggle = false }: { 
                 {edit
                   ? <Input defaultValue={v.aside.title} data-export-ignore className="h-7 bg-white text-[11.5px] text-foreground" onBlur={(e) => e.target.value.trim() && commit({ ...base, aside: base.aside && { ...base.aside, title: e.target.value.trim() } })} />
                   : <span className={cn(headCls, 'uppercase')}>{v.aside.title}</span>}
+                {!edit && layerDetail?.('aside') && <button data-export-ignore onClick={() => setDetail('aside')} className="mx-auto mt-1 flex w-fit items-center gap-1 rounded bg-white/15 px-1.5 py-px text-[10px] font-medium text-white hover:bg-white/25"><Info className="size-3" /> Details</button>}
               </div>
               <div className="flex flex-1 flex-col gap-1.5 [&>button]:flex-1">{v.aside.boxes.map(render)}</div>
               {edit && <Button size="xs" variant="outline" data-export-ignore onClick={() => addBlock({ list: 'aside' })}><Plus /> Add Block</Button>}
@@ -417,6 +429,12 @@ export function RefArchitecture({ v, queryKey, ctx = {}, appToggle = false }: { 
         Select a block to rate it, map applications{v.kind === 'data' ? ', set its flows' : ''} and add evidence. {v.edges.length ? 'Hover a block to trace its flows. ' : ''}
         {edit ? 'Edit Layout adds, renames, reorders and deletes layers, rows and blocks.' : 'Use Edit Layout to add or remove layers, rows and blocks.'}
       </p>
+      <Dialog open={!!det} onOpenChange={(o) => !o && setDetail(null)}>
+        <DialogContent className="sm:max-w-4xl">
+          <DialogHeader><DialogTitle>{det?.title}</DialogTitle></DialogHeader>
+          <div className="scrollbar-thin max-h-[70vh] overflow-y-auto">{det?.body}</div>
+        </DialogContent>
+      </Dialog>
       <BlockDialog v={base} block={open?.b ?? null} ctx={ctx} kind={v.kind} onClose={() => setOpen(null)} onSave={saveBlock} onDelete={delBlock} onMove={moveBlock} />
     </div>
   )

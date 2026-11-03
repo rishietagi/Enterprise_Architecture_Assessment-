@@ -1,0 +1,305 @@
+{
+  "_meta": {
+    "note": "IT cost baseline in INR crore, following the client's cost template (overall IT costs, IT capex by initiative, IT opex by cost head) plus business factors.",
+    "unit": "INR Cr"
+  },
+  "fys": [
+    "FY25A",
+    "FY26A",
+    "FY27P",
+    "FY28P"
+  ],
+  "actual_suffix": "A",
+  "overall": [
+    {
+      "id": "opex",
+      "name": "IT Opex",
+      "values": [
+        108,
+        120,
+        132,
+        145
+      ]
+    },
+    {
+      "id": "salaries",
+      "name": "IT Salaries",
+      "values": [
+        32,
+        35,
+        38,
+        41
+      ]
+    },
+    {
+      "id": "capex",
+      "name": "IT Capex",
+      "values": [
+        38,
+        45,
+        60,
+        75
+      ]
+    }
+  ],
+  "capex": [
+    {
+      "id": "CX01",
+      "name": "SAP S/4HANA RISE enhancements",
+      "theme": "TH6",
+      "values": [
+        9,
+        8,
+        7,
+        6
+      ]
+    },
+    {
+      "id": "CX02",
+      "name": "Farmer app & digital channels",
+      "theme": "TH1",
+      "values": [
+        4,
+        6,
+        9,
+        12
+      ]
+    },
+    {
+      "id": "CX03",
+      "name": "Dealer portal & sales force automation",
+      "theme": "TH9",
+      "values": [
+        3,
+        4,
+        6,
+        8
+      ]
+    },
+    {
+      "id": "CX04",
+      "name": "Data platform & analytics",
+      "theme": "TH4",
+      "values": [
+        3,
+        6,
+        10,
+        14
+      ]
+    },
+    {
+      "id": "CX05",
+      "name": "Plant digitisation (historian, LIMS)",
+      "theme": "TH9",
+      "values": [
+        4,
+        5,
+        7,
+        9
+      ]
+    },
+    {
+      "id": "CX06",
+      "name": "Network & SD-WAN refresh",
+      "theme": "TH7",
+      "values": [
+        4,
+        5,
+        6,
+        6
+      ]
+    },
+    {
+      "id": "CX07",
+      "name": "Security tooling (SIEM, PAM, EDR)",
+      "theme": "TH7",
+      "values": [
+        2,
+        3,
+        6,
+        8
+      ]
+    },
+    {
+      "id": "CX08",
+      "name": "End-user hardware refresh",
+      "theme": null,
+      "values": [
+        7,
+        6,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "CX09",
+      "name": "Drone & agri-tech platforms",
+      "theme": "TH2",
+      "values": [
+        2,
+        2,
+        4,
+        6
+      ]
+    }
+  ],
+  "opex": [
+    {
+      "id": "OX01",
+      "name": "Software licences & subscriptions (incl. SAP RISE)",
+      "kind": "software",
+      "values": [
+        31,
+        34,
+        37,
+        40
+      ]
+    },
+    {
+      "id": "OX02",
+      "name": "Cloud & hosting (Azure, SaaS)",
+      "kind": "cloud",
+      "values": [
+        10,
+        14,
+        18,
+        22
+      ]
+    },
+    {
+      "id": "OX03",
+      "name": "Data centre & DR operations",
+      "kind": "infrastructure",
+      "values": [
+        10,
+        10,
+        10,
+        9
+      ]
+    },
+    {
+      "id": "OX04",
+      "name": "Network & connectivity",
+      "kind": "network",
+      "values": [
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "id": "OX05",
+      "name": "End-user computing & devices",
+      "kind": "workplace",
+      "values": [
+        9,
+        9,
+        9,
+        10
+      ]
+    },
+    {
+      "id": "OX06",
+      "name": "Application support & AMC",
+      "kind": "applications",
+      "values": [
+        16,
+        18,
+        19,
+        20
+      ]
+    },
+    {
+      "id": "OX07",
+      "name": "Managed services & outsourcing",
+      "kind": "services",
+      "values": [
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "id": "OX08",
+      "name": "Cybersecurity services",
+      "kind": "security",
+      "values": [
+        5,
+        6,
+        8,
+        10
+      ]
+    },
+    {
+      "id": "OX09",
+      "name": "Telecom & other",
+      "kind": "other",
+      "values": [
+        5,
+        5,
+        5,
+        6
+      ]
+    }
+  ],
+  "factors": [
+    {
+      "id": "revenue",
+      "name": "Revenue (INR Cr)",
+      "values": [
+        24000,
+        26500,
+        29000,
+        31500
+      ],
+      "unit": "Cr"
+    },
+    {
+      "id": "employees",
+      "name": "Employees",
+      "values": [
+        5800,
+        6100,
+        6400,
+        6700
+      ],
+      "unit": "people"
+    },
+    {
+      "id": "it_fte",
+      "name": "IT FTEs (internal)",
+      "values": [
+        110,
+        115,
+        125,
+        135
+      ],
+      "unit": "people"
+    },
+    {
+      "id": "end_users",
+      "name": "IT end users",
+      "values": [
+        6500,
+        7000,
+        7600,
+        8200
+      ],
+      "unit": "users"
+    },
+    {
+      "id": "stores",
+      "name": "Gromor retail stores",
+      "values": [
+        900,
+        1000,
+        1075,
+        1150
+      ],
+      "unit": "stores"
+    }
+  ],
+  "source": "assumed"
+}

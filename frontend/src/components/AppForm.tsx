@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Loader2, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { ExplainBody } from '@/components/Explain'
-import { ProvenanceBadge } from '@/components/ProvenanceBadge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
@@ -22,7 +21,7 @@ const SCORE_HINT = ['Poor', 'Weak', 'Adequate', 'Good', 'Excellent']
 const EMPTY: AppFields = {
   name: '', description: '', vendor: 'TBD', version: '', type: 'COTS', layer: DEFAULT_LAYER, business_owner: '', it_owner: '',
   users: '', caps: [], hosting: 'Unknown', platform: '', customisation: 'TBD', licence_model: 'TBD', support_model: 'TBD',
-  contract_end: '', scalability: 'TBD', dr: 'TBD', standards_class: 'Non-Standard', lifecycle: 'Unknown', retire_date: '', sor: [],
+  contract_end: '', scalability: 'TBD', dr: 'TBD', tech_debt: 'TBD', peak_load: 'TBD', scale_model: 'TBD', failover_tested: 'TBD', key_person: 'TBD', vendor_lock: 'TBD', standards_class: 'Non-Standard', lifecycle: 'Unknown', retire_date: '', sor: [],
   pii: false, run_cost: '', criticality: 3, bf: [3, 3, 3], tf: [3, 3, 3, 3], in_scope: true, issues: '', override: {},
 }
 
@@ -38,10 +37,10 @@ function Section({ title, hint, children }: { title: string; hint?: string; chil
   )
 }
 
-function Field({ label, assumed, children, className }: { label: string; assumed?: boolean; children: ReactNode; className?: string }) {
+function Field({ label, children, className }: { label: string; children: ReactNode; className?: string }) {
   return (
     <label className={cn('flex flex-col gap-1', className)}>
-      <span className="flex items-center gap-1.5 text-[11.5px] font-medium text-muted-foreground">{label}{assumed && <ProvenanceBadge source="assumed" />}</span>
+      <span className="flex items-center gap-1.5 text-[11.5px] font-medium text-muted-foreground">{label}</span>
       {children}
     </label>
   )
@@ -88,7 +87,6 @@ export function AppForm({ open, app, a, onClose }: { open: boolean; app: App | n
     setCapQ('')
   }, [open, app])
   const set = <K extends keyof AppFields>(k: K, v: AppFields[K]) => setF((x) => ({ ...x, [k]: v }))
-  const assumed = new Set(app?.assumed_fields ?? [])
   const opt = (k: string, fallback: (string | number)[] = []) => a.options[k] ?? fallback
   const caps = useMemo(() => a.l2.filter((c) => `${c.id} ${c.name} ${c.l1}`.toLowerCase().includes(capQ.toLowerCase())), [a.l2, capQ])
 
@@ -124,7 +122,7 @@ export function AppForm({ open, app, a, onClose }: { open: boolean; app: App | n
         <DialogHeader className="border-b px-5 py-4 text-left">
           <DialogTitle className="pr-8">{app ? `${app.id} · ${app.name}` : 'Add application'}</DialogTitle>
           <DialogDescription className="flex items-center gap-2">
-            Tech DD intake · TOGAF §35.6.5 Application Portfolio Catalog {app && <ProvenanceBadge source={app.source} />}
+            Tech DD intake · TOGAF §35.6.5 Application Portfolio Catalog 
           </DialogDescription>
         </DialogHeader>
         <div className="scrollbar-thin flex-1 space-y-4 overflow-y-auto px-5 py-4">
@@ -143,15 +141,15 @@ export function AppForm({ open, app, a, onClose }: { open: boolean; app: App | n
               <Field label="Primary business functionality" className="col-span-2"><Textarea value={f.description ?? ''} onChange={(e) => set('description', e.target.value)} className="min-h-14 text-sm" /></Field>
               <Field label="Type"><Pick value={f.type} options={opt('type')} onChange={(v) => set('type', v)} /></Field>
               <Field label="Version"><Input value={f.version ?? ''} onChange={(e) => set('version', e.target.value)} className="h-8" /></Field>
-              <Field label="Architecture layer" assumed={assumed.has('layer')}><Pick value={f.layer} options={a.layers} onChange={(v) => set('layer', v)} /></Field>
+              <Field label="Architecture layer"><Pick value={f.layer} options={a.layers} onChange={(v) => set('layer', v)} /></Field>
               <Field label="Users"><Input value={f.users ?? ''} onChange={(e) => set('users', e.target.value)} className="h-8" /></Field>
             </div>
           </Section>
           <Section title="Ownership & support">
             <div className="grid grid-cols-2 gap-3">
-              <Field label="Business owner" assumed={assumed.has('business_owner')}><Input value={f.business_owner ?? ''} onChange={(e) => set('business_owner', e.target.value)} className="h-8" /></Field>
-              <Field label="IT owner" assumed={assumed.has('it_owner')}><Input value={f.it_owner ?? ''} onChange={(e) => set('it_owner', e.target.value)} className="h-8" /></Field>
-              <Field label="Support arrangement" assumed={assumed.has('support_model')}><Pick value={f.support_model} options={opt('support_model')} onChange={(v) => set('support_model', v)} /></Field>
+              <Field label="Business owner"><Input value={f.business_owner ?? ''} onChange={(e) => set('business_owner', e.target.value)} className="h-8" /></Field>
+              <Field label="IT owner"><Input value={f.it_owner ?? ''} onChange={(e) => set('it_owner', e.target.value)} className="h-8" /></Field>
+              <Field label="Support arrangement"><Pick value={f.support_model} options={opt('support_model')} onChange={(v) => set('support_model', v)} /></Field>
               <Field label="Licence model"><Pick value={f.licence_model} options={opt('licence_model')} onChange={(v) => set('licence_model', v)} /></Field>
               <Field label="Contract / licence end"><Input value={f.contract_end ?? ''} onChange={(e) => set('contract_end', e.target.value)} className="h-8" placeholder="YYYY-MM or TBD" /></Field>
               <Field label="Annual run cost band"><Pick value={f.run_cost} options={opt('run_cost')} onChange={(v) => set('run_cost', v)} /></Field>
@@ -161,7 +159,7 @@ export function AppForm({ open, app, a, onClose }: { open: boolean; app: App | n
             <div className="grid grid-cols-2 gap-3">
               <Field label="Hosting"><Pick value={f.hosting} options={opt('hosting')} onChange={(v) => set('hosting', v)} /></Field>
               <Field label="Platform / technology stack"><Input value={f.platform ?? ''} onChange={(e) => set('platform', e.target.value)} className="h-8" /></Field>
-              <Field label="Level of customisation" assumed={assumed.has('customisation')}><Pick value={f.customisation} options={opt('customisation')} onChange={(v) => set('customisation', v)} /></Field>
+              <Field label="Level of customisation"><Pick value={f.customisation} options={opt('customisation')} onChange={(v) => set('customisation', v)} /></Field>
               <Field label="Scalability"><Pick value={f.scalability} options={opt('scalability')} onChange={(v) => set('scalability', v)} /></Field>
               <Field label="Redundancy / DR"><Pick value={f.dr} options={opt('dr')} onChange={(v) => set('dr', v)} /></Field>
               <Field label="Standards class"><Pick value={f.standards_class} options={opt('standards_class')} onChange={(v) => set('standards_class', v)} /></Field>
@@ -170,6 +168,16 @@ export function AppForm({ open, app, a, onClose }: { open: boolean; app: App | n
               <label className="col-span-2 flex items-center gap-2 text-[12.5px]">
                 <Switch checked={f.in_scope} onCheckedChange={(v) => set('in_scope', v)} /> In assessment scope (off = SAP RISE / OT, dependencies only)
               </label>
+            </div>
+          </Section>
+          <Section title="Technical health" hint="Technical debt, peak-season load, failover and dependencies: drive the Technical Health view (RFP: technical debt, single points of failure, scalability)">
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Technical debt (self-assessed)"><Pick value={f.tech_debt} options={opt('tech_debt')} onChange={(v) => set('tech_debt', v)} /></Field>
+              <Field label="Peak-season load handling"><Pick value={f.peak_load} options={opt('peak_load')} onChange={(v) => set('peak_load', v)} /></Field>
+              <Field label="Scaling model"><Pick value={f.scale_model} options={opt('scale_model')} onChange={(v) => set('scale_model', v)} /></Field>
+              <Field label="Failover tested in last 12 months"><Pick value={f.failover_tested} options={opt('failover_tested')} onChange={(v) => set('failover_tested', v)} /></Field>
+              <Field label="Depends on one key person or vendor resource"><Pick value={f.key_person} options={opt('key_person')} onChange={(v) => set('key_person', v)} /></Field>
+              <Field label="Vendor lock-in"><Pick value={f.vendor_lock} options={opt('vendor_lock')} onChange={(v) => set('vendor_lock', v)} /></Field>
             </div>
           </Section>
           <Section title={`Capabilities served (${f.caps.length})`} hint="Maps the app to L2 capabilities: drives duplication clusters and business-IT alignment">
@@ -196,7 +204,7 @@ export function AppForm({ open, app, a, onClose }: { open: boolean; app: App | n
           </Section>
           <Section title="Assessment" hint={`Scores 1–5. BF and TF vs threshold ${a.threshold.toFixed(1)} set the quadrant; rules on Vision & Guardrails then apply.`}>
             <div className="flex items-center gap-2">
-              <span className="w-44 shrink-0 text-[12.5px]">Business criticality {assumed.has('criticality') && <ProvenanceBadge source="assumed" className="ml-1" />}</span>
+              <span className="w-44 shrink-0 text-[12.5px]">Business criticality </span>
               <div className="grid flex-1 grid-cols-5 gap-1">
                 {[1, 2, 3, 4, 5].map((n) => (
                   <button key={n} type="button" onClick={() => set('criticality', n)}
@@ -204,9 +212,9 @@ export function AppForm({ open, app, a, onClose }: { open: boolean; app: App | n
                 ))}
               </div>
             </div>
-            <div className="flex items-center gap-1.5 pt-1 text-[11px] font-semibold text-muted-foreground uppercase">Business fit {assumed.has('bf') && <ProvenanceBadge source="assumed" />}</div>
+            <div className="flex items-center gap-1.5 pt-1 text-[11px] font-semibold text-muted-foreground uppercase">Business fit </div>
             <Scores labels={BF} values={f.bf} onChange={(v) => set('bf', v)} />
-            <div className="flex items-center gap-1.5 pt-1 text-[11px] font-semibold text-muted-foreground uppercase">Technical fit {assumed.has('tf') && <ProvenanceBadge source="assumed" />}</div>
+            <div className="flex items-center gap-1.5 pt-1 text-[11px] font-semibold text-muted-foreground uppercase">Technical fit </div>
             <Scores labels={TF} values={f.tf} onChange={(v) => set('tf', v)} />
           </Section>
           <Section title="Disposition override" hint="Rules propose the disposition; an architect can override it with context. The rule result stays visible.">

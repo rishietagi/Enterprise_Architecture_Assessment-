@@ -9,13 +9,16 @@ from ..db import get_session, nat_key, read_seed
 from ..llm import calls
 from ..models import Application, Integration
 
+from .gap_notes import GapNoteIn, drop_note, put_note
+
 router = APIRouter(prefix="/api/applications", tags=["applications"])
 
 # Tech DD intake fields + rule inputs. Rule inputs: caps, sor, criticality, lifecycle, bf, tf, in_scope, type, layer.
 EDITABLE = {"name", "description", "vendor", "version", "type", "layer", "business_owner", "it_owner", "users", "caps",
             "hosting", "platform", "customisation", "licence_model", "support_model", "contract_end", "scalability", "dr",
             "standards_class", "lifecycle", "retire_date", "sor", "pii", "run_cost", "criticality", "bf", "tf",
-            "in_scope", "issues", "note", "override"}
+            "in_scope", "issues", "note", "override", "tech_debt", "peak_load", "scale_model", "failover_tested",
+            "key_person", "vendor_lock"}
 DISPOSITIONS = set(views.DISPOSITIONS)
 
 
@@ -150,4 +153,19 @@ def delete_interface(iid: str, s: Session = Depends(get_session)):
         raise HTTPException(404, "Unknown interface")
     s.delete(row)
     s.commit()
+    return views.applications(s)
+
+
+@router.put("/gaps/{gid}")
+def put_gap(gid: str, body: GapNoteIn, s: Session = Depends(get_session)):
+    """Edit a generated gap's description, target-state hypothesis or severity (overlay on the rule output)."""
+    if not gid.startswith(("AG-", "AT-")):
+        raise HTTPException(404, "Unknown gap")
+    put_note(s, "app_gap_notes", gid, body)
+    return views.applications(s)
+
+
+@router.delete("/gaps/{gid}")
+def reset_gap(gid: str, s: Session = Depends(get_session)):
+    drop_note(s, "app_gap_notes", gid)
     return views.applications(s)

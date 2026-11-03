@@ -1,15 +1,22 @@
-import { useRef } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { BrainCircuit, CheckCircle2, Flag, Landmark, ListChecks, Route, ScanSearch, Server } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { BrainCircuit, CheckCircle2, Flag, Landmark, ListChecks, Pencil, Plus, RotateCcw, Route, ScanSearch, Server, Trash2 } from 'lucide-react'
+import { toast } from 'sonner'
 import { CadenceLegend, CadenceRow, EngagementPlan } from '@/components/EngagementPlan'
 import { Explain } from '@/components/Explain'
 import { ExportMenu } from '@/components/ExportMenu'
 import { PageHeader } from '@/components/PageHeader'
-import { ProvenanceBadge } from '@/components/ProvenanceBadge'
 import { ScreenError, ScreenSkeleton } from '@/components/ScreenSkeleton'
+import { Button } from '@/components/ui/button'
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { api, type Approach as ApproachT, type ApproachPhase } from '@/lib/api'
+import { api, type Approach as ApproachT, type ApproachPhase, type ScopeOfWork as ScopeOfWorkT } from '@/lib/api'
+
 import { useView } from '@/lib/screens'
 import { NAVY, PHASE_STATUS, PLAN_STATUS, tint } from '@/lib/theme'
 import { cn } from '@/lib/utils'
@@ -19,15 +26,60 @@ const ICON: Record<string, React.ReactNode> = {
 }
 
 /** The scope of work exactly as agreed in the proposal: CIL's requirement, the objective and six scope items with key activities. */
+function ScopeDialog({ a, open, onClose }: { a: ApproachT; open: boolean; onClose: () => void }) {
+  const qc = useQueryClient()
+  const [f, setF] = useState<Omit<ScopeOfWorkT, 'source'>>({ requirement: '', objective: '', items: [] })
+  useEffect(() => { if (open) setF({ requirement: a.scope_of_work.requirement, objective: a.scope_of_work.objective, items: a.scope_of_work.items.map((x) => ({ ...x })) }) }, [open, a.scope_of_work])
+  const done = (d: ApproachT, msg: string) => { qc.setQueryData(['approach'], d); qc.invalidateQueries({ queryKey: ['vision'] }); toast.success(msg); onClose() }
+  const save = useMutation({ mutationFn: () => api.putScope(f), onSuccess: (d) => done(d, 'Scope of work saved'), onError: (e: Error) => toast.error(e.message) })
+  const reset = useMutation({ mutationFn: api.resetScope, onSuccess: (d) => done(d, 'Scope of work restored to the proposal') })
+  const setItem = (i: number, p: Partial<ScopeOfWorkT['items'][number]>) => setF({ ...f, items: f.items.map((x, j) => (j === i ? { ...x, ...p } : x)) })
+  return (
+    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+      <DialogContent className="sm:max-w-3xl">
+        <DialogHeader><DialogTitle>Edit Scope of Work</DialogTitle><DialogDescription>Changes here update the scope shown to every screen and the AI context.</DialogDescription></DialogHeader>
+        <div className="scrollbar-thin max-h-[66vh] space-y-3 overflow-y-auto pr-1">
+          <div className="space-y-1"><Label>CIL's requirement</Label><Textarea rows={2} value={f.requirement} onChange={(e) => setF({ ...f, requirement: e.target.value })} /></div>
+          <div className="space-y-1"><Label>Objective</Label><Textarea rows={2} value={f.objective} onChange={(e) => setF({ ...f, objective: e.target.value })} /></div>
+          <Label>Scope items</Label>
+          {f.items.map((x, i) => (
+            <div key={i} className="grid grid-cols-[28px_minmax(0,1fr)_140px_32px] items-start gap-2 rounded-md border p-2">
+              <span className="tabular pt-1.5 text-center text-[13px] font-bold text-navy">{i + 1}</span>
+              <div className="space-y-1.5">
+                <Input value={x.title} onChange={(e) => setItem(i, { title: e.target.value })} className="h-8 font-medium" />
+                <Textarea rows={2} value={x.activities} onChange={(e) => setItem(i, { activities: e.target.value })} className="text-[12.5px]" placeholder="Key activities" />
+              </div>
+              <Select value={x.icon} onValueChange={(v) => setItem(i, { icon: v })}>
+                <SelectTrigger size="sm" className="h-8 w-full"><SelectValue /></SelectTrigger>
+                <SelectContent>{Object.keys(ICON).map((k) => <SelectItem key={k} value={k}><span className="[&_svg]:size-3.5">{ICON[k]}</span>{k}</SelectItem>)}</SelectContent>
+              </Select>
+              <Button variant="ghost" size="icon-sm" onClick={() => setF({ ...f, items: f.items.filter((_, j) => j !== i) })} disabled={f.items.length <= 1}><Trash2 /></Button>
+            </div>
+          ))}
+          <Button size="sm" variant="outline" onClick={() => setF({ ...f, items: [...f.items, { n: f.items.length + 1, title: 'New scope item', icon: 'discovery', activities: '' }] })}><Plus /> Add scope item</Button>
+        </div>
+        <DialogFooter className="sm:justify-between">
+          <Button variant="ghost" onClick={() => reset.mutate()} disabled={a.scope_of_work.source !== 'client'}><RotateCcw /> Restore proposal</Button>
+          <span className="flex gap-2"><Button variant="outline" onClick={onClose}>Cancel</Button><Button onClick={() => save.mutate()} disabled={save.isPending || f.requirement.trim().length < 5 || f.objective.trim().length < 5 || f.items.some((x) => x.title.trim().length < 2)}>Save</Button></span>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 function ScopeOfWork({ a }: { a: ApproachT }) {
   const s = a.scope_of_work
   const box = useRef<HTMLDivElement>(null)
+  const [editing, setEditing] = useState(false)
   return (
     <Card className="gap-3">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">Scope of Work <ProvenanceBadge source={s.source} /></CardTitle>
+        <CardTitle className="flex items-center gap-2">Scope of Work</CardTitle>
         <CardDescription>Comprehensive Enterprise Architecture for {a.engagement.client} · as proposed</CardDescription>
-        <CardAction><ExportMenu target={box} name="Scope of Work" csv={() => [['#', 'Scope of work', 'Key activities'], ...s.items.map((x) => [x.n, x.title, x.activities])]} /></CardAction>
+        <CardAction className="flex gap-2">
+          <Button size="sm" variant="outline" onClick={() => setEditing(true)}><Pencil /> Edit</Button>
+          <ExportMenu target={box} name="Scope of Work" csv={() => [['#', 'Scope of work', 'Key activities'], ...s.items.map((x) => [x.n, x.title, x.activities])]} />
+        </CardAction>
       </CardHeader>
       <CardContent>
         <div ref={box} className="space-y-2.5 bg-card">
@@ -57,6 +109,7 @@ function ScopeOfWork({ a }: { a: ApproachT }) {
           </div>
         </div>
       </CardContent>
+      <ScopeDialog a={a} open={editing} onClose={() => setEditing(false)} />
     </Card>
   )
 }

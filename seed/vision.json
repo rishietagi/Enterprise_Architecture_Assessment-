@@ -493,7 +493,8 @@
             "screens": [
               "approach",
               "business",
-              "vision"
+              "vision",
+              "budget"
             ]
           },
           {
@@ -596,7 +597,8 @@
             "deliverable": "EA maturity assessment",
             "status": "in_progress",
             "screens": [
-              "roadmap"
+              "roadmap",
+              "budget"
             ]
           },
           {
@@ -794,7 +796,8 @@
             "deliverable": "Initiative list",
             "status": "planned",
             "screens": [
-              "roadmap"
+              "roadmap",
+              "budget"
             ]
           },
           {
@@ -807,7 +810,8 @@
             "deliverable": "Prioritised initiatives",
             "status": "planned",
             "screens": [
-              "roadmap"
+              "roadmap",
+              "budget"
             ]
           },
           {
@@ -820,7 +824,8 @@
             "deliverable": "Transformation roadmap",
             "status": "planned",
             "screens": [
-              "roadmap"
+              "roadmap",
+              "budget"
             ]
           },
           {
@@ -911,5 +916,202 @@
       }
     ],
     "source": "deck"
-  }
+  },
+  "viewpoints": [
+    {
+      "id": "VP-01",
+      "name": "Enterprise overview",
+      "stakeholder": "Board, CIO, sponsors",
+      "concerns": "Where CIL stands today, what changes and why, cost and risk to 2030",
+      "views": [
+        1,
+        13
+      ],
+      "model_kind": "Landscape and state comparison",
+      "screen": "overview",
+      "source": "assumed"
+    },
+    {
+      "id": "VP-02",
+      "name": "Business capability",
+      "stakeholder": "Function heads, business owners",
+      "concerns": "Capability maturity, criticality, business–IT alignment, process gaps",
+      "views": [
+        2,
+        14
+      ],
+      "model_kind": "Capability map, heat map, EPC process model",
+      "screen": "business",
+      "source": "assumed"
+    },
+    {
+      "id": "VP-03",
+      "name": "Application portfolio",
+      "stakeholder": "Head of Applications, app owners",
+      "concerns": "Portfolio fit, lifecycle, duplication, technical debt, dispositions",
+      "views": [
+        3,
+        4
+      ],
+      "model_kind": "Portfolio catalog, layered view, communication diagram",
+      "screen": "applications",
+      "source": "assumed"
+    },
+    {
+      "id": "VP-04",
+      "name": "Integration",
+      "stakeholder": "Integration lead, solution architects",
+      "concerns": "Interfaces, patterns, point-to-point debt, API governance",
+      "views": [
+        5
+      ],
+      "model_kind": "Interface catalog, pattern mix",
+      "screen": "applications",
+      "source": "assumed"
+    },
+    {
+      "id": "VP-05",
+      "name": "Data & AI",
+      "stakeholder": "Data owners, DPO, analytics lead",
+      "concerns": "Ownership, quality, privacy (DPDP), lineage, AI readiness",
+      "views": [
+        6
+      ],
+      "model_kind": "Layered data architecture, data dissemination",
+      "screen": "data_tech",
+      "source": "assumed"
+    },
+    {
+      "id": "VP-06",
+      "name": "Infrastructure, network & cloud",
+      "stakeholder": "Infrastructure lead, cloud team",
+      "concerns": "Hosting, DR, network, landing zones, platform lifecycle",
+      "views": [
+        7,
+        8,
+        9,
+        11
+      ],
+      "model_kind": "Layered infrastructure view, standards catalog",
+      "screen": "data_tech",
+      "source": "assumed"
+    },
+    {
+      "id": "VP-07",
+      "name": "Security & resilience",
+      "stakeholder": "CISO, risk",
+      "concerns": "Identity, zero trust, monitoring, recovery, compliance",
+      "views": [
+        10
+      ],
+      "model_kind": "Security column, compliance checklist",
+      "screen": "data_tech",
+      "source": "assumed"
+    },
+    {
+      "id": "VP-08",
+      "name": "Investment & roadmap",
+      "stakeholder": "CIO, CFO, steering committee",
+      "concerns": "Priorities, sequencing, effort, affordability, benefits and risks",
+      "views": [
+        12,
+        13
+      ],
+      "model_kind": "Initiative list, prioritisation matrix, wave roadmap, budget",
+      "screen": "roadmap",
+      "source": "assumed"
+    }
+  ],
+  "tailoring": [
+    {
+      "id": "TL-01",
+      "framework": "TOGAF",
+      "element": "Preliminary Phase",
+      "decision": "Tailored",
+      "rationale": "Light-touch: principles, guardrails and governance set up in weeks 1-3 rather than a separate phase.",
+      "approval": "Proposed",
+      "source": "assumed"
+    },
+    {
+      "id": "TL-02",
+      "framework": "TOGAF",
+      "element": "Phase A Architecture Vision",
+      "decision": "Adopted",
+      "rationale": "Vision statements, drivers and stakeholder viewpoints produced as specified.",
+      "approval": "Proposed",
+      "source": "assumed"
+    },
+    {
+      "id": "TL-03",
+      "framework": "TOGAF",
+      "element": "Phases B-D baseline and target",
+      "decision": "Tailored",
+      "rationale": "Baseline assessed to L3 through questionnaires; target expressed as rated layered views and gap hypotheses.",
+      "approval": "Proposed",
+      "source": "assumed"
+    },
+    {
+      "id": "TL-04",
+      "framework": "TOGAF",
+      "element": "Phases E-F Opportunities & Migration Planning",
+      "decision": "Adopted",
+      "rationale": "Gaps consolidated into initiatives, prioritised and sequenced in waves with indicative cost.",
+      "approval": "Proposed",
+      "source": "assumed"
+    },
+    {
+      "id": "TL-05",
+      "framework": "TOGAF",
+      "element": "Phase G Implementation Governance",
+      "decision": "Tailored",
+      "rationale": "ARB charter, checkpoints and compliance levels defined; project-level compliance reviews start after the engagement.",
+      "approval": "Proposed",
+      "source": "assumed"
+    },
+    {
+      "id": "TL-06",
+      "framework": "TOGAF",
+      "element": "Phase H Change Management",
+      "decision": "Excluded",
+      "rationale": "Out of the 16-week scope; the repository update process covers ongoing change.",
+      "approval": "Proposed",
+      "source": "assumed"
+    },
+    {
+      "id": "TL-07",
+      "framework": "TOGAF",
+      "element": "Content Metamodel (full)",
+      "decision": "Tailored",
+      "rationale": "Core entities only: capability, process, application, interface, data domain, platform, location, gap, initiative.",
+      "approval": "Proposed",
+      "source": "assumed"
+    },
+    {
+      "id": "TL-08",
+      "framework": "ISO/IEC/IEEE 42010",
+      "element": "Stakeholders, concerns and viewpoints",
+      "decision": "Adopted",
+      "rationale": "Viewpoint catalogue maps each stakeholder concern to the view that answers it.",
+      "approval": "Proposed",
+      "source": "assumed"
+    },
+    {
+      "id": "TL-09",
+      "framework": "ISO/IEC/IEEE 42010",
+      "element": "Correspondence rules between views",
+      "decision": "Tailored",
+      "rationale": "Traceability held in the data (capability → app → data domain → hosting), not as formal correspondence rules.",
+      "approval": "Proposed",
+      "source": "assumed"
+    },
+    {
+      "id": "TL-10",
+      "framework": "ISO/IEC/IEEE 42010",
+      "element": "Architecture rationale and decisions",
+      "decision": "Adopted",
+      "rationale": "Decision log on Roadmap & Governance records each decision with the principles it applies.",
+      "approval": "Proposed",
+      "source": "assumed"
+    }
+  ]
 }

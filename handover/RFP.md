@@ -42,106 +42,71 @@ Legend: **Covered** = the app produces it today · **Partial** = present but thi
 
 ## 2. Coverage in the app
 
+Updated 2026-11-03 after the second build round. Changes since the first check are marked **(new)**.
+
 ### 2.1 Objectives
 
 | Objective | Status | Where |
 |---|---|---|
-| Assess | Covered | Business discovery and assessment (L3 questionnaires, maturity, criticality, alignment, entanglement); application intake, fit and rationalization; data-domain scores; resilience checklist; ACMM on Roadmap & Governance |
-| Define | Partial | Principles, guardrails, patterns and vision statements (Vision); target hypotheses per gap; states projection (Dashboard). There are no **target-state architecture views**; the layered views are rated current state |
-| Develop | Covered | Dispositions with rationale, duplication clusters, gap → initiative → wave roadmap with ₹ ranges and dependency push |
-| Draft / Document | Partial | 14-view index, editable layered views, PNG/CSV/SVG export, decision log. Not in recognised modelling formats (ArchiMate, draw.io/Visio); no repository and ownership recommendation |
+| Assess | Covered | Business discovery and assessment; application intake, rationalization and **technical health (new)**; data, resilience and **engineering practices (new)** on Data & Technology; ACMM; **IT Budget cost baseline (new)** |
+| Define | Partial | Principles, guardrails, vision statements, gap hypotheses, layered architecture views. Target-state versions of the views were deliberately left out (decision 2026-11-03) |
+| Develop | Covered | Dispositions, clusters, **initiative long list with gaps addressed, benefits, risks and constraints (new)**, **value × effort prioritisation (new)**, wave roadmap, cost by FY, **affordability against the IT capex plan (new)** |
+| Draft / Document | Covered | 14-view index, every view editable and exportable as PNG and CSV, **draw.io export for the layered views, interactions and process models (new)**, **ISO 42010 viewpoint catalogue and tailoring register (new)**, **repository & ownership model (new)** |
 
 ### 2.2 Architecture domains
 
-| Domain | Status | What exists | What is missing |
-|---|---|---|---|
-| Enterprise & business | Covered | Capability model L0–L3, business–IT alignment (5 questions), ACMM maturity, ARB and decision log | Technology strategy and EA operating model as an explicit deliverable (only ARB and compliance levels) |
-| Application | Covered | Portfolio catalog (Tech DD fields), capability view, BF/TF rationalization, layered application architecture, interactions | Technology stack per app, DevSecOps maturity, **technical debt** score |
-| Integration & API | Partial | Interface Catalog (editable from the interactions view), p2p share, hotspots, R05 check | Dedicated integration/API/data-flow view (removed at our request on 2026-11-03), middleware inventory, event-driven and batch design, integration governance |
-| Data, analytics & AI | Covered | Domain governance scores, App/Data matrix, data architecture view with flows, AI readiness | Warehouse/lakehouse inventory, AI/ML/GenAI readiness beyond data-domain thresholds |
-| Infrastructure & platform | Partial | Infrastructure view (DC, DR, hosting, platform services), resilience checks, standards & lifecycle | Compute/storage inventory, HA design, monitoring/observability assessment beyond a block rating |
-| Network & connectivity | Partial | Network layer blocks in the infrastructure view | LAN/WAN inventory, segmentation, remote access, load balancing, third-party connectivity (network seed links are no longer shown since views were consolidated) |
-| Cloud | Partial | Hybrid & public cloud layer, hosting counts, P-CIL-01 cloud-smart principle | Landing zones, cloud governance, migration and **cost optimisation** |
-| Cybersecurity & resilience | Partial | Security column, §48.5 checks (SSO, SIEM, backups, DR), DPDP privacy risk | IAM/PAM depth, vulnerability management, security governance, business continuity |
-| Modern technology & engineering | **Not covered** | Only a DevOps block and R06 container check | DevSecOps, CI/CD, IaC, microservices, platform engineering, emerging tech and **vendor dependency** assessment |
+| Domain | Status | Where |
+|---|---|---|
+| Enterprise & business | Covered | Capability model to L3, alignment, ACMM, ARB, decision log, repository ownership |
+| Application | Covered | Intake (now with technical debt, peak load, failover, key person, vendor lock-in), capability view, rationalization, technical health, layered view |
+| Integration & API | Covered **(new)** | Integration & API view restored: pattern mix, hotspots, routing, governance and the editable Interface Catalog |
+| Data, analytics & AI | Covered | Editable data domains with data types, sensitivity, volume and retention **(new)**; scores, matrix, data architecture, AI readiness |
+| Infrastructure & platform | Covered | Infrastructure view with private-hosting drill-down (hosted apps, DR checks, run cost) **(new)**; editable platforms **(new)** |
+| Network & connectivity | Covered **(new)** | Editable sites and links; network drill-down with link types, checks and run cost |
+| Cloud | Covered **(new)** | Editable Azure landing zones, hosting placement, cloud checks and cloud run cost |
+| Cybersecurity & resilience | Covered | Security drill-down (identity plane, zones, checks, security spend), resilience checklist |
+| Modern technology & engineering | Covered **(new)** | Engineering practices checklist E01–E10 (DevSecOps, CI/CD, IaC, containers, API-first, platform engineering, observability, vendor exit, emerging tech), scored and linked to infrastructure blocks |
 
 ### 2.3 Assessment findings (the 12 the RFP lists)
 
-| # | Item | Status | Notes |
+| # | Item | Status | Where |
 |---|---|---|---|
-| 1 | Current architecture maturity | Covered | Capability maturity, data scores, resilience score, ACMM |
-| 2 | Architectural gaps and risks | Partial | Gap registers (capability, transactional/thematic, data, tech, governance); **no risk register** |
-| 3 | Technology obsolescence | Partial | Lifecycle fields, EOL rule RR-02, standards view; no obsolescence summary across the estate |
-| 4 | Technical debt | **Not covered** | Customisation and issues fields exist but are not scored or shown |
-| 5 | Duplication and complexity | Covered | Duplication clusters, entanglement, survivor proposal |
-| 6 | Single points of failure | **Not covered** | Hotspots show heavy interfaces but nothing flags SPOFs |
-| 7 | Security and resilience gaps | Covered | Resilience checklist, security column, privacy risk |
-| 8 | Scalability limitations | **Not covered** | `scalability` captured in intake, never surfaced |
-| 9 | Integration and data limitations | Covered | p2p and manual share, data-domain gaps |
-| 10 | Standardisation opportunities | Partial | Standards classes; no explicit opportunity list |
-| 11 | Consolidation and optimisation | Covered | Rationalization, Consolidate disposition (RR-04) |
-| 12 | Capabilities for future needs | Partial | Gap target hypotheses, missing blocks in layered views |
-| – | Prioritised gaps with business/technology impact | Covered | Priority = impact × urgency on the roadmap gap register |
+| 1 | Maturity | Covered | Capability, data, resilience, engineering, ACMM |
+| 2 | Gaps and risks | Covered | Gap registers; **initiative risk and constraint register (new)** |
+| 3 | Technology obsolescence | Covered **(new)** | Lifecycle on apps and platforms; obsolescence finding on Technology Assessment |
+| 4 | Technical debt | Covered **(new)** | Debt score per app (intake + L3 workaround answers) |
+| 5 | Duplication and complexity | Covered | Duplication clusters, entanglement |
+| 6 | Single points of failure | Covered **(new)** | SPOF flags per app (critical with weak DR, key person, integration hub, no process fallback) |
+| 7 | Security and resilience gaps | Covered | Resilience checklist, security drill-down |
+| 8 | Scalability limitations | Covered **(new)** | Scalability status per app (intake + L3 peak-season answers) |
+| 9 | Integration and data limitations | Covered | Integration view, data scores |
+| 10 | Standardisation opportunities | Covered **(new)** | Standardisation finding on Technology Assessment; standards classes |
+| 11 | Consolidation and optimisation | Covered | Rationalization, clusters, opex heads by growth on IT Budget |
+| 12 | Capabilities for future needs | Partial | Missing blocks in the layered views, gap hypotheses |
 
-### 2.4 Target architecture (the 12 the RFP lists)
-
-Principles, guardrails and patterns on Vision & Guardrails address most items by intent (alignment, standardisation, security/privacy by design, cloud, integration, data, lifecycle). The gaps are:
-
-- No **target-state version** of the application, data and infrastructure views (only current-state ratings plus the projected metrics on the Dashboard).
-- **Cost optimisation**, **observability** and **automation/operational efficiency** have no dedicated assessment or target design.
-- Recommended platforms and standards are only the Technology Standards Catalog; there is no target technology stack by layer.
-
-### 2.5 The 14 documentation views
-
-| # | View | Status | Where |
-|---|---|---|---|
-| 1 | Enterprise-level architecture and landscape | Covered | Dashboard › Enterprise Landscape |
-| 2 | Business capability and business–IT alignment | Covered | Business › Assessment |
-| 3 | Application portfolio and architecture | Covered | Applications › Intake, Architecture Views |
-| 4 | Application dependencies and interactions | Covered | Applications › Interactions & Dependencies |
-| 5 | Integration, API and data-flow architecture | Partial | Interface Catalog plus data flows; no dedicated view |
-| 6 | Data and analytics architecture | Covered | Data & Technology › Data Architecture |
-| 7 | Infrastructure and platform | Covered | Data & Technology › Infrastructure & Platform |
-| 8 | Network and connectivity | Partial | Network layer of view 7 only |
-| 9 | Cloud and hybrid | Partial | Cloud layer of view 7 only |
-| 10 | Cybersecurity and resilience | Partial | Security column of view 7 plus checklist |
-| 11 | Technology standards and lifecycle | Covered | Data & Technology › Technology Assessment |
-| 12 | Decisions, principles, standards, patterns | Covered | Vision › Guidelines; Roadmap › Decision Log |
-| 13 | Current, target and transition states | Partial | Dashboard states (metrics); no target or transition diagrams |
-| 14 | E2E views for critical processes | Covered | Business › Architecture Views (ARIS EPC) |
-
-Repository qualities:
-
-- **Layered:** Covered (add layers, rows and blocks; add apps, interfaces and process models).
-- **Levelled:** Partial (executive Dashboard down to L3, but no drill-down from a view block to its detail).
-- **Traceability:** Partial (capability → app → data domain → hosting exists; tech platform → app and network → site do not).
-- **Updatable:** Partial (everything is editable in the tool; exports are PNG/CSV/SVG, not native modelling formats).
-
-### 2.6 Standards, roadmap and outcome
+### 2.4 Target architecture, roadmap and standards
 
 | Item | Status | Notes |
 |---|---|---|
-| TOGAF as primary framework | Covered | ADM-mapped screens, TOGAF-cited AI, compliance levels |
-| TOGAF tailoring and deviations documented | **Not covered** | No tailoring/deviation register with approval |
-| Framework CIL can run independently | Partial | Editable tool, ARB, decision log; no ownership and update-process recommendation |
-| ISO/IEC/IEEE 42010 alignment | **Not covered** | Stakeholder viewpoints exist on Vision but are not mapped stakeholder → concern → viewpoint → view; no 42010 adoption statement |
-| Roadmap: priorities, dependencies, sequencing, quick wins, medium/long term, effort and ₹ | Covered | Roadmap & Governance waves W0–W3, dependency push, FY budget |
-| Roadmap: key risks and constraints | **Not covered** | Scope constraints sit on Approach & Plan only |
-| Roadmap: expected benefits | Partial | Only as "outcomes" in the on-demand initiative briefs; no benefits stored per initiative |
-| Expected outcome chain | Partial | Current state, gaps, standards and roadmap are covered; target and gap-filling architecture and documentation are partial |
-| Proposal items: team, references, commercials | Out of scope | Proposal content, not tool content; scope, approach and plan are in Approach & Plan |
+| Target-state views | Not covered (by decision) | Left out at the user's request |
+| Cost optimisation | Covered **(new)** | IT Budget: run vs change, intensity vs benchmark, growth by cost head |
+| Observability, automation | Covered **(new)** | Engineering checks E07–E08, blocks in the infrastructure view |
+| Roadmap: priorities, dependencies, sequencing, quick wins, medium/long term, effort and investment | Covered | Long list, prioritisation, waves, timeline, budget |
+| Roadmap: key risks and constraints, expected benefits | Covered **(new)** | Editable per initiative; risks register on the Roadmap step |
+| TOGAF tailoring and deviations | Covered **(new)** | Framework Tailoring register with approval status |
+| ISO/IEC/IEEE 42010 | Covered **(new)** | Viewpoint catalogue linking stakeholders and concerns to the RFP views |
+| Repository tooling, ownership, update process | Covered **(new)** | Repository & Ownership card on EA Governance |
+| Editable / native formats | Partial | draw.io export added; ArchiMate exchange format not yet |
+
+### 2.5 The 14 documentation views
+
+All 14 now have a home: 1 Dashboard landscape · 2 Business assessment · 3 Application architecture · 4 Interactions · 5 **Integration & API (restored)** · 6 Data architecture · 7–10 Infrastructure & platform with network, cloud and security drill-downs · 11 Standards & lifecycle · 12 Vision guidelines and decision log · 13 Dashboard states (metrics only, by decision) · 14 Process models.
 
 ---
 
-## 3. Gaps to close, in priority order
+## 3. Still open
 
-1. **Target and transition views.** Add a "Target" state to the layered views (each block gets a target status and target solution) and a transition toggle, so RFP view 13 and the Define objective are met.
-2. **Assessment findings 4, 6 and 8.** Score technical debt (customisation, lifecycle, issues), flag single points of failure (single DC hosting with no DR, hotspot apps with no fallback), and surface scalability from the intake field. Add them to the gap register.
-3. **Risk register and benefits on the roadmap.** Key risks and constraints per initiative; expected business and technology benefits as rule-based fields.
-4. **Modern technology & engineering domain.** A short checklist (DevSecOps, CI/CD, IaC, containers, observability, vendor dependency) like the resilience checklist, feeding the gap register.
-5. **ISO 42010 and TOGAF tailoring.** A viewpoint catalogue (stakeholder → concern → viewpoint → view) and a tailoring/deviation register on Vision & Guardrails.
-6. **Network, cloud and security depth.** Restore the network-link and security-zone detail as drill-downs from the consolidated infrastructure view; add landing zones and cloud cost.
-7. **Integration view.** Bring back a compact integration and API view (patterns, middleware, governance), since RFP view 5 is explicitly listed.
-8. **Editable native export.** Export views as draw.io or ArchiMate exchange files, and add a repository/ownership recommendation page.
-
-**Note on email domain:** discovery emails use `coromandel.com`, as requested on 2026-11-03. The RFP's SPOC addresses use `coromandel.murugappa.com`; confirm which domain CIL wants.
+1. Target and transition architecture diagrams (RFP view 13): parked by decision.
+2. ArchiMate exchange export alongside draw.io.
+3. Some reference content is still read-only seed data: ARB charter, compliance levels, estate facts, business drivers and focus areas.
+4. Email domain: discovery emails use `coromandel.com`; the RFP SPOCs use `coromandel.murugappa.com`. Confirm which to use.

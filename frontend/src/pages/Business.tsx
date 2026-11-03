@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { ChevronRight } from 'lucide-react'
 import { Entanglement } from '@/components/CapabilityModules'
 import { CapabilitySheet } from '@/components/business/CapabilitySheet'
 import { Discovery } from '@/components/business/Discovery'
@@ -11,13 +10,13 @@ import { ExportMenu } from '@/components/ExportMenu'
 import { InsightsCard } from '@/components/InsightsCard'
 import { PageHeader } from '@/components/PageHeader'
 import { PhasePlan } from '@/components/PhasePlan'
+import { StepBar } from '@/components/StepBar'
 import { ScreenError, ScreenSkeleton } from '@/components/ScreenSkeleton'
 import { TemplateButtons } from '@/components/TemplateButtons'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { api, type CapRow } from '@/lib/api'
 import { useView } from '@/lib/screens'
-import { cn } from '@/lib/utils'
 
 export const BA_STEPS = [
   { key: 'discovery', n: 1, label: 'Current State Discovery', sub: 'Adopt · generate · review · orchestrate' },
@@ -61,20 +60,7 @@ export default function Business() {
         <>
           <PhasePlan p={b.plan} />
 
-          <div id="sec-steps" className="grid scroll-mt-4 grid-cols-4 gap-1.5">
-            {BA_STEPS.map((s, i) => (
-              <button key={s.key} onClick={() => setView(s.key)}
-                className={cn('relative flex items-center gap-2.5 rounded-lg border px-3 py-2 text-left transition-colors',
-                  step === s.key ? 'border-navy bg-navy text-white' : 'bg-card hover:border-navy/50')}>
-                <span className={cn('tabular flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-bold', step === s.key ? 'bg-white text-navy' : 'bg-navy-soft text-navy')}>{s.n}</span>
-                <span className="min-w-0">
-                  <span className="block truncate text-[12.5px] font-semibold">{s.label}</span>
-                  <span className={cn('block truncate text-[10.5px]', step === s.key ? 'text-white/75' : 'text-muted-foreground')}>{s.sub}</span>
-                </span>
-                {i < BA_STEPS.length - 1 && <ChevronRight className="absolute top-1/2 -right-[11px] z-10 size-3.5 -translate-y-1/2 rounded-full bg-background text-muted-foreground" />}
-              </button>
-            ))}
-          </div>
+          <StepBar steps={BA_STEPS} active={step} onPick={setView} />
 
           <Card className="gap-3">
             <CardHeader>

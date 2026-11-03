@@ -3,7 +3,6 @@ import { useMutation } from '@tanstack/react-query'
 import { Download, Hand, Link2, Loader2, MousePointer2, Plus, RotateCcw, Save, Trash2, X, ZoomIn, ZoomOut } from 'lucide-react'
 import { toast } from 'sonner'
 import { useBusinessUpdate } from '@/components/CapabilityModules'
-import { ProvenanceBadge } from '@/components/ProvenanceBadge'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
@@ -11,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+import { processDrawio } from '@/lib/drawio'
 import { api, type Business, type PEdge, type PNode, type PNodeType, type ProcessModelT } from '@/lib/api'
 import { BAND, EPC, NAVY, SLATE, bandColor, tint } from '@/lib/theme'
 import { cn } from '@/lib/utils'
@@ -221,6 +221,12 @@ export function ProcessModeler({ b }: { b: Business }) {
     a.download = `${m.id}_${m.name.replace(/\W+/g, '_')}.svg`
     a.click()
   }
+  const exportDrawio = () => {
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(new Blob([processDrawio(m)], { type: 'application/xml' }))
+    a.download = `${m.id}_${m.name.replace(/\W+/g, '_')}.drawio`
+    a.click()
+  }
   const sn = sel?.kind === 'node' ? byId[sel.id] : undefined
   const se = sel?.kind === 'edge' ? m.edges.find((e) => e.id === sel.id) : undefined
   const setNode = (patch: Partial<PNode>) => sn && update((x) => ({ ...x, nodes: x.nodes.map((n) => (n.id === sn.id ? { ...n, ...patch } : n)) }))
@@ -234,7 +240,6 @@ export function ProcessModeler({ b }: { b: Business }) {
         <ToggleGroup type="single" value={m.id} onValueChange={(v) => { if (!v) return; if (dirty && !window.confirm('Discard unsaved changes?')) return; setMid(v) }} variant="outline" size="sm">
           {b.models.map((x) => <ToggleGroupItem key={x.id} value={x.id} className="px-3 data-[state=on]:bg-navy data-[state=on]:text-white">{x.id} · {x.name}</ToggleGroupItem>)}
         </ToggleGroup>
-        <ProvenanceBadge source={m.source} />
         <span className="text-[11px] text-muted-foreground">{m.notation} · v{m.version}{dirty && <b className="ml-1 text-foreground">· unsaved</b>}</span>
         <span className="ml-auto flex items-center gap-1.5">
           <Button size="sm" variant="outline" onClick={() => setCreating(true)}><Plus /> New view</Button>
@@ -242,6 +247,7 @@ export function ProcessModeler({ b }: { b: Business }) {
             ? <Button size="sm" variant="ghost" className="text-destructive" onClick={() => window.confirm(`Delete ${m.name}?`) && remove.mutate()} disabled={remove.isPending}><Trash2 /> Delete</Button>
             : <Button size="sm" variant="ghost" onClick={() => window.confirm('Reset this model to the drafted version?') && reset.mutate()} disabled={reset.isPending}><RotateCcw /> Reset</Button>}
           <Button size="sm" variant="outline" onClick={exportSvg}><Download /> SVG</Button>
+          <Button size="sm" variant="outline" onClick={exportDrawio}><Download /> draw.io</Button>
           <Button size="sm" onClick={() => save.mutate()} disabled={!dirty || save.isPending}>{save.isPending ? <Loader2 className="animate-spin" /> : <Save />} Save model</Button>
         </span>
       </div>

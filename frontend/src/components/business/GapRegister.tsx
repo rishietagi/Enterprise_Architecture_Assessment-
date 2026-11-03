@@ -4,7 +4,6 @@ import { ChevronRight, Lightbulb, Pencil, RotateCcw, Search } from 'lucide-react
 import { toast } from 'sonner'
 import { useBusinessUpdate } from '@/components/CapabilityModules'
 import { Explain } from '@/components/Explain'
-import { ProvenanceBadge } from '@/components/ProvenanceBadge'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
@@ -60,7 +59,7 @@ function GapTable({ rows, kind, onOpen }: { rows: RegGap[]; kind: keyof typeof G
             <p className="mt-0.5 line-clamp-3 text-[11.5px] leading-snug text-muted-foreground">{g.description}</p>
           </div>
           <p className="line-clamp-4 border-l-2 pl-2 text-[11.5px] leading-snug" style={{ borderColor: tint(t.color, 0.5) }}>{g.hypothesis}</p>
-          <span className="flex flex-col items-start gap-1"><SevPill s={g.severity} /><ProvenanceBadge source={g.source} /></span>
+          <span className="flex flex-col items-start gap-1"><SevPill s={g.severity} /></span>
           <Button variant="ghost" size="icon-sm" className="size-6 text-muted-foreground" aria-label="Edit gap" onClick={(e) => { e.stopPropagation(); onOpen(g) }}><Pencil /></Button>
         </div>
       ))}

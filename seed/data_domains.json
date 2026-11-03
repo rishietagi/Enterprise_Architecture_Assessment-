@@ -2,19 +2,299 @@
   "_meta": {
     "purpose": "Seed for Screen 4 tab 'Data' - TOGAF Phase C Data Architecture (Data Entity/Data Component Catalog s35.6.4; Data Principles 10-15).",
     "basis": "Deck slide 24 Information Domain View: farmer, product, supplier, asset and transaction data.",
-    "fields": "owner = named business data owner exists; sor = system-of-record app id; mdm = none|partial|full; quality = [completeness, accuracy, timeliness] 1-5; lineage = documented lineage; pii = contains personal data; classified = privacy + retention classification set (TOGAF s34.6 Data Entity attributes).",
+    "fields": "owner = named business data owner exists; sor = system-of-record app id; mdm = none|partial|full; quality = [completeness, accuracy, timeliness] 1-5; lineage = documented lineage; pii = contains personal data; classified = privacy + retention classification set (TOGAF s34.6 Data Entity attributes). data_types, sensitivity, retention, description and steward describe what kind of data the domain holds (assumed).",
     "seed_values": "All quality/governance values are 'assumed' demo values."
   },
   "domains": [
-    {"id": "DD-01", "name": "Farmer & Customer", "owner": false, "sor": "A06", "mdm": "none", "quality": [2, 2, 3], "lineage": false, "pii": true, "classified": false, "consumers": ["A05", "A07", "A08", "A13"], "volume_hint": "3.3M farmers reached, 1M+ app users", "source": "public"},
-    {"id": "DD-02", "name": "Dealer & Channel", "owner": true, "sor": "A10", "mdm": "partial", "quality": [3, 3, 3], "lineage": false, "pii": true, "classified": false, "consumers": ["A01", "A11"], "source": "assumed"},
-    {"id": "DD-03", "name": "Product & Material", "owner": true, "sor": "A01", "mdm": "partial", "quality": [4, 3, 3], "lineage": false, "pii": false, "classified": true, "consumers": ["A05", "A06", "A10", "A12"], "source": "deck"},
-    {"id": "DD-04", "name": "Supplier & Procurement", "owner": true, "sor": "A01", "mdm": "partial", "quality": [4, 4, 3], "lineage": false, "pii": false, "classified": true, "consumers": ["A23"], "source": "deck"},
-    {"id": "DD-05", "name": "Plant & Asset (OT)", "owner": true, "sor": "A04", "mdm": "none", "quality": [4, 3, 4], "lineage": false, "pii": false, "classified": false, "consumers": ["A16", "A23"], "source": "deck"},
-    {"id": "DD-06", "name": "Agronomy & Geospatial (soil tests, satellite, drone telemetry)", "owner": false, "sor": "A17", "mdm": "none", "quality": [2, 2, 2], "lineage": false, "pii": true, "classified": false, "consumers": ["A06", "A07", "A09", "A14"], "source": "assumed"},
-    {"id": "DD-07", "name": "Sales & Retail Transactions", "owner": true, "sor": "A05", "mdm": "none", "quality": [4, 3, 3], "lineage": false, "pii": true, "classified": false, "consumers": ["A01", "A13", "A23"], "source": "assumed"},
-    {"id": "DD-08", "name": "Finance & Subsidy", "owner": true, "sor": "A01", "mdm": "full", "quality": [4, 4, 3], "lineage": true, "pii": false, "classified": true, "consumers": ["A20", "A23"], "source": "deck"},
-    {"id": "DD-09", "name": "Employee & Identity", "owner": true, "sor": "A02", "mdm": "partial", "quality": [4, 4, 4], "lineage": false, "pii": true, "classified": true, "consumers": ["A03", "A25", "A24"], "source": "deck"},
-    {"id": "DD-10", "name": "R&D, Trials & Regulatory", "owner": false, "sor": "A22", "mdm": "none", "quality": [2, 2, 2], "lineage": false, "pii": false, "classified": false, "consumers": [], "source": "assumed"}
+    {
+      "id": "DD-01",
+      "name": "Farmer & Customer",
+      "owner": false,
+      "sor": "A06",
+      "mdm": "none",
+      "quality": [
+        2,
+        2,
+        3
+      ],
+      "lineage": false,
+      "pii": true,
+      "classified": false,
+      "consumers": [
+        "A05",
+        "A07",
+        "A08",
+        "A13"
+      ],
+      "volume_hint": "3.3M farmers reached, 1M+ app users",
+      "source": "public",
+      "data_types": [
+        "Master",
+        "Transactional",
+        "Geospatial"
+      ],
+      "sensitivity": "Personal (DPDP)",
+      "retention": "Active relationship + 3 years",
+      "description": "Farmer profiles, land holdings, crops, consent and advisory history",
+      "steward": ""
+    },
+    {
+      "id": "DD-02",
+      "name": "Dealer & Channel",
+      "owner": true,
+      "sor": "A10",
+      "mdm": "partial",
+      "quality": [
+        3,
+        3,
+        3
+      ],
+      "lineage": false,
+      "pii": true,
+      "classified": false,
+      "consumers": [
+        "A01",
+        "A11"
+      ],
+      "source": "assumed",
+      "data_types": [
+        "Master",
+        "Transactional"
+      ],
+      "sensitivity": "Personal (DPDP)",
+      "retention": "Contract term + 8 years",
+      "description": "Dealers and retailers, credit limits, schemes, KYC",
+      "steward": ""
+    },
+    {
+      "id": "DD-03",
+      "name": "Product & Material",
+      "owner": true,
+      "sor": "A01",
+      "mdm": "partial",
+      "quality": [
+        4,
+        3,
+        3
+      ],
+      "lineage": false,
+      "pii": false,
+      "classified": true,
+      "consumers": [
+        "A05",
+        "A06",
+        "A10",
+        "A12"
+      ],
+      "source": "deck",
+      "data_types": [
+        "Master",
+        "Reference"
+      ],
+      "sensitivity": "Internal",
+      "retention": "Life of product",
+      "description": "Products, SKUs, formulations, materials, units and pricing references",
+      "steward": ""
+    },
+    {
+      "id": "DD-04",
+      "name": "Supplier & Procurement",
+      "owner": true,
+      "sor": "A01",
+      "mdm": "partial",
+      "quality": [
+        4,
+        4,
+        3
+      ],
+      "lineage": false,
+      "pii": false,
+      "classified": true,
+      "consumers": [
+        "A23"
+      ],
+      "source": "deck",
+      "data_types": [
+        "Master",
+        "Transactional"
+      ],
+      "sensitivity": "Confidential",
+      "retention": "8 years (statutory)",
+      "description": "Suppliers, contracts, purchase orders, rock phosphate and acid sourcing",
+      "steward": ""
+    },
+    {
+      "id": "DD-05",
+      "name": "Plant & Asset (OT)",
+      "owner": true,
+      "sor": "A04",
+      "mdm": "none",
+      "quality": [
+        4,
+        3,
+        4
+      ],
+      "lineage": false,
+      "pii": false,
+      "classified": false,
+      "consumers": [
+        "A16",
+        "A23"
+      ],
+      "source": "deck",
+      "data_types": [
+        "IoT / time-series",
+        "Master",
+        "Transactional"
+      ],
+      "sensitivity": "Confidential",
+      "retention": "Asset life; raw tags 2 years",
+      "description": "Plant assets, historian tags, maintenance and quality readings",
+      "steward": ""
+    },
+    {
+      "id": "DD-06",
+      "name": "Agronomy & Geospatial (soil tests, satellite, drone telemetry)",
+      "owner": false,
+      "sor": "A17",
+      "mdm": "none",
+      "quality": [
+        2,
+        2,
+        2
+      ],
+      "lineage": false,
+      "pii": true,
+      "classified": false,
+      "consumers": [
+        "A06",
+        "A07",
+        "A09",
+        "A14"
+      ],
+      "source": "assumed",
+      "data_types": [
+        "Geospatial",
+        "IoT / time-series",
+        "Unstructured"
+      ],
+      "sensitivity": "Personal (DPDP)",
+      "retention": "5 years",
+      "description": "Soil tests, satellite and drone imagery, field telemetry",
+      "steward": ""
+    },
+    {
+      "id": "DD-07",
+      "name": "Sales & Retail Transactions",
+      "owner": true,
+      "sor": "A05",
+      "mdm": "none",
+      "quality": [
+        4,
+        3,
+        3
+      ],
+      "lineage": false,
+      "pii": true,
+      "classified": false,
+      "consumers": [
+        "A01",
+        "A13",
+        "A23"
+      ],
+      "source": "assumed",
+      "data_types": [
+        "Transactional",
+        "Analytical"
+      ],
+      "sensitivity": "Personal (DPDP)",
+      "retention": "8 years (statutory)",
+      "description": "Primary and secondary sales, Gromor store transactions, returns",
+      "steward": ""
+    },
+    {
+      "id": "DD-08",
+      "name": "Finance & Subsidy",
+      "owner": true,
+      "sor": "A01",
+      "mdm": "full",
+      "quality": [
+        4,
+        4,
+        3
+      ],
+      "lineage": true,
+      "pii": false,
+      "classified": true,
+      "consumers": [
+        "A20",
+        "A23"
+      ],
+      "source": "deck",
+      "data_types": [
+        "Transactional",
+        "Reference",
+        "Analytical"
+      ],
+      "sensitivity": "Confidential",
+      "retention": "8 years (statutory)",
+      "description": "GL, receivables, subsidy claims and iFMS reconciliation",
+      "steward": ""
+    },
+    {
+      "id": "DD-09",
+      "name": "Employee & Identity",
+      "owner": true,
+      "sor": "A02",
+      "mdm": "partial",
+      "quality": [
+        4,
+        4,
+        4
+      ],
+      "lineage": false,
+      "pii": true,
+      "classified": true,
+      "consumers": [
+        "A03",
+        "A25",
+        "A24"
+      ],
+      "source": "deck",
+      "data_types": [
+        "Master",
+        "Transactional"
+      ],
+      "sensitivity": "Personal (DPDP)",
+      "retention": "Employment + 7 years",
+      "description": "Employees, contractors, identities and access",
+      "steward": ""
+    },
+    {
+      "id": "DD-10",
+      "name": "R&D, Trials & Regulatory",
+      "owner": false,
+      "sor": "A22",
+      "mdm": "none",
+      "quality": [
+        2,
+        2,
+        2
+      ],
+      "lineage": false,
+      "pii": false,
+      "classified": false,
+      "consumers": [],
+      "source": "assumed",
+      "data_types": [
+        "Unstructured",
+        "Transactional",
+        "Reference"
+      ],
+      "sensitivity": "Restricted",
+      "retention": "Registration life + 10 years",
+      "description": "Trial protocols, results, registration dossiers and IP",
+      "steward": ""
+    }
   ]
 }

@@ -38,5 +38,5 @@ def check_explain(c: dict, cfg: dict) -> dict:
         i, u = iu[c["status"]]
         res = f"{c['status']} → score {s if s is not None else 'excluded'}; gap priority {i} × {u} = {i * u}"
         rule = "fail 4×4, partial 3×3, unknown 3×2 ('Validate in discovery')"
-    return xp(f"{c['id']} {c['check']}", [("Status", c["status"]), ("Source", c.get("source", "assumed")),
+    return xp(f"{c['id']} {c['check']}", [("Status", c["status"]),
                                           ("TOGAF checklist", f"§{c['togaf_ref']}")], res, rule, f"§{c['togaf_ref']}")

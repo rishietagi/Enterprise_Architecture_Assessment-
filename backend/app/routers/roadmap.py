@@ -3,7 +3,8 @@ from pydantic import BaseModel, Field
 from sqlmodel import Session
 
 from .. import views
-from ..db import deep_merge, get_session
+from ..db import deep_merge, effective_config, get_session
+
 from ..llm import calls
 from ..models import AcmmLevel, Decision, SettingOverride
 
@@ -24,6 +25,20 @@ class DecisionIn(BaseModel):
 
 class RateCardIn(BaseModel):
     rate_card: dict[str, list[float]]
+
+
+class InitiativeNoteIn(BaseModel):
+    benefits: list[str] = []
+    risks: list[str] = []
+    constraints: list[str] = []
+    owner: str = ""
+    kpis: str = ""
+
+
+class RepositoryIn(BaseModel):
+    tooling: str = ""
+    ownership: list[dict[str, str]] = []
+    process: list[str] = []
 
 
 @router.get("")
@@ -81,6 +96,39 @@ def put_rate_card(body: RateCardIn, s: Session = Depends(get_session)):
             raise HTTPException(422, f"Invalid band {size}")
     ov = s.get(SettingOverride, "config") or SettingOverride(key="config", value={})
     ov.value = deep_merge(ov.value, {"roadmap": {"rate_card_inr_cr": body.rate_card}})
+    s.add(ov)
+    s.commit()
+    return views.roadmap(s)
+
+
+@router.put("/initiatives/{iid}")
+def put_initiative(iid: str, body: InitiativeNoteIn, s: Session = Depends(get_session)):
+    if iid not in {t["id"] for t in effective_config(s)["themes"]}:
+        raise HTTPException(404, "Unknown initiative")
+    ov = s.get(SettingOverride, "initiative_notes") or SettingOverride(key="initiative_notes", value={})
+    clean = lambda xs: [x.strip() for x in xs if x.strip()]  # noqa: E731
+    ov.value = {**ov.value, iid: {"benefits": clean(body.benefits), "risks": clean(body.risks), "constraints": clean(body.constraints),
+                                  "owner": body.owner.strip(), "kpis": body.kpis.strip()}}
+    s.add(ov)
+    s.commit()
+    return views.roadmap(s)
+
+
+@router.delete("/initiatives/{iid}")
+def reset_initiative(iid: str, s: Session = Depends(get_session)):
+    ov = s.get(SettingOverride, "initiative_notes")
+    if ov and iid in ov.value:
+        ov.value = {k: v for k, v in ov.value.items() if k != iid}
+        s.add(ov)
+        s.commit()
+    return views.roadmap(s)
+
+
+@router.put("/repository")
+def put_repository(body: RepositoryIn, s: Session = Depends(get_session)):
+    ov = s.get(SettingOverride, "repository") or SettingOverride(key="repository", value={})
+    ov.value = {"tooling": body.tooling, "ownership": [o for o in body.ownership if o.get("view", "").strip()],
+                "process": [p.strip() for p in body.process if p.strip()]}
     s.add(ov)
     s.commit()
     return views.roadmap(s)

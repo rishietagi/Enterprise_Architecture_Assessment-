@@ -4,7 +4,6 @@ import { ArrowRightLeft, CalendarClock, Check, ClipboardCheck, ClipboardCopy, Fi
 import { toast } from 'sonner'
 import { useBusinessUpdate } from '@/components/CapabilityModules'
 import { Explain } from '@/components/Explain'
-import { ProvenanceBadge } from '@/components/ProvenanceBadge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
@@ -246,7 +245,6 @@ function FilledForm({ l3, b }: { l3: L3Row; b: Business }) {
       )}
       <div className="flex items-center gap-2 text-[11.5px] text-muted-foreground">
         {sv.channel === 'workshop' ? <><Users className="size-3.5" /> Captured in a workshop</> : <><Mail className="size-3.5" /> Returned by email</>}
-        <ProvenanceBadge source={sv.source} />
         {sc?.is_gap && <span className="rounded px-1.5 text-[10.5px] font-semibold" style={{ color: BAND.critical, background: tint(BAND.critical) }}>L3 gap · weakest: {sc.weakest}</span>}
       </div>
       <table className="w-full text-[12.5px]">

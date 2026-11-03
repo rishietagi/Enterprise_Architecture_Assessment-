@@ -31,12 +31,12 @@ export function InsightsCard({ screen, tab, items }: { screen: ScreenKey; tab: s
       </div>
       <ol className="grid grid-cols-2 gap-x-6 gap-y-2 xl:grid-cols-4">
         {shown.map((it, i) => (
-          <li key={i} className="flex gap-2 text-[12.5px] leading-snug">
+          <li key={i} className="flex min-w-0 gap-2 text-[12.5px] leading-snug">
             <span className="tabular mt-px flex size-5 shrink-0 items-center justify-center rounded-full bg-navy text-[10.5px] font-bold text-white">{i + 1}</span>
-            <span>
+            <span className="min-w-0 break-words">
               {it.text}
               {d && <CiteMarks cites={it.cites} citations={d.citations} />}
-              {!ai && it.rule && <span className="ml-1 rounded bg-muted px-1 py-px text-[10px] font-medium whitespace-nowrap text-muted-foreground">rule: {it.rule}</span>}
+              {!ai && it.rule && <span className="ml-1 rounded bg-muted px-1 py-px text-[10px] font-medium text-muted-foreground">rule: {it.rule}</span>}
             </span>
           </li>
         ))}

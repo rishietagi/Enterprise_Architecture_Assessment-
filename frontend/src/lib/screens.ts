@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Boxes, CalendarRange, Compass, Database, LayoutDashboard, Map, Network, type LucideIcon } from 'lucide-react'
+import { Boxes, CalendarRange, Compass, Database, IndianRupee, LayoutDashboard, Map, Network, type LucideIcon } from 'lucide-react'
 import type { ScreenKey } from './api'
 
 export interface ScreenSummaryMeta {
@@ -69,32 +69,39 @@ export const SCREENS: ScreenMeta[] = [
     purpose: 'Application intake, application support by capability down to L3, rule-based rationalization, and application architecture views.', icon: Network,
     summary: {
       covers: [{ view: 'inventory', label: '1 Application Intake' }, { view: 'capability', label: '2 Capability View' },
-        { view: 'rationalization', label: '3 Rationalization' }, { view: 'architecture', label: '4 Architecture Views' }],
+        { view: 'rationalization', label: '3 Rationalization' }, { view: 'gaps', label: '4 Gap Register' }, { view: 'architecture', label: '5 Architecture Views' }],
       outputs: ['Application Portfolio Catalog (Tech DD fields)', 'Application support by L1–L3 process', 'Disposition per app with a written rationale and overrides', 'Application architecture and interaction views'],
       rfp: [3, 4],
     },
   },
   {
     key: 'data_tech', path: '/data-tech', title: 'Data & Technology', nav: 'Data & Technology', phases: ['C · Data', 'D'], badges: ['C', 'D'],
-    purpose: 'Data architecture and its assessment, then the consolidated infrastructure and platform view and the technology assessment.', icon: Database,
+    purpose: 'Data and technology inputs, their assessment, then the data and infrastructure architecture views.', icon: Database,
     summary: {
-      covers: [{ view: 'data_arch', label: '1 Data Architecture' }, { view: 'data', label: '2 Data Assessment' },
-        { view: 'infra', label: '3 Infrastructure & Platform' }, { view: 'tech', label: '4 Technology Assessment' }],
-      outputs: ['Data-domain scores and privacy risk', 'Information & data architecture', 'Resilience score from §48.5 checklists; standards and lifecycle', 'Infrastructure, hybrid cloud, network and security in one reference view'],
+      covers: [{ view: 'inputs', label: '1 Inputs' }, { view: 'data', label: '2 Assessment' }, { view: 'gaps', label: '3 Gap Register' }, { view: 'data_arch', label: '4 Architecture Views' }],
+      outputs: ['Data domains with data types, platforms, sites and network', 'Data-domain scores, resilience and engineering practices', 'Data architecture and the consolidated infrastructure and platform view'],
       rfp: [6, 7, 8, 9, 10, 11],
     },
   },
   {
-    key: 'roadmap', path: '/roadmap', title: 'Roadmap & Governance', nav: 'Roadmap & Governance', phases: ['E', 'F', 'G', 'H'], badges: ['E–H'],
-    purpose: 'Gaps rolled into initiatives and waves to 2030, the indicative budget, and EA governance.', icon: Map,
+    key: 'budget', path: '/budget', title: 'IT Budget', nav: 'IT Budget', phases: ['E', 'F'], badges: ['₹'],
+    purpose: 'The IT cost baseline: overall IT costs, capex by initiative, opex by cost head and business factors, with the ratios every other screen uses.', icon: IndianRupee,
     summary: {
-      covers: [{ view: 'gaps', label: 'Gap Register' }, { view: 'roadmap', label: 'Initiatives & Waves' },
-        { view: 'budget', label: 'Budget by FY' }, { view: 'governance', label: 'ACMM, ARB & Decisions' }],
-      outputs: ['Prioritised gap register', 'Transition roadmap in 4 waves', 'Indicative ₹ budget by FY', 'Architecture decision log'],
-      rfp: [12, 13],
+      covers: [{ view: 'inputs', label: '1 Cost Inputs' }, { view: 'analysis', label: '2 Cost Analysis' }],
+      outputs: ['IT opex, salaries and capex by financial year', 'Capex by initiative and opex by cost head', 'Spend intensity, run vs change mix, growth and roadmap affordability'],
+      rfp: [13],
     },
   },
-]
+  {
+    key: 'roadmap', path: '/roadmap', title: 'Roadmap & Governance', nav: 'Roadmap & Governance', phases: ['E', 'F', 'G', 'H'], badges: ['E–H'],
+    purpose: 'The long list of initiatives, their prioritisation, the roadmap to 2030 and EA governance.', icon: Map,
+    summary: {
+      covers: [{ view: 'longlist', label: '1 Initiative Long List' }, { view: 'priority', label: '2 Prioritisation' },
+        { view: 'roadmap', label: '3 Roadmap' }, { view: 'governance', label: '4 EA Governance' }],
+      outputs: ['Initiatives with the gaps they address, benefits, risks and constraints', 'Value × effort prioritisation', 'Wave roadmap with quick wins, cost by FY and affordability', 'ACMM, ARB, decisions and repository ownership'],
+      rfp: [12, 13],
+    },
+  },]
 
 export const SCREEN_BY_KEY = Object.fromEntries(SCREENS.map((s) => [s.key, s])) as Record<ScreenKey, ScreenMeta>
 

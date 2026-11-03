@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Sparkle, Star } from 'lucide-react'
 import { toast } from 'sonner'
 import { Explain } from '@/components/Explain'
-import { ProvenanceBadge } from '@/components/ProvenanceBadge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { api, type EngagementPlan as PlanT, type PlanActivity, type PlanStatus } from '@/lib/api'
 import { CADENCE, NAVY, PLAN_STATUS, tint } from '@/lib/theme'
@@ -78,7 +77,6 @@ export function EngagementPlan({ p }: { p: PlanT }) {
         <CadenceLegend />
         <span className="ml-auto flex items-center gap-3 text-[11px] text-muted-foreground">
           {(Object.keys(PLAN_STATUS) as PlanStatus[]).filter((k) => k !== 'milestone').map((k) => <span key={k} className="flex items-center gap-1"><span className="h-2 w-3.5 rounded-full" style={{ background: k === 'planned' ? tint(NAVY, 0.14) : PLAN_STATUS[k].color }} />{PLAN_STATUS[k].label} {p.counts[k]}</span>)}
-          <ProvenanceBadge source={p.source} />
         </span>
       </div>
       <div className="overflow-hidden rounded-lg border">

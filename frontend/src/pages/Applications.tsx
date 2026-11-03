@@ -1,20 +1,22 @@
 import { useRef, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { AlertTriangle, ArrowRight, ChevronRight, Crown, Download, Loader2, Plus, Search, Sparkles } from 'lucide-react'
+import { AlertTriangle, ArrowRight, Crown, Download, Loader2, Plus, Search, Sparkles } from 'lucide-react'
 import { CartesianGrid, Cell, ReferenceLine, Scatter, ScatterChart, XAxis, YAxis, ZAxis } from 'recharts'
 import { toast } from 'sonner'
 import { AppCapabilityMap } from '@/components/AppCapabilityMap'
 import { AppForm } from '@/components/AppForm'
-import { InteractionGraph } from '@/components/AppViews'
+import { IntegrationView, InteractionGraph } from '@/components/AppViews'
 import { CiteMarks } from '@/components/CitationChip'
+import { DomainGapRegister } from '@/components/DomainGapRegister'
 import { Explain } from '@/components/Explain'
 import { ExportMenu } from '@/components/ExportMenu'
 import { AiModeBadge } from '@/components/FindingsCard'
 import { InsightsCard } from '@/components/InsightsCard'
 import { PageHeader } from '@/components/PageHeader'
-import { ProvenanceBadge } from '@/components/ProvenanceBadge'
 import { PhasePlan } from '@/components/PhasePlan'
 import { RefArchitecture } from '@/components/RefArchitecture'
+import { StepBar } from '@/components/StepBar'
+import { TechHealth } from '@/components/TechHealth'
 import { ScreenError, ScreenSkeleton } from '@/components/ScreenSkeleton'
 import { TemplateButtons } from '@/components/TemplateButtons'
 import { Badge } from '@/components/ui/badge'
@@ -29,10 +31,9 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { api, exportUrl, type App, type Applications as AppsT, type MapResult } from '@/lib/api'
 import { useView } from '@/lib/screens'
 import { BAND, DEFAULT_LAYER, DISPOSITION_CODES, dispositionColor, GRID, LAYER_COLOR, NAVY, SLATE, tint, WHITE } from '@/lib/theme'
-import { cn } from '@/lib/utils'
 
-const VIEWS = ['inventory', 'rationalization', 'capability', 'architecture', 'interaction', 'integration']
-const ARCH = ['architecture', 'interaction', 'integration']  // 'integration' is an old deep link; it now opens the architecture view
+const VIEWS = ['inventory', 'rationalization', 'health', 'gaps', 'capability', 'architecture', 'interaction', 'integration']
+const ARCH = ['architecture', 'interaction', 'integration']
 
 function Disp({ code, label, overridden }: { code: string; label: string; overridden?: boolean }) {
   const c = dispositionColor(code)
@@ -61,7 +62,8 @@ function Quadrant({ a }: { a: AppsT }) {
   const pts = a.apps.map((x) => {
     const k = `${x.computed.technical_fit}-${x.computed.business_fit}`
     const n = (seen[k] = (seen[k] ?? 0) + 1) - 1
-    return { ...x.computed, x: x.computed.technical_fit + n * 0.07, y: x.computed.business_fit + n * 0.05, crit: x.criticality }
+    const nudge = (v: number, d: number) => Math.min(4.92, Math.max(1.08, v + (v > 4.5 ? -d : d)))  // stay inside the 1-5 frame
+    return { ...x.computed, x: nudge(x.computed.technical_fit, n * 0.07), y: nudge(x.computed.business_fit, n * 0.05), crit: x.criticality }
   })
   const th = a.threshold
   const Q = [
@@ -179,15 +181,23 @@ function MapDialog({ res, onClose }: { res: MapResult | null; onClose: () => voi
 export const AA_STEPS = [
   { key: 'inventory', n: 1, label: 'Application Intake', sub: 'Portfolio catalog · Tech DD fields' },
   { key: 'capability', n: 2, label: 'Capability View', sub: 'Apps by L1 › L2 › L3 process' },
-  { key: 'rationalization', n: 3, label: 'Rationalization', sub: 'Fit quadrant · clusters · dispositions' },
-  { key: 'architecture', n: 4, label: 'Architecture Views', sub: 'Application architecture · interactions' },
+  { key: 'rationalization', n: 3, label: 'Rationalization', sub: 'Fit · dispositions · technical health' },
+  { key: 'gaps', n: 4, label: 'Gap Register', sub: 'Application and portfolio gaps' },
+  { key: 'architecture', n: 5, label: 'Architecture Views', sub: 'Architecture · interactions · integration' },
 ]
-const INSIGHT: Record<string, string> = { inventory: 'intake', rationalization: 'rationalization', capability: 'capability', architecture: 'architecture', interaction: 'interaction', integration: 'architecture' }
+const INSIGHT: Record<string, string> = { gaps: 'gaps', inventory: 'intake', rationalization: 'rationalization', health: 'health', capability: 'capability', architecture: 'architecture', interaction: 'interaction', integration: 'integration' }
 const CARD: Record<string, { title: string; desc: string }> = {
-  inventory: { title: 'Step 1 · Application Intake', desc: 'Application Portfolio Catalog on the Tech DD intake fields (TOGAF §35.6.5). Add or edit an application here, or bulk-load with the intake template. Unknown vendors stay TBD.' },
+  inventory: { title: 'Step 1 · Application Intake', desc: 'Application Portfolio Catalog on the Tech DD intake fields (TOGAF §35.6.5), including technical debt, peak-season load, failover and key-person dependency. Add or edit an application here, or bulk-load with the intake template. Unknown vendors stay TBD.' },
   capability: { title: 'Step 2 · Capability View', desc: 'Which applications support each process, laid out L0 › L1 › L2 › L3 like the business architecture. Shows overlaps, processes with no system support and gaps sitting on weak applications, before the portfolio is rationalised.' },
   rationalization: { title: 'Step 3 · Rationalization', desc: 'Business fit × technical fit sets the quadrant; the rules configured on Vision & Guardrails then apply in order. Every disposition carries a written rationale and its rule trace, and can be overridden with a reason.' },
-  architecture: { title: 'Step 4 · Architecture Views', desc: 'The CIL application architecture, layered from cognitive and customer experiences down to operational technology and rated for architectural gaps (RFP view 3), and application interactions and dependencies (RFP view 4).' },
+  health: { title: 'Step 3 · Rationalization · Technical Health', desc: 'Technical debt, single points of failure and scalability limits per application (RFP assessment items 4, 6 and 8), scored by rules from the intake and the L3 discovery answers. Fix the inputs in the intake record; the scores update on save.' },
+  gaps: { title: 'Step 4 · Gap Register', desc: 'Application gaps generated from the assessment: one gap per application combining its disposition, technical debt, single points of failure, scalability and lifecycle findings, plus portfolio gaps for duplication, processes with no application support, point-to-point integration and missing building blocks. Each has a severity, a target-state hypothesis and the roadmap initiative that closes it; edit any of them.' },
+  architecture: { title: 'Step 5 · Architecture Views', desc: 'The CIL application architecture, layered from cognitive and customer experiences down to operational technology and rated for architectural gaps (RFP view 3), application interactions and dependencies (RFP view 4), and integration, API and data-flow architecture (RFP view 5).' },
+}
+const ARCH_NOTE: Record<string, string> = {
+  architecture: 'RFP view 3 · Application architecture · building blocks mapped to the Application Portfolio Catalog §35.6.5',
+  interaction: 'RFP view 4 · Application Communication Diagram §35.6.5',
+  integration: 'RFP view 5 · Interface Catalog, patterns, hotspots and integration governance',
 }
 
 export default function Applications() {
@@ -199,7 +209,7 @@ export default function Applications() {
   const a = q.data
   const l2 = a ? Object.fromEntries(a.l2.map((c) => [c.id, c.name])) : {}
   const unmapped = a?.apps.filter((x) => !x.caps.length) ?? []
-  const step = ARCH.includes(view) ? 'architecture' : view
+  const step = ARCH.includes(view) ? 'architecture' : view === 'health' ? 'rationalization' : view
   const open = (app: App | null) => setForm({ open: true, app })
   const insightKey = INSIGHT[view] ?? 'intake'
 
@@ -219,26 +229,12 @@ export default function Applications() {
       {q.error ? <ScreenError error={q.error} /> : !a ? <ScreenSkeleton /> : (
         <>
           <PhasePlan p={a.plan} />
-
-          <div className="grid grid-cols-4 gap-1.5">
-            {AA_STEPS.map((s, i) => (
-              <button key={s.key} onClick={() => setView(s.key)}
-                className={cn('relative flex items-center gap-2.5 rounded-lg border px-3 py-2 text-left transition-colors',
-                  step === s.key ? 'border-navy bg-navy text-white' : 'bg-card hover:border-navy/50')}>
-                <span className={cn('tabular flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-bold', step === s.key ? 'bg-white text-navy' : 'bg-navy-soft text-navy')}>{s.n}</span>
-                <span className="min-w-0">
-                  <span className="block truncate text-[12.5px] font-semibold">{s.label}</span>
-                  <span className={cn('block truncate text-[10.5px]', step === s.key ? 'text-white/75' : 'text-muted-foreground')}>{s.sub}</span>
-                </span>
-                {i < AA_STEPS.length - 1 && <ChevronRight className="absolute top-1/2 -right-[11px] z-10 size-3.5 -translate-y-1/2 rounded-full bg-background text-muted-foreground" />}
-              </button>
-            ))}
-          </div>
+          <StepBar steps={AA_STEPS} active={step} onPick={setView} />
 
           <Card className="gap-3">
             <CardHeader>
-              <CardTitle>{CARD[step].title}</CardTitle>
-              <CardDescription>{CARD[step].desc}</CardDescription>
+              <CardTitle>{CARD[view === 'health' ? 'health' : step].title}</CardTitle>
+              <CardDescription>{CARD[view === 'health' ? 'health' : step].desc}</CardDescription>
               {step === 'inventory' && (
                 <CardAction className="flex gap-2">
                   <Button variant="ghost" size="sm" asChild><a href={exportUrl('applications')}><Download /> Export</a></Button>
@@ -248,22 +244,30 @@ export default function Applications() {
             </CardHeader>
             <CardContent className="space-y-4">
               {step === 'inventory' && <Intake a={a} l2={l2} onOpen={open} onMap={(id) => map.mutate([id])} />}
-              {step === 'rationalization' && <Rationalization a={a} onOpen={open} />}
+              {step === 'rationalization' && (
+                <>
+                  <ToggleGroup type="single" value={view === 'health' ? 'health' : 'rationalization'} onValueChange={(v) => v && setView(v)} variant="outline" size="sm">
+                    <ToggleGroupItem value="rationalization" className="px-3 data-[state=on]:bg-navy data-[state=on]:text-white">Fit & Dispositions</ToggleGroupItem>
+                    <ToggleGroupItem value="health" className="px-3 data-[state=on]:bg-navy data-[state=on]:text-white">Technical Health</ToggleGroupItem>
+                  </ToggleGroup>
+                  {view === 'health' ? <TechHealth a={a} onOpen={open} /> : <Rationalization a={a} onOpen={open} />}
+                </>
+              )}
               {step === 'capability' && <AppCapabilityMap a={a} onOpen={open} />}
+              {step === 'gaps' && <DomainGapRegister reg={a.gap_register} screen="applications" name="Application Gap Register" />}
               {step === 'architecture' && (
                 <>
                   <div className="flex flex-wrap items-center gap-3">
-                    <ToggleGroup type="single" value={view === 'interaction' ? 'interaction' : 'architecture'} onValueChange={(v) => v && setView(v)} variant="outline" size="sm">
+                    <ToggleGroup type="single" value={view} onValueChange={(v) => v && setView(v)} variant="outline" size="sm">
                       <ToggleGroupItem value="architecture" className="px-3 data-[state=on]:bg-navy data-[state=on]:text-white">Application Architecture</ToggleGroupItem>
                       <ToggleGroupItem value="interaction" className="px-3 data-[state=on]:bg-navy data-[state=on]:text-white">Interactions & Dependencies</ToggleGroupItem>
+                      <ToggleGroupItem value="integration" className="px-3 data-[state=on]:bg-navy data-[state=on]:text-white">Integration & API</ToggleGroupItem>
                     </ToggleGroup>
-                    <span className="text-[11px] text-muted-foreground">
-                      {view === 'interaction' ? 'RFP view 4 · Application Communication Diagram §35.6.5 · interfaces are assumed until the interface inventory is collected'
-                        : 'RFP view 3 · Application architecture · building blocks mapped to the Application Portfolio Catalog §35.6.5'}
-                    </span>
+                    <span className="text-[11px] text-muted-foreground">{ARCH_NOTE[view]}</span>
                   </div>
-                  {view === 'interaction' ? <InteractionGraph a={a} />
-                    : a.ref_view && <RefArchitecture v={a.ref_view} queryKey="applications" appToggle ctx={{ apps: a.apps.map((x) => ({ id: x.id, name: x.name })) }} />}
+                  {view === 'interaction' && <InteractionGraph a={a} />}
+                  {view === 'integration' && <IntegrationView a={a} />}
+                  {view === 'architecture' && a.ref_view && <RefArchitecture v={a.ref_view} queryKey="applications" appToggle ctx={{ apps: a.apps.map((x) => ({ id: x.id, name: x.name })) }} />}
                 </>
               )}
               <InsightsCard key={insightKey} screen="applications" tab={insightKey} items={a.insights[insightKey] ?? []} />
@@ -283,12 +287,12 @@ function Intake({ a, l2, onOpen, onMap }: { a: AppsT; l2: Record<string, string>
   const [layer, setLayer] = useState('all')
   const rows = a.apps.filter((x) => (layer === 'all' || (x.layer ?? DEFAULT_LAYER) === layer) && (!qs || `${x.name} ${x.vendor} ${x.description ?? ''}`.toLowerCase().includes(qs.toLowerCase())))
   const tbd = a.apps.filter((x) => x.vendor === 'TBD').length
-  const assumed = a.apps.filter((x) => x.source === 'assumed' || x.assumed_fields?.length).length
+  const hostUnknown = a.apps.filter((x) => x.hosting === 'Unknown').length
   return (
     <div className="space-y-3">
       <div className="grid grid-cols-4 gap-3 rounded-lg border bg-muted/30 px-4 py-2.5">
         <div className="flex items-center gap-1"><div><div className="text-[10px] font-semibold tracking-wide text-muted-foreground uppercase">Inventoried</div><div className="tabular text-[15px] font-semibold">{a.kpis.inventoried}<span className="text-[11px] font-normal text-muted-foreground"> · target {a.kpis.target}</span></div></div><Explain x={a.explain.inventoried} /></div>
-        <div><div className="text-[10px] font-semibold tracking-wide text-muted-foreground uppercase">Fields still assumed</div><div className="tabular text-[15px] font-semibold" style={{ color: BAND.developing }}>{assumed} apps</div></div>
+        <div><div className="text-[10px] font-semibold tracking-wide text-muted-foreground uppercase">Hosting Unknown</div><div className="tabular text-[15px] font-semibold" style={{ color: BAND.developing }}>{hostUnknown} apps</div></div>
         <div><div className="text-[10px] font-semibold tracking-wide text-muted-foreground uppercase">Vendor TBD</div><div className="tabular text-[15px] font-semibold">{tbd}</div></div>
         <div className="flex items-center gap-1"><div><div className="text-[10px] font-semibold tracking-wide text-muted-foreground uppercase">Lifecycle to validate</div><div className="tabular text-[15px] font-semibold" style={{ color: BAND.weak }}>{a.kpis.lifecycle_unknown}</div></div><Explain x={a.explain.lifecycle_unknown} /></div>
       </div>
@@ -309,7 +313,7 @@ function Intake({ a, l2, onOpen, onMap }: { a: AppsT; l2: Record<string, string>
             <TableRow>
               <TableHead className="w-14">ID</TableHead><TableHead>Application</TableHead><TableHead>Vendor</TableHead><TableHead>Layer</TableHead>
               <TableHead>Owners</TableHead><TableHead>Hosting</TableHead><TableHead>Capabilities</TableHead><TableHead className="text-right">Crit.</TableHead>
-              <TableHead>Lifecycle</TableHead><TableHead>Disposition</TableHead><TableHead className="w-24">Source</TableHead>
+              <TableHead>Lifecycle</TableHead><TableHead>Disposition</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -337,7 +341,6 @@ function Intake({ a, l2, onOpen, onMap }: { a: AppsT; l2: Record<string, string>
                     : <span className="text-sm">{x.lifecycle}</span>}
                 </TableCell>
                 <TableCell><Disp code={x.computed.disposition} label={x.computed.label} overridden={x.computed.overridden} /></TableCell>
-                <TableCell><ProvenanceBadge source={x.source} /></TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -399,7 +402,7 @@ function Rationalization({ a, onOpen }: { a: AppsT; onOpen: (x: App) => void }) 
             <TableHeader className="sticky top-0 bg-card">
               <TableRow>
                 <TableHead className="w-14">ID</TableHead><TableHead>Application</TableHead><TableHead className="text-right">BF</TableHead>
-                <TableHead className="text-right">TF</TableHead><TableHead>Disposition</TableHead><TableHead>Rationale</TableHead><TableHead className="w-24">Source</TableHead>
+                <TableHead className="text-right">TF</TableHead><TableHead>Disposition</TableHead><TableHead>Rationale</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -411,7 +414,6 @@ function Rationalization({ a, onOpen }: { a: AppsT; onOpen: (x: App) => void }) 
                   <TableCell className="tabular text-right">{x.computed.technical_fit.toFixed(2)}</TableCell>
                   <TableCell><span className="inline-flex items-center gap-1"><Explain x={x.computed.explain} /><Disp code={x.computed.disposition} label={x.computed.label} overridden={x.computed.overridden} /></span></TableCell>
                   <TableCell className="max-w-[460px] text-[11.5px] leading-snug whitespace-normal text-muted-foreground"><span className="line-clamp-2" title={x.computed.statement}>{x.computed.statement}</span></TableCell>
-                  <TableCell><ProvenanceBadge source={x.source} /></TableCell>
                 </TableRow>
               ))}
             </TableBody>

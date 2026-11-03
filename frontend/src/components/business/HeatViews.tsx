@@ -133,7 +133,16 @@ function QuadChart({ pts, xLabel, yLabel, xDomain, yDomain = [0, 5], xSplit, ySp
   const X = (v: number) => L + ((v - xDomain[0]) / (xDomain[1] - xDomain[0])) * iw
   const Y = (v: number) => T + ih - ((v - yDomain[0]) / (yDomain[1] - yDomain[0])) * ih
   const xs = X(xSplit), ys = Y(ySplit)
-  const placed = spread(pts.map((p) => ({ ...p, x: X(p.x), y: Y(p.y) })), 1, 1)
+  // spread overlapping points, then keep every bubble fully inside the plot area (values at 0 or 5 sit on the edge)
+  const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v))
+  const size: Record<string, number> = {}
+  pts.forEach((p) => { const k = `${p.x.toFixed(2)}|${p.y.toFixed(2)}`; size[k] = (size[k] ?? 0) + 1 })
+  const inset = (p: Pt) => { const n = size[`${p.x.toFixed(2)}|${p.y.toFixed(2)}`]; return p.r + 3 + (n > 7 ? 24 : n > 1 ? 13 : 0) }
+  const placed = spread(pts.map((p) => {
+    const m = inset(p)
+    return { ...p, x: clamp(X(p.x), L + m, L + iw - m), y: clamp(Y(p.y), T + m, T + ih - m) }
+  }), 1, 1)
+    .map((p) => ({ ...p, px: clamp(p.px, L + p.r + 3, L + iw - p.r - 3), py: clamp(p.py, T + p.r + 3, T + ih - p.r - 3) }))
   const hv = placed.find((p) => p.id === hover)
   const Quad = ({ x, y, w, h, q, anchor }: { x: number; y: number; w: number; h: number; q: Q; anchor: 'tl' | 'tr' | 'bl' | 'br' }) => (
     <g>

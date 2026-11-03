@@ -4,7 +4,6 @@ import { AlertTriangle, Grid3x3, Loader2, MessageSquareText, Sigma } from 'lucid
 import { toast } from 'sonner'
 import { useBusinessUpdate } from '@/components/CapabilityModules'
 import { Explain } from '@/components/Explain'
-import { ProvenanceBadge } from '@/components/ProvenanceBadge'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Textarea } from '@/components/ui/textarea'
@@ -97,7 +96,6 @@ export function L2Scores({ b, c }: { b: Business; c: CapRow }) {
         <div className="text-[12.5px] font-semibold">Inferred from {inf.answered} of {inf.total} L3 responses</div>
         {inf.pending.length > 0 && <span className="text-[11px] text-muted-foreground">pending: {inf.pending.join(', ')}</span>}
         <span className="ml-auto flex items-center gap-2">
-          <ProvenanceBadge source={c.source} />
           <Button size="xs" variant="outline" onClick={() => setMatrix(true)}><Grid3x3 /> Response Matrix</Button>
           {(k === 'ready' || k === 'stale') && <Button size="xs" onClick={() => an.mutate()} disabled={an.isPending}>{an.isPending ? <Loader2 className="animate-spin" /> : <Sigma />} {k === 'stale' ? 'Re-analyse' : 'Analyse & Adopt'}</Button>}
         </span>

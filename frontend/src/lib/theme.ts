@@ -1,4 +1,4 @@
-// The only place colours are defined in TS. Band -> colour, disposition -> colour, provenance and status.
+// The only place colours are defined in TS. Band -> colour, disposition -> colour and status.
 
 export const NAVY = '#0B2A6F'
 export const SLATE = '#64748B'
@@ -52,6 +52,9 @@ export const LAYER_COLOR: Record<string, string> = {
 }
 export const DEFAULT_LAYER = 'Enterprise Apps'
 
+/** IT cost categories on the IT Budget screen. */
+export const COST_COLOR = { opex: NAVY, salaries: '#64748B', capex: '#0F9D8A' } as const
+
 /** Engagement cadence markers on the work plan (as in the proposal timeline). */
 export const CADENCE = {
   weekly: { label: 'Weekly Connect', color: '#C2185B' },
@@ -104,15 +107,6 @@ export const CHECK_STATUS = {
   unknown: { color: SLATE, label: 'Unknown' },
 } as const
 export type CheckStatus = keyof typeof CHECK_STATUS
-
-export const PROVENANCE = {
-  deck: { color: NAVY, label: 'Deck', title: 'KPMG proposal deck' },
-  public: { color: BAND.strong, label: 'Public', title: 'Coromandel public disclosures' },
-  assumed: { color: BAND.developing, label: 'Assumed', title: 'Demo placeholder, validate in discovery' },
-  client: { color: '#7C3AED', label: 'Client', title: 'Entered or uploaded by the client' },
-  togaf: { color: SLATE, label: 'TOGAF', title: 'TOGAF 9.1 §23.6 example principle' },
-} as const
-export type Provenance = keyof typeof PROVENANCE
 
 export function priorityColor(p: number): string {
   if (p >= 20) return BAND.critical

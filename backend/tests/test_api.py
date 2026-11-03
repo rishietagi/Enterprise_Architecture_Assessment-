@@ -202,7 +202,8 @@ def test_discovery_flow(client):
     assert all(x["status"] == "draft" for x in c["l3"])
     lid = c["l3"][0]["id"]
     qs = c["l3"][0]["survey"]["questions"]
-    assert 12 <= len(qs) <= 14 and any(q.get("generated") for q in qs)
+    assert 15 <= len(qs) <= 17 and any(q.get("generated") for q in qs)
+    assert {"peak", "fallback", "workarounds"} <= {q["id"] for q in qs}
     assert sum(1 for q in qs if (q["dim"] or "").startswith("A")) == 5
     e = client.get(f"/api/business/discovery/{lid}/email").json()
     assert e["subject"] and len(e["options"]) == 3 and "Request a walkthrough" in e["body"]
@@ -337,3 +338,90 @@ def test_reference_views_and_sample_context(client):
     v = client.post("/api/vision/context/sample").json()
     assert len(v["context"]["docs"]) == 3
     client.post("/api/settings/reset")
+
+
+def test_budget_health_roadmap_and_inputs(client):
+    b = client.get("/api/budget").json()
+    assert b["inputs"]["fys"] and len(b["inputs"]["overall"]) == 3 and b["analysis"]["latest"]["total"] > 0
+    assert {"inputs", "analysis"} == set(b["insights"])
+    body = {k: b["inputs"][k] for k in ("fys", "overall", "capex", "opex", "factors")}
+    body["opex"].append({"id": "OX99", "name": "AI services", "kind": "cloud", "values": [0, 1, 2, 3]})
+    b2 = client.put("/api/budget", json=body).json()
+    assert b2["source"] == "client" and any(x["id"] == "OX99" for x in b2["inputs"]["opex"])
+    assert client.put("/api/budget", json=dict(body, overall=body["overall"][:2])).status_code == 422
+    rm = client.get("/api/roadmap").json()
+    assert rm["plan"] and rm["long_list"] and all(i["prio"]["label"] and i["gap_list"] is not None for i in rm["long_list"])
+    assert {"longlist", "priority", "roadmap", "governance"} == set(rm["insights"]) and rm["budget"]["afford"]
+    iid = rm["long_list"][0]["id"]
+    rm = client.put(f"/api/roadmap/initiatives/{iid}", json={"benefits": ["Lower run cost"], "risks": ["Adoption"], "constraints": []}).json()
+    x = next(i for i in rm["long_list"] if i["id"] == iid)
+    assert x["benefits"] == ["Lower run cost"] and x["notes_source"] == "client"
+    rm = client.put("/api/roadmap/repository", json={"tooling": "ArchiMate tool", "ownership": [{"view": "Apps", "owner": "Head of Apps", "cadence": "Quarterly"}], "process": ["Raise", "Review"]}).json()
+    assert rm["repository"]["source"] == "client" and rm["repository"]["ownership"][0]["owner"] == "Head of Apps"
+    a = client.get("/api/applications").json()
+    assert a["tech_health"]["counts"]["in_scope"] and "health" in a["insights"]
+    r = next(x for x in a["tech_health"]["rows"] if x["id"] == "A05")
+    assert r["debt_band"] in ("High", "Medium") and r["scal_status"] != "OK"
+    d = client.get("/api/data_tech").json()
+    assert d["engineering_checks"] and d["engineering"]["score"] is not None and {"inputs", "engineering"} <= set(d["insights"])
+    d = client.post("/api/data_tech/domains", json={"name": "Drone imagery", "data_types": ["Geospatial"], "pii": False}).json()
+    did = d["added"]
+    assert any(x["id"] == did and x["data_types"] == ["Geospatial"] for x in d["domains"])
+    d = client.put(f"/api/data_tech/domains/{did}", json={"owner": True, "sensitivity": "Confidential"}).json()
+    assert next(x for x in d["domains"] if x["id"] == did)["owner"] is True
+    assert did not in [x["id"] for x in client.delete(f"/api/data_tech/domains/{did}").json()["domains"]]
+    n = len(d["platforms"])
+    d = client.post("/api/data_tech/platforms", json={"name": "Azure Databricks", "category": "AI & analytics", "standard": "Proposed Standard"}).json()
+    assert len(d["platforms"]) == n + 1
+    locs = d["locations"]
+    net = d["network"] + [{"id": "N99", "from": locs[0]["id"], "to": locs[1]["id"], "type": "MPLS", "note": ""}]
+    d = client.put("/api/data_tech/sites", json={"locations": locs, "network": net}).json()
+    assert any(x["id"] == "N99" for x in d["network"]) and d["sites_source"] == "client"
+    d = client.put("/api/data_tech/checks/E08", json={"status": "pass"}).json()
+    blk = next(b for ly in d["infra_ref"]["layers"] for row in ly["rows"] for b in row if b.get("check") == "E08")
+    assert blk["status"] == "ok"
+    ap = client.put("/api/approach/scope", json={"requirement": "Edited requirement text", "objective": "Edited objective", "items": [{"n": 1, "title": "Only item", "activities": "Do it"}]}).json()
+    assert ap["scope_of_work"]["requirement"].startswith("Edited") and len(ap["scope_of_work"]["items"]) == 1
+    assert len(client.post("/api/approach/scope/reset").json()["scope_of_work"]["items"]) == 6
+    v = client.get("/api/vision").json()
+    assert v["viewpoints"] and v["tailoring"]
+    v = client.post("/api/vision/guidelines", json={"kind": "tailoring", "framework": "TOGAF", "element": "Phase H", "decision": "Excluded", "rationale": "Out of scope"}).json()
+    assert any(t["element"] == "Phase H" for t in v["tailoring"])
+    f = client.post("/api/findings/applications?tab=health").json()
+    assert f["findings"]
+    client.post("/api/settings/reset")
+
+
+def test_domain_gap_registers(client):
+    for screen, item, port in (("applications", "AG-", "AT-"), ("data_tech", "DG-", "DT-")):
+        d = client.get(f"/api/{screen}").json()
+        reg = d["gap_register"]
+        assert reg["gaps"] and reg["counts"]["item"] and reg["counts"]["portfolio"] and "gaps" in d["insights"]
+        assert all(g["id"].startswith((item, port)) and g["hypothesis"] and g["initiative_name"] for g in reg["gaps"])
+        gid = reg["gaps"][0]["id"]
+        d = client.put(f"/api/{screen}/gaps/{gid}", json={"severity": "Low", "hypothesis": "Edited hypothesis"}).json()
+        g = next(x for x in d["gap_register"]["gaps"] if x["id"] == gid)
+        assert g["severity"] == "Low" and g["edited"] and g["generated"]["hypothesis"] != "Edited hypothesis"
+        d = client.delete(f"/api/{screen}/gaps/{gid}").json()
+        assert not next(x for x in d["gap_register"]["gaps"] if x["id"] == gid)["edited"]
+        assert client.put(f"/api/{screen}/gaps/TG-X", json={"severity": "Low"}).status_code == 404
+
+
+def test_roadmap_built_from_gap_registers(client):
+    rm = client.get("/api/roadmap").json()
+    b = client.get("/api/business").json()["gap_register"]
+    a = client.get("/api/applications").json()["gap_register"]
+    d = client.get("/api/data_tech").json()["gap_register"]
+    n_reg = len(b["transactional"]) + len(b["thematic"]) + len(a["gaps"]) + len(d["gaps"])
+    kinds = {g["kind"] for g in rm["gaps"]}
+    assert {"business", "application", "data_tech", "governance"} <= kinds
+    assert len(rm["gaps"]) == n_reg + sum(g["kind"] == "governance" for g in rm["gaps"])
+    assert sum(i["gaps"] for i in rm["initiatives"]) == len(rm["gaps"])
+    assert all(i["by_register"] for i in rm["initiatives"])
+    gid = a["gaps"][0]["id"]
+    before = next(g for g in rm["gaps"] if g["id"] == gid)["severity"]
+    new = "Low" if before != "Low" else "High"
+    client.put(f"/api/applications/gaps/{gid}", json={"severity": new})
+    after = next(g for g in client.get("/api/roadmap").json()["gaps"] if g["id"] == gid)
+    assert after["severity"] == new and after["priority"] == {"High": 20, "Medium": 12, "Low": 6}[new]
+    client.delete(f"/api/applications/gaps/{gid}")

@@ -390,5 +390,124 @@
     "name": "Microsoft Entra ID (SSO)",
     "check": "R07",
     "source": "deck"
-  }
+  },
+  "engineering_checks": [
+    {
+      "id": "E01",
+      "check": "Source control and peer review for all custom code",
+      "status": "partial",
+      "area": "DevSecOps",
+      "togaf_ref": "43",
+      "source": "assumed"
+    },
+    {
+      "id": "E02",
+      "check": "CI/CD pipelines for custom and cloud applications",
+      "status": "partial",
+      "area": "CI/CD",
+      "togaf_ref": "43",
+      "source": "assumed"
+    },
+    {
+      "id": "E03",
+      "check": "Infrastructure as code for Azure landing zones and environments",
+      "status": "unknown",
+      "area": "IaC",
+      "togaf_ref": "43",
+      "source": "assumed"
+    },
+    {
+      "id": "E04",
+      "check": "Security testing in the pipeline (SAST, DAST, dependency scanning)",
+      "status": "fail",
+      "area": "DevSecOps",
+      "togaf_ref": "48.5",
+      "source": "assumed"
+    },
+    {
+      "id": "E05",
+      "check": "Containers and orchestration as the default for new workloads",
+      "status": "partial",
+      "area": "Containers",
+      "togaf_ref": "43",
+      "source": "assumed"
+    },
+    {
+      "id": "E06",
+      "check": "API-first, modular design for new digital applications",
+      "status": "partial",
+      "area": "Microservices",
+      "togaf_ref": "43",
+      "source": "assumed"
+    },
+    {
+      "id": "E07",
+      "check": "Platform engineering: reusable templates and self-service environments",
+      "status": "fail",
+      "area": "Platform engineering",
+      "togaf_ref": "43",
+      "source": "assumed"
+    },
+    {
+      "id": "E08",
+      "check": "Central observability: logs, metrics, traces and alerting",
+      "status": "fail",
+      "area": "Observability",
+      "togaf_ref": "48.5",
+      "source": "assumed"
+    },
+    {
+      "id": "E09",
+      "check": "Exit plans and escrow for critical SaaS and partner platforms",
+      "status": "unknown",
+      "area": "Vendor dependency",
+      "togaf_ref": "48.5",
+      "source": "assumed"
+    },
+    {
+      "id": "E10",
+      "check": "Emerging technology evaluated through architecture review before adoption",
+      "status": "partial",
+      "area": "Emerging tech",
+      "togaf_ref": "50",
+      "source": "assumed"
+    }
+  ],
+  "landing_zones": [
+    {
+      "id": "LZ1",
+      "name": "Shared services (identity, networking hub)",
+      "status": "partial",
+      "workloads": "Entra ID integration, hub VNet, ExpressRoute or VPN",
+      "source": "assumed"
+    },
+    {
+      "id": "LZ2",
+      "name": "Corporate production",
+      "status": "partial",
+      "workloads": "Analytics, retail retention model, farmer app back end",
+      "source": "assumed"
+    },
+    {
+      "id": "LZ3",
+      "name": "Data & AI",
+      "status": "missing",
+      "workloads": "Lakehouse, ML workspaces, MLOps",
+      "source": "assumed"
+    },
+    {
+      "id": "LZ4",
+      "name": "Non-production and sandbox",
+      "status": "validate",
+      "workloads": "Dev, test and proof-of-concept",
+      "source": "assumed"
+    },
+    {
+      "id": "LZ5",
+      "name": "Partner and DMZ",
+      "status": "validate",
+      "workloads": "Dealer, partner and public APIs",
+      "source": "assumed"
+    }
+  ]
 }

@@ -6,8 +6,9 @@ import { CitationChip } from '@/components/CitationChip'
 import { Explain } from '@/components/Explain'
 import { AiModeBadge, FindingsCard } from '@/components/FindingsCard'
 import { PageHeader } from '@/components/PageHeader'
+import { TailoringRegister, ViewpointCatalog } from '@/components/Frameworks'
 import { PhasePlan } from '@/components/PhasePlan'
-import { ProvenanceBadge } from '@/components/ProvenanceBadge'
+
 import { RulesConfig } from '@/components/RulesConfig'
 import { ScreenError, ScreenSkeleton } from '@/components/ScreenSkeleton'
 import { Badge } from '@/components/ui/badge'
@@ -61,7 +62,7 @@ function ContextCard({ v }: { v: VisionT }) {
         <CardTitle className="flex items-center gap-2">Context & Documents</CardTitle>
         <CardDescription>Everything the vision should reflect: strategy notes, board papers, annual reports, RFP extracts. Documents are read on upload; only their text is kept.</CardDescription>
         <CardAction>
-          <Button size="sm" variant="outline" onClick={() => sample.mutate()} disabled={sample.isPending} title="Loads sample notes and three sample documents (labelled Sample, assumed)">
+          <Button size="sm" variant="outline" onClick={() => sample.mutate()} disabled={sample.isPending} title="Loads sample notes and three sample documents (labelled Sample)">
             {sample.isPending ? <Loader2 className="animate-spin" /> : <FileText />} Load Sample Context
           </Button>
         </CardAction>
@@ -89,7 +90,7 @@ function ContextCard({ v }: { v: VisionT }) {
               <div key={d.id} className="group flex items-center gap-2 rounded-md border px-2.5 py-1.5 text-[12px]" title={d.preview}>
                 <FileText className="size-4 shrink-0 text-navy" />
                 <span className="min-w-0 flex-1 truncate font-medium">{d.name}</span>
-                {d.source === 'assumed' && <ProvenanceBadge source="assumed" />}
+                
 
                 <span className="text-[10.5px] text-muted-foreground">{d.kind.toUpperCase()} · {kb(d.size)} · {d.words.toLocaleString('en-IN')} words</span>
                 <Button variant="ghost" size="icon-sm" className="size-6 text-muted-foreground opacity-0 group-hover:opacity-100" aria-label={`Remove ${d.name}`} onClick={() => del.mutate(d.id)}><Trash2 /></Button>
@@ -136,7 +137,7 @@ function StatementsCard({ v }: { v: VisionT }) {
     <Card className="col-span-7 gap-3">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          Architecture Vision Statements {sts.length > 0 && <ProvenanceBadge source={mode === 'edited' ? 'client' : 'assumed'} />}
+          Architecture Vision Statements 
           {(mode === 'ai' || mode === 'cached' || mode === 'fallback') && <AiModeBadge meta={{ mode, model: null }} />}
         </CardTitle>
         <CardDescription>Phase A deliverable · TOGAF §7.4, §36.2.8. Five statements of the target state, drawn from the context and the business drivers.</CardDescription>
@@ -282,7 +283,6 @@ function PrincipleRow({ p, onToggle, onEdit, onDelete }: { p: Principle; onToggl
           <span className="tabular w-11 shrink-0 text-[11px] font-semibold text-muted-foreground">{p.number ? `P${p.number}` : p.id.replace('P-', '')}</span>
           <span className="truncate text-sm font-medium">{p.name}</span>
           <Badge variant="outline" className="shrink-0 text-[10px] font-medium">{p.category}</Badge>
-          <ProvenanceBadge source={p.source} />
           <ChevronDown className="ml-auto size-4 shrink-0 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
         </CollapsibleTrigger>
         {onEdit && <Button variant="ghost" size="icon-sm" className="size-6 text-muted-foreground" onClick={onEdit} aria-label="Edit"><Pencil /></Button>}
@@ -374,7 +374,6 @@ function Guardrails({ v, onEdit }: { v: VisionT; onEdit: (g: GEdit) => void }) {
                 <span className="text-[11px] font-bold text-muted-foreground">{g.id}</span>
                 <span className="text-[13px] font-semibold">{g.name}</span>
                 <Badge variant="outline" className="text-[10px]">{g.category}</Badge>
-                <ProvenanceBadge source={g.source} />
               </div>
               <div className="text-[12px] text-muted-foreground">{g.statement}</div>
               {g.enforced_by && <div className="mt-0.5 text-[11px]"><span className="font-medium">Enforced by:</span> {g.enforced_by}</div>}
@@ -396,7 +395,6 @@ function Guardrails({ v, onEdit }: { v: VisionT; onEdit: (g: GEdit) => void }) {
               <div className="flex items-center gap-2">
                 <span className="text-[11px] font-bold text-muted-foreground">{p.id}</span>
                 <span className="text-[13px] font-semibold">{p.name}</span>
-                <ProvenanceBadge source={p.source} />
               </div>
               <div className="text-[12px] text-muted-foreground">{p.use}</div>
               {p.principle && <div className="mt-0.5 text-[11px]"><span className="font-medium">Implements:</span> {p.principle} {pname[p.principle] ?? ''}</div>}
@@ -429,7 +427,7 @@ function AiInitiatives({ v }: { v: VisionT }) {
           <TableHeader>
             <TableRow>
               <TableHead className="w-16">ID</TableHead><TableHead>Initiative</TableHead><TableHead>Type</TableHead>
-              <TableHead>Status</TableHead><TableHead>Data readiness</TableHead><TableHead className="w-24">Source</TableHead>
+              <TableHead>Status</TableHead><TableHead>Data readiness</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -454,7 +452,6 @@ function AiInitiatives({ v }: { v: VisionT }) {
                     )}
                   </span>
                 </TableCell>
-                <TableCell><ProvenanceBadge source={i.source} /></TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -464,7 +461,7 @@ function AiInitiatives({ v }: { v: VisionT }) {
   )
 }
 
-const VIEWS = ['principles', 'guardrails', 'rules', 'stakeholders', 'ai']
+const VIEWS = ['principles', 'guardrails', 'rules', 'stakeholders', 'tailoring', 'ai']
 
 export default function Vision() {
   const q = useQuery({ queryKey: ['vision'], queryFn: api.vision })
@@ -488,7 +485,7 @@ export default function Vision() {
           <Card id="sec-tabs" className="scroll-mt-4">
             <CardHeader>
               <CardTitle>Guidelines and Principles</CardTitle>
-              <CardDescription>Principles, guardrails, rationalization rules and stakeholder viewpoints govern every architecture decision; the rules turn them into application dispositions.</CardDescription>
+              <CardDescription>Principles, guardrails, rationalization rules, the ISO/IEC/IEEE 42010 viewpoint catalogue and the framework tailoring register govern every architecture decision; the rules turn them into application dispositions.</CardDescription>
             </CardHeader>
             <Tabs value={view === 'ai' ? 'principles' : view} onValueChange={setView}>
               <CardContent className="space-y-3">
@@ -497,25 +494,13 @@ export default function Vision() {
                   <TabsTrigger value="guardrails">Guardrails & Patterns</TabsTrigger>
                   <TabsTrigger value="rules">Rationalization Rules</TabsTrigger>
                   <TabsTrigger value="stakeholders">Stakeholder Viewpoints</TabsTrigger>
+                  <TabsTrigger value="tailoring">Framework Tailoring</TabsTrigger>
                 </TabsList>
                 <TabsContent value="principles"><Principles v={v} onEdit={setGEdit} /></TabsContent>
                 <TabsContent value="guardrails"><Guardrails v={v} onEdit={setGEdit} /></TabsContent>
                 <TabsContent value="rules"><RulesConfig v={v} /></TabsContent>
-                <TabsContent value="stakeholders">
-                  <Table>
-                    <TableHeader><TableRow><TableHead>Viewpoint</TableHead><TableHead>Concerns</TableHead><TableHead>Screens</TableHead><TableHead className="w-24">Source</TableHead></TableRow></TableHeader>
-                    <TableBody>
-                      {v.stakeholders.map((s) => (
-                        <TableRow key={s.viewpoint}>
-                          <TableCell className="font-medium">{s.viewpoint}</TableCell>
-                          <TableCell className="text-muted-foreground">{s.concerns}</TableCell>
-                          <TableCell><div className="flex gap-1">{s.screens.map((x) => <Badge key={x} variant="secondary" className="text-[10px]">{x.replace('_', ' & ')}</Badge>)}</div></TableCell>
-                          <TableCell><ProvenanceBadge source={s.source} /></TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TabsContent>
+                <TabsContent value="stakeholders"><ViewpointCatalog v={v} /></TabsContent>
+                <TabsContent value="tailoring"><TailoringRegister v={v} /></TabsContent>
               </CardContent>
             </Tabs>
           </Card>

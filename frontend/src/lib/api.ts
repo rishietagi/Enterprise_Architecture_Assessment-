@@ -1,7 +1,7 @@
 // Typed client for the FastAPI backend. Shapes mirror backend/app/views.py and app/llm/calls.py.
 
 export type Source = 'deck' | 'public' | 'assumed' | 'client' | 'togaf'
-export type ScreenKey = 'overview' | 'approach' | 'vision' | 'business' | 'applications' | 'data_tech' | 'roadmap'
+export type ScreenKey = 'overview' | 'approach' | 'vision' | 'business' | 'applications' | 'data_tech' | 'budget' | 'roadmap'
 
 export interface Explanation {
   title: string
@@ -26,8 +26,12 @@ export interface Citation {
 
 export interface Gap {
   id: string
-  kind: 'capability' | 'application' | 'duplication' | 'data' | 'technology' | 'governance'
+  kind: 'capability' | 'application' | 'duplication' | 'data' | 'technology' | 'governance' | 'business' | 'data_tech'
   ref: string
+  severity?: Severity
+  category?: string
+  register?: string
+  description?: string
   title: string
   impact: number
   urgency: number
@@ -65,6 +69,8 @@ export interface Initiative {
   focus: string[]
   foundation: boolean
   gap_ids: string[]
+  by_register?: Record<string, number>
+  high?: number
   cost_cr: [number, number]
   fy_split: Record<string, [number, number]>
   explain: Explanation
@@ -107,7 +113,15 @@ export interface ArchView {
   status: 'evidenced' | 'draft'
 }
 
+export interface DomainHealth { key: string; label: string; screen: ScreenKey; view?: string; value: string; pct: number | null; band: string | null; note: string }
+
 export interface Overview {
+  engagement: { week: number; weeks: number; progress: number; phase: string | null; phase_weeks: string | null
+    milestone: { name: string; week: number } | null; steerco: number | null; counts: Record<string, number> }
+  health: DomainHealth[]
+  cost: { fy: string; total: number | null; pct_revenue: number | null; benchmark: [number, number]; cagr: number | null; change_share: number | null
+    afford: Afford[]; health: TechHealth['counts']; engineering: number | null; actions: number; in_scope: number }
+  insights: Record<string, Insight[]>
   kpis: { acmm_mean: number; avg_cap_maturity: number; data_avg: number; total_cr: [number, number] }
   adm: { phase: string; label: string; screen: ScreenKey; status: 'assessed' | 'in_progress' | 'not_started'; explain: Explanation }[]
   explain: Explains<'acmm_mean' | 'avg_cap_maturity' | 'data_avg' | 'total_cr' | 'dispositions' | 'waves' | 'adm'>
@@ -172,7 +186,13 @@ export interface AiInitiative {
   explain: Explanation
 }
 
-export type GuidelineKind = 'principle' | 'guardrail' | 'pattern'
+export type GuidelineKind = 'principle' | 'guardrail' | 'pattern' | 'viewpoint' | 'tailoring'
+
+/** ISO/IEC/IEEE 42010 viewpoint: stakeholder concerns answered by one or more RFP views. */
+export interface Viewpoint { id: string; name: string; stakeholder: string; concerns: string; views: number[]; model_kind: string; screen: string; source: Source }
+
+/** TOGAF / 42010 tailoring register entry. */
+export interface Tailoring { id: string; framework: string; element: string; decision: 'Adopted' | 'Tailored' | 'Excluded'; rationale: string; approval: string; source: Source }
 
 export interface Guideline {
   id: string
@@ -299,6 +319,9 @@ export interface Vision {
   principles: PrinciplesView
   guardrails: Guideline[]
   patterns: Guideline[]
+  viewpoints: Viewpoint[]
+  tailoring: Tailoring[]
+  rfp_views: Record<number, { name: string; screen: ScreenKey; view: string }>
   rules: RulesConfig
   ai_initiatives: AiInitiative[]
   vision_doc: VisionDocT
@@ -697,6 +720,12 @@ export interface AppFields {
   contract_end?: string
   scalability?: string
   dr?: string
+  tech_debt?: string
+  peak_load?: string
+  scale_model?: string
+  failover_tested?: string
+  key_person?: string
+  vendor_lock?: string
   standards_class?: string
   lifecycle: string
   retire_date?: string
@@ -758,7 +787,32 @@ export interface Integ {
   hotspot_min: number
 }
 
+/** A gap in the Application or Data & Technology register (one per item, or a portfolio theme). */
+export interface DomainGap {
+  id: string
+  scope: 'item' | 'portfolio'
+  category: string
+  where: { kind: string; id: string; name: string; group: string }
+  title: string
+  description: string
+  hypothesis: string
+  severity: Severity
+  initiative: string
+  initiative_name: string
+  evidence: string[]
+  edited: boolean
+  generated: { description: string; hypothesis: string; severity: Severity }
+  explain: Explanation
+}
+export interface DomainGapRegister {
+  gaps: DomainGap[]
+  severities: Severity[]
+  categories: string[]
+  counts: { item: number; portfolio: number; by_category: Record<string, number> } & Record<Severity, number>
+}
+
 export type RefStatus = 'ok' | 'partial' | 'missing' | 'validate'
+
 
 /** A building block in a reference architecture view. Fields after `hosting` are computed by the API and not saved. */
 export interface RefBlock {
@@ -799,6 +853,8 @@ export interface Applications {
   plan: PhasePlanT | null
   cap_tree: AppCapTree
   ref_view: RefView | null
+  gap_register: DomainGapRegister
+  tech_health: TechHealth
   insights: Record<string, Insight[]>
   apps: App[]
   clusters: Cluster[]
@@ -841,8 +897,19 @@ export interface Domain {
   consumers: string[]
   source: Source
   volume_hint?: string
+  description?: string
+  steward?: string
+  data_types?: string[]
+  sensitivity?: string
+  retention?: string
   computed: { id: string; name: string; score: number; band: string; privacy_risk: boolean; is_gap: boolean; explain: Explanation }
 }
+
+export type DomainIn = Partial<Pick<Domain, 'name' | 'description' | 'owner' | 'steward' | 'sor' | 'consumers' | 'mdm' | 'lineage' | 'pii' | 'classified' | 'quality' | 'data_types' | 'sensitivity' | 'volume_hint' | 'retention'>>
+export interface Site { id: string; name: string; type: string; source: Source }
+export interface NetLink { id: string; from: string; to: string; type: string; note: string; source: Source }
+export interface LandingZone { id: string; name: string; status: RefStatus; workloads: string; source: Source }
+export interface PlatformIn { name: string; category: string; standard: string; lifecycle: string; version: string; location: string }
 
 export interface Check {
   id: string
@@ -884,8 +951,17 @@ export interface DataArch {
 
 export interface DataTech {
   plan: PhasePlanT | null
+  engineering_checks: Check[]
+  engineering: { score: number | null; counts: Record<string, number>; unknown: number; explain: Explanation }
+  landing_zones: LandingZone[]
+  sites_source: Source
+  apps: { id: string; name: string; hosting: string }[]
+  budget_fys: string[]
+  budget_infra: BudgetLine[]
+  options: Record<'mdm' | 'data_types' | 'sensitivity' | 'standards' | 'lifecycle' | 'check' | 'location_types', string[]>
   insights: Record<string, Insight[]>
   data_ref: RefView | null
+  gap_register: DomainGapRegister
   infra_ref: RefView | null
   domains: Domain[]
   matrix: { app: string; name: string; cells: Record<string, '' | 'sor' | 'consumer'> }[]
@@ -937,7 +1013,62 @@ export interface Roadmap {
   principles: { id: string; name: string }[]
   kpis: { gaps: number; initiatives: number; total_cr: [number, number]; acmm_mean: number }
   explain: Explains<'gaps' | 'initiatives' | 'total_cr' | 'acmm_mean' | 'fy_budget'>
+  plan: PhasePlanT | null
+  long_list: InitiativeRow[]
+  budget: { afford: Afford[]; per_fy: BudgetFY[]; benchmark: [number, number] }
+  repository: Repository
+  prio_cfg: { value_split: number; effort_split: number; effort: Record<string, number>; quadrants: Record<string, string> }
+  insights: Record<string, Insight[]>
 }
+
+// ---------------------------------------------------------------- IT budget
+export interface BudgetLine { id: string; name: string; values: (number | null)[]; theme?: string | null; kind?: string | null; unit?: string | null }
+export interface BudgetFY {
+  fy: string; actual: boolean; opex: number | null; salaries: number | null; capex: number | null; total: number | null
+  run_share: number | null; change_share: number | null; salary_share: number | null; pct_revenue: number | null
+  per_employee_lakh: number | null; per_user_lakh: number | null; opex_heads_total: number | null; capex_lines_total: number | null
+  opex_variance_pct: number | null; capex_variance_pct: number | null; cloud_share_opex: number | null
+  opex_yoy?: number | null; salaries_yoy?: number | null; capex_yoy?: number | null; total_yoy?: number | null
+}
+export interface Afford { fy: string; capex: number; roadmap: [number, number]; share: [number | null, number | null] }
+export interface BudgetInputs { fys: string[]; overall: BudgetLine[]; capex: BudgetLine[]; opex: BudgetLine[]; factors: BudgetLine[] }
+export interface Budget {
+  plan: PhasePlanT | null
+  source: Source
+  inputs: BudgetInputs
+  themes: { id: string; name: string }[]
+  kinds: string[]
+  note: string
+  analysis: {
+    per_fy: BudgetFY[]; cagr: number | null; latest: BudgetFY; recon: string[]
+    heads: { id: string; name: string; kind: string; latest: number | null; growth: number | null }[]
+    benchmark: [number, number]; capex_target: [number, number]; afford: Afford[]; explain: Explanation
+  }
+  insights: Record<string, Insight[]>
+}
+
+// ---------------------------------------------------------------- technical health
+export interface HealthRow {
+  id: string; name: string; criticality: number; in_scope: boolean; debt: number | null; debt_band: 'High' | 'Medium' | 'Low' | null
+  spof: string[]; spof_status: 'SPOF' | 'Check' | 'OK'; spof_checks: string[]; scal: string[]; scal_status: 'At risk' | 'Watch' | 'OK'
+  evidence: Record<'peak' | 'fallback' | 'workarounds', string[]>; explain: Explanation
+}
+export interface TechHealth { rows: HealthRow[]; counts: { high_debt: number; spof: number; spof_check: number; scal_risk: number; avg_debt: number | null; in_scope: number } }
+
+export interface InitiativeRow extends Initiative {
+  prio: { id: string; value: number; effort: number; quadrant: 'quick_win' | 'strategic' | 'fill_in' | 'reconsider'; label: string; score: number; rank: number; explain: Explanation }
+  benefits: string[]
+  risks: string[]
+  constraints: string[]
+  notes_source: Source
+  owner: string
+  kpis: string
+  theme_focus: string[]
+  gap_list: { id: string; title: string; kind: string; priority: number; ref: string; severity?: Severity | null; register: string }[]
+  budget_capex: number
+}
+
+export interface Repository { tooling: string; ownership: { view: string; owner: string; cadence: string }[]; process: string[]; source: Source }
 
 export interface Briefs extends AiMeta {
   briefs: Record<string, { summary: string; outcomes: string[]; cites: number[] }>
@@ -1029,6 +1160,23 @@ export const api = {
   },
   deleteContextDoc: (id: number) => req<Vision>(`/vision/context/docs/${id}`, { method: 'DELETE' }),
   sampleContext: () => post<Vision & { added: string[]; errors: string[] }>('/vision/context/sample'),
+  budget: () => req<Budget>('/budget'),
+  putBudget: (b: BudgetInputs) => put<Budget>('/budget', b),
+  resetBudget: () => post<Budget>('/budget/reset'),
+  putInitiative: (id: string, n: Pick<InitiativeRow, 'benefits' | 'risks' | 'constraints' | 'owner' | 'kpis'>) => put<Roadmap>(`/roadmap/initiatives/${id}`, n),
+  resetInitiative: (id: string) => req<Roadmap>(`/roadmap/initiatives/${id}`, { method: 'DELETE' }),
+  putRepository: (r: Omit<Repository, 'source'>) => put<Roadmap>('/roadmap/repository', r),
+  addDomain: (d: DomainIn) => post<DataTech & { added: string }>('/data_tech/domains', d),
+  putDomain: (id: string, d: DomainIn) => put<DataTech>(`/data_tech/domains/${id}`, d),
+  deleteDomain: (id: string) => req<DataTech>(`/data_tech/domains/${id}`, { method: 'DELETE' }),
+  addPlatform: (p: PlatformIn) => post<DataTech>('/data_tech/platforms', p),
+  putPlatform: (id: string, p: PlatformIn) => put<DataTech>(`/data_tech/platforms/${id}`, p),
+  deletePlatform: (id: string) => req<DataTech>(`/data_tech/platforms/${id}`, { method: 'DELETE' }),
+  putSites: (locations: Site[], network: NetLink[]) => put<DataTech>('/data_tech/sites', { locations, network }),
+  putZones: (items: LandingZone[]) => put<DataTech>('/data_tech/landing_zones', { items }),
+  putScope: (s: Omit<ScopeOfWork, 'source'>) => put<Approach>('/approach/scope', s),
+  resetScope: () => post<Approach>('/approach/scope/reset'),
+
   putRefView: <T,>(id: string, v: RefViewIn) => put<T>(`/arch_views/${id}`, v),
   resetRefView: <T,>(id: string) => post<T>(`/arch_views/${id}/reset`),
   genStatements: () => post<StatementsResult>('/vision/statements/generate'),
@@ -1054,6 +1202,8 @@ export const api = {
   finaliseSurvey: (id: string) => post<Business & { finalised: number }>(`/business/discovery/${id}/finalise`),
   putGap: (id: string, body: Partial<Pick<RegGap, 'description' | 'hypothesis' | 'severity'>>) => put<Business>(`/business/gaps/${id}`, body),
   resetGap: (id: string) => req<Business>(`/business/gaps/${id}`, { method: 'DELETE' }),
+  putDomainGap: <T,>(screen: 'applications' | 'data_tech', id: string, body: Partial<Pick<DomainGap, 'description' | 'hypothesis' | 'severity'>>) => put<T>(`/${screen}/gaps/${id}`, body),
+  resetDomainGap: <T,>(screen: 'applications' | 'data_tech', id: string) => req<T>(`/${screen}/gaps/${id}`, { method: 'DELETE' }),
   putQuestions: (id: string, questions: SurveyQuestion[]) =>
  put<Business>(`/business/discovery/${id}/questions`, { questions }),
   emailDraft: (id: string, kind: EmailDraft['kind'] = 'initial') => req<EmailDraft>(`/business/discovery/${id}/email?kind=${kind}`),
@@ -1075,8 +1225,8 @@ export const api = {
   putInterface: (id: string, i: IfaceIn) => put<Applications>(`/applications/interfaces/${id}`, i),
   deleteInterface: (id: string) => req<Applications>(`/applications/interfaces/${id}`, { method: 'DELETE' }),
   mapApps: (app_ids?: string[]) => post<MapResult>('/applications/map', { app_ids: app_ids ?? null }),
-  addGuideline: (g: Partial<Guideline> & { kind: GuidelineKind }) => post<Vision>('/vision/guidelines', g),
-  putGuideline: (id: string, g: Partial<Guideline> & { kind: GuidelineKind }) => put<Vision>(`/vision/guidelines/${id}`, g),
+  addGuideline: (g: (Partial<Guideline> | Partial<Viewpoint> | Partial<Tailoring>) & { kind: GuidelineKind }) => post<Vision>('/vision/guidelines', g),
+  putGuideline: (id: string, g: (Partial<Guideline> | Partial<Viewpoint> | Partial<Tailoring>) & { kind: GuidelineKind }) => put<Vision>(`/vision/guidelines/${id}`, g),
   deleteGuideline: (id: string) => req<Vision>(`/vision/guidelines/${id}`, { method: 'DELETE' }),
   putRules: (body: Partial<{ threshold: number; bf_weights: number[]; tf_weights: number[]; labels: RulesConfig['labels']; rules: { id: string; enabled?: boolean; params?: RuleT['params'] }[]; capability: Record<string, number> }>) =>
     put<Vision>('/vision/rules', body),
