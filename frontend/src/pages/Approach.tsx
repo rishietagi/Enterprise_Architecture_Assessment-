@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { BrainCircuit, CheckCircle2, Flag, Landmark, ListChecks, Pencil, Plus, RotateCcw, Route, ScanSearch, Server, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
+import { AiAction } from '@/components/AiAction'
 import { CadenceLegend, CadenceRow, EngagementPlan } from '@/components/EngagementPlan'
 import { Explain } from '@/components/Explain'
 import { ExportMenu } from '@/components/ExportMenu'
@@ -78,6 +79,7 @@ function ScopeOfWork({ a }: { a: ApproachT }) {
         <CardDescription>Comprehensive Enterprise Architecture for {a.engagement.client} · as proposed</CardDescription>
         <CardAction className="flex gap-2">
           <Button size="sm" variant="outline" onClick={() => setEditing(true)}><Pencil /> Edit</Button>
+          <AiAction what="Scope of work" from="the RFP and the uploaded context documents" />
           <ExportMenu target={box} name="Scope of Work" csv={() => [['#', 'Scope of work', 'Key activities'], ...s.items.map((x) => [x.n, x.title, x.activities])]} />
         </CardAction>
       </CardHeader>
@@ -153,7 +155,8 @@ function EngagementApproach({ a }: { a: ApproachT }) {
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
         <CadenceLegend />
-        <ExportMenu target={box} name="Engagement Approach" csv={() => [['Phase', 'Weeks', 'ADM', 'Objective', 'Outputs', 'Gate'], ...a.phases.map((ph, i) => [`Phase ${i + 1}: ${ph.name}`, `W${ph.start_week}-W${ph.end_week}`, ph.adm, ph.objective, ph.outputs.join('; '), ph.gate])]} />
+        <span className="flex gap-2"><AiAction what="Engagement approach" from="the scope of work and TOGAF ADM tailoring" />
+        <ExportMenu target={box} name="Engagement Approach" csv={() => [['Phase', 'Weeks', 'ADM', 'Objective', 'Outputs', 'Gate'], ...a.phases.map((ph, i) => [`Phase ${i + 1}: ${ph.name}`, `W${ph.start_week}-W${ph.end_week}`, ph.adm, ph.objective, ph.outputs.join('; '), ph.gate])]} /></span>
       </div>
       <div ref={box} className="space-y-4 bg-card">
         <div className="overflow-hidden rounded-lg border">

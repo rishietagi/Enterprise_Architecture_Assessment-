@@ -8,3 +8,5 @@ TOGAF 9.1-guided EA assessment POC for Coromandel International. Works fully off
 4. `conda run -n pmo-intel-engine uvicorn app.main:app --reload --port 8000`
 5. In a second terminal: `cd frontend; npm install; npm run dev`, then open http://localhost:5173
 6. Tests: `cd backend; conda run -n pmo-intel-engine pytest -q`
+
+Hosting: see `DEPLOY.md` (Render, Docker, login gate).

@@ -1,0 +1,31 @@
+# Render Blueprint: one Docker web service (API + built frontend).
+# Secrets marked sync: false are entered in the Render dashboard on first deploy.
+services:
+  - type: web
+    name: cil-ea-assessment
+    runtime: docker
+    plan: free
+    region: singapore
+    branch: main
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: APP_USERS            # name:password,name2:password2
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: SESSION_HOURS
+        value: "12"
+      - key: GEMINI_API_KEY       # optional; without it every AI call uses the deterministic fallback
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+      - key: GEMINI_FALLBACK_MODEL
+        value: gemini-2.5-flash-lite
+      - key: LLM_RPM
+        value: "8"
+      - key: RAG_DENSE            # false = BM25-only retrieval; keeps memory inside the free 512 MB
+        value: "false"
+      - key: DB_PATH              # SQLite; on the free plan it resets to the demo seed on every restart or deploy
+        value: /tmp/cil.db

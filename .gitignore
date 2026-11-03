@@ -1,6 +1,6 @@
 backend/.env
 data/togaf/*.pdf
-data/index/
+# data/index/ is committed: the prebuilt TOGAF index ships with the deploy (the PDFs do not)
 data/models/
 data/cil.db
 __pycache__/

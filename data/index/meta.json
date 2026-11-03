@@ -1,0 +1,8 @@
+{
+  "hash": "bc80f0c88ce9e09211adc5e085d6c9ca1976a6590e5cc1555eb4c7e6252446b3",
+  "n_chunks": 1083,
+  "dense": true,
+  "model": "BAAI/bge-small-en-v1.5",
+  "built": "2026-11-01 14:26",
+  "seconds": 193.9
+}

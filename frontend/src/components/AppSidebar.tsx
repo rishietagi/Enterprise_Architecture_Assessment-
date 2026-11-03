@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
-import { ArrowLeftRight, GraduationCap, Settings } from 'lucide-react'
+import { ArrowLeftRight, GraduationCap, LogOut, Settings } from 'lucide-react'
 import { useEngagement } from '@/components/Gate'
+import { useAuth } from '@/components/Login'
 import {
   Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader,
   SidebarMenu, SidebarMenuButton, SidebarMenuItem,
@@ -15,6 +16,7 @@ export function AppSidebar() {
   const active = screenForPath(pathname)
   const { setCoachOpen, setSettingsOpen } = useShell()
   const { leave } = useEngagement()
+  const auth = useAuth()
   const navigate = useNavigate()
   const health = useQuery({
     queryKey: ['health'],
@@ -76,6 +78,13 @@ export function AppSidebar() {
               <ArrowLeftRight /> <span>Switch Engagement</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
+          {auth.required && (
+            <SidebarMenuItem>
+              <SidebarMenuButton tooltip="Sign out" onClick={() => { leave(); navigate('/'); auth.logout() }}>
+                <LogOut /> <span>Sign Out{auth.user ? ` (${auth.user})` : ''}</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
         </SidebarMenu>
         {health.data && (
           <div className="mx-2 mt-1 flex items-center gap-1.5 text-[11px] text-white/50 group-data-[collapsible=icon]:hidden">

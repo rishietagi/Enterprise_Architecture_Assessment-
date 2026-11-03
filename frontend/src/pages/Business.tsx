@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { AiAction } from '@/components/AiAction'
 import { Entanglement } from '@/components/CapabilityModules'
 import { CapabilitySheet } from '@/components/business/CapabilitySheet'
 import { Discovery } from '@/components/business/Discovery'
@@ -88,7 +89,8 @@ export default function Business() {
               )}
               {step === 'gaps' && (
                 <>
-                  <div className="flex justify-end">
+                  <div className="flex justify-end gap-2">
+                    <AiAction what="Gap descriptions and hypotheses" from="the questionnaire answers, comments and the leading-practice model" />
                     <ExportMenu target={gapBox} name="Gap Register" csv={() => [['ID', 'Type', 'L0', 'L1', 'L2', 'L3', 'Gap', 'Description', 'Target-state hypothesis', 'Severity', 'Edited'],
                       ...[...b.gap_register.thematic, ...b.gap_register.transactional].map((g) => [g.id, g.type, g.l0.name, g.l1?.name ?? '', g.l2?.name ?? '', g.l3?.name ?? '', g.title, g.description, g.hypothesis, g.severity, g.edited ? 'Yes' : 'No'])]} />
                   </div>

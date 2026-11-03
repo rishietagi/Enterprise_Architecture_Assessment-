@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { ArrowUpRight, Pencil, RotateCcw } from 'lucide-react'
 import { toast } from 'sonner'
+import { AiAction } from '@/components/AiAction'
 import { Explain } from '@/components/Explain'
 import { ExportMenu } from '@/components/ExportMenu'
 import { Button } from '@/components/ui/button'
@@ -96,7 +97,7 @@ export function DomainGapRegister({ reg, screen, name }: { reg: Reg; screen: Scr
           <SelectContent><SelectItem value={ALL}>All categories</SelectItem>{reg.categories.map((k) => <SelectItem key={k} value={k}>{k} ({c.by_category[k]})</SelectItem>)}</SelectContent>
         </Select>
         <span className="text-[11.5px] text-muted-foreground">{rows.length} of {reg.gaps.length} gaps · select a row to edit</span>
-        <span className="ml-auto"><ExportMenu target={box} name={name} csv={csv} /></span>
+        <span className="ml-auto flex gap-2"><AiAction what="Gap descriptions and hypotheses" from="the intake, assessment results and owner comments" /><ExportMenu target={box} name={name} csv={csv} /></span>
       </div>
       <div ref={box} className="overflow-hidden rounded-lg border bg-card">
         <Table>

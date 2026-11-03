@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { Download, Hand, Link2, Loader2, MousePointer2, Plus, RotateCcw, Save, Trash2, X, ZoomIn, ZoomOut } from 'lucide-react'
 import { toast } from 'sonner'
+import { AiAction } from '@/components/AiAction'
 import { useBusinessUpdate } from '@/components/CapabilityModules'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
@@ -242,6 +243,7 @@ export function ProcessModeler({ b }: { b: Business }) {
         </ToggleGroup>
         <span className="text-[11px] text-muted-foreground">{m.notation} · v{m.version}{dirty && <b className="ml-1 text-foreground">· unsaved</b>}</span>
         <span className="ml-auto flex items-center gap-1.5">
+          <AiAction label="Draft from Answers with AI" what="Process model" from="the discovery answers and the leading-practice process" />
           <Button size="sm" variant="outline" onClick={() => setCreating(true)}><Plus /> New view</Button>
           {m.custom
             ? <Button size="sm" variant="ghost" className="text-destructive" onClick={() => window.confirm(`Delete ${m.name}?`) && remove.mutate()} disabled={remove.isPending}><Trash2 /> Delete</Button>

@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Info, Link2, Pencil, Plus, RotateCcw, Server, Trash2, X } from 'lucide-react'
 
 import { toast } from 'sonner'
+import { AiAction } from '@/components/AiAction'
 import { ExportMenu } from '@/components/ExportMenu'
 import { Explain } from '@/components/Explain'
 import { Button } from '@/components/ui/button'
@@ -325,6 +326,7 @@ export function RefArchitecture({ v, queryKey, ctx = {}, appToggle = false, laye
           {appToggle && <label className="flex items-center gap-1.5 text-[11.5px] font-medium"><Switch checked={showApps} onCheckedChange={setShowApps} /> Show Applications</label>}
           {edit && <Button size="sm" variant="ghost" onClick={() => reset.mutate()} disabled={reset.isPending}><RotateCcw /> Restore Default</Button>}
           <Button size="sm" variant={edit ? 'default' : 'outline'} onClick={() => setEdit(!edit)}>{edit ? 'Done Editing' : <><Pencil /> Edit Layout</>}</Button>
+          <AiAction what="Architecture view" from="the application, data and technology inventory" />
           <ExportMenu target={box} name={v.title} csv={csv} drawio={() => refViewDrawio(v)} />
         </span>
       </div>

@@ -1125,11 +1125,16 @@ export interface UploadResult {
 }
 
 // ---------------------------------------------------------------- client
+/** Fired when the session has expired or is missing; the app shell then shows the login page. */
+export const AUTH_EVENT = 'ea:auth-required'
+export interface AuthState { required: boolean; user: string | null }
+
 async function req<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`/api${path}`, {
     ...init,
     headers: init?.body && !(init.body instanceof FormData) ? { 'Content-Type': 'application/json' } : undefined,
   })
+  if (res.status === 401 && !path.startsWith('/auth/')) window.dispatchEvent(new Event(AUTH_EVENT))
   if (!res.ok) {
     let msg = `${res.status} ${res.statusText}`
     try {
@@ -1148,6 +1153,9 @@ const post = <T>(path: string, body?: unknown) =>
   req<T>(path, { method: 'POST', body: body === undefined ? undefined : JSON.stringify(body) })
 
 export const api = {
+  me: () => req<AuthState>('/auth/me'),
+  login: (username: string, password: string) => post<AuthState>('/auth/login', { username, password }),
+  logout: () => post<AuthState>('/auth/logout'),
   overview: () => req<Overview>('/overview'),
   approach: () => req<Approach>('/approach'),
   putApproachPlan: (id: string, status: PlanStatus) => put<Approach>(`/approach/plan/${id}`, { status }),

@@ -1,0 +1,11 @@
+**/node_modules
+**/__pycache__
+**/.pytest_cache
+frontend/dist
+data/togaf
+data/models
+data/cil.db
+.env
+backend/.env
+.git
+handover

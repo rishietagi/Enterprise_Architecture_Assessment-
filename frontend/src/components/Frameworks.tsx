@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Pencil, Plus, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
+import { AiAction } from '@/components/AiAction'
 import { ExportMenu } from '@/components/ExportMenu'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -39,6 +40,7 @@ export function ViewpointCatalog({ v }: { v: Vision }) {
       <div className="flex items-center justify-between">
         <span className="text-[11.5px] text-muted-foreground">Stakeholder → concerns → viewpoint → views, per ISO/IEC/IEEE 42010. Every RFP view should be answered by at least one viewpoint.</span>
         <span className="flex gap-2">
+          <AiAction what="Viewpoint catalogue" from="the stakeholder map and the RFP views" />
           <ExportMenu target={box} name="Viewpoint Catalogue" csv={() => [['ID', 'Viewpoint', 'Stakeholders', 'Concerns', 'Model kinds', 'RFP views'], ...v.viewpoints.map((x) => [x.id, x.name, x.stakeholder, x.concerns, x.model_kind, x.views.join('; ')])]} />
           <Button size="sm" onClick={() => setEdit({ name: '', stakeholder: '', concerns: '', model_kind: '', views: [], screen: 'overview' })}><Plus /> Add Viewpoint</Button>
         </span>

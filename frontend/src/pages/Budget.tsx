@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Plus, RotateCcw, Save, Trash2, X } from 'lucide-react'
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from 'recharts'
 import { toast } from 'sonner'
+import { AiAction } from '@/components/AiAction'
 import { Explain } from '@/components/Explain'
 import { ExportMenu } from '@/components/ExportMenu'
 import { InsightsCard } from '@/components/InsightsCard'
@@ -11,7 +12,7 @@ import { PhasePlan } from '@/components/PhasePlan'
 import { ScreenError, ScreenSkeleton } from '@/components/ScreenSkeleton'
 import { StepBar } from '@/components/StepBar'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { api, type Budget as BudgetT, type BudgetInputs, type BudgetLine } from '@/lib/api'
@@ -260,6 +261,9 @@ export default function Budget() {
               <CardDescription>{view === 'inputs'
                 ? 'The IT cost baseline in the client template: overall IT costs, IT capex by initiative and IT opex by cost head for actual and projected years, plus the business factors used for intensity ratios. Edit any cell, add or remove lines and years, then save.'
                 : 'Run vs change mix, spend intensity against revenue, headcount and users, growth by cost head, and whether the roadmap fits the planned capex. All figures are computed by rules from the inputs.'}</CardDescription>
+              <CardAction>{view === 'inputs'
+                ? <AiAction label="Extract from Files with AI" what="Cost inputs" from="uploaded budget files and the finance cost-centre extract" />
+                : <AiAction what="Cost commentary" from="the computed ratios, benchmarks and roadmap affordability" />}</CardAction>
             </CardHeader>
             <CardContent className={cn('space-y-4')}>
               {view === 'inputs' ? <Inputs d={d} b={b} setB={setB} /> : <Analysis d={d} />}

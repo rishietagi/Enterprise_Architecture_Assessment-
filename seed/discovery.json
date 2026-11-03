@@ -258,7 +258,54 @@
     "R4.1.3.3": "How are scheme accruals calculated and dealer claims validated before settlement?",
     "R4.1.3.4": "How is scheme ROI measured against sell-out?",
     "R1.2.2.1": "How are trial sites selected across agro-climatic zones, and where is the protocol stored?",
-    "R4.3.1.2": "Which advisory channels are live (app, WhatsApp, IVR), and is advice personalised to crop stage and soil?"
+    "R4.3.1.2": "Which advisory channels are live (app, WhatsApp, IVR), and is advice personalised to crop stage and soil?",
+    "R1.2.1.1": "How many formulation projects run a year, and where are recipe versions and approvals held?",
+    "R1.2.1.2": "How are pilot-plant batch parameters and results captured and handed to the production plant?",
+    "R1.2.1.3": "How long does it take to qualify an alternate raw material source, and where are specifications mastered?",
+    "R1.2.3.1": "How many CIB&RC and FCO dossiers are prepared a year, and how is source data gathered from R&D and QC?",
+    "R1.2.3.2": "How many query rounds does a typical registration go through, and how are responses tracked?",
+    "R1.2.3.3": "How are label and SDS changes approved, and how many SKU labels and languages are maintained?",
+    "R1.2.3.4": "How many registrations and state licences are live, and how are renewal deadlines tracked?",
+    "R2.1.1.1": "How is the S&OP volume translated into a quarterly import plan for rock, acid, sulphur and ammonia?",
+    "R2.1.1.2": "How are category strategies and supplier choices made for the main imported raw materials?",
+    "R2.1.1.3": "What share of import exposure is hedged, and how is landed cost recalculated when prices or FX move?",
+    "R2.1.1.4": "How many raw material POs and call-offs are raised a year, and for which entities?",
+    "R2.2.3.1": "What share of maintenance is planned, and how is PM compliance measured by plant?",
+    "R2.2.3.2": "Which assets are covered by condition monitoring or predictive models, and what happens when an alert fires?",
+    "R2.2.3.3": "How are breakdowns logged and closed, and how reliable are failure codes for MTBF analysis?",
+    "R2.2.3.4": "How many MRO materials are held, and how are duplicates and critical spares controlled across plants?",
+    "R2.2.4.1": "How many raw material and in-process samples are tested a day, and how do instrument results reach the system?",
+    "R2.2.4.2": "How long does finished-goods batch release take, and where is the usage decision recorded?",
+    "R2.2.4.3": "Which plants register samples on paper, and how are results trended over time?",
+    "R2.2.4.4": "How many product complaints arrive a year, through which channels, and how is CAPA closure tracked?",
+    "R3.2.1.1": "How many warehouses and C&F depots receive stock, and where is bin-level put-away in place?",
+    "R3.2.1.2": "How do C&F agents report stock, and how far does system stock lag physical stock in season?",
+    "R3.2.1.3": "How often is stock physically verified, and how are SAP, iFMS and physical stock reconciled?",
+    "R3.2.1.4": "How many trucks are loaded a day at peak, and what drives turnaround time at the gate?",
+    "R4.1.1.1": "How many dealers are onboarded a year, and how are KYC and fertiliser licence validity checked?",
+    "R4.1.1.2": "What share of dealer orders arrive digitally, and how long does order confirmation take?",
+    "R4.1.1.3": "How do dealers see their ledger and scheme earnings, and how current is that view?",
+    "R4.1.4.1": "How are dealer credit limits set and reviewed before Kharif and Rabi?",
+    "R4.1.4.2": "How many orders are credit-blocked a day at peak, and how quickly are they released?",
+    "R4.1.4.3": "What share of collections is automated, and how is follow-up with dealers managed?",
+    "R4.1.4.4": "How is receivables ageing reviewed and provisioned across CIL and acquired entities?",
+    "R4.2.1.1": "How many stores bill on the POS, and what happens when connectivity drops?",
+    "R4.2.1.2": "How are Aadhaar-authenticated sales on the government PoS device matched to store POS bills?",
+    "R4.2.1.3": "How is store cash closed and deposited each day, and how are exceptions handled?",
+    "R4.2.1.4": "How are store staff and seasonal hires rostered for the Kharif and Rabi peaks?",
+    "R4.3.2.1": "How many soil and leaf samples are collected a year, and how are they registered and geo-tagged?",
+    "R4.3.2.2": "What is the turnaround from sample receipt to result, and how do instrument results reach the LIMS?",
+    "R4.3.2.3": "How are soil health card recommendations produced, and do they link to products the farmer can buy?",
+    "R5.1.1.1": "What share of journals is automated, and how many manual journals are posted at close?",
+    "R5.1.1.2": "How many entities are consolidated, and which are mapped outside SAP?",
+    "R5.1.1.3": "On which working day does the close complete, and which reconciliations are still manual?",
+    "R5.3.1.1": "How many sources feed the analytics platform, and who builds and runs the pipelines?",
+    "R5.3.1.2": "How many datasets or models exist, and are key measures such as sales defined once?",
+    "R5.3.1.3": "How many people use self-service BI, and which functions still rebuild reports in Excel?",
+    "R5.3.1.4": "Who owns data quality, and are there rules or scorecards for the customer, material and farmer masters?",
+    "R5.3.3.1": "How many interfaces exist, what share are point-to-point, and is there an API catalogue?",
+    "R5.3.3.2": "How are interface failures detected and resolved, and how often do they occur in season?",
+    "R5.3.3.3": "How do government portals, banks, transporters and C&F agents exchange data with CIL today?"
   },
   "response_options": [
     {
@@ -1882,6 +1929,2667 @@
         }
       ],
       "source": "assumed"
+    },
+    {
+      "id": "C01.1.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of R&D",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Recipe versions live in personal folders; a recipe change is not linked to the SAP material master.",
+      "answers": {
+        "process": 3,
+        "tech": 2,
+        "data": 2,
+        "integration": 1,
+        "importance": 5,
+        "fit": 2,
+        "partnering": 2,
+        "reporting": 1,
+        "change": 2,
+        "adoption": 2,
+        "peak": 3,
+        "fallback": 1,
+        "workarounds": 2,
+        "owner": "Head of R&D; formulation chemists at the R&D centre (about 12)",
+        "systems": {
+          "apps": [
+            "A22"
+          ],
+          "other": "Recipe sheets in Excel, lab notebooks, structure files on a shared drive"
+        },
+        "context": "Around 40 active formulation projects a year; recipes and versions are held in Excel with no approval workflow.",
+        "comments": {
+          "tech": "No formulation or PLM tool; an ELN was evaluated in 2024 but not funded.",
+          "integration": "The final recipe is re-keyed into SAP as a BOM by the plant team."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of R&D"
+        },
+        {
+          "at": "2026-11-02T10:00:00",
+          "event": "submitted",
+          "by": "Head of R&D"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C01.1.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of R&D",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Pilot results are not visible to plant QC until the trial report is circulated.",
+      "answers": {
+        "process": 3,
+        "tech": 2,
+        "data": 2,
+        "integration": 2,
+        "importance": 4,
+        "fit": 2,
+        "partnering": 2,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3,
+        "peak": 3,
+        "fallback": 2,
+        "workarounds": 2,
+        "owner": "Head of R&D; pilot plant team",
+        "systems": {
+          "apps": [
+            "A22",
+            "A18"
+          ],
+          "other": "Paper batch sheets, pilot plant logbook"
+        },
+        "context": "Six to eight scale-up batches a year; pilot data captured on paper batch sheets, then typed into Excel.",
+        "comments": {
+          "data": "Scale-up parameters are re-entered from paper; transcription errors found in two of the last five reports."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of R&D"
+        },
+        {
+          "at": "2026-10-31T11:15:00",
+          "event": "submitted",
+          "by": "Head of R&D"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C01.1.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of R&D",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Specifications are in SAP QM for major raw materials only; specialty inputs are tracked in SharePoint.",
+      "answers": {
+        "process": 3,
+        "tech": 3,
+        "data": 2,
+        "integration": 2,
+        "importance": 5,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3,
+        "peak": 3,
+        "fallback": 2,
+        "workarounds": 3,
+        "owner": "Head of R&D with procurement quality; a specification owner per material",
+        "systems": {
+          "apps": [
+            "A01",
+            "A18"
+          ],
+          "other": "Specification sheets in SharePoint"
+        },
+        "context": "About 300 material specifications; qualifying an alternate source takes 8-12 weeks.",
+        "comments": {
+          "process": "Alternate-source approval is documented but lead times are not tracked."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of R&D"
+        },
+        {
+          "at": "2026-10-31T12:30:00",
+          "event": "submitted",
+          "by": "Head of R&D"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C01.3.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Regulatory Affairs",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Dossier assembly is template-driven in SharePoint; data requests to R&D go by email.",
+      "answers": {
+        "process": 3,
+        "tech": 3,
+        "data": 3,
+        "integration": 2,
+        "importance": 4,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3,
+        "peak": 3,
+        "fallback": 2,
+        "workarounds": 3,
+        "owner": "Head of Regulatory Affairs; 5 regulatory executives",
+        "systems": {
+          "apps": [
+            "A24"
+          ],
+          "other": "Dossier templates in SharePoint, CIB&RC online portal"
+        },
+        "context": "15-20 CIB&RC dossiers and about 10 FCO notifications a year; each dossier draws on R&D, QC and toxicology partners.",
+        "comments": {
+          "integration": "Trial and QC data are requested by email and pasted into the dossier."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Regulatory Affairs"
+        },
+        {
+          "at": "2026-11-02T13:45:00",
+          "event": "submitted",
+          "by": "Head of Regulatory Affairs"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C01.3.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Regulatory Affairs",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Registration committee queries are tracked in a shared Excel log.",
+      "answers": {
+        "process": 3,
+        "tech": 3,
+        "data": 3,
+        "integration": 2,
+        "importance": 4,
+        "fit": 3,
+        "partnering": 2,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3,
+        "peak": 3,
+        "fallback": 2,
+        "workarounds": 3,
+        "owner": "Head of Regulatory Affairs",
+        "systems": {
+          "apps": [
+            "A24"
+          ],
+          "other": "CIB&RC portal, Excel query tracker"
+        },
+        "context": "Average 2.3 query rounds per registration; median time to approval is 14 months."
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Regulatory Affairs"
+        },
+        {
+          "at": "2026-10-31T14:00:00",
+          "event": "submitted",
+          "by": "Head of Regulatory Affairs"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C01.3.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Regulatory Affairs",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Label approval is well controlled; SDS authoring is outsourced and stored as PDFs.",
+      "answers": {
+        "process": 4,
+        "tech": 3,
+        "data": 3,
+        "integration": 2,
+        "importance": 4,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 3,
+        "change": 3,
+        "adoption": 4,
+        "peak": 3,
+        "fallback": 3,
+        "workarounds": 3,
+        "owner": "Regulatory Affairs with Marketing",
+        "systems": {
+          "apps": [
+            "A01",
+            "A24"
+          ],
+          "other": "Artwork approval workflow in SharePoint"
+        },
+        "context": "About 900 SKU labels in 12 languages; label changes follow a documented approval matrix.",
+        "comments": {
+          "process": "Approval matrix is followed consistently; open artwork changes are reviewed monthly."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Regulatory Affairs"
+        },
+        {
+          "at": "2026-10-31T15:15:00",
+          "event": "submitted",
+          "by": "Head of Regulatory Affairs"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C01.3.4",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Regulatory Affairs",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "The renewal calendar is a key-person dependency; a missed state licence renewal in 2025 stopped sales in one district for three weeks.",
+      "answers": {
+        "process": 3,
+        "tech": 2,
+        "data": 3,
+        "integration": 1,
+        "importance": 4,
+        "fit": 2,
+        "partnering": 2,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 2,
+        "peak": 2,
+        "fallback": 1,
+        "workarounds": 2,
+        "owner": "Head of Regulatory Affairs; one compliance executive",
+        "systems": {
+          "apps": [],
+          "other": "Excel compliance calendar, Outlook reminders"
+        },
+        "context": "Around 450 live registrations and state licences, tracked in one Excel calendar maintained by one executive.",
+        "comments": {
+          "fallback": "Only one person maintains the calendar."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Regulatory Affairs"
+        },
+        {
+          "at": "2026-11-02T16:30:00",
+          "event": "submitted",
+          "by": "Head of Regulatory Affairs"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C02.1.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Chief Procurement Officer",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "MRP runs in SAP but the import plan is finalised in Excel because of vessel parcel sizes.",
+      "answers": {
+        "process": 4,
+        "tech": 3,
+        "data": 3,
+        "integration": 3,
+        "importance": 5,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 3,
+        "change": 3,
+        "adoption": 4,
+        "peak": 3,
+        "fallback": 3,
+        "workarounds": 3,
+        "owner": "Chief Procurement Officer; raw material planning cell (3)",
+        "systems": {
+          "apps": [
+            "A01",
+            "A23"
+          ],
+          "other": "Excel import plan by quarter"
+        },
+        "context": "Rock phosphate, phosphoric acid, sulphur and ammonia plans are fixed quarterly against the S&OP volume; about 70% is imported.",
+        "comments": {
+          "tech": "SAP MRP gives requirements; parcel-size optimisation is manual."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Chief Procurement Officer"
+        },
+        {
+          "at": "2026-10-31T10:45:00",
+          "event": "submitted",
+          "by": "Chief Procurement Officer"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C02.1.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Chief Procurement Officer",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Category strategies are reviewed annually by the CPO; supplier evaluation is spreadsheet-based.",
+      "answers": {
+        "process": 4,
+        "tech": 2,
+        "data": 3,
+        "integration": 2,
+        "importance": 5,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3,
+        "peak": 3,
+        "fallback": 3,
+        "workarounds": 3,
+        "owner": "Chief Procurement Officer; category managers (4)",
+        "systems": {
+          "apps": [
+            "A01"
+          ],
+          "other": "Market reports (Argus, CRU), Excel category plans"
+        },
+        "context": "Twelve strategic suppliers across North Africa, the Middle East and West Africa; long-term agreements for phosphoric acid.",
+        "comments": {
+          "tech": "No e-sourcing tool; RFQs run by email."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Chief Procurement Officer"
+        },
+        {
+          "at": "2026-10-31T11:00:00",
+          "event": "submitted",
+          "by": "Chief Procurement Officer"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C02.1.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Chief Procurement Officer",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Hedge book is reconciled weekly with treasury; the landed-cost model is a complex workbook.",
+      "answers": {
+        "process": 4,
+        "tech": 3,
+        "data": 3,
+        "integration": 3,
+        "importance": 5,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 3,
+        "change": 3,
+        "adoption": 3,
+        "peak": 3,
+        "fallback": 3,
+        "workarounds": 3,
+        "owner": "CFO Treasury with the CPO",
+        "systems": {
+          "apps": [
+            "A01"
+          ],
+          "other": "Bank treasury portal, Excel hedge register"
+        },
+        "context": "USD exposure on imports is hedged 60-80% on a rolling basis; the landed-cost model is refreshed weekly.",
+        "comments": {
+          "workarounds": "The landed-cost workbook has 40+ tabs; only two people can maintain it."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Chief Procurement Officer"
+        },
+        {
+          "at": "2026-11-02T12:15:00",
+          "event": "submitted",
+          "by": "Chief Procurement Officer"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C02.1.4",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Chief Procurement Officer",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Standard SAP purchasing with a release strategy; NACL is still on its own ERP.",
+      "answers": {
+        "process": 5,
+        "tech": 4,
+        "data": 4,
+        "integration": 4,
+        "importance": 4,
+        "fit": 4,
+        "partnering": 4,
+        "reporting": 4,
+        "change": 3,
+        "adoption": 5,
+        "peak": 4,
+        "fallback": 4,
+        "workarounds": 4,
+        "owner": "Chief Procurement Officer; purchasing operations team",
+        "systems": {
+          "apps": [
+            "A01",
+            "A26"
+          ],
+          "other": ""
+        },
+        "context": "About 1,800 raw material POs a year; call-offs are released against frame contracts in SAP.",
+        "comments": {
+          "integration": "NACL purchases are not visible in CIL SAP until month-end consolidation."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Chief Procurement Officer"
+        },
+        {
+          "at": "2026-10-31T13:30:00",
+          "event": "submitted",
+          "by": "Chief Procurement Officer"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C03.3.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Manufacturing",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "PM plans in SAP are followed at the large plants; compliance is reported monthly.",
+      "answers": {
+        "process": 4,
+        "tech": 3,
+        "data": 3,
+        "integration": 2,
+        "importance": 4,
+        "fit": 4,
+        "partnering": 3,
+        "reporting": 3,
+        "change": 3,
+        "adoption": 4,
+        "peak": 3,
+        "fallback": 3,
+        "workarounds": 3,
+        "owner": "Head of Manufacturing; plant maintenance heads (6 plants)",
+        "systems": {
+          "apps": [
+            "A01"
+          ],
+          "other": ""
+        },
+        "context": "About 14,000 maintenance plans in SAP PM across the phosphatic and SSP plants.",
+        "comments": {
+          "process": "PM compliance is reviewed monthly at the two largest plants only."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Manufacturing"
+        },
+        {
+          "at": "2026-10-31T14:45:00",
+          "event": "submitted",
+          "by": "Head of Manufacturing"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C03.3.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Manufacturing",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "The predictive maintenance pilot works, but alerts do not create work orders in SAP.",
+      "answers": {
+        "process": 2,
+        "tech": 3,
+        "data": 2,
+        "integration": 2,
+        "importance": 4,
+        "fit": 2,
+        "partnering": 3,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 2,
+        "peak": 3,
+        "fallback": 2,
+        "workarounds": 2,
+        "owner": "Head of Reliability (largest plant)",
+        "systems": {
+          "apps": [
+            "A04",
+            "A16"
+          ],
+          "other": "Vibration analyser exports"
+        },
+        "context": "Predictive models cover 40 critical rotating assets at one plant; other plants rely on route-based vibration checks.",
+        "comments": {
+          "integration": "Alerts are emailed; planners raise the notification by hand."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Manufacturing"
+        },
+        {
+          "at": "2026-11-02T15:00:00",
+          "event": "submitted",
+          "by": "Head of Manufacturing"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C03.3.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Manufacturing",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Work orders are captured, but failure coding is inconsistent, so MTBF is unreliable.",
+      "answers": {
+        "process": 3,
+        "tech": 3,
+        "data": 3,
+        "integration": 2,
+        "importance": 4,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 3,
+        "change": 2,
+        "adoption": 3,
+        "peak": 2,
+        "fallback": 2,
+        "workarounds": 3,
+        "owner": "Plant maintenance heads",
+        "systems": {
+          "apps": [
+            "A01"
+          ],
+          "other": "Shift logbooks"
+        },
+        "context": "Breakdown notifications are raised in SAP PM; about 30% are closed without failure codes.",
+        "comments": {
+          "data": "Failure codes missing on roughly 30% of closed orders."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Manufacturing"
+        },
+        {
+          "at": "2026-10-31T16:15:00",
+          "event": "submitted",
+          "by": "Head of Manufacturing"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C03.3.4",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Manufacturing",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Duplicate spares codes inflate inventory; there is no cross-plant visibility of critical spares.",
+      "answers": {
+        "process": 3,
+        "tech": 3,
+        "data": 3,
+        "integration": 2,
+        "importance": 3,
+        "fit": 3,
+        "partnering": 2,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3,
+        "peak": 3,
+        "fallback": 3,
+        "workarounds": 2,
+        "owner": "Stores in-charge at each plant",
+        "systems": {
+          "apps": [
+            "A01"
+          ],
+          "other": "Excel critical spares list"
+        },
+        "context": "Around 60,000 MRO materials, with an estimated 15% duplicates in the material master.",
+        "comments": {
+          "data": "MRO material master has not been cleansed since the RISE migration."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Manufacturing"
+        },
+        {
+          "at": "2026-10-31T10:30:00",
+          "event": "submitted",
+          "by": "Head of Manufacturing"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C03.4.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Quality",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "The plant QC system holds results but instruments are not interfaced.",
+      "answers": {
+        "process": 3,
+        "tech": 2,
+        "data": 2,
+        "integration": 2,
+        "importance": 4,
+        "fit": 2,
+        "partnering": 2,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3,
+        "peak": 2,
+        "fallback": 2,
+        "workarounds": 2,
+        "owner": "Head of Quality; plant QC labs (6)",
+        "systems": {
+          "apps": [
+            "A18",
+            "A01"
+          ],
+          "other": "Instrument printouts, Excel result sheets"
+        },
+        "context": "Around 250 samples a day across plants at peak; results are keyed manually from instruments.",
+        "comments": {
+          "integration": "No instrument interfacing; results are typed from printouts."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Quality"
+        },
+        {
+          "at": "2026-11-02T11:45:00",
+          "event": "submitted",
+          "by": "Head of Quality"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C03.4.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Quality",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "The usage decision in SAP is made after QC sign-off in the lab system: two systems, two entries.",
+      "answers": {
+        "process": 4,
+        "tech": 2,
+        "data": 2,
+        "integration": 2,
+        "importance": 4,
+        "fit": 3,
+        "partnering": 2,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3,
+        "peak": 2,
+        "fallback": 2,
+        "workarounds": 2,
+        "owner": "Head of Quality",
+        "systems": {
+          "apps": [
+            "A18",
+            "A01"
+          ],
+          "other": ""
+        },
+        "context": "Each finished-goods batch needs N, P, K and moisture results before the usage decision; release takes 6-10 hours.",
+        "comments": {
+          "process": "Release SOP is enterprise-wide and audited."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Quality"
+        },
+        {
+          "at": "2026-10-31T12:00:00",
+          "event": "submitted",
+          "by": "Head of Quality"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C03.4.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Quality",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "No LIMS at the SSP units; sample registers are paper.",
+      "answers": {
+        "process": 3,
+        "tech": 2,
+        "data": 2,
+        "integration": 1,
+        "importance": 3,
+        "fit": 2,
+        "partnering": 2,
+        "reporting": 1,
+        "change": 2,
+        "adoption": 2,
+        "peak": 2,
+        "fallback": 1,
+        "workarounds": 2,
+        "owner": "QC lab managers",
+        "systems": {
+          "apps": [
+            "A18"
+          ],
+          "other": "Paper sample register"
+        },
+        "context": "Sample registration is on paper at three of six plants; results are trended in Excel."
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Quality"
+        },
+        {
+          "at": "2026-10-31T13:15:00",
+          "event": "submitted",
+          "by": "Head of Quality"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C03.4.4",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Quality",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Field complaints reach QC by email; they are not linked to farmer helpdesk cases.",
+      "answers": {
+        "process": 2,
+        "tech": 2,
+        "data": 2,
+        "integration": 2,
+        "importance": 4,
+        "fit": 2,
+        "partnering": 2,
+        "reporting": 2,
+        "change": 1,
+        "adoption": 2,
+        "peak": 3,
+        "fallback": 2,
+        "workarounds": 2,
+        "owner": "Head of Quality with customer service",
+        "systems": {
+          "apps": [],
+          "other": "Email, Excel CAPA tracker"
+        },
+        "context": "About 400 product complaints a year (caking, bag weight, grade); CAPA closure is tracked in Excel.",
+        "comments": {
+          "integration": "Farmer and dealer complaints are logged in separate tools."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Quality"
+        },
+        {
+          "at": "2026-11-02T14:30:00",
+          "event": "submitted",
+          "by": "Head of Quality"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C04.2.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Supply Chain",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Goods receipt is in SAP; put-away is manual except at the two largest plants.",
+      "answers": {
+        "process": 4,
+        "tech": 3,
+        "data": 3,
+        "integration": 3,
+        "importance": 4,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 3,
+        "change": 3,
+        "adoption": 4,
+        "peak": 2,
+        "fallback": 3,
+        "workarounds": 3,
+        "owner": "Head of Supply Chain; plant and depot warehouse leads",
+        "systems": {
+          "apps": [
+            "A01"
+          ],
+          "other": "Handheld scanners at two plants"
+        },
+        "context": "About 120 C&F depots and 6 plant warehouses; goods receipt posted in SAP, bin-level put-away at two plants only."
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Supply Chain"
+        },
+        {
+          "at": "2026-10-31T15:45:00",
+          "event": "submitted",
+          "by": "Head of Supply Chain"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C04.2.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Supply Chain",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "C&F stock in SAP lags physical stock by 2-4 days in peak season.",
+      "answers": {
+        "process": 3,
+        "tech": 3,
+        "data": 2,
+        "integration": 3,
+        "importance": 4,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3,
+        "peak": 2,
+        "fallback": 2,
+        "workarounds": 2,
+        "owner": "Regional logistics managers; C&F agents",
+        "systems": {
+          "apps": [
+            "A01",
+            "A20"
+          ],
+          "other": "C&F agent stock statements (Excel)"
+        },
+        "context": "Third-party C&F agents report stock by email weekly; SAP stock updates at dispatch and receipt.",
+        "comments": {
+          "data": "Weekly stock statements from C&F agents are reconciled manually."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Supply Chain"
+        },
+        {
+          "at": "2026-10-31T16:00:00",
+          "event": "submitted",
+          "by": "Head of Supply Chain"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C04.2.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Supply Chain",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Three-way stock reconciliation (SAP, iFMS, physical) is spreadsheet-based.",
+      "answers": {
+        "process": 3,
+        "tech": 2,
+        "data": 3,
+        "integration": 2,
+        "importance": 4,
+        "fit": 2,
+        "partnering": 2,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3,
+        "peak": 2,
+        "fallback": 2,
+        "workarounds": 2,
+        "owner": "Supply chain finance",
+        "systems": {
+          "apps": [
+            "A01",
+            "A20"
+          ],
+          "other": "Excel reconciliation"
+        },
+        "context": "Quarterly physical verification; iFMS, SAP and physical stock are reconciled in Excel.",
+        "comments": {
+          "workarounds": "Reconciliation takes 6-8 working days each quarter."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Supply Chain"
+        },
+        {
+          "at": "2026-11-02T10:15:00",
+          "event": "submitted",
+          "by": "Head of Supply Chain"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C04.2.4",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Supply Chain",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Dispatch is integrated end to end at the largest plant; queues build at smaller plants in peak.",
+      "answers": {
+        "process": 3,
+        "tech": 3,
+        "data": 3,
+        "integration": 3,
+        "importance": 4,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 3,
+        "change": 3,
+        "adoption": 3,
+        "peak": 1,
+        "fallback": 2,
+        "workarounds": 3,
+        "owner": "Plant dispatch in-charges",
+        "systems": {
+          "apps": [
+            "A01",
+            "A21"
+          ],
+          "other": "Weighbridge system"
+        },
+        "context": "Up to 900 trucks a day across plants in the Kharif peak; weighbridges integrated with SAP at the large plants.",
+        "comments": {
+          "peak": "Truck turnaround rises from 6 to 18 hours in June-July."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Supply Chain"
+        },
+        {
+          "at": "2026-10-31T11:30:00",
+          "event": "submitted",
+          "by": "Head of Supply Chain"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C05.1.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Sales & Marketing",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Dealer KYC is collected on paper and scanned; licence validity is not tracked in SAP.",
+      "answers": {
+        "process": 3,
+        "tech": 2,
+        "data": 2,
+        "integration": 1,
+        "importance": 4,
+        "fit": 2,
+        "partnering": 2,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 2,
+        "peak": 3,
+        "fallback": 2,
+        "workarounds": 2,
+        "owner": "Head of Sales & Marketing; regional sales offices",
+        "systems": {
+          "apps": [
+            "A01",
+            "A10"
+          ],
+          "other": "Paper application forms, scanned KYC on SharePoint"
+        },
+        "context": "About 20,000 active dealers and 1,500 new onboardings a year, each needing a valid state fertiliser licence check.",
+        "comments": {
+          "data": "Licence expiry dates are not captured in the customer master."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Sales & Marketing"
+        },
+        {
+          "at": "2026-10-31T12:45:00",
+          "event": "submitted",
+          "by": "Head of Sales & Marketing"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C05.1.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Sales & Marketing",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Portal orders flow into SAP; phone orders are re-keyed by the order desk.",
+      "answers": {
+        "process": 3,
+        "tech": 3,
+        "data": 2,
+        "integration": 2,
+        "importance": 5,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3,
+        "peak": 2,
+        "fallback": 2,
+        "workarounds": 2,
+        "owner": "Regional sales managers; central order desk",
+        "systems": {
+          "apps": [
+            "A10",
+            "A11",
+            "A01"
+          ],
+          "other": "Phone and WhatsApp orders"
+        },
+        "context": "About 55% of dealer orders come through the portal or SFA; the rest by phone to the order desk.",
+        "comments": {
+          "integration": "Portal to SAP is a nightly batch; dealers do not see confirmation the same day."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Sales & Marketing"
+        },
+        {
+          "at": "2026-11-02T13:00:00",
+          "event": "submitted",
+          "by": "Head of Sales & Marketing"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C05.1.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Sales & Marketing",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Scheme visibility is the top dealer complaint in the last channel survey.",
+      "answers": {
+        "process": 3,
+        "tech": 3,
+        "data": 3,
+        "integration": 2,
+        "importance": 4,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3,
+        "peak": 3,
+        "fallback": 3,
+        "workarounds": 3,
+        "owner": "Sales operations",
+        "systems": {
+          "apps": [
+            "A10"
+          ],
+          "other": "Monthly PDF statements by email"
+        },
+        "context": "Dealers see their ledger in the portal; scheme earnings are shared as PDF a month in arrears."
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Sales & Marketing"
+        },
+        {
+          "at": "2026-10-31T14:15:00",
+          "event": "submitted",
+          "by": "Head of Sales & Marketing"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C05.4.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Credit Control",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Credit policy is documented and approved by the CFO; scoring is in Excel.",
+      "answers": {
+        "process": 4,
+        "tech": 3,
+        "data": 3,
+        "integration": 3,
+        "importance": 4,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 3,
+        "change": 3,
+        "adoption": 4,
+        "peak": 3,
+        "fallback": 3,
+        "workarounds": 3,
+        "owner": "Head of Credit Control; regional credit officers",
+        "systems": {
+          "apps": [
+            "A01"
+          ],
+          "other": "Excel credit scoring sheet"
+        },
+        "context": "Limits are reviewed before each season; scoring uses payment history and security deposit.",
+        "comments": {
+          "tech": "Scoring rules could move to SAP credit management."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Credit Control"
+        },
+        {
+          "at": "2026-10-31T15:30:00",
+          "event": "submitted",
+          "by": "Head of Credit Control"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C05.4.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Credit Control",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "The workflow works, but peak-season release delays hold dispatches.",
+      "answers": {
+        "process": 4,
+        "tech": 4,
+        "data": 3,
+        "integration": 3,
+        "importance": 4,
+        "fit": 4,
+        "partnering": 3,
+        "reporting": 3,
+        "change": 3,
+        "adoption": 4,
+        "peak": 2,
+        "fallback": 3,
+        "workarounds": 3,
+        "owner": "Regional credit officers",
+        "systems": {
+          "apps": [
+            "A01"
+          ],
+          "other": ""
+        },
+        "context": "About 300 credit blocks a day in peak; release approvals run through SAP workflow.",
+        "comments": {
+          "peak": "The release queue reaches a full day in June."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Credit Control"
+        },
+        {
+          "at": "2026-11-02T16:45:00",
+          "event": "submitted",
+          "by": "Head of Credit Control"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C05.4.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Credit Control",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Virtual account reconciliation is automated; follow-up calls are tracked in Excel.",
+      "answers": {
+        "process": 4,
+        "tech": 3,
+        "data": 3,
+        "integration": 3,
+        "importance": 4,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 3,
+        "change": 3,
+        "adoption": 3,
+        "peak": 3,
+        "fallback": 3,
+        "workarounds": 3,
+        "owner": "Credit control with field sales",
+        "systems": {
+          "apps": [
+            "A01",
+            "A11"
+          ],
+          "other": "Collection follow-up in Excel"
+        },
+        "context": "70% of collections come through virtual accounts; dunning letters are generated from SAP."
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Credit Control"
+        },
+        {
+          "at": "2026-10-31T10:00:00",
+          "event": "submitted",
+          "by": "Head of Credit Control"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C05.4.4",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Credit Control",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Provisioning policy is consistent; NACL is the gap.",
+      "answers": {
+        "process": 4,
+        "tech": 3,
+        "data": 3,
+        "integration": 2,
+        "importance": 4,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 3,
+        "change": 2,
+        "adoption": 4,
+        "peak": 3,
+        "fallback": 3,
+        "workarounds": 3,
+        "owner": "Head of Credit Control with the Financial Controller",
+        "systems": {
+          "apps": [
+            "A01",
+            "A23",
+            "A26"
+          ],
+          "other": ""
+        },
+        "context": "Ageing is reviewed monthly; NACL receivables are added manually for consolidation.",
+        "comments": {
+          "integration": "NACL receivables arrive as an Excel extract each month."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Credit Control"
+        },
+        {
+          "at": "2026-10-31T11:15:00",
+          "event": "submitted",
+          "by": "Head of Credit Control"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C06.1.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Retail",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "POS is stable; the store server is a single point of failure in rural stores.",
+      "answers": {
+        "process": 4,
+        "tech": 3,
+        "data": 3,
+        "integration": 3,
+        "importance": 5,
+        "fit": 4,
+        "partnering": 3,
+        "reporting": 3,
+        "change": 3,
+        "adoption": 4,
+        "peak": 3,
+        "fallback": 2,
+        "workarounds": 3,
+        "owner": "Head of Retail; Gromor store managers (about 850 stores)",
+        "systems": {
+          "apps": [
+            "A05",
+            "A01"
+          ],
+          "other": "GST e-invoice portal"
+        },
+        "context": "About 850 Gromor stores; POS bills sync to SAP every two hours.",
+        "comments": {
+          "fallback": "Manual bill books are used when connectivity drops."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Retail"
+        },
+        {
+          "at": "2026-11-02T12:30:00",
+          "event": "submitted",
+          "by": "Head of Retail"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C06.1.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Retail",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Double entry on the government PoS device and the store POS, reconciled daily by the store manager.",
+      "answers": {
+        "process": 5,
+        "tech": 3,
+        "data": 3,
+        "integration": 3,
+        "importance": 5,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 3,
+        "change": 2,
+        "adoption": 4,
+        "peak": 2,
+        "fallback": 2,
+        "workarounds": 3,
+        "owner": "Head of Retail with subsidy compliance",
+        "systems": {
+          "apps": [
+            "A05",
+            "A20"
+          ],
+          "other": "Government biometric PoS device"
+        },
+        "context": "Every subsidised fertiliser sale is authenticated on the government PoS device; the store POS is a separate system.",
+        "comments": {
+          "integration": "No interface between the government PoS device and the store POS."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Retail"
+        },
+        {
+          "at": "2026-10-31T13:45:00",
+          "event": "submitted",
+          "by": "Head of Retail"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C06.1.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Retail",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Well run; exceptions are handled by retail finance within two days.",
+      "answers": {
+        "process": 4,
+        "tech": 3,
+        "data": 3,
+        "integration": 3,
+        "importance": 4,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 3,
+        "change": 3,
+        "adoption": 4,
+        "peak": 3,
+        "fallback": 3,
+        "workarounds": 3,
+        "owner": "Retail finance",
+        "systems": {
+          "apps": [
+            "A05",
+            "A01"
+          ],
+          "other": ""
+        },
+        "context": "Day-end close is standard across stores; cash deposits are matched with bank feeds."
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Retail"
+        },
+        {
+          "at": "2026-10-31T14:00:00",
+          "event": "submitted",
+          "by": "Head of Retail"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C06.1.4",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Retail",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Store staffing is planned regionally in Excel.",
+      "answers": {
+        "process": 3,
+        "tech": 2,
+        "data": 2,
+        "integration": 2,
+        "importance": 3,
+        "fit": 2,
+        "partnering": 2,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3,
+        "peak": 2,
+        "fallback": 2,
+        "workarounds": 2,
+        "owner": "Retail HR and area managers",
+        "systems": {
+          "apps": [
+            "A03"
+          ],
+          "other": "Excel rosters, WhatsApp groups"
+        },
+        "context": "Staffing peaks in Kharif with about 30% seasonal staff; rosters are kept in Excel."
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Retail"
+        },
+        {
+          "at": "2026-11-02T15:15:00",
+          "event": "submitted",
+          "by": "Head of Retail"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C07.2.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Nutri Clinics & Labs",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "App-booked samples carry GPS; walk-in samples do not.",
+      "answers": {
+        "process": 3,
+        "tech": 2,
+        "data": 2,
+        "integration": 1,
+        "importance": 4,
+        "fit": 2,
+        "partnering": 2,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3,
+        "peak": 1,
+        "fallback": 2,
+        "workarounds": 2,
+        "owner": "Head of Nutri Clinics & Labs; Nutri clinic operators and field staff",
+        "systems": {
+          "apps": [
+            "A07",
+            "A17"
+          ],
+          "other": "Paper sample slips"
+        },
+        "context": "About 2.5 lakh soil samples a year through 30+ Nutri clinics and a central lab; geo-tags only for app-booked samples.",
+        "comments": {
+          "peak": "Backlog reaches three weeks before Kharif sowing."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Nutri Clinics & Labs"
+        },
+        {
+          "at": "2026-10-31T16:30:00",
+          "event": "submitted",
+          "by": "Head of Nutri Clinics & Labs"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C07.2.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Nutri Clinics & Labs",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "The LIMS is adequate; instrument uploads are manual.",
+      "answers": {
+        "process": 3,
+        "tech": 3,
+        "data": 2,
+        "integration": 1,
+        "importance": 4,
+        "fit": 3,
+        "partnering": 2,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 3,
+        "peak": 2,
+        "fallback": 2,
+        "workarounds": 3,
+        "owner": "Central lab manager",
+        "systems": {
+          "apps": [
+            "A17"
+          ],
+          "other": "Instrument software exports"
+        },
+        "context": "Analysers export CSV files that are uploaded to the LIMS in batches."
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Nutri Clinics & Labs"
+        },
+        {
+          "at": "2026-10-31T10:45:00",
+          "event": "submitted",
+          "by": "Head of Nutri Clinics & Labs"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C07.2.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "Head of Nutri Clinics & Labs",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Fertiliser recommendations are not linked to the product catalogue or nearby Gromor store stock.",
+      "answers": {
+        "process": 3,
+        "tech": 2,
+        "data": 2,
+        "integration": 2,
+        "importance": 4,
+        "fit": 2,
+        "partnering": 2,
+        "reporting": 2,
+        "change": 1,
+        "adoption": 2,
+        "peak": 2,
+        "fallback": 2,
+        "workarounds": 2,
+        "owner": "Head of Agronomy & Farmer Services",
+        "systems": {
+          "apps": [
+            "A17",
+            "A06"
+          ],
+          "other": "Recommendation rules in Excel"
+        },
+        "context": "Recommendations are generated from an Excel rule sheet; cards are sent by SMS or printed.",
+        "comments": {
+          "integration": "Card results reach the MyGromor app only for app-booked samples."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To Head of Nutri Clinics & Labs"
+        },
+        {
+          "at": "2026-11-02T11:00:00",
+          "event": "submitted",
+          "by": "Head of Nutri Clinics & Labs"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C09.1.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "CFO",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Strong core: standard chart of accounts and automated postings.",
+      "answers": {
+        "process": 4,
+        "tech": 4,
+        "data": 4,
+        "integration": 3,
+        "importance": 4,
+        "fit": 4,
+        "partnering": 4,
+        "reporting": 4,
+        "change": 3,
+        "adoption": 5,
+        "peak": 4,
+        "fallback": 4,
+        "workarounds": 4,
+        "owner": "CFO; Financial Controller and finance shared services",
+        "systems": {
+          "apps": [
+            "A01"
+          ],
+          "other": ""
+        },
+        "context": "S/4HANA on RISE since 2024; about 70% of journals are posted automatically from sub-ledgers."
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To CFO"
+        },
+        {
+          "at": "2026-10-31T12:15:00",
+          "event": "submitted",
+          "by": "CFO"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C09.1.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "CFO",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Consolidation for CIL entities is in SAP; NACL is mapped by hand each month.",
+      "answers": {
+        "process": 4,
+        "tech": 3,
+        "data": 4,
+        "integration": 3,
+        "importance": 4,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 3,
+        "change": 3,
+        "adoption": 4,
+        "peak": 3,
+        "fallback": 3,
+        "workarounds": 3,
+        "owner": "Group consolidation team",
+        "systems": {
+          "apps": [
+            "A01",
+            "A26"
+          ],
+          "other": "Consolidation workbook"
+        },
+        "context": "Seven entities including NACL and Dhaksha; the NACL trial balance is mapped in Excel.",
+        "comments": {
+          "integration": "NACL mapping takes three days at quarter-end."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To CFO"
+        },
+        {
+          "at": "2026-10-31T13:30:00",
+          "event": "submitted",
+          "by": "CFO"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C09.1.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "CFO",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "The close calendar is enforced; the target is day 3.",
+      "answers": {
+        "process": 4,
+        "tech": 4,
+        "data": 4,
+        "integration": 3,
+        "importance": 4,
+        "fit": 4,
+        "partnering": 3,
+        "reporting": 4,
+        "change": 3,
+        "adoption": 4,
+        "peak": 3,
+        "fallback": 3,
+        "workarounds": 3,
+        "owner": "Financial Controller",
+        "systems": {
+          "apps": [
+            "A01",
+            "A23"
+          ],
+          "other": "Close checklist in Excel"
+        },
+        "context": "Close completes on working day 5; bank and GR/IR reconciliations are automated."
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To CFO"
+        },
+        {
+          "at": "2026-11-02T14:45:00",
+          "event": "submitted",
+          "by": "CFO"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C11.1.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "CIO / CDO",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Ingestion pipelines exist, but each report team builds its own.",
+      "answers": {
+        "process": 2,
+        "tech": 3,
+        "data": 2,
+        "integration": 2,
+        "importance": 5,
+        "fit": 2,
+        "partnering": 3,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 2,
+        "peak": 3,
+        "fallback": 2,
+        "workarounds": 2,
+        "owner": "CIO / CDO; data & analytics team (6)",
+        "systems": {
+          "apps": [
+            "A23",
+            "A01"
+          ],
+          "other": "Azure Data Factory pipelines, SQL staging"
+        },
+        "context": "About 40 sources feed a SQL-based staging layer; there is no lakehouse yet.",
+        "comments": {
+          "data": "No data catalogue; definitions differ across reports."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To CIO / CDO"
+        },
+        {
+          "at": "2026-10-31T15:00:00",
+          "event": "submitted",
+          "by": "CIO / CDO"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C11.1.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "CIO / CDO",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "No governed data products; every dashboard owns its own model.",
+      "answers": {
+        "process": 1,
+        "tech": 3,
+        "data": 2,
+        "integration": 2,
+        "importance": 5,
+        "fit": 2,
+        "partnering": 2,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 2,
+        "peak": 3,
+        "fallback": 2,
+        "workarounds": 2,
+        "owner": "CIO / CDO",
+        "systems": {
+          "apps": [
+            "A23"
+          ],
+          "other": "Power BI datasets"
+        },
+        "context": "Over 300 Power BI datasets; 'sales' is defined five different ways.",
+        "comments": {
+          "process": "No data product ownership is defined."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To CIO / CDO"
+        },
+        {
+          "at": "2026-10-31T16:15:00",
+          "event": "submitted",
+          "by": "CIO / CDO"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C11.1.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "CIO / CDO",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Power BI is well adopted; trust in the numbers is the issue.",
+      "answers": {
+        "process": 3,
+        "tech": 4,
+        "data": 3,
+        "integration": 2,
+        "importance": 4,
+        "fit": 3,
+        "partnering": 3,
+        "reporting": 3,
+        "change": 3,
+        "adoption": 4,
+        "peak": 3,
+        "fallback": 3,
+        "workarounds": 3,
+        "owner": "Business analysts in each function",
+        "systems": {
+          "apps": [
+            "A23",
+            "A24"
+          ],
+          "other": "Excel exports"
+        },
+        "context": "About 1,200 Power BI users; adoption is high in sales and finance."
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To CIO / CDO"
+        },
+        {
+          "at": "2026-11-02T10:30:00",
+          "event": "submitted",
+          "by": "CIO / CDO"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C11.1.4",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "CIO / CDO",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "No master data governance; customer and material masters have known duplicates.",
+      "answers": {
+        "process": 2,
+        "tech": 2,
+        "data": 2,
+        "integration": 2,
+        "importance": 5,
+        "fit": 2,
+        "partnering": 2,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 2,
+        "peak": 3,
+        "fallback": 2,
+        "workarounds": 2,
+        "owner": "No named owner (CIO / CDO by default)",
+        "systems": {
+          "apps": [],
+          "other": "Ad hoc SQL checks"
+        },
+        "context": "Data quality is fixed at the report level; there are no rules or scorecards.",
+        "comments": {
+          "process": "No owner; issues are raised by report users."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To CIO / CDO"
+        },
+        {
+          "at": "2026-10-31T11:45:00",
+          "event": "submitted",
+          "by": "CIO / CDO"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C11.3.1",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "CIO / CDO",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "No API standards; vendors build interfaces their own way.",
+      "answers": {
+        "process": 2,
+        "tech": 2,
+        "data": 2,
+        "integration": 2,
+        "importance": 5,
+        "fit": 2,
+        "partnering": 2,
+        "reporting": 2,
+        "change": 2,
+        "adoption": 2,
+        "peak": 3,
+        "fallback": 2,
+        "workarounds": 2,
+        "owner": "CIO / CDO; integration team (3)",
+        "systems": {
+          "apps": [
+            "A01"
+          ],
+          "other": "SAP Integration Suite (limited use)"
+        },
+        "context": "About 140 interfaces, 70% point-to-point; there is no API catalogue."
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To CIO / CDO"
+        },
+        {
+          "at": "2026-10-31T12:00:00",
+          "event": "submitted",
+          "by": "CIO / CDO"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C11.3.2",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "CIO / CDO",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "Batch failures in peak season are found by users the next morning.",
+      "answers": {
+        "process": 2,
+        "tech": 2,
+        "data": 2,
+        "integration": 3,
+        "importance": 5,
+        "fit": 2,
+        "partnering": 2,
+        "reporting": 1,
+        "change": 2,
+        "adoption": 2,
+        "peak": 1,
+        "fallback": 1,
+        "workarounds": 1,
+        "owner": "IT operations",
+        "systems": {
+          "apps": [
+            "A01"
+          ],
+          "other": "Scheduled SFTP jobs, custom scripts"
+        },
+        "context": "Failures are noticed by business users; there is no central monitoring.",
+        "comments": {
+          "peak": "The order-to-SAP batch failed six times in Kharif 2025."
+        }
+      },
+      "history": [
+        {
+          "at": "2026-10-29T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-29T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To CIO / CDO"
+        },
+        {
+          "at": "2026-11-02T13:15:00",
+          "event": "submitted",
+          "by": "CIO / CDO"
+        }
+      ],
+      "source": "assumed"
+    },
+    {
+      "id": "C11.3.3",
+      "status": "responded",
+      "channel": "email",
+      "recipient": {
+        "role": "CIO / CDO",
+        "email": ""
+      },
+      "outcome": "submitted",
+      "redirect_to": null,
+      "note": "B2B partners connect by file and email; iFMS uploads are manual.",
+      "answers": {
+        "process": 2,
+        "tech": 2,
+        "data": 2,
+        "integration": 1,
+        "importance": 4,
+        "fit": 2,
+        "partnering": 2,
+        "reporting": 2,
+        "change": 1,
+        "adoption": 2,
+        "peak": 2,
+        "fallback": 2,
+        "workarounds": 2,
+        "owner": "CIO / CDO",
+        "systems": {
+          "apps": [
+            "A20"
+          ],
+          "other": "Bank portals, iFMS uploads, transporter emails"
+        },
+        "context": "Government (iFMS, GST), banks, transporters and C&F agents connect by file upload or email."
+      },
+      "history": [
+        {
+          "at": "2026-10-28T10:00:00",
+          "event": "generated",
+          "by": "KPMG EA team"
+        },
+        {
+          "at": "2026-10-28T15:00:00",
+          "event": "sent",
+          "by": "KPMG EA team",
+          "note": "To CIO / CDO"
+        },
+        {
+          "at": "2026-10-31T14:30:00",
+          "event": "submitted",
+          "by": "CIO / CDO"
+        }
+      ],
+      "source": "assumed"
     }
   ],
   "analyses": [
@@ -1936,6 +4644,123 @@
       "by": "KPMG EA team",
       "comments": {
         "P": "Practice differs by plant: Kakinada schedules in SAP, two plants in spreadsheets. Standardise before tooling."
+      }
+    },
+    {
+      "id": "C01.1",
+      "analysed_at": "2026-11-02T16:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "T": "No formulation or PLM tooling; recipes live in Excel and personal folders. A lab ELN with SAP recipe hand-off is the obvious step.",
+        "I": "Recipe-to-BOM and pilot-to-plant hand-offs are re-keyed, which is the main quality risk at scale-up."
+      }
+    },
+    {
+      "id": "C01.3",
+      "analysed_at": "2026-11-02T16:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "P": "Dossier and label processes are disciplined; the renewal calendar is the exception and a key-person risk.",
+        "I": "Dossier data is gathered by email from R&D and QC; no link to the trial or QC systems."
+      }
+    },
+    {
+      "id": "C02.1",
+      "analysed_at": "2026-11-02T16:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "P": "Mature sourcing process with clear ownership and an SAP backbone; strength to build on.",
+        "T": "Import planning and landed-cost modelling are workbook-led; candidate for optimisation tooling."
+      }
+    },
+    {
+      "id": "C03.3",
+      "analysed_at": "2026-11-02T16:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "T": "Predictive maintenance is proven at one plant but alerts do not reach SAP PM work orders.",
+        "D": "Failure coding gaps and duplicate MRO masters undermine reliability analytics."
+      }
+    },
+    {
+      "id": "C03.4",
+      "analysed_at": "2026-11-02T16:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "T": "No instrument interfacing and paper registers at the SSP units; LIMS coverage is partial.",
+        "I": "Batch release is entered twice (lab system and SAP); complaints are not linked to helpdesk cases."
+      }
+    },
+    {
+      "id": "C04.2",
+      "analysed_at": "2026-11-02T16:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "D": "C&F stock lags physical stock by 2-4 days in season; the three-way reconciliation is in Excel.",
+        "I": "Dispatch is integrated at the large plants only; peak-season gate turnaround triples."
+      }
+    },
+    {
+      "id": "C05.1",
+      "analysed_at": "2026-11-02T16:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "D": "Dealer licence validity is not mastered in SAP, which is a compliance exposure under the FCO.",
+        "I": "Portal orders arrive in SAP by nightly batch and phone orders are re-keyed; dealers wait a day for confirmation."
+      }
+    },
+    {
+      "id": "C05.4",
+      "analysed_at": "2026-11-02T16:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "P": "Credit policy is documented, approved and consistently applied.",
+        "I": "NACL receivables are added from Excel; peak credit-release queues hold dispatches."
+      }
+    },
+    {
+      "id": "C06.1",
+      "analysed_at": "2026-11-02T16:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "P": "Store operations are standardised across about 850 stores.",
+        "I": "No interface between the government PoS device and the store POS: every subsidised sale is entered twice."
+      }
+    },
+    {
+      "id": "C07.2",
+      "analysed_at": "2026-11-02T16:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "I": "Results reach the farmer app only for app-booked samples; recommendations do not link to products or store stock.",
+        "T": "Paper sample slips and batch CSV uploads cap throughput before Kharif."
+      }
+    },
+    {
+      "id": "C09.1",
+      "analysed_at": "2026-11-02T16:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "P": "Strong finance core on S/4HANA with an enforced close calendar.",
+        "I": "NACL consolidation and receivables are mapped by hand; the main integration debt in finance."
+      }
+    },
+    {
+      "id": "C11.1",
+      "analysed_at": "2026-11-02T16:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "P": "No data product ownership or data quality owner; 300+ datasets with conflicting definitions.",
+        "D": "Trust in the numbers, not tooling, is the constraint on analytics and AI."
+      }
+    },
+    {
+      "id": "C11.3",
+      "analysed_at": "2026-11-02T16:00:00",
+      "by": "KPMG EA team",
+      "comments": {
+        "I": "Integration is about 70% point-to-point with no central monitoring; failures are found by users.",
+        "T": "No API standards or catalogue; an integration platform is a prerequisite for the digital roadmap."
       }
     }
   ]

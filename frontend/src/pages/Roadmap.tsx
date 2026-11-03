@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ArrowRight, ChevronDown, Download, Gavel, Link2, Loader2, Pencil, Plus, RotateCcw, Save, Sparkles, Trash2, Users } from 'lucide-react'
 import { Bar, BarChart, CartesianGrid, Cell, LabelList, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ReferenceArea, Scatter, ScatterChart, XAxis, YAxis, ZAxis } from 'recharts'
 import { toast } from 'sonner'
+import { AiAction } from '@/components/AiAction'
 import { CiteMarks } from '@/components/CitationChip'
 import { Explain } from '@/components/Explain'
 import { ExportMenu } from '@/components/ExportMenu'
@@ -446,6 +447,7 @@ function LongList({ r }: { r: RoadmapT }) {
         <span className="text-[11.5px] text-muted-foreground">{r.kpis.gaps} gaps → {r.long_list.length} initiatives · {fmtCr(r.kpis.total_cr)} indicative <Explain x={r.explain.initiatives} /></span>
         <span className="ml-auto flex gap-2">
           <Button variant="ghost" size="sm" asChild><a href={exportUrl('roadmap')}><Download /> Gap register (.xlsx)</a></Button>
+          <AiAction what="Initiative benefits, risks and KPIs" from="the gaps each initiative closes and the IT budget" />
           <ExportMenu target={box} name="Initiative Long List" csv={csv} />
         </span>
       </div>
@@ -606,7 +608,8 @@ function RisksAndAffordability({ r }: { r: RoadmapT }) {
       <div ref={box} className="col-span-7 rounded-lg border bg-card">
         <div className="flex items-center justify-between border-b px-3 py-2">
           <div className="text-[12.5px] font-semibold">Key Risks & Constraints <span className="font-normal text-muted-foreground">· edit them on the long list</span></div>
-          <ExportMenu target={box} name="Roadmap Risks and Constraints" size="xs" csv={() => [['Initiative', 'Wave', 'Type', 'Description'], ...risks.map((x) => [`${x.i.id} ${x.i.name}`, x.i.wave_id, x.kind, x.text])]} />
+          <span className="flex gap-2"><AiAction size="xs" what="Risks and constraints" from="the initiative scope, dependencies and wave plan" />
+          <ExportMenu target={box} name="Roadmap Risks and Constraints" size="xs" csv={() => [['Initiative', 'Wave', 'Type', 'Description'], ...risks.map((x) => [`${x.i.id} ${x.i.name}`, x.i.wave_id, x.kind, x.text])]} /></span>
         </div>
         <div className="scrollbar-thin max-h-72 overflow-y-auto">
           <table className="w-full text-[12px]"><tbody>

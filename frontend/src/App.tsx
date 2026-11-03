@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import { AppSidebar } from '@/components/AppSidebar'
 import { CoachSheet } from '@/components/CoachSheet'
 import { EngagementProvider, useEngagement, Welcome } from '@/components/Gate'
+import { AuthProvider } from '@/components/Login'
 import { SettingsSheet } from '@/components/SettingsSheet'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { ShellProvider } from '@/lib/shell'
@@ -16,7 +17,7 @@ import Roadmap from '@/pages/Roadmap'
 import Vision from '@/pages/Vision'
 
 export default function App() {
-  return <EngagementProvider><Workspace /></EngagementProvider>
+  return <AuthProvider><EngagementProvider><Workspace /></EngagementProvider></AuthProvider>
 }
 
 /** The assessment workspace, shown once an engagement is selected on the welcome page. */

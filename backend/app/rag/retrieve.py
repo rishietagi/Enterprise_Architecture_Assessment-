@@ -66,6 +66,9 @@ class Index:
     def warm_model(self) -> None:
         if self.emb is None or self.model is not None:
             return
+        if not get_settings().rag_dense:
+            self.model_error = "dense retrieval disabled (RAG_DENSE=false)"
+            return
         with self._lock:
             if self.model is not None:
                 return

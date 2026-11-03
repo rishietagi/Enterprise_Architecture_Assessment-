@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { AlertTriangle, Grid3x3, Loader2, MessageSquareText, Sigma } from 'lucide-react'
 import { toast } from 'sonner'
+import { AiAction } from '@/components/AiAction'
 import { useBusinessUpdate } from '@/components/CapabilityModules'
 import { Explain } from '@/components/Explain'
 import { Button } from '@/components/ui/button'
@@ -132,6 +133,7 @@ export function L2Scores({ b, c }: { b: Business; c: CapRow }) {
       <div className="flex items-center justify-end gap-2">
         <Explain x={inf.explain} label="How the L2 is inferred" />
         <span className="text-[10.5px] text-muted-foreground">{b.discovery.inference}</span>
+        <AiAction size="xs" label="Draft Comments with AI" what="Consultant comments" from="the L3 answers and free-text comments" />
         <Button size="xs" variant="outline" onClick={() => save.mutate()} disabled={!dirty || save.isPending}>Save comments</Button>
       </div>
       <ResponseMatrix b={b} c={matrix ? c : null} onClose={() => setMatrix(false)} />

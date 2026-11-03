@@ -185,7 +185,7 @@ def test_computed_rows_are_explained(client):
 def test_discovery_seed_matches_baseline(client):
     b = client.get("/api/business").json()
     k = b["kpis"]
-    assert k["n_l3"] == 156 and k["responded"] == 26 and k["analysed_l2"] == 6 and k["avg_maturity"] == 2.48 and k["gaps"] == 23
+    assert k["n_l3"] == 156 and k["responded"] == 73 and k["analysed_l2"] == 19 and k["avg_maturity"] == 2.48 and k["gaps"] == 23
     c = next(x for l1 in b["l1"] for x in l1["children"] if x["id"] == "C04.1")
     d = c["discovery"]
     assert d["analysed"] and not d["stale"] and d["inference"]["q"] == [3, 2, 2, 2] and d["inference"]["importance"] == 5
@@ -197,8 +197,8 @@ def test_discovery_seed_matches_baseline(client):
 
 
 def test_discovery_flow(client):
-    r = client.post("/api/business/discovery/C01.3/generate").json()
-    c = next(x for l1 in r["l1"] for x in l1["children"] if x["id"] == "C01.3")
+    r = client.post("/api/business/discovery/C02.2/generate").json()
+    c = next(x for l1 in r["l1"] for x in l1["children"] if x["id"] == "C02.2")
     assert all(x["status"] == "draft" for x in c["l3"])
     lid = c["l3"][0]["id"]
     qs = c["l3"][0]["survey"]["questions"]
@@ -225,7 +225,7 @@ def test_discovery_flow(client):
     assert x["score"]["maturity"] == 1 and x["score"]["is_gap"] and x["quadrant"]["key"] == "underserved"
     assert x["score"]["alignment"] == 1.4 and len(x["score"]["alignment_parts"]) == 5
     g = next(g for g in r["gap_register"]["transactional"] if g["l3"]["id"] == lid)
-    assert g["severity"] == "High" and "Lifting" in g["hypothesis"] and g["l2"]["id"] == "C01.3"
+    assert g["severity"] == "High" and "Lifting" in g["hypothesis"] and g["l2"]["id"] == "C02.2"
     assert all(t["related"] and t["severity"] in ("High", "Medium", "Low") for t in r["gap_register"]["thematic"])
     r = client.put(f"/api/business/gaps/{g['id']}", json={"description": "Dossiers assembled by hand", "severity": "Medium"}).json()
     g2 = next(x for x in r["gap_register"]["transactional"] if x["id"] == g["id"])
@@ -233,12 +233,12 @@ def test_discovery_flow(client):
     r = client.delete(f"/api/business/gaps/{g['id']}").json()
     assert next(x for x in r["gap_register"]["transactional"] if x["id"] == g["id"])["description"] == g["description"]
     before = r["kpis"]["gaps"]
-    r = client.post("/api/business/discovery/l2/C01.3/analyse").json()
-    c = next(x for l1 in r["l1"] for x in l1["children"] if x["id"] == "C01.3")
+    r = client.post("/api/business/discovery/l2/C02.2/analyse").json()
+    c = next(x for l1 in r["l1"] for x in l1["children"] if x["id"] == "C02.2")
     assert c["q"] == [1, 1, 1, 1] and c["importance"] == 5 and c["basis"] == "discovery" and c["source"] == "client"
     assert r["kpis"]["gaps"] == before + 1
-    r = client.put("/api/business/discovery/l2/C01.3/comments", json={"comments": {"T": "Dossiers built in Word"}}).json()
-    c = next(x for l1 in r["l1"] for x in l1["children"] if x["id"] == "C01.3")
+    r = client.put("/api/business/discovery/l2/C02.2/comments", json={"comments": {"T": "Dossiers built in Word"}}).json()
+    c = next(x for l1 in r["l1"] for x in l1["children"] if x["id"] == "C02.2")
     assert c["discovery"]["comments"]["T"] == "Dossiers built in Word"
     f = client.post("/api/findings/business?tab=discovery").json()
     assert f["mode"] == "fallback" and 3 <= len(f["findings"]) <= 4 and f["tab"] == "discovery"
@@ -425,3 +425,22 @@ def test_roadmap_built_from_gap_registers(client):
     after = next(g for g in client.get("/api/roadmap").json()["gaps"] if g["id"] == gid)
     assert after["severity"] == new and after["priority"] == {"High": 20, "Medium": 12, "Low": 6}[new]
     client.delete(f"/api/applications/gaps/{gid}")
+
+
+def test_login_gate(client, monkeypatch):
+    from app.config import get_settings
+    monkeypatch.setattr(get_settings(), "app_users", "demo:demo-pass,arham:x")
+    client.cookies.clear()
+    assert client.get("/api/overview").status_code == 401
+    assert client.get("/api/health").status_code == 200
+    assert client.get("/api/auth/me").json() == {"required": True, "user": None}
+    assert client.post("/api/auth/login", json={"username": "demo", "password": "wrong"}).status_code == 401
+    assert client.post("/api/auth/login", json={"username": "Demo", "password": "demo-pass"}).json()["user"] == "demo"
+    assert client.get("/api/overview").status_code == 200 and client.get("/api/auth/me").json()["user"] == "demo"
+    client.cookies.set("ea_session", "demo|9999999999|forged")
+    assert client.get("/api/overview").status_code == 401
+    client.post("/api/auth/logout")
+    client.cookies.clear()
+    monkeypatch.setattr(get_settings(), "app_users", "")
+    assert client.get("/api/overview").status_code == 200 and client.get("/api/auth/me").json()["required"] is False
+    assert client.get("/api/does-not-exist").status_code == 404

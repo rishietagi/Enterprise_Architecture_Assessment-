@@ -24,7 +24,14 @@ class Settings(BaseSettings):
     db_path: Path = ROOT_DIR / "data" / "cil.db"
 
     embed_model: str = "BAAI/bge-small-en-v1.5"
+    rag_dense: bool = True  # false = BM25-only retrieval (no embedding model in memory; for small hosts)
     cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
+
+    # Deployment: login gate (APP_USERS="name:password,..."; empty = no login) and the built frontend served by the API
+    app_users: str = ""
+    session_secret: str = ""
+    session_hours: int = 12
+    frontend_dist: Path = ROOT_DIR / "frontend" / "dist"
 
     @property
     def course_pdf(self) -> Path:

@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { AlertTriangle } from 'lucide-react'
+import { AiAction } from '@/components/AiAction'
 import { Explain } from '@/components/Explain'
 import { ExportMenu } from '@/components/ExportMenu'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -34,6 +35,7 @@ export function TechHealth({ a, onOpen }: { a: Applications; onOpen: (x: App) =>
           <ToggleGroupItem value="all" className="px-2.5 data-[state=on]:bg-navy data-[state=on]:text-white">All In Scope</ToggleGroupItem>
         </ToggleGroup>
         <span className="ml-auto text-[11px] text-muted-foreground">Select a row to update the application's intake record</span>
+        <AiAction what="Technical health assessment" from="the intake fields, incident history and discovery answers" />
         <ExportMenu target={box} name="Technical Health" csv={() => [['ID', 'Application', 'Criticality', 'Technical debt', 'Debt band', 'SPOF', 'SPOF reasons', 'Scalability', 'Scalability reasons'],
           ...th.rows.map((r) => [r.id, r.name, r.criticality, r.debt ?? '', r.debt_band ?? '', r.spof_status, [...r.spof, ...r.spof_checks].join('; '), r.scal_status, r.scal.join('; ')])]} />
       </div>

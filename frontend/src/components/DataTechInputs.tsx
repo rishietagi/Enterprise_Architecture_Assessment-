@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Pencil, Plus, Save, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
+import { AiAction } from '@/components/AiAction'
 import { ExportMenu } from '@/components/ExportMenu'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -112,7 +113,7 @@ function Domains({ d }: { d: DataTech }) {
     <div className="space-y-2">
       <div className="flex items-center justify-between">
         <span className="text-[11.5px] text-muted-foreground">What data CIL holds, where it is mastered and who uses it. Select a row to edit; the score updates on save.</span>
-        <span className="flex gap-2"><ExportMenu target={box} name="Data Domain Catalogue" csv={csv} /><Button size="sm" onClick={() => setEdit('new')}><Plus /> Add Domain</Button></span>
+        <span className="flex gap-2"><AiAction label="Infer with AI" what="Data domain catalogue" from="the application intake and uploaded data dictionaries" /><ExportMenu target={box} name="Data Domain Catalogue" csv={csv} /><Button size="sm" onClick={() => setEdit('new')}><Plus /> Add Domain</Button></span>
       </div>
       <div ref={box} className="overflow-hidden rounded-lg border bg-card">
         <Table>

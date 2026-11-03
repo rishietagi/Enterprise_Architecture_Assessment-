@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AlertTriangle, ArrowRight, Crown, Download, Loader2, Plus, Search, Sparkles } from 'lucide-react'
 import { CartesianGrid, Cell, ReferenceLine, Scatter, ScatterChart, XAxis, YAxis, ZAxis } from 'recharts'
 import { toast } from 'sonner'
+import { AiAction } from '@/components/AiAction'
 import { AppCapabilityMap } from '@/components/AppCapabilityMap'
 import { AppForm } from '@/components/AppForm'
 import { IntegrationView, InteractionGraph } from '@/components/AppViews'
@@ -377,6 +378,7 @@ function Rationalization({ a, onOpen }: { a: AppsT; onOpen: (x: App) => void }) 
             <div className="flex flex-wrap justify-end gap-2.5 text-[11px] text-muted-foreground">
               {DISPOSITION_CODES.map((k) => <span key={k} className="flex items-center gap-1" title={a.label_desc[k]}><span className="size-2.5 rounded-full" style={{ background: dispositionColor(k) }} />{a.labels[k]}</span>)}
             </div>
+            <AiAction size="xs" what="Disposition rationale" from="the fit scores, technical health and capability overlap" />
             <ExportMenu target={quad} name="Fit Quadrant" size="xs" csv={() => [['ID', 'Application', 'Business fit', 'Technical fit', 'Criticality', 'Disposition', 'Rationale'],
               ...a.apps.map((x) => [x.id, x.name, x.computed.business_fit, x.computed.technical_fit, x.criticality, x.computed.label, x.computed.statement])]} />
           </div>

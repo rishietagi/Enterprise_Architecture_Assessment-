@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Pencil, Plus, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
+import { AiAction } from '@/components/AiAction'
 import { Explain } from '@/components/Explain'
 import { ExportMenu } from '@/components/ExportMenu'
 import { FlowDiagram, Legend, type FNode } from '@/components/FlowDiagram'
@@ -41,6 +42,7 @@ export function InteractionGraph({ a }: { a: Applications }) {
         <Legend items={Object.entries(PATTERN_COLOR).map(([k, c]) => ({ label: k, color: c, line: true, dashed: k === 'Manual / re-key' }))} />
         <span className="ml-auto flex items-center gap-2">
           <span className="text-[11px] text-muted-foreground">Select an application to trace it · HOT = ≥ {a.integration.hotspot_min} interfaces</span>
+          <AiAction label="Infer Interfaces with AI" what="Interface catalogue" from="the intake records and integration documents" />
           <Button size="sm" variant="outline" onClick={() => setCatalog(true)}><Pencil /> Edit Interfaces ({a.interfaces.length})</Button>
           <ExportMenu target={box} name="Application Interactions" csv={csv} drawio={() => interactionDrawio(a)} />
         </span>

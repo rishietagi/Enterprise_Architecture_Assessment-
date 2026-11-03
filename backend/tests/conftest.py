@@ -6,6 +6,7 @@ from pathlib import Path
 _tmp = Path(tempfile.mkdtemp(prefix="cil-test-"))
 os.environ["DB_PATH"] = str(_tmp / "test.db")
 os.environ["GEMINI_API_KEY"] = ""
+os.environ["APP_USERS"] = ""
 
 import pytest  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402
