@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { ArrowUpRight, Pencil, RotateCcw } from 'lucide-react'
+import { Pencil, RotateCcw } from 'lucide-react'
 import { toast } from 'sonner'
 import { AiAction } from '@/components/AiAction'
 import { Explain } from '@/components/Explain'
@@ -14,7 +13,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Textarea } from '@/components/ui/textarea'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { api, type DomainGap, type DomainGapRegister as Reg, type Severity } from '@/lib/api'
-import { NAVY, SEVERITY, tint } from '@/lib/theme'
+import { SEVERITY, tint } from '@/lib/theme'
 
 type Screen = 'applications' | 'data_tech'
 const ALL = '__all'
@@ -35,7 +34,7 @@ function GapDialog({ screen, gap, onClose }: { screen: Screen; gap: DomainGap | 
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>{gap?.id} · {gap?.title}</DialogTitle>
-          <DialogDescription>{gap?.where.kind} {gap?.scope === 'item' ? gap?.where.id : gap?.where.name} · {gap?.category} · closed by {gap?.initiative} {gap?.initiative_name}</DialogDescription>
+          <DialogDescription>{gap?.where.kind} {gap?.scope === 'item' ? gap?.where.id : gap?.where.name} · {gap?.category}</DialogDescription>
         </DialogHeader>
         <div className="space-y-3">
           <div className="space-y-1"><Label>What the gap is</Label><Textarea rows={4} value={f.description} onChange={(e) => setF({ ...f, description: e.target.value })} className="text-[13px]" /></div>
@@ -65,7 +64,7 @@ function GapDialog({ screen, gap, onClose }: { screen: Screen; gap: DomainGap | 
 }
 
 /** Gap register for Applications or Data & Technology: item gaps and portfolio gaps, each with severity, a target-state
- * hypothesis and the roadmap initiative that closes it. */
+ * and target-state hypothesis. */
 export function DomainGapRegister({ reg, screen, name }: { reg: Reg; screen: Screen; name: string }) {
   const [scope, setScope] = useState('all')
   const [cat, setCat] = useState(ALL)
@@ -74,8 +73,8 @@ export function DomainGapRegister({ reg, screen, name }: { reg: Reg; screen: Scr
   const box = useRef<HTMLDivElement>(null)
   const rows = reg.gaps.filter((g) => (scope === 'all' || g.scope === scope) && (cat === ALL || g.category === cat) && (sev === ALL || g.severity === sev))
   const c = reg.counts
-  const csv = () => [['ID', 'Scope', 'Category', 'Where it sits', 'Gap', 'Description', 'Target-state hypothesis', 'Severity', 'Roadmap initiative', 'Edited'],
-    ...reg.gaps.map((g) => [g.id, g.scope, g.category, `${g.where.kind} ${g.where.id} ${g.where.name}`, g.title, g.description, g.hypothesis, g.severity, `${g.initiative} ${g.initiative_name}`, g.edited ? 'Yes' : 'No'])]
+  const csv = () => [['ID', 'Scope', 'Category', 'Where it sits', 'Gap', 'Description', 'Target-state hypothesis', 'Severity', 'Edited'],
+    ...reg.gaps.map((g) => [g.id, g.scope, g.category, `${g.where.kind} ${g.where.id} ${g.where.name}`, g.title, g.description, g.hypothesis, g.severity, g.edited ? 'Yes' : 'No'])]
   return (
     <div className="space-y-3">
       <div className="grid grid-cols-5 gap-3 rounded-lg border bg-muted/30 px-4 py-2.5">
@@ -103,7 +102,7 @@ export function DomainGapRegister({ reg, screen, name }: { reg: Reg; screen: Scr
         <Table>
           <TableHeader><TableRow>
             <TableHead className="w-20">ID</TableHead><TableHead className="w-56">Where It Sits</TableHead><TableHead>Gap</TableHead>
-            <TableHead>Target-State Hypothesis</TableHead><TableHead className="w-20">Severity</TableHead><TableHead className="w-44">Closed By</TableHead><TableHead className="w-8" />
+            <TableHead>Target-State Hypothesis</TableHead><TableHead className="w-20">Severity</TableHead><TableHead className="w-8" />
           </TableRow></TableHeader>
           <TableBody>
             {rows.map((g) => (
@@ -117,15 +116,10 @@ export function DomainGapRegister({ reg, screen, name }: { reg: Reg; screen: Scr
                 <TableCell className="max-w-md text-[12px] whitespace-normal"><div className="font-medium">{g.title}</div><div className="text-muted-foreground">{g.description}</div>{g.edited && <span className="text-[10px] font-semibold text-navy">Edited</span>}</TableCell>
                 <TableCell className="max-w-sm text-[12px] whitespace-normal text-muted-foreground">{g.hypothesis}</TableCell>
                 <TableCell><Sev s={g.severity} /></TableCell>
-                <TableCell className="text-[11.5px] whitespace-normal" onClick={(e) => e.stopPropagation()}>
-                  <Link to="/roadmap?view=longlist" className="group inline-flex items-start gap-1 hover:text-navy" style={{ color: NAVY }}>
-                    <span><b>{g.initiative}</b> {g.initiative_name}</span><ArrowUpRight className="mt-0.5 size-3 shrink-0 opacity-0 group-hover:opacity-100" />
-                  </Link>
-                </TableCell>
                 <TableCell><Pencil className="size-3.5 text-muted-foreground" /></TableCell>
               </TableRow>
             ))}
-            {!rows.length && <TableRow><TableCell colSpan={7} className="py-6 text-center text-muted-foreground">No gaps match the filters.</TableCell></TableRow>}
+            {!rows.length && <TableRow><TableCell colSpan={6} className="py-6 text-center text-muted-foreground">No gaps match the filters.</TableCell></TableRow>}
           </TableBody>
         </Table>
       </div>

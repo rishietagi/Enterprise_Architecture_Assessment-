@@ -124,7 +124,7 @@ export function SettingsSheet() {
               <NumField label="AI data-ready if every domain ≥" value={cfg.data_rules.ai_ready_min} onChange={(v) => set((c) => { c.data_rules.ai_ready_min = v })} />
             </Group>
             <Group title="Rate card (₹ Cr, low–high)">
-              {Object.entries(cfg.roadmap.rate_card_inr_cr).map(([size, [lo, hi]]) => (
+              {Object.entries(cfg.roadmap.rate_card_inr_cr).filter(([size]) => size !== 'XL').map(([size, [lo, hi]]) => (
                 <div key={size} className="flex items-center justify-between gap-3 text-sm">
                   <Badge variant="outline" className="w-9 justify-center">{size}</Badge>
                   <div className="flex items-center gap-1.5">

@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -132,7 +133,6 @@ function StatementsCard({ v }: { v: VisionT }) {
     onError: (e: Error) => toast.error(e.message),
   })
   const edit = (i: number, patch: Partial<St>) => { setSts(sts.map((x, j) => (j === i ? { ...x, ...patch } : x))); setMode('edited'); setDirty(true) }
-  const drv = Object.fromEntries(v.drivers.map((d) => [d.id, d.driver]))
   return (
     <Card className="col-span-7 gap-3">
       <CardHeader>
@@ -140,7 +140,7 @@ function StatementsCard({ v }: { v: VisionT }) {
           Architecture Vision Statements 
           {(mode === 'ai' || mode === 'cached' || mode === 'fallback') && <AiModeBadge meta={{ mode, model: null }} />}
         </CardTitle>
-        <CardDescription>Phase A deliverable · TOGAF §7.4, §36.2.8. Five statements of the target state, drawn from the context and the business drivers.</CardDescription>
+        <CardDescription>Phase A deliverable · TOGAF §7.4, §36.2.8. Five statements of the target state, drawn from the context documents.</CardDescription>
         <CardAction className="flex gap-2">
           <Button variant="outline" size="sm" onClick={() => gen.mutate()} disabled={gen.isPending}>{gen.isPending ? <Loader2 className="animate-spin" /> : <Sparkles />} {sts.length ? 'Regenerate' : 'Analyse & Generate'}</Button>
           <Button size="sm" onClick={() => save.mutate()} disabled={!dirty || save.isPending || !sts.length}><Save /> Save</Button>
@@ -162,7 +162,6 @@ function StatementsCard({ v }: { v: VisionT }) {
               <div className="flex items-center gap-2">
                 <span className="tabular flex size-5 shrink-0 items-center justify-center rounded-full bg-navy text-[10.5px] font-bold text-white">{i + 1}</span>
                 <Input value={x.title} onChange={(e) => edit(i, { title: e.target.value })} className="h-7 border-0 px-1 text-[13px] font-semibold shadow-none focus-visible:ring-1" />
-                <span className="flex shrink-0 gap-1">{x.drivers.map((d) => <span key={d} title={drv[d]} className="rounded bg-navy-soft px-1.5 text-[10px] font-bold text-navy">{d}</span>)}</span>
                 <Button variant="ghost" size="icon-sm" className="size-6 text-muted-foreground opacity-0 group-hover:opacity-100" aria-label="Remove" onClick={() => { setSts(sts.filter((_, j) => j !== i)); setMode('edited'); setDirty(true) }}><X /></Button>
               </div>
               <Textarea value={x.statement} onChange={(e) => edit(i, { statement: e.target.value })} className="mt-1 min-h-12 resize-none border-0 px-1 text-[12.5px] leading-snug shadow-none focus-visible:ring-1 md:text-[12.5px]" />
@@ -184,7 +183,7 @@ function StatementsCard({ v }: { v: VisionT }) {
 
 type GEdit = { kind: GuidelineKind; id?: string; name: string; statement?: string; category?: string; togaf_basis?: string; rationale?: string; implications?: string[]; enforced_by?: string; use?: string; principle?: string; active?: boolean }
 
-function GuidelineDialog({ edit, onClose, principles }: { edit: GEdit | null; onClose: () => void; principles: Principle[] }) {
+function GuidelineDialog({ edit, onClose, onAdded, principles }: { edit: GEdit | null; onClose: () => void; onAdded: (id: string) => void; principles: Principle[] }) {
   const qc = useQueryClient()
   const [f, setF] = useState<GEdit | null>(null)
   const [hint, setHint] = useState('')
@@ -196,9 +195,13 @@ function GuidelineDialog({ edit, onClose, principles }: { edit: GEdit | null; on
       return g.id ? api.putGuideline(g.id, g) : api.addGuideline(g)
     },
     onSuccess: (d) => {
+      const ids = (x?: VisionT) => new Set(x ? [...x.principles.cil.map((p) => p.id), ...x.guardrails.map((g) => g.id), ...x.patterns.map((p) => p.id)] : [])
+      const before = ids(qc.getQueryData<VisionT>(['vision']))
+      const added = [...ids(d)].find((id) => !before.has(id))
       qc.setQueryData(['vision'], d)
       qc.invalidateQueries({ queryKey: ['overview'] })
       toast.success(`${f!.name} saved`)
+      if (added) onAdded(added)
       onClose()
     },
     onError: (e: Error) => toast.error(e.message),
@@ -312,100 +315,140 @@ function useGuidelineDelete() {
   })
 }
 
-function Principles({ v, onEdit }: { v: VisionT; onEdit: (g: GEdit) => void }) {
+type Kind = 'principle' | 'guardrail' | 'pattern'
+const KIND_LABEL: Record<Kind, string> = { principle: 'Principles', guardrail: 'Guardrails', pattern: 'Patterns & Standards' }
+
+/** Principles, guardrails and patterns in one list. CIL holds the client's own set (principles, guardrails, patterns);
+ *  TOGAF holds the §23.6 example principles, so overlapping ideas are chosen from one source instead of listed twice. */
+function Guidelines({ v, onEdit, fresh }: { v: VisionT; onEdit: (g: GEdit) => void; fresh: string | null }) {
   const qc = useQueryClient()
-  const [set, setSet] = useState<'cil' | 'togaf'>('cil')
+  const [src, setSrc] = useState<'cil' | 'togaf'>('cil')
+  const [kind, setKind] = useState<'all' | Kind>('all')
   const del = useGuidelineDelete()
-  const toggle = useMutation({
+  const adopt = useMutation({
     mutationFn: ({ id, adopted }: { id: string; adopted: boolean }) => api.putPrinciple(id, adopted),
     onSuccess: (pv) => {
       qc.setQueryData<VisionT>(['vision'], (old) => old && { ...old, principles: pv, kpis: { ...old.kpis, principles_adopted: pv.adopted } })
       qc.invalidateQueries({ queryKey: ['overview'] })
     },
   })
-  const pv = v.principles
-  const ok = !pv.warning
-  const list = set === 'cil' ? pv.cil : pv.togaf
-  return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between gap-3">
-        <ToggleGroup type="single" value={set} onValueChange={(x) => x && setSet(x as 'cil' | 'togaf')} variant="outline" size="sm">
-          <ToggleGroupItem value="cil" className="data-[state=on]:bg-navy data-[state=on]:text-white">CIL & AI Principles ({pv.cil.filter((p) => p.adopted).length}/{pv.cil.length})</ToggleGroupItem>
-          <ToggleGroupItem value="togaf" className="data-[state=on]:bg-navy data-[state=on]:text-white">TOGAF Examples §23.6 ({pv.togaf.filter((p) => p.adopted).length}/{pv.togaf.length})</ToggleGroupItem>
-        </ToggleGroup>
-        <span className="flex items-center gap-1.5 text-xs font-medium" style={{ color: ok ? BAND.strong : BAND.developing }}>
-          {ok ? <CheckCircle2 className="size-3.5" /> : <AlertTriangle className="size-3.5" />}
-          {pv.warning ?? `${pv.adopted} adopted · within TOGAF §${pv.limit.ref} range of ${pv.limit.min}–${pv.limit.max}`}
-          <Explain x={v.explain.principles_adopted} />
-        </span>
-        {set === 'cil' && <Button size="sm" variant="outline" onClick={() => onEdit({ kind: 'principle', name: '', category: 'Application' })}><Plus /> Add Principle</Button>}
-      </div>
-      <div className="grid grid-cols-2 gap-2">
-        {list.map((p) => (
-          <PrincipleRow key={p.id} p={p} onToggle={(adopted) => toggle.mutate({ id: p.id, adopted })}
-            onEdit={set === 'cil' ? () => onEdit({ kind: 'principle', id: p.id, name: p.name, statement: p.statement, category: p.category, togaf_basis: p.togaf_basis, rationale: p.rationale, implications: p.implications }) : undefined}
-            onDelete={set === 'cil' ? () => window.confirm(`Remove ${p.name}?`) && del.mutate(p.id) : undefined} />
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function Guardrails({ v, onEdit }: { v: VisionT; onEdit: (g: GEdit) => void }) {
-  const qc = useQueryClient()
-  const del = useGuidelineDelete()
-  const toggle = useMutation({
+  const activate = useMutation({
     mutationFn: (g: GEdit) => api.putGuideline(g.id!, g),
     onSuccess: (d) => { qc.setQueryData(['vision'], d); qc.invalidateQueries({ queryKey: ['overview'] }) },
   })
-  const pname = Object.fromEntries([...v.principles.cil, ...v.principles.togaf].map((p) => [p.id, p.name]))
+  // a newly added item: show its source and type, scroll to it and highlight it
+  useEffect(() => {
+    if (!fresh) return
+    setSrc('cil')
+    setKind('all')
+    const t = setTimeout(() => document.getElementById(`g-${fresh}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 150)
+    return () => clearTimeout(t)
+  }, [fresh])
+  const pv = v.principles
+  const ok = !pv.warning
+  const pname = Object.fromEntries([...pv.cil, ...pv.togaf].map((p) => [p.id, p.name]))
+  const counts: Record<Kind, number> = { principle: pv.cil.length, guardrail: v.guardrails.length, pattern: v.patterns.length }
+  const shows = (k: Kind) => kind === 'all' || kind === k
+  const ring = (id: string) => (id === fresh ? 'ring-2 ring-navy ring-offset-1' : '')
+  const heading = (k: Kind, extra: string) => kind === 'all' && (
+    <div className="pt-1 text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">{KIND_LABEL[k]} <span className="font-normal normal-case">{extra}</span></div>
+  )
   return (
-    <div className="grid grid-cols-12 gap-4">
-      <div className="col-span-7 space-y-2">
-        <div className="flex items-center justify-between">
-          <div className="text-xs font-semibold">Guardrails ({v.guardrails.filter((g) => g.active !== false).length} active)</div>
-          <Button size="sm" variant="outline" onClick={() => onEdit({ kind: 'guardrail', name: '', category: 'Application', active: true })}><Plus /> Add Guardrail</Button>
-        </div>
-        {v.guardrails.map((g) => (
-          <div key={g.id} className={cn('flex items-start gap-3 rounded-lg border px-3 py-2', g.active === false && 'opacity-60')}>
-            <Switch checked={g.active !== false} onCheckedChange={(on) => toggle.mutate({ kind: 'guardrail', id: g.id, name: g.name, statement: g.statement, category: g.category, enforced_by: g.enforced_by, active: on })} className="mt-0.5" />
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2">
-                <span className="text-[11px] font-bold text-muted-foreground">{g.id}</span>
-                <span className="text-[13px] font-semibold">{g.name}</span>
-                <Badge variant="outline" className="text-[10px]">{g.category}</Badge>
-              </div>
-              <div className="text-[12px] text-muted-foreground">{g.statement}</div>
-              {g.enforced_by && <div className="mt-0.5 text-[11px]"><span className="font-medium">Enforced by:</span> {g.enforced_by}</div>}
-            </div>
-            <Button variant="ghost" size="icon-sm" className="size-6 text-muted-foreground" aria-label="Edit"
-              onClick={() => onEdit({ kind: 'guardrail', id: g.id, name: g.name, statement: g.statement, category: g.category, enforced_by: g.enforced_by, active: g.active })}><Pencil /></Button>
-            <Button variant="ghost" size="icon-sm" className="size-6 text-muted-foreground" aria-label="Delete" onClick={() => window.confirm(`Remove ${g.name}?`) && del.mutate(g.id)}><Trash2 /></Button>
-          </div>
-        ))}
+    <div className="space-y-3">
+      <div className="flex flex-wrap items-center gap-2">
+        <ToggleGroup type="single" value={src} onValueChange={(x) => x && setSrc(x as 'cil' | 'togaf')} variant="outline" size="sm">
+          <ToggleGroupItem value="cil" className="px-3 data-[state=on]:bg-navy data-[state=on]:text-white">CIL ({pv.cil.length + v.guardrails.length + v.patterns.length})</ToggleGroupItem>
+          <ToggleGroupItem value="togaf" className="px-3 data-[state=on]:bg-navy data-[state=on]:text-white">TOGAF §23.6 ({pv.togaf.length})</ToggleGroupItem>
+        </ToggleGroup>
+        {src === 'cil' && (
+          <ToggleGroup type="single" value={kind} onValueChange={(x) => x && setKind(x as 'all' | Kind)} variant="outline" size="sm">
+            <ToggleGroupItem value="all" className="px-2.5 data-[state=on]:bg-navy-soft data-[state=on]:text-navy">All</ToggleGroupItem>
+            {(Object.keys(KIND_LABEL) as Kind[]).map((k) => <ToggleGroupItem key={k} value={k} className="px-2.5 data-[state=on]:bg-navy-soft data-[state=on]:text-navy">{KIND_LABEL[k]} ({counts[k]})</ToggleGroupItem>)}
+          </ToggleGroup>
+        )}
+        <span className="ml-auto flex items-center gap-1.5 text-xs font-medium" style={{ color: ok ? BAND.strong : BAND.developing }}>
+          {ok ? <CheckCircle2 className="size-3.5" /> : <AlertTriangle className="size-3.5" />}
+          {pv.warning ?? `${pv.adopted} principles adopted · within TOGAF §${pv.limit.ref} range of ${pv.limit.min}–${pv.limit.max}`}
+          <Explain x={v.explain.principles_adopted} />
+        </span>
+        {src === 'cil' && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild><Button size="sm" variant="outline"><Plus /> Add <ChevronDown /></Button></DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => onEdit({ kind: 'principle', name: '', category: 'Application' })}>Principle</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onEdit({ kind: 'guardrail', name: '', category: 'Application', active: true })}>Guardrail</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onEdit({ kind: 'pattern', name: '', active: true })}>Pattern</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
-      <div className="col-span-5 space-y-2">
-        <div className="flex items-center justify-between">
-          <div className="text-xs font-semibold">Architecture Patterns & Standards</div>
-          <Button size="sm" variant="outline" onClick={() => onEdit({ kind: 'pattern', name: '', active: true })}><Plus /> Add Pattern</Button>
-        </div>
-        {v.patterns.map((p) => (
-          <div key={p.id} className="flex items-start gap-2 rounded-lg border px-3 py-2">
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2">
-                <span className="text-[11px] font-bold text-muted-foreground">{p.id}</span>
-                <span className="text-[13px] font-semibold">{p.name}</span>
-              </div>
-              <div className="text-[12px] text-muted-foreground">{p.use}</div>
-              {p.principle && <div className="mt-0.5 text-[11px]"><span className="font-medium">Implements:</span> {p.principle} {pname[p.principle] ?? ''}</div>}
-            </div>
-            <Button variant="ghost" size="icon-sm" className="size-6 text-muted-foreground" aria-label="Edit"
-              onClick={() => onEdit({ kind: 'pattern', id: p.id, name: p.name, use: p.use, principle: p.principle, active: p.active })}><Pencil /></Button>
-            <Button variant="ghost" size="icon-sm" className="size-6 text-muted-foreground" aria-label="Delete" onClick={() => window.confirm(`Remove ${p.name}?`) && del.mutate(p.id)}><Trash2 /></Button>
+
+      {src === 'togaf' ? (
+        <>
+          <p className="text-[11.5px] text-muted-foreground">TOGAF's example principles. Adopt one here only where CIL has no equivalent of its own, so the same idea is not adopted twice.</p>
+          <div className="grid grid-cols-2 gap-2">
+            {pv.togaf.map((p) => <PrincipleRow key={p.id} p={p} onToggle={(adopted) => adopt.mutate({ id: p.id, adopted })} />)}
           </div>
-        ))}
-        <p className="pt-1 text-[11px] text-muted-foreground">Technology standards (standards class per platform) live on Data & Technology; architecture decisions in the Roadmap & Governance decision log.</p>
-      </div>
+        </>
+      ) : (
+        <div className="space-y-2">
+          {shows('principle') && heading('principle', `· ${pv.cil.filter((p) => p.adopted).length} of ${pv.cil.length} adopted`)}
+          {shows('principle') && (
+            <div className="grid grid-cols-2 gap-2">
+              {pv.cil.map((p) => (
+                <div key={p.id} id={`g-${p.id}`} className={cn('rounded-lg', ring(p.id))}>
+                  <PrincipleRow p={p} onToggle={(adopted) => adopt.mutate({ id: p.id, adopted })}
+                    onEdit={() => onEdit({ kind: 'principle', id: p.id, name: p.name, statement: p.statement, category: p.category, togaf_basis: p.togaf_basis, rationale: p.rationale, implications: p.implications })}
+                    onDelete={() => window.confirm(`Remove ${p.name}?`) && del.mutate(p.id)} />
+                </div>
+              ))}
+            </div>
+          )}
+          {shows('guardrail') && heading('guardrail', `· ${v.guardrails.filter((g) => g.active !== false).length} active`)}
+          {shows('guardrail') && (
+            <div className="grid grid-cols-2 gap-2">
+              {v.guardrails.map((g) => (
+                <div key={g.id} id={`g-${g.id}`} className={cn('flex items-start gap-3 rounded-lg border bg-card px-3 py-2', g.active === false && 'opacity-60', ring(g.id))}>
+                  <Switch checked={g.active !== false} onCheckedChange={(on) => activate.mutate({ kind: 'guardrail', id: g.id, name: g.name, statement: g.statement, category: g.category, enforced_by: g.enforced_by, active: on })} className="mt-0.5" />
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] font-bold text-muted-foreground">{g.id}</span>
+                      <span className="text-[13px] font-semibold">{g.name}</span>
+                      <Badge variant="outline" className="text-[10px]">{g.category}</Badge>
+                    </div>
+                    <div className="text-[12px] text-muted-foreground">{g.statement}</div>
+                    {g.enforced_by && <div className="mt-0.5 text-[11px]"><span className="font-medium">Enforced by:</span> {g.enforced_by}</div>}
+                  </div>
+                  <Button variant="ghost" size="icon-sm" className="size-6 text-muted-foreground" aria-label="Edit"
+                    onClick={() => onEdit({ kind: 'guardrail', id: g.id, name: g.name, statement: g.statement, category: g.category, enforced_by: g.enforced_by, active: g.active })}><Pencil /></Button>
+                  <Button variant="ghost" size="icon-sm" className="size-6 text-muted-foreground" aria-label="Delete" onClick={() => window.confirm(`Remove ${g.name}?`) && del.mutate(g.id)}><Trash2 /></Button>
+                </div>
+              ))}
+            </div>
+          )}
+          {shows('pattern') && heading('pattern', '· reusable solution approaches tied to a principle')}
+          {shows('pattern') && (
+            <div className="grid grid-cols-2 gap-2">
+              {v.patterns.map((p) => (
+                <div key={p.id} id={`g-${p.id}`} className={cn('flex items-start gap-2 rounded-lg border bg-card px-3 py-2', ring(p.id))}>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] font-bold text-muted-foreground">{p.id}</span>
+                      <span className="text-[13px] font-semibold">{p.name}</span>
+                    </div>
+                    <div className="text-[12px] text-muted-foreground">{p.use}</div>
+                    {p.principle && <div className="mt-0.5 text-[11px]"><span className="font-medium">Implements:</span> {p.principle} {pname[p.principle] ?? ''}</div>}
+                  </div>
+                  <Button variant="ghost" size="icon-sm" className="size-6 text-muted-foreground" aria-label="Edit"
+                    onClick={() => onEdit({ kind: 'pattern', id: p.id, name: p.name, use: p.use, principle: p.principle, active: p.active })}><Pencil /></Button>
+                  <Button variant="ghost" size="icon-sm" className="size-6 text-muted-foreground" aria-label="Delete" onClick={() => window.confirm(`Remove ${p.name}?`) && del.mutate(p.id)}><Trash2 /></Button>
+                </div>
+              ))}
+            </div>
+          )}
+          {shows('pattern') && <p className="pt-1 text-[11px] text-muted-foreground">Technology standards (standards class per platform) live on Data & Technology; architecture decisions in the Roadmap & Governance decision log.</p>}
+        </div>
+      )}
     </div>
   )
 }
@@ -461,12 +504,13 @@ function AiInitiatives({ v }: { v: VisionT }) {
   )
 }
 
-const VIEWS = ['principles', 'guardrails', 'rules', 'stakeholders', 'tailoring', 'ai']
+const VIEWS = ['principles', 'rules', 'stakeholders', 'tailoring', 'ai']
 
 export default function Vision() {
   const q = useQuery({ queryKey: ['vision'], queryFn: api.vision })
   const [view, setView] = useView('principles', VIEWS)
   const [gEdit, setGEdit] = useState<GEdit | null>(null)
+  const [fresh, setFresh] = useState<string | null>(null)
   const v = q.data
   return (
     <>
@@ -490,14 +534,12 @@ export default function Vision() {
             <Tabs value={view === 'ai' ? 'principles' : view} onValueChange={setView}>
               <CardContent className="space-y-3">
                 <TabsList>
-                  <TabsTrigger value="principles">Principles</TabsTrigger>
-                  <TabsTrigger value="guardrails">Guardrails & Patterns</TabsTrigger>
+                  <TabsTrigger value="principles">Principles, Guardrails & Patterns</TabsTrigger>
                   <TabsTrigger value="rules">Rationalization Rules</TabsTrigger>
                   <TabsTrigger value="stakeholders">Stakeholder Viewpoints</TabsTrigger>
                   <TabsTrigger value="tailoring">Framework Tailoring</TabsTrigger>
                 </TabsList>
-                <TabsContent value="principles"><Principles v={v} onEdit={setGEdit} /></TabsContent>
-                <TabsContent value="guardrails"><Guardrails v={v} onEdit={setGEdit} /></TabsContent>
+                <TabsContent value="principles"><Guidelines v={v} onEdit={setGEdit} fresh={fresh} /></TabsContent>
                 <TabsContent value="rules"><RulesConfig v={v} /></TabsContent>
                 <TabsContent value="stakeholders"><ViewpointCatalog v={v} /></TabsContent>
                 <TabsContent value="tailoring"><TailoringRegister v={v} /></TabsContent>
@@ -505,9 +547,9 @@ export default function Vision() {
             </Tabs>
           </Card>
 
-          <FindingsCard screen="vision" />
+          <FindingsCard screen="vision" sig={JSON.stringify(v.kpis)} />
           <div id="sec-ai" className="scroll-mt-4"><AiInitiatives v={v} /></div>
-          <GuidelineDialog edit={gEdit} onClose={() => setGEdit(null)} principles={[...v.principles.cil, ...v.principles.togaf]} />
+          <GuidelineDialog edit={gEdit} onClose={() => setGEdit(null)} onAdded={(id) => { setFresh(id); setTimeout(() => setFresh(null), 4000) }} principles={[...v.principles.cil, ...v.principles.togaf]} />
         </>
       )}
     </>

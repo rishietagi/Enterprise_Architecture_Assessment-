@@ -18,7 +18,7 @@ def test_overview_golden(client):
     o = client.get("/api/overview").json()
     assert o["kpis"]["acmm_mean"] == 1.56
     assert o["kpis"]["avg_cap_maturity"] == 2.48
-    assert o["kpis"]["total_cr"] == [55.5, 139.5]
+    assert o["kpis"]["total_cr"] == [31.5, 79.5]
     assert {d["name"]: d["count"] for d in o["dispositions"]} == {"Invest": 11, "Retain": 3, "Modernise": 6, "Replace": 4, "Out of scope": 2}
     assert len(o["adm"]) == 10 and len(o["top_gaps"]) == 5
     assert len(o["views"]) == 14 and o["states"]["metrics"] and len(o["states"]["columns"]) == 6
@@ -89,7 +89,7 @@ def test_settings_and_reset(client):
     assert client.get("/api/applications").json()["threshold"] == 3.5
     client.post("/api/settings/reset")
     assert client.get("/api/applications").json()["threshold"] == 3.0
-    assert client.get("/api/overview").json()["kpis"]["total_cr"] == [55.5, 139.5]
+    assert client.get("/api/overview").json()["kpis"]["total_cr"] == [31.5, 79.5]
 
 
 def test_decision_log(client):

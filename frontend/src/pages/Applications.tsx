@@ -276,7 +276,7 @@ export default function Applications() {
           </Card>
 
           <MapDialog res={mapRes} onClose={() => setMapRes(null)} />
-          <AppForm open={form.open} app={form.app} a={a} onClose={() => setForm({ open: false, app: null })} />
+          <AppForm open={form.open} app={form.app} a={a} intake={step === 'inventory'} onClose={() => setForm({ open: false, app: null })} />
         </>
       )}
     </>
@@ -314,7 +314,7 @@ function Intake({ a, l2, onOpen, onMap }: { a: AppsT; l2: Record<string, string>
             <TableRow>
               <TableHead className="w-14">ID</TableHead><TableHead>Application</TableHead><TableHead>Vendor</TableHead><TableHead>Layer</TableHead>
               <TableHead>Owners</TableHead><TableHead>Hosting</TableHead><TableHead>Capabilities</TableHead><TableHead className="text-right">Crit.</TableHead>
-              <TableHead>Lifecycle</TableHead><TableHead>Disposition</TableHead>
+              <TableHead>Lifecycle</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -341,7 +341,6 @@ function Intake({ a, l2, onOpen, onMap }: { a: AppsT; l2: Record<string, string>
                     ? <Badge variant="outline" className="gap-1 border-dashed text-[10.5px] text-muted-foreground"><AlertTriangle className="size-3" /> Validate</Badge>
                     : <span className="text-sm">{x.lifecycle}</span>}
                 </TableCell>
-                <TableCell><Disp code={x.computed.disposition} label={x.computed.label} overridden={x.computed.overridden} /></TableCell>
               </TableRow>
             ))}
           </TableBody>

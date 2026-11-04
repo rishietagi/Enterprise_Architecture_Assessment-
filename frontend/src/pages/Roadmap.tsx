@@ -382,7 +382,7 @@ const STEPS = [
   { key: 'governance', n: 4, label: 'EA Governance', sub: 'ACMM · ARB · decisions · repository' },
 ]
 const STEP_CARD: Record<string, { title: string; desc: string }> = {
-  longlist: { title: 'Step 1 · Initiative Long List', desc: 'Every gap from Business, Applications, Data & Technology and governance, grouped into initiatives (TOGAF §27, §32). Each row shows the gaps it closes, size, indicative cost, wave, dependencies, the IT capex already planned for it, and its benefits, risks and constraints. Select a row to see its gaps; edit to change benefits, risks and constraints.' },
+  longlist: { title: 'Step 1 · Initiative Long List', desc: 'Every gap from Business, Applications, Data & Technology and governance, grouped into initiatives (TOGAF §27, §32). Each row shows the gaps it closes, size, indicative cost, dependencies, the IT capex already planned for it, and its benefits, risks and constraints. Select a row to see its gaps; edit to change benefits, risks and constraints.' },
   priority: { title: 'Step 2 · Prioritisation', desc: 'Value (highest gap priority, impact × urgency) against effort (size). Quick wins are high value and low effort; strategic bets are high value and high effort. The rank orders quadrants, then value per unit of effort (§28.4).' },
   roadmap: { title: 'Step 3 · Roadmap', desc: 'Initiatives sequenced into four waves by rule (size, priority, foundation) and pushed after their dependencies, then laid out by financial year with indicative cost and tested against the IT capex plan (§28, §36.2.14).' },
   governance: { title: 'Step 4 · EA Governance', desc: 'Architecture capability maturity (ACMM §51.3), the Architecture Review Board and its checkpoints, compliance levels, the decision log, and who owns and maintains each part of the architecture repository after the engagement.' },
@@ -432,18 +432,13 @@ function NotesDialog({ i, onClose }: { i: InitiativeRow | null; onClose: () => v
 function LongList({ r }: { r: RoadmapT }) {
   const [open, setOpen] = useState<string | null>(null)
   const [edit, setEdit] = useState<InitiativeRow | null>(null)
-  const [wave, setWave] = useState('all')
   const box = useRef<HTMLDivElement>(null)
-  const rows = r.long_list.filter((i) => wave === 'all' || i.wave_id === wave)
-  const csv = () => [['ID', 'Initiative', 'Gaps', 'Gap IDs', 'Top priority', 'Size', 'Cost low (Cr)', 'Cost high (Cr)', 'Wave', 'Depends on', 'Planned IT capex (Cr)', 'Quadrant', 'Benefits', 'Risks', 'Constraints', 'Owner'],
-    ...r.long_list.map((i) => [i.id, i.name, i.gaps, i.gap_list.map((g) => g.id).join('; '), i.priority, i.size, i.cost_cr[0], i.cost_cr[1], i.wave_id, i.depends_on.join('; '), i.budget_capex, i.prio.label, i.benefits.join('; '), i.risks.join('; '), i.constraints.join('; '), i.owner])]
+  const rows = r.long_list
+  const csv = () => [['ID', 'Initiative', 'Gaps', 'Gap IDs', 'Top priority', 'Size', 'Cost low (Cr)', 'Cost high (Cr)', 'Depends on', 'Planned IT capex (Cr)', 'Benefits', 'Risks', 'Constraints', 'Owner'],
+    ...r.long_list.map((i) => [i.id, i.name, i.gaps, i.gap_list.map((g) => g.id).join('; '), i.priority, i.size, i.cost_cr[0], i.cost_cr[1], i.depends_on.join('; '), i.budget_capex, i.benefits.join('; '), i.risks.join('; '), i.constraints.join('; '), i.owner])]
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap items-center gap-2">
-        <Select value={wave} onValueChange={setWave}>
-          <SelectTrigger size="sm" className="w-44"><SelectValue /></SelectTrigger>
-          <SelectContent><SelectItem value="all">All waves</SelectItem>{r.waves.map((w) => <SelectItem key={w.id} value={w.id}>{w.id} · {w.name}</SelectItem>)}</SelectContent>
-        </Select>
         <span className="text-[11.5px] text-muted-foreground">{r.kpis.gaps} gaps → {r.long_list.length} initiatives · {fmtCr(r.kpis.total_cr)} indicative <Explain x={r.explain.initiatives} /></span>
         <span className="ml-auto flex gap-2">
           <Button variant="ghost" size="sm" asChild><a href={exportUrl('roadmap')}><Download /> Gap register (.xlsx)</a></Button>
@@ -456,7 +451,7 @@ function LongList({ r }: { r: RoadmapT }) {
           <TableHeader>
             <TableRow>
               <TableHead className="w-8" /><TableHead className="w-12">ID</TableHead><TableHead>Initiative</TableHead><TableHead className="text-right">Gaps</TableHead>
-              <TableHead>Top Priority</TableHead><TableHead>Size</TableHead><TableHead className="text-right">Cost (₹ Cr)</TableHead><TableHead>Wave</TableHead>
+              <TableHead>Top Priority</TableHead><TableHead>Size</TableHead><TableHead className="text-right">Cost (₹ Cr)</TableHead>
               <TableHead>Depends On</TableHead><TableHead className="text-right">IT Capex Plan</TableHead><TableHead>Benefits</TableHead><TableHead>Risks</TableHead><TableHead className="w-20" />
             </TableRow>
           </TableHeader>
@@ -466,13 +461,12 @@ function LongList({ r }: { r: RoadmapT }) {
                 <TableRow className="cursor-pointer" onClick={() => setOpen(open === i.id ? null : i.id)}>
                   <TableCell><ChevronDown className={cn('size-4 text-muted-foreground transition-transform', open === i.id && 'rotate-180')} /></TableCell>
                   <TableCell className="text-xs font-semibold text-muted-foreground">{i.id}</TableCell>
-                  <TableCell className="max-w-64 whitespace-normal"><div className="font-medium">{i.name}</div><div className="text-[10.5px] text-muted-foreground">{i.prio.label}{i.foundation ? ' · foundation' : ''}</div>
+                  <TableCell className="max-w-64 whitespace-normal"><div className="font-medium">{i.name}</div>{i.foundation && <div className="text-[10.5px] text-muted-foreground">Foundation</div>}
                     {i.by_register && <div className="text-[10.5px] text-muted-foreground">{Object.entries(i.by_register).map(([k, v]) => `${k.replace(' Architecture', '')} ${v}`).join(' · ')}</div>}</TableCell>
                   <TableCell className="tabular text-right font-semibold">{i.gaps}</TableCell>
                   <TableCell><PriorityPill p={i.priority} /></TableCell>
                   <TableCell><span className="rounded px-1.5 py-px text-[10.5px] font-bold" style={{ color: SIZE_COLOR[i.size], background: tint(SIZE_COLOR[i.size]) }}>{i.size}</span></TableCell>
-                  <TableCell className="tabular text-right">{i.cost_cr[0]}–{i.cost_cr[1]}</TableCell>
-                  <TableCell><span className="inline-flex items-center gap-1"><Explain x={i.explain} /><span className="text-[11px] font-semibold" style={{ color: WAVE_COLOR[i.wave] }}>{i.wave_id}</span></span></TableCell>
+                  <TableCell className="tabular text-right"><span className="inline-flex items-center gap-1"><Explain x={i.explain} />{i.cost_cr[0]}–{i.cost_cr[1]}</span></TableCell>
                   <TableCell className="text-[11px] text-muted-foreground">{i.depends_on.join(', ') || '–'}</TableCell>
                   <TableCell className="tabular text-right text-[12px]">{i.budget_capex ? `₹${i.budget_capex} Cr` : <span className="text-muted-foreground">none</span>}</TableCell>
                   <TableCell className="max-w-52 text-[11.5px] whitespace-normal"><span className="line-clamp-2">{i.benefits.join('; ') || '–'}</span></TableCell>
@@ -484,7 +478,7 @@ function LongList({ r }: { r: RoadmapT }) {
                 {open === i.id && (
                   <TableRow className="bg-muted/25 hover:bg-muted/25">
                     <TableCell />
-                    <TableCell colSpan={12} className="whitespace-normal">
+                    <TableCell colSpan={11} className="whitespace-normal">
                       <div className="grid grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-4 py-1">
                         <div>
                           <div className="mb-1 text-[10.5px] font-semibold tracking-wide text-muted-foreground uppercase">Gaps Addressed ({i.gap_list.length})</div>
@@ -537,11 +531,11 @@ function Prioritisation({ r }: { r: RoadmapT }) {
         <ChartContainer config={{ v: { label: 'Value', color: NAVY } }} className="h-[360px] w-full">
           <ScatterChart margin={{ top: 22, right: 22, bottom: 22, left: 4 }}>
             <ReferenceArea x1={0.5} x2={c.effort_split + 0.5} y1={c.value_split} y2={maxV} fill={QUAD_COLOR.quick_win} fillOpacity={0.06} label={{ value: c.quadrants.quick_win, position: 'insideTopLeft', fontSize: 11, fontWeight: 700, fill: QUAD_COLOR.quick_win }} />
-            <ReferenceArea x1={c.effort_split + 0.5} x2={4.6} y1={c.value_split} y2={maxV} fill={QUAD_COLOR.strategic} fillOpacity={0.05} label={{ value: c.quadrants.strategic, position: 'insideTopRight', fontSize: 11, fontWeight: 700, fill: QUAD_COLOR.strategic }} />
+            <ReferenceArea x1={c.effort_split + 0.5} x2={3.6} y1={c.value_split} y2={maxV} fill={QUAD_COLOR.strategic} fillOpacity={0.05} label={{ value: c.quadrants.strategic, position: 'insideTopRight', fontSize: 11, fontWeight: 700, fill: QUAD_COLOR.strategic }} />
             <ReferenceArea x1={0.5} x2={c.effort_split + 0.5} y1={0} y2={c.value_split} fill={QUAD_COLOR.fill_in} fillOpacity={0.05} label={{ value: c.quadrants.fill_in, position: 'insideBottomLeft', fontSize: 11, fontWeight: 700, fill: QUAD_COLOR.fill_in }} />
-            <ReferenceArea x1={c.effort_split + 0.5} x2={4.6} y1={0} y2={c.value_split} fill={QUAD_COLOR.reconsider} fillOpacity={0.05} label={{ value: c.quadrants.reconsider, position: 'insideBottomRight', fontSize: 11, fontWeight: 700, fill: QUAD_COLOR.reconsider }} />
+            <ReferenceArea x1={c.effort_split + 0.5} x2={3.6} y1={0} y2={c.value_split} fill={QUAD_COLOR.reconsider} fillOpacity={0.05} label={{ value: c.quadrants.reconsider, position: 'insideBottomRight', fontSize: 11, fontWeight: 700, fill: QUAD_COLOR.reconsider }} />
             <CartesianGrid stroke={GRID} />
-            <XAxis type="number" dataKey="x" domain={[0.5, 4.6]} ticks={[1, 2, 3, 4]} tickFormatter={(v: number) => ['', 'S', 'M', 'L', 'XL'][v] ?? ''} tickLine={false}
+            <XAxis type="number" dataKey="x" domain={[0.5, 3.6]} ticks={[1, 2, 3]} tickFormatter={(v: number) => ['', 'S', 'M', 'L'][v] ?? ''} tickLine={false}
               label={{ value: 'Effort (size)', position: 'insideBottom', offset: -12, fontSize: 11, fill: SLATE }} />
             <YAxis type="number" dataKey="y" domain={[0, maxV]} ticks={[0, 5, 10, 15, 20, 25]} tickLine={false} width={46}
               label={{ value: 'Value (gap priority)', angle: -90, position: 'insideLeft', offset: 4, dy: 50, fontSize: 11, fill: SLATE }} />

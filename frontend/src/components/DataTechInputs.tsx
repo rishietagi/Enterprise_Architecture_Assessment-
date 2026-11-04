@@ -5,7 +5,6 @@ import { toast } from 'sonner'
 import { AiAction } from '@/components/AiAction'
 import { ExportMenu } from '@/components/ExportMenu'
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -14,7 +13,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Textarea } from '@/components/ui/textarea'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { api, type DataTech, type Domain, type DomainIn, type NetLink, type Platform, type PlatformIn, type Site } from '@/lib/api'
-import { BAND, NAVY, bandColor, tint } from '@/lib/theme'
+import { BAND, NAVY, tint } from '@/lib/theme'
 import { cn } from '@/lib/utils'
 
 const short = (n: string) => n.split(' (')[0]
@@ -50,7 +49,7 @@ function DomainDialog({ d, edit, onClose }: { d: DataTech; edit: Domain | 'new' 
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>{edit === 'new' ? 'Add Data Domain' : `Edit ${(edit as Domain | null)?.id ?? ''}`}</DialogTitle>
-          <DialogDescription>Data Entity attributes (TOGAF §34.6). Ownership, master data, quality, lineage and privacy drive the domain score.</DialogDescription>
+          <DialogDescription>Data Entity attributes (TOGAF §34.6). Ownership, master data, quality, lineage and privacy feed the data assessment.</DialogDescription>
         </DialogHeader>
         <div className="scrollbar-thin grid max-h-[64vh] grid-cols-2 gap-3 overflow-y-auto pr-1">
           <label className={label}>Domain name<Input value={f.name ?? ''} onChange={(e) => set({ name: e.target.value })} className="h-8 text-foreground" /></label>
@@ -71,11 +70,6 @@ function DomainDialog({ d, edit, onClose }: { d: DataTech; edit: Domain | 'new' 
               <SelectContent className="max-h-72"><SelectItem value={NONE}>None</SelectItem>{d.apps.map((a) => <SelectItem key={a.id} value={a.id}>{a.id} · {short(a.name)}</SelectItem>)}</SelectContent></Select>
           </label>
           <label className={label}>Data steward<Input value={f.steward ?? ''} onChange={(e) => set({ steward: e.target.value })} placeholder="Role" className="h-8 text-foreground" /></label>
-          <div className={cn(label, 'col-span-2')}>Consuming applications ({(f.consumers ?? []).length})
-            <div className="scrollbar-thin grid max-h-28 grid-cols-3 gap-x-3 gap-y-1 overflow-y-auto rounded-md border p-2 text-[12px] font-normal text-foreground">
-              {d.apps.map((a) => <label key={a.id} className="flex items-center gap-1.5"><Checkbox checked={(f.consumers ?? []).includes(a.id)} onCheckedChange={() => toggle('consumers', a.id)} /><span className="truncate">{short(a.name)}</span></label>)}
-            </div>
-          </div>
           <label className={label}>Master data management
             <Select value={f.mdm} onValueChange={(v) => set({ mdm: v as Domain['mdm'] })}><SelectTrigger size="sm" className="h-8 w-full text-foreground capitalize"><SelectValue /></SelectTrigger>
               <SelectContent>{d.options.mdm.map((s) => <SelectItem key={s} value={s} className="capitalize">{s}</SelectItem>)}</SelectContent></Select>
@@ -106,20 +100,20 @@ function Domains({ d }: { d: DataTech }) {
   const [edit, setEdit] = useState<Domain | 'new' | null>(null)
   const box = useRef<HTMLDivElement>(null)
   const app = Object.fromEntries(d.apps.map((a) => [a.id, short(a.name)]))
-  const csv = () => [['ID', 'Domain', 'Description', 'Data types', 'Sensitivity', 'Volume', 'Retention', 'System of record', 'Consumers', 'Owner', 'Steward', 'MDM', 'Quality', 'Lineage', 'PII', 'Classified', 'Score', 'Source'],
-    ...d.domains.map((x) => [x.id, x.name, x.description ?? '', (x.data_types ?? []).join('; '), x.sensitivity ?? '', x.volume_hint ?? '', x.retention ?? '', app[x.sor] ?? x.sor, x.consumers.map((c) => app[c] ?? c).join('; '),
-      x.owner ? 'Yes' : 'No', x.steward ?? '', x.mdm, x.quality.join('/'), x.lineage ? 'Yes' : 'No', x.pii ? 'Yes' : 'No', x.classified ? 'Yes' : 'No', x.computed.score, x.source])]
+  const csv = () => [['ID', 'Domain', 'Description', 'Data types', 'Sensitivity', 'Volume', 'Retention', 'System of record', 'Owner', 'Steward', 'MDM', 'Quality', 'Lineage', 'PII', 'Classified'],
+    ...d.domains.map((x) => [x.id, x.name, x.description ?? '', (x.data_types ?? []).join('; '), x.sensitivity ?? '', x.volume_hint ?? '', x.retention ?? '', app[x.sor] ?? x.sor,
+      x.owner ? 'Yes' : 'No', x.steward ?? '', x.mdm, x.quality.join('/'), x.lineage ? 'Yes' : 'No', x.pii ? 'Yes' : 'No', x.classified ? 'Yes' : 'No'])]
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <span className="text-[11.5px] text-muted-foreground">What data CIL holds, where it is mastered and who uses it. Select a row to edit; the score updates on save.</span>
+        <span className="text-[11.5px] text-muted-foreground">What data CIL holds, where it is mastered and who uses it. Select a row to edit.</span>
         <span className="flex gap-2"><AiAction label="Infer with AI" what="Data domain catalogue" from="the application intake and uploaded data dictionaries" /><ExportMenu target={box} name="Data Domain Catalogue" csv={csv} /><Button size="sm" onClick={() => setEdit('new')}><Plus /> Add Domain</Button></span>
       </div>
       <div ref={box} className="overflow-hidden rounded-lg border bg-card">
         <Table>
           <TableHeader><TableRow>
             <TableHead className="w-14">ID</TableHead><TableHead>Domain</TableHead><TableHead>Data Types</TableHead><TableHead>Sensitivity</TableHead><TableHead>System of Record</TableHead>
-            <TableHead className="text-right">Consumers</TableHead><TableHead>Volume · Retention</TableHead><TableHead className="text-right">Score</TableHead><TableHead className="w-10" />
+            <TableHead>Volume · Retention</TableHead><TableHead className="w-10" />
           </TableRow></TableHeader>
           <TableBody>
             {d.domains.map((x) => (
@@ -129,9 +123,7 @@ function Domains({ d }: { d: DataTech }) {
                 <TableCell><div className="flex max-w-52 flex-wrap gap-0.5">{(x.data_types ?? []).map((t) => <span key={t} className="rounded bg-muted px-1.5 py-px text-[10.5px]">{t}</span>)}</div></TableCell>
                 <TableCell className="text-[12px]" style={{ color: (x.sensitivity ?? '').startsWith('Personal') || x.sensitivity === 'Restricted' ? BAND.weak : undefined }}>{x.sensitivity ?? '–'}</TableCell>
                 <TableCell className="text-[12px]">{app[x.sor] ?? (x.sor || '–')}</TableCell>
-                <TableCell className="tabular text-right">{x.consumers.length}</TableCell>
                 <TableCell className="max-w-48 text-[11px] whitespace-normal text-muted-foreground">{[x.volume_hint, x.retention].filter(Boolean).join(' · ') || '–'}</TableCell>
-                <TableCell className="tabular text-right font-semibold" style={{ color: bandColor(x.computed.band) }}>{x.computed.score}</TableCell>
                 <TableCell><Pencil className="size-3.5 text-muted-foreground" /></TableCell>
               </TableRow>
             ))}

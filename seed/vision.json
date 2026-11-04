@@ -929,7 +929,16 @@
       ],
       "model_kind": "Landscape and state comparison",
       "screen": "overview",
-      "source": "assumed"
+      "source": "assumed",
+      "purpose": "The single picture of the CIL estate for people who fund and steer the programme. It shows today's landscape, the target state for 2030 and the transition between them in one place, without technical detail, so the board and sponsors can see what is changing, why, and at what cost and risk.",
+      "questions": [
+        "Where does CIL's architecture stand today across business, applications, data and technology?",
+        "What changes by 2030, and which business drivers does each change serve?",
+        "What does the roadmap cost, in which years, and is it affordable within planned IT spend?",
+        "Which risks need a decision from the steering committee now?"
+      ],
+      "used_in": "Steering committee (W4, W8, W12, W16) and board updates; opens every playback.",
+      "where": "Dashboard: domain health, ADM status, current-to-target state comparison, architecture landscape"
     },
     {
       "id": "VP-02",
@@ -942,7 +951,15 @@
       ],
       "model_kind": "Capability map, heat map, EPC process model",
       "screen": "business",
-      "source": "assumed"
+      "source": "assumed",
+      "purpose": "How well each business capability is performed today, measured from the owners' questionnaire answers, and where weak maturity meets high business criticality.",
+      "questions": [
+        "Which capabilities are critical but immature?",
+        "Where do business and IT disagree on how well systems support the work?",
+        "Which L3 processes are the root cause of each gap?"
+      ],
+      "used_in": "Function-head playbacks and the As-Is Assessment report (W8).",
+      "where": "Business Architecture: discovery, heat map, criticality × maturity, gap register, EPC process models"
     },
     {
       "id": "VP-03",
@@ -955,7 +972,15 @@
       ],
       "model_kind": "Portfolio catalog, layered view, communication diagram",
       "screen": "applications",
-      "source": "assumed"
+      "source": "assumed",
+      "purpose": "The application portfolio judged on business and technical fit, technical health and duplication, with a rule-based disposition and written rationale for every application.",
+      "questions": [
+        "Which applications to invest in, retain, modernise, replace or consolidate?",
+        "Where is technical debt or a single point of failure concentrated?",
+        "Which capabilities have duplicate or no application support?"
+      ],
+      "used_in": "Application owner reviews and the rationalization workshop.",
+      "where": "Applications: intake, capability view, rationalization, technical health, gap register"
     },
     {
       "id": "VP-04",
@@ -967,7 +992,15 @@
       ],
       "model_kind": "Interface catalog, pattern mix",
       "screen": "applications",
-      "source": "assumed"
+      "source": "assumed",
+      "purpose": "How applications exchange data, which integration patterns are used and where point-to-point or manual re-keying creates risk.",
+      "questions": [
+        "Which interfaces are point-to-point or manual?",
+        "Which applications are integration hotspots?",
+        "What API and event standards should apply?"
+      ],
+      "used_in": "Integration design reviews and the ARB.",
+      "where": "Applications: interaction view, interface catalogue, integration & API view"
     },
     {
       "id": "VP-05",
@@ -979,7 +1012,15 @@
       ],
       "model_kind": "Layered data architecture, data dissemination",
       "screen": "data_tech",
-      "source": "assumed"
+      "source": "assumed",
+      "purpose": "Ownership, quality, privacy and lineage of each data domain, and whether the data is ready for the AI initiatives that depend on it.",
+      "questions": [
+        "Who owns each data domain and where is it mastered?",
+        "Which domains hold personal data under DPDP 2023, and are they protected?",
+        "Which AI initiatives are blocked by data quality or ownership?"
+      ],
+      "used_in": "Data governance council and AI use-case prioritisation.",
+      "where": "Data & Technology: data domains, data assessment, data architecture, data flow & AI readiness"
     },
     {
       "id": "VP-06",
@@ -994,7 +1035,15 @@
       ],
       "model_kind": "Layered infrastructure view, standards catalog",
       "screen": "data_tech",
-      "source": "assumed"
+      "source": "assumed",
+      "purpose": "Where applications run, how plants, depots and offices connect, and whether hosting, DR and landing zones are fit for scale and resilience.",
+      "questions": [
+        "Which platforms are end-of-life or non-standard?",
+        "Is DR adequate for critical applications?",
+        "Is the cloud landing zone ready for new workloads?"
+      ],
+      "used_in": "Infrastructure and cloud design reviews.",
+      "where": "Data & Technology: platforms, sites & network, infrastructure view with network, cloud and hosting details"
     },
     {
       "id": "VP-07",
@@ -1006,7 +1055,15 @@
       ],
       "model_kind": "Security column, compliance checklist",
       "screen": "data_tech",
-      "source": "assumed"
+      "source": "assumed",
+      "purpose": "Identity, security monitoring and recovery controls across the estate, and where compliance obligations are not yet met.",
+      "questions": [
+        "Are identity and access controls consistent across applications?",
+        "Can CIL detect and recover from an incident within tolerance?",
+        "Which resilience checks fail or are unknown?"
+      ],
+      "used_in": "CISO risk reviews and audit committee updates.",
+      "where": "Data & Technology: resilience & standards checklist, security layer of the infrastructure view"
     },
     {
       "id": "VP-08",
@@ -1019,7 +1076,15 @@
       ],
       "model_kind": "Initiative list, prioritisation matrix, wave roadmap, budget",
       "screen": "roadmap",
-      "source": "assumed"
+      "source": "assumed",
+      "purpose": "The prioritised set of initiatives that close the gaps, sequenced into waves with indicative cost, benefits, risks and affordability against the IT budget.",
+      "questions": [
+        "Which initiatives come first, and why?",
+        "What does each wave cost and what does it deliver?",
+        "Does the roadmap fit within planned IT capex?"
+      ],
+      "used_in": "Steering committee investment decisions and the final roadmap (W16).",
+      "where": "Roadmap & Governance: long list, prioritisation, roadmap and budget; IT Budget"
     }
   ],
   "tailoring": [

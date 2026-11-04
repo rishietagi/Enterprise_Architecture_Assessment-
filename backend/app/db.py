@@ -31,7 +31,7 @@ SEED_DECISIONS = [
 ]
 TABLES = (Capability, Application, DataDomain, Platform, TechCheck, AcmmLevel, PrincipleSelection, VisionDoc, Decision,
           SettingOverride, Guideline, Integration, Survey, ProcessModel, PlanTask, ContextDoc, ArchView)
-SEED_VERSION = 7  # bump when the seed shape changes so existing demo databases are rebuilt once
+SEED_VERSION = 8  # bump when the seed shape changes so existing demo databases are rebuilt once
 
 _engine = None
 

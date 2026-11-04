@@ -189,7 +189,10 @@ export interface AiInitiative {
 export type GuidelineKind = 'principle' | 'guardrail' | 'pattern' | 'viewpoint' | 'tailoring'
 
 /** ISO/IEC/IEEE 42010 viewpoint: stakeholder concerns answered by one or more RFP views. */
-export interface Viewpoint { id: string; name: string; stakeholder: string; concerns: string; views: number[]; model_kind: string; screen: string; source: Source }
+export interface Viewpoint {
+  id: string; name: string; stakeholder: string; concerns: string; views: number[]; model_kind: string; screen: string; source: Source
+  purpose?: string; questions?: string[]; used_in?: string; where?: string
+}
 
 /** TOGAF / 42010 tailoring register entry. */
 export interface Tailoring { id: string; framework: string; element: string; decision: 'Adopted' | 'Tailored' | 'Excluded'; rationale: string; approval: string; source: Source }
@@ -1000,7 +1003,7 @@ export interface Roadmap {
   waves: { id: string; name: string; window: string; fy_split: Record<string, number> }[]
   fy_budget: Record<string, [number, number]>
   total_cr: [number, number]
-  rate_card: Record<'S' | 'M' | 'L' | 'XL', [number, number]>
+  rate_card: Record<'S' | 'M' | 'L', [number, number]>
   rate_card_note: string
   start: string
   acmm: { id: string; name: string; level: number; source: Source }[]

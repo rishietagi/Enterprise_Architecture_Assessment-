@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { Explain } from '@/components/Explain'
 import { FlowDiagram } from '@/components/FlowDiagram'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -173,7 +172,7 @@ export function Entanglement({ b }: { b: Business }) {
   const name = (id: string) => byId[id]?.name ?? id
   const cols = n ? [
     { key: 'up', title: 'Depends on (upstream)', nodes: n.upstream.map((id) => ({ id, label: name(id), sub: id, color: NAVY })) },
-    { key: 'me', title: 'Selected capability', nodes: [{ id: n.id, label: n.name, sub: `${n.id} · score ${n.score}`, color: n.high ? BAND.critical : BAND.developing }] },
+    { key: 'me', title: 'Selected capability', nodes: [{ id: n.id, label: n.name, sub: n.id, color: n.high ? BAND.critical : BAND.developing }] },
     { key: 'down', title: 'Feeds (downstream)', nodes: n.downstream.map((id) => ({ id, label: name(id), sub: id, color: NAVY })) },
   ] : []
   const edges = n ? [...n.upstream.map((u) => ({ from: u, to: n.id, color: NAVY })), ...n.downstream.map((d) => ({ from: n.id, to: d, color: NAVY }))] : []
@@ -191,9 +190,8 @@ export function Entanglement({ b }: { b: Business }) {
             <span className="text-xs font-semibold">Capability Traceability</span>
             <Select value={sel} onValueChange={setSel}>
               <SelectTrigger size="sm" className="h-7 w-[320px] text-xs"><SelectValue /></SelectTrigger>
-              <SelectContent>{ranked.map((x) => <SelectItem key={x.id} value={x.id}>{x.id} · {x.name} ({x.score})</SelectItem>)}</SelectContent>
+              <SelectContent>{ranked.map((x) => <SelectItem key={x.id} value={x.id}>{x.id} · {x.name}</SelectItem>)}</SelectContent>
             </Select>
-            {n && <Explain x={n.explain} />}
             {n && <span className="ml-auto text-[11px] text-muted-foreground">{b.l0.find((l) => l.id === b.l1.find((x) => x.id === n.l1)?.l0)?.name} › {b.l1.find((x) => x.id === n.l1)?.name} › {n.name}</span>}
           </div>
           {n && <FlowDiagram columns={cols} edges={edges} selected={sel} onSelect={(id) => id && byId[id] && setSel(id)} nodeH={36} minHeight={80} />}
@@ -210,13 +208,13 @@ export function Entanglement({ b }: { b: Business }) {
             <div className="mt-3 border-t pt-2">
               <div className="mb-1.5 flex items-center gap-2 text-xs font-semibold">L3 Drill-Down <span className="font-normal text-muted-foreground">· coupling through the systems each process owner named in discovery, plus the L2's own dependencies</span></div>
               <div className="overflow-hidden rounded-md border">
-                <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.4fr)_60px] gap-3 border-b bg-muted/40 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-muted-foreground uppercase">
-                  <span>L3 Process</span><span>Systems Used</span><span>Shares Systems With (Other L2s)</span><span className="text-right">Score</span>
+                <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.4fr)] gap-3 border-b bg-muted/40 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-muted-foreground uppercase">
+                  <span>L3 Process</span><span>Systems Used</span><span>Shares Systems With (Other L2s)</span>
                 </div>
                 {b.entanglement_l3[sel].map((x) => {
                   const cross = x.shared.filter((s) => s.l2 !== x.l2)
                   return (
-                    <div key={x.id} className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.4fr)_60px] items-start gap-3 border-b px-2.5 py-1.5 text-[11.5px] last:border-0">
+                    <div key={x.id} className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.4fr)] items-start gap-3 border-b px-2.5 py-1.5 text-[11.5px] last:border-0">
                       <span className="min-w-0"><span className="mr-1 text-[10px] text-muted-foreground">{x.id}</span>{x.name}</span>
                       <span className="text-muted-foreground">{x.answered ? (x.app_names.join(', ') || 'None named') : <i>Awaiting discovery</i>}</span>
                       <span className="flex flex-wrap gap-1">
@@ -224,7 +222,6 @@ export function Entanglement({ b }: { b: Business }) {
                         {cross.length > 4 && <span className="text-[10.5px] text-muted-foreground">+{cross.length - 4} more</span>}
                         {x.answered && !cross.length && <span className="text-[10.5px] text-muted-foreground">None</span>}
                       </span>
-                      <span className="flex items-center justify-end gap-1">{x.score !== null ? <><Explain x={x.explain} /><span className="tabular rounded px-1.5 font-semibold" style={x.score >= b.entanglement.threshold ? { color: BAND.critical, background: tint(BAND.critical) } : undefined}>{x.score}</span></> : <span className="text-muted-foreground">–</span>}</span>
                     </div>
                   )
                 })}
@@ -235,7 +232,7 @@ export function Entanglement({ b }: { b: Business }) {
         <div className="scrollbar-thin max-h-[250px] overflow-y-auto rounded-lg border">
           <Table>
             <TableHeader className="sticky top-0 bg-card">
-              <TableRow><TableHead className="w-16">ID</TableHead><TableHead>Capability</TableHead><TableHead className="text-center">Up</TableHead><TableHead className="text-center">Down</TableHead><TableHead className="text-center">Shared app</TableHead><TableHead className="text-right">Score</TableHead></TableRow>
+              <TableRow><TableHead className="w-16">ID</TableHead><TableHead>Capability</TableHead><TableHead className="text-center">Up</TableHead><TableHead className="text-center">Down</TableHead><TableHead className="text-center">Shared app</TableHead></TableRow>
             </TableHeader>
             <TableBody>
               {ranked.filter((x) => !l1Focus || x.l1 === l1Focus).map((x) => (
@@ -245,8 +242,6 @@ export function Entanglement({ b }: { b: Business }) {
                   <TableCell className="tabular text-center">{x.upstream.length}</TableCell>
                   <TableCell className="tabular text-center">{x.downstream.length}</TableCell>
                   <TableCell className="tabular text-center">{x.shared.length}</TableCell>
-                  <TableCell className="text-right"><span className="inline-flex items-center gap-1"><Explain x={x.explain} />
-                    <span className="tabular rounded px-1.5 font-semibold" style={x.high ? { color: BAND.critical, background: tint(BAND.critical) } : undefined}>{x.score}</span></span></TableCell>
                 </TableRow>
               ))}
             </TableBody>

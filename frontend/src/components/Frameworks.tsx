@@ -1,7 +1,7 @@
-import { useRef, useState } from 'react'
+import { Fragment, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Pencil, Plus, Trash2 } from 'lucide-react'
+import { ChevronDown, Pencil, Plus, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { AiAction } from '@/components/AiAction'
 import { ExportMenu } from '@/components/ExportMenu'
@@ -15,6 +15,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { api, type Tailoring, type Viewpoint, type Vision } from '@/lib/api'
 import { SCREEN_BY_KEY } from '@/lib/screens'
 import { BAND, NAVY, SLATE, tint } from '@/lib/theme'
+import { cn } from '@/lib/utils'
 
 const label = 'flex flex-col gap-1 text-[11.5px] font-medium text-muted-foreground'
 const DECISION_COLOR: Record<string, string> = { Adopted: BAND.strong, Tailored: NAVY, Excluded: SLATE }
@@ -28,9 +29,10 @@ function useGuide() {
 export function ViewpointCatalog({ v }: { v: Vision }) {
   const done = useGuide()
   const [edit, setEdit] = useState<Partial<Viewpoint> | null>(null)
+  const [open, setOpen] = useState<string | null>(v.viewpoints[0]?.id ?? null)
   const box = useRef<HTMLDivElement>(null)
   const save = useMutation({
-    mutationFn: () => { const body = { kind: 'viewpoint' as const, ...edit }; return edit!.id ? api.putGuideline(edit!.id, body) : api.addGuideline(body) },
+    mutationFn: () => { const body = { kind: 'viewpoint' as const, ...edit, questions: (edit!.questions ?? []).map((q) => q.trim()).filter(Boolean) }; return edit!.id ? api.putGuideline(edit!.id, body) : api.addGuideline(body) },
     onSuccess: (d) => { done(d, 'Viewpoint saved'); setEdit(null) }, onError: (e: Error) => toast.error(e.message),
   })
   const del = useMutation({ mutationFn: api.deleteGuideline, onSuccess: (d) => done(d, 'Viewpoint removed') })
@@ -38,7 +40,7 @@ export function ViewpointCatalog({ v }: { v: Vision }) {
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <span className="text-[11.5px] text-muted-foreground">Stakeholder → concerns → viewpoint → views, per ISO/IEC/IEEE 42010. Every RFP view should be answered by at least one viewpoint.</span>
+        <span className="text-[11.5px] text-muted-foreground">Who each viewpoint is for, what it answers and where it is used (ISO/IEC/IEEE 42010). Select a viewpoint to see its purpose and key questions; every RFP view should be answered by at least one viewpoint.</span>
         <span className="flex gap-2">
           <AiAction what="Viewpoint catalogue" from="the stakeholder map and the RFP views" />
           <ExportMenu target={box} name="Viewpoint Catalogue" csv={() => [['ID', 'Viewpoint', 'Stakeholders', 'Concerns', 'Model kinds', 'RFP views'], ...v.viewpoints.map((x) => [x.id, x.name, x.stakeholder, x.concerns, x.model_kind, x.views.join('; ')])]} />
@@ -47,10 +49,12 @@ export function ViewpointCatalog({ v }: { v: Vision }) {
       </div>
       <div ref={box} className="overflow-hidden rounded-lg border bg-card">
         <Table>
-          <TableHeader><TableRow><TableHead className="w-14">ID</TableHead><TableHead>Viewpoint</TableHead><TableHead>Stakeholders</TableHead><TableHead>Concerns</TableHead><TableHead>Model Kinds</TableHead><TableHead>Views</TableHead><TableHead className="w-20" /></TableRow></TableHeader>
+          <TableHeader><TableRow><TableHead className="w-8" /><TableHead className="w-14">ID</TableHead><TableHead>Viewpoint</TableHead><TableHead>Stakeholders</TableHead><TableHead>Concerns</TableHead><TableHead>Model Kinds</TableHead><TableHead>Views</TableHead><TableHead className="w-20" /></TableRow></TableHeader>
           <TableBody>
             {v.viewpoints.map((x) => (
-              <TableRow key={x.id}>
+              <Fragment key={x.id}>
+              <TableRow className="cursor-pointer" onClick={() => setOpen(open === x.id ? null : x.id)}>
+                <TableCell><ChevronDown className={cn('size-4 text-muted-foreground transition-transform', open === x.id && 'rotate-180')} /></TableCell>
                 <TableCell className="text-xs font-semibold text-muted-foreground">{x.id}</TableCell>
                 <TableCell className="font-medium">{x.name}</TableCell>
                 <TableCell className="max-w-44 text-[12px] whitespace-normal">{x.stakeholder}</TableCell>
@@ -60,8 +64,29 @@ export function ViewpointCatalog({ v }: { v: Vision }) {
                   const rv = v.rfp_views[n]
                   return rv ? <Link key={n} to={`${SCREEN_BY_KEY[rv.screen]?.path ?? '/'}?view=${rv.view}`} title={rv.name} className="rounded bg-navy-soft px-1.5 py-px text-[10.5px] font-semibold text-navy hover:underline">{n}</Link> : <span key={n}>{n}</span>
                 })}</div></TableCell>
-                <TableCell className="text-right"><Button variant="ghost" size="icon-sm" onClick={() => setEdit(x)}><Pencil /></Button><Button variant="ghost" size="icon-sm" onClick={() => del.mutate(x.id)}><Trash2 /></Button></TableCell>
+                <TableCell className="text-right" onClick={(e) => e.stopPropagation()}><Button variant="ghost" size="icon-sm" onClick={() => setEdit(x)}><Pencil /></Button><Button variant="ghost" size="icon-sm" onClick={() => del.mutate(x.id)}><Trash2 /></Button></TableCell>
               </TableRow>
+              {open === x.id && (
+                <TableRow className="hover:bg-transparent">
+                  <TableCell colSpan={8} className="bg-muted/30 whitespace-normal">
+                    <div className="grid grid-cols-12 gap-5 px-2 py-2 text-[12.5px] leading-relaxed">
+                      <div className="col-span-5 space-y-2">
+                        <div><div className="text-[10.5px] font-semibold tracking-wide text-muted-foreground uppercase">Purpose</div><p>{x.purpose || 'Not described yet. Edit the viewpoint to add its purpose.'}</p></div>
+                        <div><div className="text-[10.5px] font-semibold tracking-wide text-muted-foreground uppercase">Who It Is For</div><p>{x.stakeholder}</p></div>
+                      </div>
+                      <div className="col-span-4">
+                        <div className="text-[10.5px] font-semibold tracking-wide text-muted-foreground uppercase">Questions It Answers</div>
+                        {x.questions?.length ? <ul className="mt-0.5 list-disc space-y-0.5 pl-4">{x.questions.map((q, i) => <li key={i}>{q}</li>)}</ul> : <p className="text-muted-foreground">{x.concerns}</p>}
+                      </div>
+                      <div className="col-span-3 space-y-2">
+                        <div><div className="text-[10.5px] font-semibold tracking-wide text-muted-foreground uppercase">Where It Is Used</div><p>{x.used_in || '–'}</p></div>
+                        <div><div className="text-[10.5px] font-semibold tracking-wide text-muted-foreground uppercase">Where to Find It</div><p>{x.where || x.model_kind}</p></div>
+                      </div>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              )}
+              </Fragment>
             ))}
           </TableBody>
         </Table>
@@ -81,6 +106,10 @@ export function ViewpointCatalog({ v }: { v: Vision }) {
               <label className={label}>Stakeholders<Input value={edit.stakeholder ?? ''} onChange={(e) => setEdit({ ...edit, stakeholder: e.target.value })} className="h-8 text-foreground" /></label>
               <label className={`${label} col-span-2`}>Concerns<Textarea rows={2} value={edit.concerns ?? ''} onChange={(e) => setEdit({ ...edit, concerns: e.target.value })} className="text-foreground" /></label>
               <label className={`${label} col-span-2`}>Model kinds<Input value={edit.model_kind ?? ''} onChange={(e) => setEdit({ ...edit, model_kind: e.target.value })} className="h-8 text-foreground" /></label>
+              <label className={`${label} col-span-2`}>Purpose<Textarea rows={2} value={edit.purpose ?? ''} onChange={(e) => setEdit({ ...edit, purpose: e.target.value })} className="text-foreground" /></label>
+              <label className={`${label} col-span-2`}>Questions it answers (one per line)<Textarea rows={3} value={(edit.questions ?? []).join('\n')} onChange={(e) => setEdit({ ...edit, questions: e.target.value.split('\n') })} className="text-foreground" /></label>
+              <label className={label}>Where it is used<Input value={edit.used_in ?? ''} onChange={(e) => setEdit({ ...edit, used_in: e.target.value })} placeholder="e.g. Steering committee" className="h-8 text-foreground" /></label>
+              <label className={label}>Where to find it<Input value={edit.where ?? ''} onChange={(e) => setEdit({ ...edit, where: e.target.value })} placeholder="Screen and views" className="h-8 text-foreground" /></label>
               <div className={`${label} col-span-2`}>RFP views answered
                 <div className="grid grid-cols-2 gap-1 rounded-md border p-2 text-[12px] font-normal text-foreground">
                   {views.map((x) => <label key={x.n} className="flex items-center gap-1.5"><Checkbox checked={(edit.views ?? []).includes(x.n)} onCheckedChange={(c) => setEdit({ ...edit, views: c ? [...(edit.views ?? []), x.n].sort((a, b) => a - b) : (edit.views ?? []).filter((y) => y !== x.n) })} /><span className="truncate">{x.n} · {x.name}</span></label>)}

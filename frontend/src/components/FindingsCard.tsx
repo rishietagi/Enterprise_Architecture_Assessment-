@@ -41,8 +41,8 @@ function ItemList({ items, meta, icon }: { items: CitedItem[]; meta: AiMeta; ico
   )
 }
 
-export function FindingsCard({ screen }: { screen: ScreenKey }) {
-  const q = useQuery({ queryKey: ['findings', screen], queryFn: () => api.findings(screen), enabled: false, staleTime: Infinity })
+export function FindingsCard({ screen, sig = '' }: { screen: ScreenKey; sig?: string }) {
+  const q = useQuery({ queryKey: ['findings', screen, sig], queryFn: () => api.findings(screen), enabled: false, staleTime: Infinity })
   const run = async () => {
     const r = await q.refetch()
     if (r.error) toast.error(`Insights failed: ${r.error.message}`)

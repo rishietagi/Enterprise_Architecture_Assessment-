@@ -19,7 +19,7 @@ def prioritise(inits: list[dict], cfg: dict) -> list[dict]:
                                                                  ("Effort", f"size {i['size']} → {effort}"),
                                                                  ("Gaps", str(i["gaps"]))],
                                   f"{q[key]} · value/effort = {score}",
-                                  f"High value ≥ {p['value_split']}; low effort ≤ {p['effort_split']} (S=1, M=2, L=3, XL=4)",
+                                  f"High value ≥ {p['value_split']}; low effort ≤ {p['effort_split']} (S=1, M=2, L=3)",
                                   f"§{p['togaf_ref']}")})
     order = sorted(out, key=lambda x: (["quick_win", "strategic", "fill_in", "reconsider"].index(x["quadrant"]), -x["score"]))
     for n, x in enumerate(order, 1):

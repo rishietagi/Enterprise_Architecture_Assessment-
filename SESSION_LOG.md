@@ -48,7 +48,7 @@ No KPI rows and no "On this screen" summaries on phase screens.
 - **Application layers:** Customer & Sales, Logistics & Operations, Enterprise Apps, Admin Apps, Data & AI (`views.LAYERS`, `theme.DEFAULT_LAYER`).
 - **Layered architecture views** (not called "reference" in the UI): application, information & data, technology & infrastructure. Table `ArchView`, seed `seed/reference_views.json`, editor `components/RefArchitecture.tsx` (Edit Layout, block dialog, Restore Default, export PNG/CSV/draw.io). Infra blocks with `check` follow the resilience/engineering checklist; `hosting` blocks list hosted apps. App view has only 6 core CIL functions in its header.
 - **Network, cloud and security** are consolidated into the infrastructure view with Details drill-downs (no separate views).
-- **Roadmap is built from the gap registers** (Business + Application + Data & Technology + 8 ACMM governance gaps = 157 gaps → 10 initiatives, ₹55.5–139.5 Cr). `views.ctx` builds the registers once (`_registers`); `rules/roadmap_registers.py` unifies and builds. Severity → priority: High 20, Medium 12, Low 6. The parity-port roadmap (62 gaps, golden values vs `rules_reference.py`) is kept in `r["parity"]` and tested in `test_rules.py`.
+- **Roadmap is built from the gap registers** (Business + Application + Data & Technology + 8 ACMM governance gaps = 157 gaps → 10 initiatives, ₹31.5–79.5 Cr; register sizes are S/M/L only, XL capped to L via `roadmap_registers.MAX_SIZE`; the parity roadmap keeps XL). `views.ctx` builds the registers once (`_registers`); `rules/roadmap_registers.py` unifies and builds. Severity → priority: High 20, Medium 12, Low 6. The parity-port roadmap (62 gaps, golden values vs `rules_reference.py`) is kept in `r["parity"]` and tested in `test_rules.py`.
 - **Gap registers:**
   - Business: `rules/gap_register.py`, edits stored in SettingOverride `gap_notes`.
   - Applications and Data & Technology: `rules/domain_gaps.py`, edits stored in `app_gap_notes` / `dt_gap_notes`.
@@ -63,7 +63,7 @@ No KPI rows and no "On this screen" summaries on phase screens.
 
 - `seed/`: `vision.json` (engagement plan, scope of work, viewpoints, tailoring), `applications.json`, `capabilities.json`, `discovery.json`, `data_domains.json`, `technology.json` (resilience checks R01-R10, engineering checks E01-E10, landing zones), `config.json` (rules, themes with benefits/risks/constraints, budget_rules, prioritization, tech_health, roadmap severity/size params, governance.repository), `budget.json`, `reference_views.json`, `context_samples.json`, `process_models.json`, `integrations.json`.
 - **Discovery demo data:** 73 of 156 L3 questionnaires answered (47%) across 19 fully analysed L2s, with owners, systems, context answers, per-question comments and consultant comments. Answers are calibrated so the inferred L2 P/T/D/I/importance equal the seed baseline (golden values, avg maturity 2.48 and 23 capability gaps hold); the generator asserts this. C05.3 and C08.1 keep the sent/draft/walkthrough/redirected states for the demo.
-- `db.SEED_VERSION = 7`: bump it to force a one-time reseed when the seed shape changes. `POST /api/settings/reset` reseeds the demo.
+- `db.SEED_VERSION = 8`: bump it to force a one-time reseed when the seed shape changes. `POST /api/settings/reset` reseeds the demo.
 - **Overrides** (SettingOverride keys): `budget`, `scope_of_work`, `initiative_notes`, `repository`, `sites`, `landing_zones`, `gap_notes`, `app_gap_notes`, `dt_gap_notes`, `vision_context`, `config`.
 - **Demo figures are illustrative placeholders,** for example IT spend ₹200 Cr in FY26A at 0.75% of revenue, and the technical-health intake values.
 
@@ -96,3 +96,12 @@ No KPI rows and no "On this screen" summaries on phase screens.
 - Gives batches of UI feedback with screenshots. Implement all of it, verify in the browser with Playwright screenshots, then report.
 - Asks for honest status ("are the initiatives considering gaps from all of these now") and expects a plain yes/no plus what changed.
 - Deployment and other outward-facing actions: explain first, act only on an explicit "go".
+
+## 9. Changes 2026-11-04
+
+- Vision: business driver tags removed from the vision statements. Principles, guardrails and patterns are one tab with a **CIL / TOGAF §23.6** switch (to avoid duplicates) and a type filter; a newly added item is scrolled to and highlighted. Stakeholder viewpoints expand to show purpose, questions answered, where used and where to find them (new fields `purpose`, `questions`, `used_in`, `where`).
+- AI buttons: the "Roadmap" tag is gone from `AiAction`. Approach & Plan scope of work has **Upload RFP** (stored as a context document) before Regenerate with AI.
+- AI Insights no longer show a stale AI rewrite after data changes: the query key includes the tab's rule-based insight text (FindingsCard takes a `sig`).
+- Removed from the UI: entanglement scores (the dependency map stays), disposition in the application intake (table and form), "Closed by" initiative in the app/D&T gap registers, consumers and score in the data domain inputs, wave and quadrant in the initiative long list.
+- `USER_GUIDE.md`: a short user guide to the whole app.
+- Add-principle bug: could not reproduce (the API and UI both add it); the item was probably landing off-screen, now it is highlighted.

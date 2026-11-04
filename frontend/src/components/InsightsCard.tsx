@@ -9,7 +9,9 @@ import { AiModeBadge } from './FindingsCard'
 
 /** AI insights for one tab: 3-4 rule-derived insights from the tab's data, rewritten and TOGAF-grounded on request. */
 export function InsightsCard({ screen, tab, items }: { screen: ScreenKey; tab: string; items: Insight[] }) {
-  const q = useQuery({ queryKey: ['insights', screen, tab], queryFn: () => api.findings(screen, tab), enabled: false, staleTime: Infinity })
+  // keyed to the tab's rule-based insights: when the data changes, an earlier AI rewrite is dropped instead of shown as current
+  const sig = items.map((i) => i.text).join('|')
+  const q = useQuery({ queryKey: ['insights', screen, tab, sig], queryFn: () => api.findings(screen, tab), enabled: false, staleTime: Infinity })
   const run = async () => {
     const r = await q.refetch()
     if (r.error) toast.error(`Insights failed: ${r.error.message}`)

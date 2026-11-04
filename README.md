@@ -10,3 +10,4 @@ TOGAF 9.1-guided EA assessment POC for Coromandel International. Works fully off
 6. Tests: `cd backend; conda run -n pmo-intel-engine pytest -q`
 
 Hosting: see `DEPLOY.md` (Render, Docker, login gate).
+Using the app: see `USER_GUIDE.md`.

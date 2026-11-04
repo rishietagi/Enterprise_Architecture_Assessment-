@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { BrainCircuit, CheckCircle2, Flag, Landmark, ListChecks, Pencil, Plus, RotateCcw, Route, ScanSearch, Server, Trash2 } from 'lucide-react'
+import { BrainCircuit, CheckCircle2, Flag, Landmark, ListChecks, Loader2, Pencil, Plus, RotateCcw, Route, ScanSearch, Server, Trash2, Upload } from 'lucide-react'
 import { toast } from 'sonner'
 import { AiAction } from '@/components/AiAction'
 import { CadenceLegend, CadenceRow, EngagementPlan } from '@/components/EngagementPlan'
@@ -68,6 +68,27 @@ function ScopeDialog({ a, open, onClose }: { a: ApproachT; open: boolean; onClos
   )
 }
 
+/** Uploads the RFP into the engagement context documents (read on upload; only the text is kept), where AI drafting reads it. */
+function UploadRfp() {
+  const qc = useQueryClient()
+  const file = useRef<HTMLInputElement>(null)
+  const up = useMutation({
+    mutationFn: (f: File) => api.uploadContext([f]),
+    onSuccess: (d) => {
+      qc.setQueryData(['vision'], d)
+      if (d.added.length) toast.success(`RFP uploaded: ${d.added.join(', ')}`, { description: 'Added to the context documents on Vision & Guardrails.' })
+      d.errors.forEach((e) => toast.error(e))
+    },
+    onError: (e: Error) => toast.error(e.message),
+  })
+  return (
+    <>
+      <input ref={file} type="file" hidden accept=".pdf,.docx,.pptx,.txt,.md" onChange={(e) => { const f = e.target.files?.[0]; if (f) up.mutate(f); e.target.value = '' }} />
+      <Button size="sm" variant="outline" onClick={() => file.current?.click()} disabled={up.isPending}>{up.isPending ? <Loader2 className="animate-spin" /> : <Upload />} Upload RFP</Button>
+    </>
+  )
+}
+
 function ScopeOfWork({ a }: { a: ApproachT }) {
   const s = a.scope_of_work
   const box = useRef<HTMLDivElement>(null)
@@ -79,7 +100,8 @@ function ScopeOfWork({ a }: { a: ApproachT }) {
         <CardDescription>Comprehensive Enterprise Architecture for {a.engagement.client} · as proposed</CardDescription>
         <CardAction className="flex gap-2">
           <Button size="sm" variant="outline" onClick={() => setEditing(true)}><Pencil /> Edit</Button>
-          <AiAction what="Scope of work" from="the RFP and the uploaded context documents" />
+          <UploadRfp />
+          <AiAction what="Scope of work" from="the uploaded RFP and context documents" />
           <ExportMenu target={box} name="Scope of Work" csv={() => [['#', 'Scope of work', 'Key activities'], ...s.items.map((x) => [x.n, x.title, x.activities])]} />
         </CardAction>
       </CardHeader>

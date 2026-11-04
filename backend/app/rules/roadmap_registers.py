@@ -14,6 +14,8 @@ from .common import SIZES, fmt, xp
 DEFAULT_SEV = {"High": [5, 4], "Medium": [4, 3], "Low": [3, 2]}
 SCREEN = {"business": "Business Architecture", "application": "Application Architecture", "data_tech": "Data & Technology", "governance": "EA governance"}
 
+MAX_SIZE = 2  # register roadmap sizes are S / M / L only (XL is kept for the parity roadmap)
+
 
 def _cap_theme(cfg: dict, cap: str | None, default: str = "TH9") -> str:
     if cap:
@@ -89,13 +91,13 @@ def build(gaps: list[dict], cfg: dict):
         t = themes[tid]
         prio = max(g["priority"] for g in gs)
         high = sum(g["severity"] == "High" for g in gs)
-        si = SIZES.index(t["size"])
-        size_why = f"base {t['size']}"
+        si = min(SIZES.index(t["size"]), MAX_SIZE)
+        size_why = f"base {t['size']}" + (" (capped at L)" if t["size"] == "XL" else "")
         if len(gs) <= 2:
             si = max(0, si - 1)
             size_why += f"; {len(gs)} gaps ≤ 2 → one size smaller"
         if high >= up or len(gs) >= up_total:
-            si = min(3, si + 1)
+            si = min(MAX_SIZE, si + 1)
             size_why += (f"; {high} high-severity gaps ≥ {up}" if high >= up else f"; {len(gs)} gaps ≥ {up_total}") + " → one size larger"
         size = SIZES[si]
         if size in ("S", "M") and prio >= 16:

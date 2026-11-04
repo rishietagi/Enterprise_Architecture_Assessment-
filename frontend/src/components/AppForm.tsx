@@ -77,7 +77,7 @@ function Scores({ labels, values, onChange }: { labels: string[]; values: number
 }
 
 /** Application intake and edit form: Tech DD due-diligence fields plus the rule inputs, with a disposition override. */
-export function AppForm({ open, app, a, onClose }: { open: boolean; app: App | null; a: Applications; onClose: () => void }) {
+export function AppForm({ open, app, a, intake = false, onClose }: { open: boolean; app: App | null; a: Applications; intake?: boolean; onClose: () => void }) {
   const qc = useQueryClient()
   const [f, setF] = useState<AppFields>(EMPTY)
   const [capQ, setCapQ] = useState('')
@@ -126,7 +126,7 @@ export function AppForm({ open, app, a, onClose }: { open: boolean; app: App | n
           </DialogDescription>
         </DialogHeader>
         <div className="scrollbar-thin flex-1 space-y-4 overflow-y-auto px-5 py-4">
-          {app && (
+          {app && !intake && (
             <details className="rounded-lg border">
               <summary className="cursor-pointer px-3 py-2 text-xs font-semibold text-navy">
                 Current disposition: <span style={{ color: dispositionColor(app.computed.disposition) }}>{app.computed.label}</span> · how it was decided
@@ -217,8 +217,8 @@ export function AppForm({ open, app, a, onClose }: { open: boolean; app: App | n
             <div className="flex items-center gap-1.5 pt-1 text-[11px] font-semibold text-muted-foreground uppercase">Technical fit </div>
             <Scores labels={TF} values={f.tf} onChange={(v) => set('tf', v)} />
           </Section>
-          <Section title="Disposition override" hint="Rules propose the disposition; an architect can override it with context. The rule result stays visible.">
-            <div className="grid grid-cols-[200px_1fr] gap-3">
+          <Section title={intake ? 'Known Issues' : 'Disposition override'} hint={intake ? 'Anything the owner flags that the assessment should know.' : 'Rules propose the disposition; an architect can override it with context. The rule result stays visible.'}>
+            {!intake && <div className="grid grid-cols-[200px_1fr] gap-3">
               <Field label="Override to">
                 <Select value={ov.disposition ?? 'none'} onValueChange={(v) => set('override', v === 'none' ? {} : { ...ov, disposition: v })}>
                   <SelectTrigger size="sm" className="h-8 w-full text-[13px]"><SelectValue /></SelectTrigger>
@@ -231,7 +231,7 @@ export function AppForm({ open, app, a, onClose }: { open: boolean; app: App | n
               <Field label="Reason (required with an override)">
                 <Input value={ov.reason ?? ''} disabled={!ov.disposition} onChange={(e) => set('override', { ...ov, reason: e.target.value })} className="h-8" placeholder="e.g. ARB decision 2026-11, contract runs to FY28" />
               </Field>
-            </div>
+            </div>}
             <Field label="Known issues"><Textarea value={f.issues ?? ''} onChange={(e) => set('issues', e.target.value)} className="min-h-12 text-sm" /></Field>
           </Section>
         </div>

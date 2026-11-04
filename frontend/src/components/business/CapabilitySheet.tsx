@@ -58,7 +58,7 @@ export function CapabilitySheet({ cap, b, onClose, onDiscover }: { cap: CapRow |
                   </div>
                   {ent && (
                     <div>
-                      <div className="mb-1.5 flex items-center gap-1 text-xs font-semibold">Entanglement · score {ent.score} <Explain x={ent.explain} /></div>
+                      <div className="mb-1.5 flex items-center gap-1 text-xs font-semibold">Dependencies</div>
                       <div className="text-[12px] text-muted-foreground">Depends on: {ent.upstream.map(name).join(', ') || 'none'}</div>
                       <div className="text-[12px] text-muted-foreground">Feeds: {ent.downstream.map(name).join(', ') || 'none'}</div>
                     </div>

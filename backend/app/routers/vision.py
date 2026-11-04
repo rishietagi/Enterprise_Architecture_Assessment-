@@ -47,6 +47,10 @@ class GuidelineIn(BaseModel):
     views: list[int] = []
     model_kind: str = ""
     screen: str = ""
+    purpose: str = ""
+    questions: list[str] = []
+    used_in: str = ""
+    where: str = ""
     framework: str = ""
     element: str = ""
     decision: Literal["Adopted", "Tailored", "Excluded", ""] = ""
@@ -111,7 +115,7 @@ def _payload(body: GuidelineIn) -> dict:
     keep = {"principle": ("name", "statement", "category", "togaf_basis", "rationale", "implications"),
             "guardrail": ("name", "statement", "category", "enforced_by", "active"),
             "pattern": ("name", "use", "principle", "active"),
-            "viewpoint": ("name", "stakeholder", "concerns", "views", "model_kind", "screen"),
+            "viewpoint": ("name", "stakeholder", "concerns", "views", "model_kind", "screen", "purpose", "questions", "used_in", "where"),
             "tailoring": ("framework", "element", "decision", "rationale", "approval")}[body.kind]
     need = "element" if body.kind == "tailoring" else "name"
     if len(d.get(need, "").strip()) < 2:

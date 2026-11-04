@@ -48,7 +48,7 @@ export const SCREENS: ScreenMeta[] = [
     key: 'vision', path: '/vision', title: 'Vision & Guardrails', nav: 'Vision & Guardrails', phases: ['Prelim', 'A'], badges: ['P', 'A'],
     purpose: 'Architecture vision statements drawn from the client context, and the principles, guardrails and rules that govern decisions.', icon: Compass,
     summary: {
-      covers: [{ view: 'principles', label: 'Principles' }, { view: 'guardrails', label: 'Guardrails & Patterns' },
+      covers: [{ view: 'principles', label: 'Principles, Guardrails & Patterns' },
         { view: 'rules', label: 'Rationalization Rules' }, { view: 'stakeholders', label: 'Stakeholder Viewpoints' }],
       outputs: ['Five architecture vision statements (export .md)', 'Adopted principles, guardrails and patterns', 'Configured rules that drive every app disposition'],
       rfp: [12],

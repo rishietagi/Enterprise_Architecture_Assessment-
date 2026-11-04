@@ -670,10 +670,10 @@ def business_insights(b: dict, cfg: dict) -> dict:
     app_cnt = collections.Counter(a["name"] for c in l2s for a in c["apps"])
     hub = app_cnt.most_common(1)[0] if app_cnt else None
     out["entanglement"] = [
-        {"text": f"Most entangled: {_names([n['name'] + ' (' + str(n['score']) + ')' for n in top], 3, False)}. Changes here ripple across value chains.",
+        {"text": f"Most entangled: {_names([n['name'] for n in top], 3, False)}. Changes here ripple across value chains.",
          "rule": "upstream + downstream + shared-app coupling"},
         {"text": f"{len(hot)} capability gaps are also highly entangled ({_names([n['name'] for n in hot], 3)}): sequence them with their upstream dependencies."
-                 if hot else "No capability gap is highly entangled, so gaps can be closed independently.", "rule": f"gap and score ≥ {ent['threshold']}"},
+                 if hot else "No capability gap is highly entangled, so gaps can be closed independently.", "rule": "gap with high coupling"},
         {"text": f"Strongest cross-area dependency: {l1n.get(link['from'], link['from'])} → {l1n.get(link['to'], link['to'])} ({link['count']} L2 links)."
                  if link else "No cross-L1 dependencies recorded.", "rule": "L2 dependencies between L1 areas"},
         {"text": f"{hub[0]} supports {hub[1]} capabilities, the main coupling point; its roadmap decisions affect every one of them." if hub else "",
@@ -832,8 +832,8 @@ def business(s: Session) -> dict:
                              f"{ai_on} of {len(r['cap_rows'])} assessed L2 at AI-enabled (4) or Agentic AI (5)",
                              "Technology & AI dimension: Manual / siloed → Digitised → Integrated automation → AI-enabled → Agentic AI",
                              "§8.4, §32"),
-            "entangled": xp("Highly entangled capabilities", [(n["id"], f"{n['name']} · score {n['score']}") for n in r["entanglement"]["nodes"] if n["high"]] or [("None", "–")],
-                            f"{r['entanglement']['high']} L2 at or above score {r['entanglement']['threshold']}",
+            "entangled": xp("Highly entangled capabilities", [(n["id"], n['name']) for n in r["entanglement"]["nodes"] if n["high"]] or [("None", "–")],
+                            f"{r['entanglement']['high']} L2 with high coupling",
                             "Score = upstream + downstream dependencies + capabilities sharing an application", "§27"),
             "responded": xp("Current-state discovery", [(st_.replace("_", " ").capitalize(), str(roll[st_])) for st_ in rules.STATUSES]
                             + [("L2 analysed", f"{len(analysed)}: {', '.join(c['id'] for c in analysed) or 'none'}")],
@@ -1359,7 +1359,7 @@ def roadmap(s: Session) -> dict:
         "plan": phase_plan(state, "roadmap"), "long_list": inits, "budget": {k: bv[k] for k in ("afford", "per_fy", "benchmark")},
         "repository": repo, "prio_cfg": cfg["prioritization"],
         "gaps": gaps, "initiatives": r["initiatives"], "waves": cfg["roadmap"]["waves"], "fy_budget": r["fy_budget"],
-        "total_cr": r["total_cr"], "rate_card": cfg["roadmap"]["rate_card_inr_cr"],
+        "total_cr": r["total_cr"], "rate_card": {k: x for k, x in cfg["roadmap"]["rate_card_inr_cr"].items() if k != "XL"},
         "rate_card_note": cfg["roadmap"]["rate_card_note"], "start": cfg["roadmap"]["start"],
         "acmm": acmm, "acmm_levels": gov["acmm_levels"], "acmm_mean": r["gov"]["acmm_mean"], "arb": gov["arb"],
         "compliance_levels": gov["compliance_levels"], "compliance_ref": gov["compliance_levels_ref"],
