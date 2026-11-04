@@ -31,7 +31,7 @@ SEED_DECISIONS = [
 ]
 TABLES = (Capability, Application, DataDomain, Platform, TechCheck, AcmmLevel, PrincipleSelection, VisionDoc, Decision,
           SettingOverride, Guideline, Integration, Survey, ProcessModel, PlanTask, ContextDoc, ArchView)
-SEED_VERSION = 8  # bump when the seed shape changes so existing demo databases are rebuilt once
+SEED_VERSION = 9  # bump when the seed shape changes so existing demo databases are rebuilt once
 
 _engine = None
 
@@ -193,6 +193,9 @@ def load_state(s: Session) -> dict:
     if lz:
         tech["landing_zones"] = lz.value.get("items", tech.get("landing_zones", []))
     tech["platforms"] = [dict(p.data, source=p.source) for p in s.exec(select(Platform).order_by(Platform.id))]
+    cy = s.get(SettingOverride, "cyber")
+    if cy:
+        tech["cyber"] = {**tech.get("cyber", {}), **cy.value, "source": "client"}
     acmm = {a.id: a.level for a in s.exec(select(AcmmLevel))}
     acmm_src = {a.id: a.source for a in s.exec(select(AcmmLevel))}
     vision = copy.deepcopy(seed["vision"])

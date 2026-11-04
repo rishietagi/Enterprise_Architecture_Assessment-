@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Pencil, Plus, Save, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { AiAction } from '@/components/AiAction'
+import { CyberInputsPanel } from '@/components/Cyber'
 import { ExportMenu } from '@/components/ExportMenu'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
@@ -254,13 +255,14 @@ export function DataTechInputs({ d }: { d: DataTech }) {
         ))}
       </div>
       <ToggleGroup type="single" value={tab} onValueChange={(v) => v && setTab(v)} variant="outline" size="sm">
-        {[['domains', 'Data Domains & Types'], ['platforms', 'Technology Platforms'], ['sites', 'Sites & Network']].map(([k, l]) => (
+        {[['domains', 'Data Domains & Types'], ['platforms', 'Technology Platforms'], ['sites', 'Sites & Network'], ['cyber', 'Cyber Security']].map(([k, l]) => (
           <ToggleGroupItem key={k} value={k} className="px-3 data-[state=on]:bg-navy data-[state=on]:text-white">{l}</ToggleGroupItem>
         ))}
       </ToggleGroup>
       {tab === 'domains' && <Domains d={d} />}
       {tab === 'platforms' && <Platforms d={d} />}
       {tab === 'sites' && <Sites d={d} />}
+      {tab === 'cyber' && <CyberInputsPanel d={d} />}
     </div>
   )
 }

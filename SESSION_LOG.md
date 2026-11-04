@@ -63,7 +63,7 @@ No KPI rows and no "On this screen" summaries on phase screens.
 
 - `seed/`: `vision.json` (engagement plan, scope of work, viewpoints, tailoring), `applications.json`, `capabilities.json`, `discovery.json`, `data_domains.json`, `technology.json` (resilience checks R01-R10, engineering checks E01-E10, landing zones), `config.json` (rules, themes with benefits/risks/constraints, budget_rules, prioritization, tech_health, roadmap severity/size params, governance.repository), `budget.json`, `reference_views.json`, `context_samples.json`, `process_models.json`, `integrations.json`.
 - **Discovery demo data:** 73 of 156 L3 questionnaires answered (47%) across 19 fully analysed L2s, with owners, systems, context answers, per-question comments and consultant comments. Answers are calibrated so the inferred L2 P/T/D/I/importance equal the seed baseline (golden values, avg maturity 2.48 and 23 capability gaps hold); the generator asserts this. C05.3 and C08.1 keep the sent/draft/walkthrough/redirected states for the demo.
-- `db.SEED_VERSION = 8`: bump it to force a one-time reseed when the seed shape changes. `POST /api/settings/reset` reseeds the demo.
+- `db.SEED_VERSION = 9`: bump it to force a one-time reseed when the seed shape changes. `POST /api/settings/reset` reseeds the demo.
 - **Overrides** (SettingOverride keys): `budget`, `scope_of_work`, `initiative_notes`, `repository`, `sites`, `landing_zones`, `gap_notes`, `app_gap_notes`, `dt_gap_notes`, `vision_context`, `config`.
 - **Demo figures are illustrative placeholders,** for example IT spend ₹200 Cr in FY26A at 0.75% of revenue, and the technical-health intake values.
 
@@ -105,3 +105,8 @@ No KPI rows and no "On this screen" summaries on phase screens.
 - Removed from the UI: entanglement scores (the dependency map stays), disposition in the application intake (table and form), "Closed by" initiative in the app/D&T gap registers, consumers and score in the data domain inputs, wave and quadrant in the initiative long list.
 - `USER_GUIDE.md`: a short user guide to the whole app.
 - Add-principle bug: could not reproduce (the API and UI both add it); the item was probably landing off-screen, now it is highlighted.
+- Roadmap › EA Governance has two tabs: **EA Operating Model** (`components/OperatingModel.tsx`: org chart from `reports_to`, forums, engagement steps, KPIs with live "Today" values from `views.operating_model` measures; seed `config.governance.operating_model`, override SettingOverride `operating_model`, `PUT/DELETE /api/roadmap/operating-model`) and **Maturity & Review Board** (the old content).
+- Data & Technology cyber: Inputs tab **Cyber Security** and Assessment tab **Cyber Security** (`components/Cyber.tsx`). Seed `technology.json` `cyber` (NIST CSF 2.0 controls CY01-CY12, metrics, tooling, compliance; assumed), override SettingOverride `cyber`, `PUT/DELETE /api/data_tech/cyber`, rules `rules/cyber.py` (score = (mean maturity − 1)/4 × 100), params `config.cyber_rules`. Weak controls and open metrics/tooling/compliance become D&T gaps under TH7, so the roadmap now has 168 gaps.
+- Orchestrate email dialog: the shared Textarea uses `field-sizing-content`, which made the body grow past the dialog; the email body is now `field-sizing-fixed` and the dialog scrolls inside `max-h-[90vh]`.
+- Dev note: stale uvicorn processes (and their multiprocessing children) on :8000 served old code; kill them before checking in the browser.
+

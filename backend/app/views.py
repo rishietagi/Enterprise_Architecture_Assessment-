@@ -73,7 +73,7 @@ def _registers(s: Session, state: dict, r: dict) -> dict:
     eng = state["tech"].get("engineering_checks", [])
     refs = [v for v in (ref_view(state, "DATA-REF", r), ref_view(state, "INFRA-REF", r)) if v]
     dt = rules.data_tech_gaps(state["data"], r["data_rows"], state["tech"]["resilience_checks"], eng, state["tech"]["platforms"],
-                              refs, state["tech"].get("landing_zones", []), cfg, notes["dt_gap_notes"])
+                              refs, state["tech"].get("landing_zones", []), cfg, notes["dt_gap_notes"], state["tech"].get("cyber"))
     return {"business": biz, "application": app, "data_tech": dt, "health": health, "cap_tree": cap_tree, "app_ref": app_ref}
 
 
@@ -1299,7 +1299,20 @@ def data_tech(s: Session) -> dict:
         "check_explain": {c["id"]: check_explain(c, state["cfg"]) for c in checks},
     }
     d["gap_register"] = r["registers"]["data_tech"]
+    cy = state["tech"].get("cyber", {})
+    cp = rules.cyber_posture(cy, state["cfg"])
+    d["cyber"] = {"inputs": cy, "posture": cp, "options": {k: state["cfg"]["cyber_rules"][k] for k in ("functions", "tool_status", "compliance_status")}}
     d["insights"] = data_tech_insights(d, state)
+    lbl = {c["id"]: c["control"] for c in cy.get("controls", [])}
+    ml = {m["id"]: m["label"] for m in cy.get("metrics", [])}
+    d["insights"]["cyber"] = [
+        {"text": f"Cyber security score {cp['score']}/100 (mean control maturity {cp['mean']}); weakest function: {cp['lowest']}.", "rule": "(mean maturity − 1) / 4 × 100"},
+        {"text": (f"{cp['counts']['weak']} of {cp['counts']['controls']} controls are at maturity ≤ {state['cfg']['cyber_rules']['weak_max']}: "
+                  + _names([lbl[i] for i in cp["weak"]], 3) + ".") if cp["weak"] else "No control is below the target maturity.", "rule": "maturity ≤ weak_max"},
+        {"text": (f"{cp['counts']['breaches']} security metrics are off target: " + _names([ml[i] for i in cp["breaches"]], 3) + ".")
+                 if cp["breaches"] else "All security metrics are on target.", "rule": "value vs target"},
+        {"text": f"{cp['counts']['tool_gaps']} tooling areas are missing or partial and {cp['counts']['open_compliance']} compliance obligations are open; each becomes a gap under Resilience & cyber security.",
+         "rule": "tooling status, compliance status"}]
     d["insights"]["gaps"] = gap_insights(d["gap_register"], "data and technology")
     e = d["engineering"]
     fails = [c["check"] for c in eng if c["status"] == "fail"]
@@ -1378,8 +1391,35 @@ def roadmap(s: Session) -> dict:
             "total_cr": total_xp(r), "acmm_mean": r["gov"]["explain"], "fy_budget": fy_xp(r),
         },
     }
+    out["operating_model"] = operating_model(s, state, out, pv)
     out["insights"] = roadmap_insights(out)
     return out
+
+
+def operating_model(s: Session, state: dict, rm: dict, pv: dict) -> dict:
+    """EA operating model (roles and hierarchy, structure and forums, KPIs). KPIs with a `measure` show today's value from the data."""
+    ov = s.get(SettingOverride, "operating_model")
+    om = copy.deepcopy(ov.value if ov else state["cfg"]["governance"].get("operating_model", {}))
+    om["source"] = "client" if ov else "assumed"
+    apps = [a for a in state["apps"] if a.get("in_scope", True)]
+    owned = sum(bool(str(a.get("business_owner", "")).strip()) for a in apps)
+    repo = rm["repository"].get("ownership", [])
+    l3 = [x for l1 in state["caps"]["capabilities"] for c in l1["children"] for x in c.get("l3", [])]
+    answered = sum(1 for x in l3 if (state["surveys"].get(x["id"]) or {}).get("status") == "responded")
+    high = sum(g.get("severity") == "High" for g in rm["gaps"])
+    measures = {
+        "acmm_mean": (f"{rm['acmm_mean']:.2f}", "Mean ACMM level across the 9 elements"),
+        "decisions": (str(len(rm["decisions"])), "Entries in the decision log"),
+        "apps_owned_pct": (f"{round(100 * owned / max(1, len(apps)))}%", f"{owned} of {len(apps)} in-scope applications name a business owner"),
+        "repo_owned": (f"{sum(bool(o.get('owner')) for o in repo)} of {len(repo)}", "View families in the repository model with an owner"),
+        "gaps_high": (str(high), f"High-severity gaps across the registers (of {len(rm['gaps'])})"),
+        "principles": (str(pv["adopted"]), "CIL and TOGAF principles adopted"),
+        "discovery_pct": (f"{round(100 * answered / max(1, len(l3)))}%", f"{answered} of {len(l3)} L3 questionnaires answered"),
+    }
+    for k in om.get("kpis", []):
+        cur = measures.get(k.get("measure") or "")
+        k["current"], k["basis"] = (cur if cur else ("", "Not measured in the tool yet; capture from the ARB log"))
+    return om
 
 
 def roadmap_insights(rm: dict) -> dict:

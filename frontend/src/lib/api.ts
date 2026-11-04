@@ -952,6 +952,30 @@ export interface DataArch {
   edges: { from: string; to: string; kind: 'sor' | 'feeds' | 'ai' }[]
 }
 
+/** Cyber security inputs (NIST CSF 2.0 functions) and the posture computed from them. */
+export interface CyberControl { id: string; function: string; control: string; maturity: number; evidence?: string }
+export interface CyberMetric { id: string; label: string; value: number | null; target: number | null; unit: string; better: 'higher' | 'lower' }
+export interface CyberTool { id: string; area: string; product: string; status: string }
+export interface CyberObligation { id: string; name: string; status: string }
+export interface CyberInputs { controls: CyberControl[]; metrics: CyberMetric[]; tooling: CyberTool[]; compliance: CyberObligation[]; source?: Source }
+export interface Cyber {
+  inputs: CyberInputs
+  posture: {
+    functions: { name: string; maturity: number | null; band: string | null; n: number }[]
+    score: number | null; mean: number | null; lowest: string | null
+    weak: string[]; breaches: string[]; tool_gaps: string[]; open_compliance: string[]
+    counts: { controls: number; weak: number; breaches: number; tool_gaps: number; open_compliance: number }
+    explain: Explanation
+  }
+  options: { functions: string[]; tool_status: string[]; compliance_status: string[] }
+}
+
+/** EA operating model: roles and reporting lines, structure and forums, KPIs (some measured from the data). */
+export interface EaRole { id: string; title: string; reports_to: string; count: string; sourcing: string; responsibilities: string[] }
+export interface EaForum { name: string; chair: string; cadence: string; decides: string }
+export interface EaKpi { id: string; name: string; category: string; target: string; frequency: string; owner: string; measure?: string; current?: string; basis?: string }
+export interface OperatingModel { model: string; model_options: string[]; rationale: string; roles: EaRole[]; forums: EaForum[]; engagement: string[]; kpis: EaKpi[]; source: Source }
+
 export interface DataTech {
   plan: PhasePlanT | null
   engineering_checks: Check[]
@@ -983,6 +1007,7 @@ export interface DataTech {
   kpis: { data_avg: number; privacy_risk: number; resilience_score: number | null; to_validate: number }
   explain: Explains<'data_avg' | 'privacy_risk' | 'resilience_score' | 'to_validate'>
   check_explain: Record<string, Explanation>
+  cyber: Cyber
 }
 
 // ---------------------------------------------------------------- roadmap
@@ -1020,6 +1045,7 @@ export interface Roadmap {
   long_list: InitiativeRow[]
   budget: { afford: Afford[]; per_fy: BudgetFY[]; benchmark: [number, number] }
   repository: Repository
+  operating_model: OperatingModel
   prio_cfg: { value_split: number; effort_split: number; effort: Record<string, number>; quadrants: Record<string, string> }
   insights: Record<string, Insight[]>
 }
@@ -1177,6 +1203,8 @@ export const api = {
   putInitiative: (id: string, n: Pick<InitiativeRow, 'benefits' | 'risks' | 'constraints' | 'owner' | 'kpis'>) => put<Roadmap>(`/roadmap/initiatives/${id}`, n),
   resetInitiative: (id: string) => req<Roadmap>(`/roadmap/initiatives/${id}`, { method: 'DELETE' }),
   putRepository: (r: Omit<Repository, 'source'>) => put<Roadmap>('/roadmap/repository', r),
+  putOperatingModel: (m: Omit<OperatingModel, 'source' | 'model_options'>) => put<Roadmap>('/roadmap/operating-model', m),
+  resetOperatingModel: () => req<Roadmap>('/roadmap/operating-model', { method: 'DELETE' }),
   addDomain: (d: DomainIn) => post<DataTech & { added: string }>('/data_tech/domains', d),
   putDomain: (id: string, d: DomainIn) => put<DataTech>(`/data_tech/domains/${id}`, d),
   deleteDomain: (id: string) => req<DataTech>(`/data_tech/domains/${id}`, { method: 'DELETE' }),
@@ -1185,6 +1213,8 @@ export const api = {
   deletePlatform: (id: string) => req<DataTech>(`/data_tech/platforms/${id}`, { method: 'DELETE' }),
   putSites: (locations: Site[], network: NetLink[]) => put<DataTech>('/data_tech/sites', { locations, network }),
   putZones: (items: LandingZone[]) => put<DataTech>('/data_tech/landing_zones', { items }),
+  putCyber: (c: CyberInputs) => put<DataTech>('/data_tech/cyber', c),
+  resetCyber: () => req<DataTech>('/data_tech/cyber', { method: 'DELETE' }),
   putScope: (s: Omit<ScopeOfWork, 'source'>) => put<Approach>('/approach/scope', s),
   resetScope: () => post<Approach>('/approach/scope/reset'),
 

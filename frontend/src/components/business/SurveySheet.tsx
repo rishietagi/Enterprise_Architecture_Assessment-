@@ -48,13 +48,13 @@ export function EmailDialog({ l3, kind, open, onClose }: { l3: L3Row; kind: Emai
   const title = { initial: 'Orchestrate Survey', explain: 'Resend with Explanations', redirect: 'Send to the Redirected Owner' }[kind]
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="sm:max-w-2xl">
+      <DialogContent className="flex max-h-[90vh] flex-col overflow-hidden sm:max-w-3xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2"><Mail className="size-4 text-navy" /> {title}</DialogTitle>
           <DialogDescription>Auto-drafted from the finalised questionnaire, which goes out as an attached Excel workbook. Edit the message, then send.</DialogDescription>
         </DialogHeader>
         {!f ? <div className="flex h-40 items-center justify-center"><Loader2 className="animate-spin text-muted-foreground" /></div> : (
-          <div className="grid gap-2.5">
+          <div className="scrollbar-thin -mx-1 grid min-h-0 min-w-0 flex-1 grid-cols-1 gap-2.5 overflow-y-auto px-1">
             <div className="grid grid-cols-2 gap-2.5">
               <label className="flex flex-col gap-1 text-[11.5px] font-medium text-muted-foreground">To (business owner)
                 <Input value={f.to_role} onChange={(e) => setF({ ...f, to_role: e.target.value })} className="h-8 text-foreground" />
@@ -70,9 +70,9 @@ export function EmailDialog({ l3, kind, open, onClose }: { l3: L3Row; kind: Emai
               <Input value={f.subject} onChange={(e) => setF({ ...f, subject: e.target.value })} className="h-8 text-foreground" />
             </label>
             <label className="flex flex-col gap-1 text-[11.5px] font-medium text-muted-foreground">Message
-              <Textarea value={f.body} onChange={(e) => setF({ ...f, body: e.target.value })} className="scrollbar-thin h-56 font-mono text-[11.5px] leading-relaxed text-foreground md:text-[11.5px]" />
+              <Textarea value={f.body} onChange={(e) => setF({ ...f, body: e.target.value })} className="scrollbar-thin h-56 resize-none font-mono text-[11.5px] leading-relaxed break-words whitespace-pre-wrap text-foreground field-sizing-fixed md:text-[11.5px]" />
             </label>
-            <div className="flex items-center gap-3 rounded-lg border px-3 py-2">
+            <div className="flex min-w-0 items-center gap-3 rounded-lg border px-3 py-2">
               <Paperclip className="size-4 shrink-0 text-muted-foreground" />
               <span className="flex size-8 shrink-0 items-center justify-center rounded-md" style={{ background: tint(BAND.strong, 0.12) }}><FileSpreadsheet className="size-4.5" style={{ color: BAND.strong }} /></span>
               <span className="min-w-0 flex-1">
@@ -93,7 +93,7 @@ export function EmailDialog({ l3, kind, open, onClose }: { l3: L3Row; kind: Emai
             </div>
           </div>
         )}
-        <DialogFooter className="items-center sm:justify-between">
+        <DialogFooter className="shrink-0 flex-wrap items-center gap-2 border-t pt-3 sm:justify-between">
           <span className="text-[11px] text-muted-foreground">In the POC, Send records the survey as orchestrated; no mail leaves the tool.</span>
           <span className="flex gap-2">
             <Button variant="ghost" size="sm" disabled={!f} onClick={() => { navigator.clipboard?.writeText(`${f!.subject}\n\n${f!.body}`); toast.success('Email copied') }}><ClipboardCopy /> Copy</Button>

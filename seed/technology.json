@@ -509,5 +509,238 @@
       "workloads": "Dealer, partner and public APIs",
       "source": "assumed"
     }
-  ]
+  ],
+  "cyber": {
+    "_meta": "Cyber security inputs, structured on the NIST CSF 2.0 functions. Maturity 1-5 (1 ad hoc, 2 defined but partial, 3 implemented, 4 measured, 5 optimised). Illustrative values to validate with the CISO.",
+    "source": "assumed",
+    "controls": [
+      {
+        "id": "CY01",
+        "function": "Govern",
+        "control": "Security policy, risk register and board reporting",
+        "maturity": 3,
+        "evidence": "Policy approved 2024; quarterly risk report to audit committee"
+      },
+      {
+        "id": "CY02",
+        "function": "Govern",
+        "control": "Third-party and vendor security risk",
+        "maturity": 2,
+        "evidence": "Questionnaire at onboarding only; no periodic review"
+      },
+      {
+        "id": "CY03",
+        "function": "Identify",
+        "control": "Asset inventory (IT, OT, retail edge, cloud)",
+        "maturity": 2,
+        "evidence": "CMDB covers data centre servers; plant OT and store devices tracked in Excel"
+      },
+      {
+        "id": "CY04",
+        "function": "Identify",
+        "control": "Data classification and DPDP personal data mapping",
+        "maturity": 2,
+        "evidence": "Classification policy exists; farmer data not yet mapped"
+      },
+      {
+        "id": "CY05",
+        "function": "Protect",
+        "control": "Identity, SSO and MFA (Entra ID)",
+        "maturity": 3,
+        "evidence": "SSO for M365 and SAP; subsidiaries and store systems outside"
+      },
+      {
+        "id": "CY06",
+        "function": "Protect",
+        "control": "Privileged access management",
+        "maturity": 2,
+        "evidence": "Shared admin accounts on plant and legacy systems"
+      },
+      {
+        "id": "CY07",
+        "function": "Protect",
+        "control": "Endpoint protection (EDR) and patching",
+        "maturity": 3,
+        "evidence": "EDR on corporate laptops; store POS servers patched manually"
+      },
+      {
+        "id": "CY08",
+        "function": "Protect",
+        "control": "OT / plant network segmentation (IEC 62443 zones)",
+        "maturity": 2,
+        "evidence": "DMZ at the largest plant; flat networks at smaller units"
+      },
+      {
+        "id": "CY09",
+        "function": "Detect",
+        "control": "24x7 security monitoring (SIEM / SOC)",
+        "maturity": 2,
+        "evidence": "SIEM on data centre and Azure; OT and retail edge not onboarded"
+      },
+      {
+        "id": "CY10",
+        "function": "Respond",
+        "control": "Incident response plan and CERT-In 6-hour reporting",
+        "maturity": 2,
+        "evidence": "Plan exists; last tabletop exercise in 2023"
+      },
+      {
+        "id": "CY11",
+        "function": "Recover",
+        "control": "Backup immutability and ransomware recovery",
+        "maturity": 2,
+        "evidence": "Backups on the same domain; restore tests annual and partial"
+      },
+      {
+        "id": "CY12",
+        "function": "Recover",
+        "control": "Security awareness and phishing simulation",
+        "maturity": 3,
+        "evidence": "Annual e-learning; phishing simulation twice a year"
+      }
+    ],
+    "metrics": [
+      {
+        "id": "M01",
+        "label": "MFA coverage of user accounts",
+        "value": 72,
+        "target": 100,
+        "unit": "%",
+        "better": "higher"
+      },
+      {
+        "id": "M02",
+        "label": "Critical vulnerabilities open > 30 days",
+        "value": 46,
+        "target": 0,
+        "unit": "count",
+        "better": "lower"
+      },
+      {
+        "id": "M03",
+        "label": "Patch compliance (servers, within SLA)",
+        "value": 78,
+        "target": 95,
+        "unit": "%",
+        "better": "higher"
+      },
+      {
+        "id": "M04",
+        "label": "Mean time to detect an incident",
+        "value": 36,
+        "target": 4,
+        "unit": "hours",
+        "better": "lower"
+      },
+      {
+        "id": "M05",
+        "label": "Phishing simulation click rate",
+        "value": 11,
+        "target": 5,
+        "unit": "%",
+        "better": "lower"
+      },
+      {
+        "id": "M06",
+        "label": "Months since last full restore test",
+        "value": 14,
+        "target": 6,
+        "unit": "months",
+        "better": "lower"
+      },
+      {
+        "id": "M07",
+        "label": "Security incidents in the last 12 months",
+        "value": 9,
+        "target": 0,
+        "unit": "count",
+        "better": "lower"
+      },
+      {
+        "id": "M08",
+        "label": "Security team (FTE, incl. MSSP)",
+        "value": 7,
+        "target": 10,
+        "unit": "FTE",
+        "better": "higher"
+      }
+    ],
+    "tooling": [
+      {
+        "id": "TL01",
+        "area": "SIEM / SOC",
+        "product": "TBD (MSSP-operated)",
+        "status": "Partial"
+      },
+      {
+        "id": "TL02",
+        "area": "Endpoint detection & response",
+        "product": "TBD",
+        "status": "In place"
+      },
+      {
+        "id": "TL03",
+        "area": "Identity & SSO",
+        "product": "Microsoft Entra ID",
+        "status": "In place"
+      },
+      {
+        "id": "TL04",
+        "area": "Privileged access management",
+        "product": "TBD",
+        "status": "None"
+      },
+      {
+        "id": "TL05",
+        "area": "Email security",
+        "product": "Microsoft Defender for Office 365",
+        "status": "In place"
+      },
+      {
+        "id": "TL06",
+        "area": "OT security monitoring",
+        "product": "TBD",
+        "status": "None"
+      },
+      {
+        "id": "TL07",
+        "area": "Vulnerability management",
+        "product": "TBD",
+        "status": "Partial"
+      },
+      {
+        "id": "TL08",
+        "area": "Immutable backup",
+        "product": "TBD",
+        "status": "None"
+      }
+    ],
+    "compliance": [
+      {
+        "id": "CP01",
+        "name": "CERT-In directions (6-hour incident reporting, log retention 180 days)",
+        "status": "Partial"
+      },
+      {
+        "id": "CP02",
+        "name": "DPDP Act 2023 (farmer and employee personal data)",
+        "status": "In progress"
+      },
+      {
+        "id": "CP03",
+        "name": "ISO/IEC 27001 certification",
+        "status": "Not started"
+      },
+      {
+        "id": "CP04",
+        "name": "IEC 62443 for plant OT",
+        "status": "Not started"
+      },
+      {
+        "id": "CP05",
+        "name": "SEBI cyber security disclosures (listed entity)",
+        "status": "Compliant"
+      }
+    ]
+  }
 }

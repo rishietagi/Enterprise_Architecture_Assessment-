@@ -134,6 +134,46 @@ def put_repository(body: RepositoryIn, s: Session = Depends(get_session)):
     return views.roadmap(s)
 
 
+class OperatingModelIn(BaseModel):
+    model: str = ""
+    rationale: str = ""
+    roles: list[dict] = Field(default_factory=list)
+    forums: list[dict] = Field(default_factory=list)
+    engagement: list[str] = Field(default_factory=list)
+    kpis: list[dict] = Field(default_factory=list)
+
+
+@router.put("/operating-model")
+def put_operating_model(body: OperatingModelIn, s: Session = Depends(get_session)):
+    """EA operating model: roles and reporting lines, structure and forums, KPIs."""
+    roles = [x for x in body.roles if str(x.get("title", "")).strip()]
+    ids = {x.get("id") for x in roles}
+    if len(ids) != len(roles) or any(x.get("reports_to") and x["reports_to"] not in ids for x in roles):
+        raise HTTPException(422, "Each role needs a unique ID and must report to an existing role (or none)")
+    if any(x.get("reports_to") == x.get("id") for x in roles):
+        raise HTTPException(422, "A role cannot report to itself")
+    base = effective_config(s)["governance"].get("operating_model", {})
+    keep = ("current", "basis")
+    ov = s.get(SettingOverride, "operating_model") or SettingOverride(key="operating_model", value={})
+    ov.value = {"model": body.model.strip() or base.get("model", ""), "model_options": base.get("model_options", []),
+                "rationale": body.rationale.strip(), "roles": roles,
+                "forums": [f for f in body.forums if str(f.get("name", "")).strip()],
+                "engagement": [x.strip() for x in body.engagement if x.strip()],
+                "kpis": [{k: v for k, v in x.items() if k not in keep} for x in body.kpis if str(x.get("name", "")).strip()]}
+    s.add(ov)
+    s.commit()
+    return views.roadmap(s)
+
+
+@router.delete("/operating-model")
+def reset_operating_model(s: Session = Depends(get_session)):
+    ov = s.get(SettingOverride, "operating_model")
+    if ov:
+        s.delete(ov)
+        s.commit()
+    return views.roadmap(s)
+
+
 @router.post("/briefs")
 def briefs(s: Session = Depends(get_session)):
     return calls.initiative_briefs(s)

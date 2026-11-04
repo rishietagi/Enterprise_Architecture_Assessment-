@@ -10,6 +10,7 @@ import { Explain } from '@/components/Explain'
 import { ExportMenu } from '@/components/ExportMenu'
 import { AiModeBadge } from '@/components/FindingsCard'
 import { InsightsCard } from '@/components/InsightsCard'
+import { OperatingModel } from '@/components/OperatingModel'
 import { PageHeader } from '@/components/PageHeader'
 import { PhasePlan } from '@/components/PhasePlan'
 import { PriorityPill } from '@/components/PriorityPill'
@@ -26,6 +27,7 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Slider } from '@/components/ui/slider'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { Textarea } from '@/components/ui/textarea'
 import { api, exportUrl, fmtCr, type Briefs, type DecisionT, type Initiative, type InitiativeRow, type Repository, type Roadmap as RoadmapT } from '@/lib/api'
 import { useView } from '@/lib/screens'
@@ -379,13 +381,13 @@ const STEPS = [
   { key: 'longlist', n: 1, label: 'Initiative Long List', sub: 'Gaps addressed · cost · benefits · risks' },
   { key: 'priority', n: 2, label: 'Prioritisation', sub: 'Value × effort · ranked list' },
   { key: 'roadmap', n: 3, label: 'Roadmap', sub: 'Waves · timeline · cost · affordability' },
-  { key: 'governance', n: 4, label: 'EA Governance', sub: 'ACMM · ARB · decisions · repository' },
+  { key: 'governance', n: 4, label: 'EA Governance', sub: 'Operating model · ACMM · ARB · repository' },
 ]
 const STEP_CARD: Record<string, { title: string; desc: string }> = {
   longlist: { title: 'Step 1 · Initiative Long List', desc: 'Every gap from Business, Applications, Data & Technology and governance, grouped into initiatives (TOGAF §27, §32). Each row shows the gaps it closes, size, indicative cost, dependencies, the IT capex already planned for it, and its benefits, risks and constraints. Select a row to see its gaps; edit to change benefits, risks and constraints.' },
   priority: { title: 'Step 2 · Prioritisation', desc: 'Value (highest gap priority, impact × urgency) against effort (size). Quick wins are high value and low effort; strategic bets are high value and high effort. The rank orders quadrants, then value per unit of effort (§28.4).' },
   roadmap: { title: 'Step 3 · Roadmap', desc: 'Initiatives sequenced into four waves by rule (size, priority, foundation) and pushed after their dependencies, then laid out by financial year with indicative cost and tested against the IT capex plan (§28, §36.2.14).' },
-  governance: { title: 'Step 4 · EA Governance', desc: 'Architecture capability maturity (ACMM §51.3), the Architecture Review Board and its checkpoints, compliance levels, the decision log, and who owns and maintains each part of the architecture repository after the engagement.' },
+  governance: { title: 'Step 4 · EA Governance', desc: 'How architecture is run after the engagement. EA Operating Model: the roles and reporting lines, the EA structure and forums, and the KPIs the EA function reports. Maturity & Review Board: architecture capability maturity (ACMM §51.3), the Architecture Review Board and its checkpoints, compliance levels, the decision log and the repository owners.' },
 }
 const QUAD_COLOR: Record<string, string> = { quick_win: BAND.strong, strategic: NAVY, fill_in: SLATE, reconsider: BAND.weak }
 const LEGACY: Record<string, string> = { gaps: 'longlist', budget: 'roadmap' }
@@ -682,6 +684,7 @@ export default function Roadmap() {
   const q = useQuery({ queryKey: ['roadmap'], queryFn: api.roadmap })
   const [raw, setView] = useView('longlist', [...STEPS.map((s) => s.key), ...Object.keys(LEGACY)])
   const view = LEGACY[raw] ?? raw
+  const [gov, setGov] = useState<'model' | 'maturity'>('model')
   const r = q.data
   return (
     <>
@@ -698,6 +701,14 @@ export default function Roadmap() {
             {(view === 'longlist' || view === 'priority') && (
               <CardContent>{view === 'longlist' ? <LongList r={r} /> : <Prioritisation r={r} />}</CardContent>
             )}
+            {view === 'governance' && (
+              <CardContent>
+                <ToggleGroup type="single" value={gov} onValueChange={(v) => v && setGov(v as 'model' | 'maturity')} variant="outline" size="sm">
+                  <ToggleGroupItem value="model" className="px-3 data-[state=on]:bg-navy data-[state=on]:text-white">EA Operating Model</ToggleGroupItem>
+                  <ToggleGroupItem value="maturity" className="px-3 data-[state=on]:bg-navy data-[state=on]:text-white">Maturity & Review Board</ToggleGroupItem>
+                </ToggleGroup>
+              </CardContent>
+            )}
           </Card>
           {view === 'roadmap' && (
             <>
@@ -706,7 +717,7 @@ export default function Roadmap() {
               <Budget r={r} />
             </>
           )}
-          {view === 'governance' && <><Acmm r={r} /><Charter r={r} /><DecisionLog r={r} /><RepositoryCard r={r} /></>}
+          {view === 'governance' && (gov === 'model' ? <OperatingModel r={r} /> : <><Acmm r={r} /><Charter r={r} /><DecisionLog r={r} /><RepositoryCard r={r} /></>)}
           <InsightsCard key={view} screen="roadmap" tab={view} items={r.insights[view] ?? []} />
         </>
       )}

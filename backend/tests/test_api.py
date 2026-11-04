@@ -444,3 +444,34 @@ def test_login_gate(client, monkeypatch):
     monkeypatch.setattr(get_settings(), "app_users", "")
     assert client.get("/api/overview").status_code == 200 and client.get("/api/auth/me").json()["required"] is False
     assert client.get("/api/does-not-exist").status_code == 404
+
+
+def test_cyber_inputs_feed_gaps(client):
+    d = client.get("/api/data_tech").json()
+    cy = d["cyber"]
+    assert cy["posture"]["score"] is not None and len(cy["posture"]["functions"]) == 6
+    weak = [g for g in d["gap_register"]["gaps"] if g["category"] == "Cyber security" and g["scope"] == "item"]
+    assert len(weak) == cy["posture"]["counts"]["weak"] and "cyber" in d["insights"]
+    inp = cy["inputs"]
+    controls = [dict(c, maturity=4) for c in inp["controls"]]
+    r = client.put("/api/data_tech/cyber", json={**inp, "controls": controls}).json()
+    assert r["cyber"]["posture"]["counts"]["weak"] == 0 and r["cyber"]["inputs"]["source"] == "client"
+    assert not [g for g in r["gap_register"]["gaps"] if g["category"] == "Cyber security" and g["scope"] == "item"]
+    bad = client.put("/api/data_tech/cyber", json={**inp, "controls": [dict(controls[0], maturity=7)]})
+    assert bad.status_code == 422
+    r = client.delete("/api/data_tech/cyber").json()
+    assert r["cyber"]["posture"]["counts"]["weak"] == cy["posture"]["counts"]["weak"]
+
+
+def test_operating_model(client):
+    om = client.get("/api/roadmap").json()["operating_model"]
+    assert om["model"] and len(om["roles"]) >= 5 and om["forums"] and om["kpis"]
+    assert any(k["current"] for k in om["kpis"]) and all("basis" in k for k in om["kpis"])
+    body = {k: om[k] for k in ("model", "rationale", "roles", "forums", "engagement", "kpis")}
+    body["roles"] = body["roles"] + [{"id": "R99", "title": "OT Architect", "reports_to": "R2", "count": "1", "sourcing": "CIL", "responsibilities": ["Plant OT"]}]
+    r = client.put("/api/roadmap/operating-model", json=body).json()
+    assert r["operating_model"]["source"] == "client" and r["operating_model"]["roles"][-1]["title"] == "OT Architect"
+    body["roles"][-1]["reports_to"] = "R404"
+    assert client.put("/api/roadmap/operating-model", json=body).status_code == 422
+    r = client.delete("/api/roadmap/operating-model").json()
+    assert r["operating_model"]["source"] == "assumed" and len(r["operating_model"]["roles"]) == len(om["roles"])

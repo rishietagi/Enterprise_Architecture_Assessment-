@@ -7,6 +7,7 @@ from __future__ import annotations
 import collections
 
 from .common import xp
+from .cyber import off_target
 
 SEVERITIES = ("High", "Medium", "Low")
 ACTION_TEXT = {"Migrate": "Modernise", "Eliminate": "Replace", "Consolidate": "Consolidate"}
@@ -122,12 +123,48 @@ def application_gaps(apps: list[dict], app_rows: list[dict], clusters: list[dict
     return finish(gaps, notes or {}, cfg)
 
 
+# --------------------------------------------------------------------------- cyber security
+def _cyber_gaps(cyber: dict, cfg: dict) -> list[dict]:
+    """One gap per weak control, plus portfolio gaps for metrics off target, missing tooling and open compliance obligations."""
+    p = cfg.get("cyber_rules", {})
+    weak_max, high_f, ref = p.get("weak_max", 2), set(p.get("high_functions", [])), f"§{p.get('togaf_ref', '48.5')}"
+    out = []
+    for c in cyber.get("controls", []):
+        m = c.get("maturity")
+        if not isinstance(m, int) or m > weak_max:
+            continue
+        sev = "High" if m == 1 or c["function"] in high_f else "Medium"
+        issues = [f"Maturity {m} of 5 ({c['function']})"] + ([c["evidence"]] if c.get("evidence") else [])
+        out.append(_gap(f"DG-{c['id']}", "item", "Cyber security", {"kind": "Cyber control", "id": c["id"], "name": c["control"], "group": c["function"]},
+                        c["control"], issues, f"{c['control']} is implemented and measured (maturity {p.get('target_maturity', 3)} or above).",
+                        sev, "TH7", ref))
+    bad = [m for m in cyber.get("metrics", []) if off_target(m)]
+    if bad:
+        out.append(_gap("DT-CY1", "portfolio", "Cyber security", {"kind": "Cyber metrics", "id": "CYM", "name": "Security metrics", "group": "Portfolio"},
+                        "Security metrics off target", [f"{m['label']}: {m['value']} {m['unit']} vs target {m['target']}" for m in bad],
+                        "Security KPIs are reported monthly to the CISO and reach their targets, with an owner for each metric.",
+                        "High" if len(bad) >= 4 else "Medium", "TH7", ref))
+    tools = [t for t in cyber.get("tooling", []) if t.get("status") in ("None", "Partial")]
+    if tools:
+        out.append(_gap("DT-CY2", "portfolio", "Cyber security", {"kind": "Security tooling", "id": "CYT", "name": "Security tooling", "group": "Portfolio"},
+                        "Security tooling missing or partial", [f"{t['area']}: {t['status'].lower()}" for t in tools],
+                        "Core security tooling (SIEM/SOC, PAM, OT monitoring, immutable backup) covers IT, OT and the retail edge.",
+                        "High" if sum(t["status"] == "None" for t in tools) >= 2 else "Medium", "TH7", ref))
+    obl = [x for x in cyber.get("compliance", []) if x.get("status") != "Compliant"]
+    if obl:
+        out.append(_gap("DT-CY3", "portfolio", "Cyber security", {"kind": "Compliance", "id": "CYC", "name": "Security compliance", "group": "Portfolio"},
+                        "Security compliance obligations open", [f"{x['name']}: {x['status'].lower()}" for x in obl],
+                        "Regulatory obligations (CERT-In, DPDP) are met and evidenced; certifications are planned on the roadmap.",
+                        "High" if any(x["status"] == "Not started" for x in obl) else "Medium", "TH7", ref))
+    return out
+
+
 # --------------------------------------------------------------------------- data & technology
 ENG_THEME = {"E03": "TH7", "E04": "TH7", "E08": "TH7", "E09": "TH7", "E10": "TH8"}
 
 
 def data_tech_gaps(domains: list[dict], data_rows: list[dict], checks: list[dict], eng: list[dict], platforms: list[dict],
-                   refs: list[dict], zones: list[dict], cfg: dict, notes: dict | None = None) -> dict:
+                   refs: list[dict], zones: list[dict], cfg: dict, notes: dict | None = None, cyber: dict | None = None) -> dict:
     below = cfg["data_rules"].get("gap_score_below", 60)
     rows = {d["id"]: d for d in data_rows}
     gaps = []
@@ -202,6 +239,7 @@ def data_tech_gaps(domains: list[dict], data_rows: list[dict], checks: list[dict
                          "Cloud landing zones incomplete", [f"Not complete: {', '.join(zmiss)}"],
                          "Azure landing zones are built as code with policy, identity, networking and cost guardrails before workloads move.",
                          "Medium", "TH7", "§35.6.6"))
+    gaps += _cyber_gaps(cyber or {}, cfg)
     no_owner = [d["name"].split(" (")[0] for d in domains if not d.get("owner")]
     if len(no_owner) >= 2:
         n += 1

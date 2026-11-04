@@ -3,6 +3,7 @@ Pure functions over seed-shaped dicts; parameters come from config (seed/config.
 from __future__ import annotations
 
 from .budget import assess_budget
+from .cyber import cyber_posture
 from .capabilities import assess_capabilities, coverage, entanglement
 from .domain_gaps import application_gaps, data_tech_gaps
 from .prioritization import engineering_score, prioritise
@@ -36,7 +37,7 @@ def run_all(seed: dict, acmm_levels: dict | None = None) -> dict:
     return out
 
 
-__all__ = ["register_roadmap", "unify_gaps", "application_gaps", "data_tech_gaps", "assess_budget", "engineering_score", "prioritise", "tech_health", "architecture_states", "assess_capabilities", "assess_data", "assess_governance", "assess_integration",
+__all__ = ["cyber_posture", "register_roadmap", "unify_gaps", "application_gaps", "data_tech_gaps", "assess_budget", "engineering_score", "prioritise", "tech_health", "architecture_states", "assess_capabilities", "assess_data", "assess_governance", "assess_integration",
            "assess_tech", "build_roadmap", "coverage", "data_readiness", "entanglement", "gap_register", "infer_l2",
            "l3_entanglement", "label", "quadrant", "ALIGN_Q",
            "rationalize", "rollup", "run_all", "score_l3", "status_of", "theme_for", "STATUSES"]

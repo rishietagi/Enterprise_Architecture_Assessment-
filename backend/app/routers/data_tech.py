@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 from sqlmodel import Session, select
 
 from .. import views
-from ..db import get_session, nat_key
+from ..db import effective_config, get_session, nat_key
 from ..models import Application, DataDomain, Platform, SettingOverride, TechCheck
 
 from .gap_notes import GapNoteIn, drop_note, put_note
@@ -193,6 +193,41 @@ def put_zones(body: ZonesIn, s: Session = Depends(get_session)):
     ov.value = {"items": [{**z, "source": "client"} for z in body.items]}
     s.add(ov)
     s.commit()
+    return views.data_tech(s)
+
+
+class CyberIn(BaseModel):
+    controls: list[dict] = Field(default_factory=list)
+    metrics: list[dict] = Field(default_factory=list)
+    tooling: list[dict] = Field(default_factory=list)
+    compliance: list[dict] = Field(default_factory=list)
+
+
+@router.put("/cyber")
+def put_cyber(body: CyberIn, s: Session = Depends(get_session)):
+    """Cyber security inputs (controls, metrics, tooling, compliance); feeds the cyber assessment and the gap register."""
+    cfg = effective_config(s)["cyber_rules"]
+    for c in body.controls:
+        if not str(c.get("control", "")).strip() or c.get("function") not in cfg["functions"] or c.get("maturity") not in (1, 2, 3, 4, 5):
+            raise HTTPException(422, "Each control needs a name, a NIST CSF function and a maturity of 1-5")
+    for m in body.metrics:
+        if not str(m.get("label", "")).strip() or m.get("better") not in ("higher", "lower"):
+            raise HTTPException(422, "Each metric needs a label and a direction (higher or lower is better)")
+    if any(t_.get("status") not in cfg["tool_status"] for t_ in body.tooling) or any(x.get("status") not in cfg["compliance_status"] for x in body.compliance):
+        raise HTTPException(422, "Unknown tooling or compliance status")
+    ov = s.get(SettingOverride, "cyber") or SettingOverride(key="cyber", value={})
+    ov.value = body.model_dump()
+    s.add(ov)
+    s.commit()
+    return views.data_tech(s)
+
+
+@router.delete("/cyber")
+def reset_cyber(s: Session = Depends(get_session)):
+    ov = s.get(SettingOverride, "cyber")
+    if ov:
+        s.delete(ov)
+        s.commit()
     return views.data_tech(s)
 
 

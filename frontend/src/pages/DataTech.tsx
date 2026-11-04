@@ -8,6 +8,7 @@ import { ExportMenu } from '@/components/ExportMenu'
 import { InsightsCard } from '@/components/InsightsCard'
 import { PageHeader } from '@/components/PageHeader'
 import { PhasePlan } from '@/components/PhasePlan'
+import { CyberAssessment } from '@/components/Cyber'
 import { DataTechInputs } from '@/components/DataTechInputs'
 import { DomainGapRegister } from '@/components/DomainGapRegister'
 import { infraDetail } from '@/components/InfraDetails'
@@ -156,18 +157,19 @@ function Checklist({ checks, explain }: { checks: Check[]; explain?: DT['check_e
 }
 
 export const DT_STEPS = [
-  { key: 'inputs', n: 1, label: 'Inputs', sub: 'Data domains · platforms · sites & network' },
-  { key: 'assess', n: 2, label: 'Assessment', sub: 'Data · resilience · engineering' },
+  { key: 'inputs', n: 1, label: 'Inputs', sub: 'Data · platforms · sites · cyber' },
+  { key: 'assess', n: 2, label: 'Assessment', sub: 'Data · resilience · cyber · engineering' },
   { key: 'gaps', n: 3, label: 'Gap Register', sub: 'Data, technology and platform gaps' },
   { key: 'views', n: 4, label: 'Architecture Views', sub: 'Data · data flow · infrastructure' },
 ]
-const ASSESS = [['data', 'Data Governance'], ['tech', 'Resilience & Standards'], ['engineering', 'Engineering Practices']] as const
+const ASSESS = [['data', 'Data Governance'], ['tech', 'Resilience & Standards'], ['cyber', 'Cyber Security'], ['engineering', 'Engineering Practices']] as const
 const VIEWS = [['data_arch', 'Data Architecture'], ['data_flow', 'Data Flow & AI Readiness'], ['infra', 'Infrastructure & Platform']] as const
-const STEP_OF: Record<string, string> = { gaps: 'gaps', inputs: 'inputs', data: 'assess', tech: 'assess', engineering: 'assess', data_arch: 'views', data_flow: 'views', infra: 'views' }
+const STEP_OF: Record<string, string> = { gaps: 'gaps', inputs: 'inputs', data: 'assess', tech: 'assess', cyber: 'assess', engineering: 'assess', data_arch: 'views', data_flow: 'views', infra: 'views' }
 const CARD: Record<string, { title: string; desc: string }> = {
-  inputs: { title: 'Step 1 · Inputs', desc: 'Everything this screen is computed from: what data CIL holds (domains, data types, sensitivity, systems of record and consumers), the technology platforms, and the sites and network links. Edit in place; every assessment and view on this screen recomputes on save.' },
+  inputs: { title: 'Step 1 · Inputs', desc: 'Everything this screen is computed from: what data CIL holds (domains, data types, sensitivity and systems of record), the technology platforms, the sites and network links, and the cyber security baseline. Edit in place; every assessment and view on this screen recomputes on save.' },
   data: { title: 'Step 2 · Assessment · Data Governance', desc: 'Weighted governance score per data domain on ownership, master data, quality, lineage and privacy (Data principles 10–15, §23.6.2), with the Application / Data matrix (§35.6.4).' },
   tech: { title: 'Step 2 · Assessment · Resilience & Standards', desc: 'Resilience and security checks against the TOGAF compliance checklists (§48.5), the Technology Standards Catalog by standards class and lifecycle (RFP view 11), and the estate facts from the proposal.' },
+  cyber: { title: 'Step 2 · Assessment · Cyber Security', desc: 'Cyber security posture from the Step 1 inputs: mean control maturity per NIST CSF 2.0 function (Govern, Identify, Protect, Detect, Respond, Recover), metrics off target, tooling and compliance obligations. Weak controls and open items become gaps under Resilience & cyber security.' },
   engineering: { title: 'Step 2 · Assessment · Engineering Practices', desc: 'Modern technology and engineering (RFP domain 9): DevSecOps, CI/CD, infrastructure as code, containers, API-first design, platform engineering, observability, vendor dependency and emerging technology. Linked blocks in the infrastructure view follow these statuses.' },
   gaps: { title: 'Step 3 · Gap Register', desc: 'Data and technology gaps generated from the assessment: one gap per data domain, resilience or engineering check and platform, plus portfolio gaps for missing data and infrastructure building blocks, landing zones and data ownership. Each has a severity, a target-state hypothesis and the roadmap initiative that closes it; edit any of them.' },
   data_arch: { title: 'Step 4 · Architecture Views · Data Architecture', desc: 'Information & data architecture for CIL (RFP view 6): how plant, enterprise, channel and agronomy data is acquired, processed, stored, governed and consumed.' },
@@ -315,6 +317,8 @@ export default function DataTech() {
                   </div>
                 </>
               )}
+
+              {view === 'cyber' && <CyberAssessment c={d.cyber} />}
 
               {view === 'engineering' && (
                 <div ref={eng} className="grid grid-cols-12 gap-4 bg-card">

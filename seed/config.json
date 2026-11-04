@@ -450,6 +450,252 @@
         "Repository version published; superseded views archived"
       ],
       "source": "assumed"
+    },
+    "operating_model": {
+      "source": "assumed",
+      "model": "Hybrid (federated)",
+      "model_options": [
+        "Centralised",
+        "Hybrid (federated)",
+        "Decentralised"
+      ],
+      "rationale": "A small central EA office sets principles, standards and the roadmap, while architecture champions in each business (crop nutrition, crop protection, retail, Dhaksha, NACL) apply them to local demand. It suits a group that is growing by acquisition and needs common standards without slowing the businesses down.",
+      "roles": [
+        {
+          "id": "R1",
+          "title": "CIO / CDO (EA sponsor)",
+          "reports_to": "",
+          "count": "1",
+          "sourcing": "CIL",
+          "responsibilities": [
+            "Owns the EA mandate and roadmap funding",
+            "Chairs the EA Council and the ARB",
+            "Resolves escalated architecture decisions"
+          ]
+        },
+        {
+          "id": "R2",
+          "title": "Head of Enterprise Architecture",
+          "reports_to": "R1",
+          "count": "1",
+          "sourcing": "CIL",
+          "responsibilities": [
+            "Runs the EA office and the architecture repository",
+            "Owns principles, standards and the target state",
+            "Runs the Design Authority"
+          ]
+        },
+        {
+          "id": "R3",
+          "title": "Business Architect",
+          "reports_to": "R2",
+          "count": "1",
+          "sourcing": "CIL",
+          "responsibilities": [
+            "Capability map, value streams and process models",
+            "Business-IT alignment with function heads"
+          ]
+        },
+        {
+          "id": "R4",
+          "title": "Application & Integration Architect",
+          "reports_to": "R2",
+          "count": "1",
+          "sourcing": "CIL",
+          "responsibilities": [
+            "Application portfolio and rationalization",
+            "API and integration standards"
+          ]
+        },
+        {
+          "id": "R5",
+          "title": "Data & AI Architect",
+          "reports_to": "R2",
+          "count": "1",
+          "sourcing": "CIL",
+          "responsibilities": [
+            "Data domains, ownership and quality standards",
+            "AI platform and responsible-AI guardrails"
+          ]
+        },
+        {
+          "id": "R6",
+          "title": "Infrastructure & Cloud Architect",
+          "reports_to": "R2",
+          "count": "1",
+          "sourcing": "CIL",
+          "responsibilities": [
+            "Hosting, network, landing zones and DR patterns",
+            "Technology standards and lifecycle"
+          ]
+        },
+        {
+          "id": "R7",
+          "title": "Security Architect",
+          "reports_to": "R2",
+          "count": "1",
+          "sourcing": "CIL",
+          "responsibilities": [
+            "Security architecture and zero-trust patterns",
+            "Dotted line to the CISO for risk acceptance"
+          ]
+        },
+        {
+          "id": "R8",
+          "title": "Solution Architects (per programme)",
+          "reports_to": "R2",
+          "count": "3-4",
+          "sourcing": "CIL + partners",
+          "responsibilities": [
+            "Solution designs that conform to standards",
+            "Bring designs to the Design Authority and the ARB"
+          ]
+        },
+        {
+          "id": "R9",
+          "title": "EA Analyst & Repository Manager",
+          "reports_to": "R2",
+          "count": "1",
+          "sourcing": "CIL",
+          "responsibilities": [
+            "Keeps the repository and views current",
+            "Tracks KPIs, decisions and dispensations"
+          ]
+        },
+        {
+          "id": "R10",
+          "title": "Business-unit Architecture Champions",
+          "reports_to": "R3",
+          "count": "5",
+          "sourcing": "Business units",
+          "responsibilities": [
+            "Represent local demand and constraints",
+            "Apply standards in their business"
+          ]
+        }
+      ],
+      "forums": [
+        {
+          "name": "EA Council",
+          "chair": "CIO / CDO",
+          "cadence": "Quarterly",
+          "decides": "Principles, standards, target state and roadmap priorities"
+        },
+        {
+          "name": "Architecture Review Board",
+          "chair": "CIO / CDO",
+          "cadence": "Fortnightly",
+          "decides": "Compliance of solutions at each checkpoint; dispensations"
+        },
+        {
+          "name": "Design Authority",
+          "chair": "Head of Enterprise Architecture",
+          "cadence": "Weekly",
+          "decides": "Solution designs and pattern choices before build"
+        },
+        {
+          "name": "Data Governance Council",
+          "chair": "Data & AI Architect",
+          "cadence": "Monthly",
+          "decides": "Data ownership, quality rules and privacy classification"
+        },
+        {
+          "name": "Security Architecture Review",
+          "chair": "CISO with the Security Architect",
+          "cadence": "Monthly",
+          "decides": "Security patterns and risk acceptance"
+        }
+      ],
+      "engagement": [
+        "Demand logged with an architecture impact assessment",
+        "Concept review at the ARB before funding",
+        "Design review at the Design Authority before build",
+        "Pre-go-live compliance review",
+        "Post-implementation review and repository update"
+      ],
+      "kpis": [
+        {
+          "id": "K01",
+          "name": "EA capability maturity (ACMM mean)",
+          "category": "Capability",
+          "target": "3.0 by FY28",
+          "frequency": "Yearly",
+          "owner": "Head of Enterprise Architecture",
+          "measure": "acmm_mean"
+        },
+        {
+          "id": "K02",
+          "name": "Projects reviewed by the ARB before funding",
+          "category": "Compliance",
+          "target": "100% of projects over ₹1 Cr",
+          "frequency": "Quarterly",
+          "owner": "EA Analyst",
+          "measure": ""
+        },
+        {
+          "id": "K03",
+          "name": "Architecture decisions logged with rationale",
+          "category": "Compliance",
+          "target": "Every ARB decision",
+          "frequency": "Monthly",
+          "owner": "EA Analyst",
+          "measure": "decisions"
+        },
+        {
+          "id": "K04",
+          "name": "Applications with a named business owner",
+          "category": "Quality",
+          "target": "100%",
+          "frequency": "Quarterly",
+          "owner": "Application & Integration Architect",
+          "measure": "apps_owned_pct"
+        },
+        {
+          "id": "K05",
+          "name": "View families with an owner and update cadence",
+          "category": "Quality",
+          "target": "All view families",
+          "frequency": "Half-yearly",
+          "owner": "EA Analyst",
+          "measure": "repo_owned"
+        },
+        {
+          "id": "K06",
+          "name": "High-severity architecture gaps open",
+          "category": "Value",
+          "target": "Down 50% by FY28",
+          "frequency": "Quarterly",
+          "owner": "Head of Enterprise Architecture",
+          "measure": "gaps_high"
+        },
+        {
+          "id": "K07",
+          "name": "Principles adopted (TOGAF range 10-20)",
+          "category": "Adoption",
+          "target": "10-20",
+          "frequency": "Yearly",
+          "owner": "EA Council",
+          "measure": "principles"
+        },
+        {
+          "id": "K08",
+          "name": "Processes with answered discovery questionnaires",
+          "category": "Adoption",
+          "target": "100% of in-scope L3",
+          "frequency": "Monthly during the engagement",
+          "owner": "Business Architect",
+          "measure": "discovery_pct"
+        },
+        {
+          "id": "K09",
+          "name": "Dispensations granted vs requested",
+          "category": "Compliance",
+          "target": "Below 20%",
+          "frequency": "Quarterly",
+          "owner": "Architecture Review Board",
+          "measure": ""
+        }
+      ]
     }
   },
   "themes": [
@@ -1468,5 +1714,35 @@
       40
     ],
     "togaf_ref": "28.3"
+  },
+  "cyber_rules": {
+    "weak_max": 2,
+    "target_maturity": 3,
+    "functions": [
+      "Govern",
+      "Identify",
+      "Protect",
+      "Detect",
+      "Respond",
+      "Recover"
+    ],
+    "high_functions": [
+      "Protect",
+      "Detect",
+      "Respond",
+      "Recover"
+    ],
+    "tool_status": [
+      "In place",
+      "Partial",
+      "None"
+    ],
+    "compliance_status": [
+      "Compliant",
+      "Partial",
+      "In progress",
+      "Not started"
+    ],
+    "togaf_ref": "21.4, 48.5"
   }
 }
