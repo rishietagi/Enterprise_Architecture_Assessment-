@@ -65,7 +65,7 @@ No KPI rows and no "On this screen" summaries on phase screens.
 - **Discovery demo data:** 73 of 156 L3 questionnaires answered (47%) across 19 fully analysed L2s, with owners, systems, context answers, per-question comments and consultant comments. Answers are calibrated so the inferred L2 P/T/D/I/importance equal the seed baseline (golden values, avg maturity 2.48 and 23 capability gaps hold); the generator asserts this. C05.3 and C08.1 keep the sent/draft/walkthrough/redirected states for the demo.
 - `db.SEED_VERSION = 9`: bump it to force a one-time reseed when the seed shape changes. `POST /api/settings/reset` reseeds the demo.
 - **Overrides** (SettingOverride keys): `budget`, `scope_of_work`, `initiative_notes`, `repository`, `sites`, `landing_zones`, `gap_notes`, `app_gap_notes`, `dt_gap_notes`, `vision_context`, `config`.
-- **Demo figures are illustrative placeholders,** for example IT spend ₹200 Cr in FY26A at 0.75% of revenue, and the technical-health intake values.
+- **Demo figures are illustrative placeholders,** for example revenue ₹150,000 Cr (FY25A) and IT spend ₹300 Cr at 0.20% of revenue (client team figure, 2026-11-04), and the technical-health intake values.
 
 ## 6. Constraints
 

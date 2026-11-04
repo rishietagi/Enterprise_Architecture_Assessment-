@@ -15,30 +15,30 @@
       "id": "opex",
       "name": "IT Opex",
       "values": [
-        108,
-        120,
-        132,
-        145
+        182,
+        201,
+        221,
+        245
       ]
     },
     {
       "id": "salaries",
       "name": "IT Salaries",
       "values": [
-        32,
-        35,
-        38,
-        41
+        54,
+        59,
+        64,
+        69
       ]
     },
     {
       "id": "capex",
       "name": "IT Capex",
       "values": [
-        38,
-        45,
-        60,
-        75
+        64,
+        74,
+        101,
+        125
       ]
     }
   ],
@@ -48,10 +48,10 @@
       "name": "SAP S/4HANA RISE enhancements",
       "theme": "TH6",
       "values": [
-        9,
-        8,
-        7,
-        6
+        15,
+        13,
+        12,
+        10
       ]
     },
     {
@@ -59,10 +59,10 @@
       "name": "Farmer app & digital channels",
       "theme": "TH1",
       "values": [
-        4,
-        6,
-        9,
-        12
+        7,
+        10,
+        15,
+        20
       ]
     },
     {
@@ -70,10 +70,10 @@
       "name": "Dealer portal & sales force automation",
       "theme": "TH9",
       "values": [
-        3,
-        4,
-        6,
-        8
+        5,
+        7,
+        10,
+        13
       ]
     },
     {
@@ -81,10 +81,10 @@
       "name": "Data platform & analytics",
       "theme": "TH4",
       "values": [
-        3,
-        6,
+        5,
         10,
-        14
+        17,
+        24
       ]
     },
     {
@@ -92,10 +92,10 @@
       "name": "Plant digitisation (historian, LIMS)",
       "theme": "TH9",
       "values": [
-        4,
-        5,
         7,
-        9
+        8,
+        12,
+        15
       ]
     },
     {
@@ -103,10 +103,10 @@
       "name": "Network & SD-WAN refresh",
       "theme": "TH7",
       "values": [
-        4,
-        5,
-        6,
-        6
+        7,
+        8,
+        10,
+        10
       ]
     },
     {
@@ -114,10 +114,10 @@
       "name": "Security tooling (SIEM, PAM, EDR)",
       "theme": "TH7",
       "values": [
-        2,
         3,
-        6,
-        8
+        5,
+        10,
+        13
       ]
     },
     {
@@ -125,10 +125,10 @@
       "name": "End-user hardware refresh",
       "theme": null,
       "values": [
-        7,
-        6,
-        5,
-        6
+        12,
+        10,
+        8,
+        10
       ]
     },
     {
@@ -136,10 +136,10 @@
       "name": "Drone & agri-tech platforms",
       "theme": "TH2",
       "values": [
-        2,
-        2,
-        4,
-        6
+        3,
+        3,
+        7,
+        10
       ]
     }
   ],
@@ -149,10 +149,10 @@
       "name": "Software licences & subscriptions (incl. SAP RISE)",
       "kind": "software",
       "values": [
-        31,
-        34,
-        37,
-        40
+        52,
+        57,
+        62,
+        67
       ]
     },
     {
@@ -160,10 +160,10 @@
       "name": "Cloud & hosting (Azure, SaaS)",
       "kind": "cloud",
       "values": [
-        10,
-        14,
-        18,
-        22
+        17,
+        24,
+        30,
+        37
       ]
     },
     {
@@ -171,10 +171,10 @@
       "name": "Data centre & DR operations",
       "kind": "infrastructure",
       "values": [
-        10,
-        10,
-        10,
-        9
+        17,
+        17,
+        17,
+        15
       ]
     },
     {
@@ -182,10 +182,10 @@
       "name": "Network & connectivity",
       "kind": "network",
       "values": [
-        11,
-        12,
-        13,
-        14
+        19,
+        20,
+        22,
+        24
       ]
     },
     {
@@ -193,10 +193,10 @@
       "name": "End-user computing & devices",
       "kind": "workplace",
       "values": [
-        9,
-        9,
-        9,
-        10
+        15,
+        15,
+        15,
+        17
       ]
     },
     {
@@ -204,10 +204,10 @@
       "name": "Application support & AMC",
       "kind": "applications",
       "values": [
-        16,
-        18,
-        19,
-        20
+        27,
+        30,
+        32,
+        34
       ]
     },
     {
@@ -215,10 +215,10 @@
       "name": "Managed services & outsourcing",
       "kind": "services",
       "values": [
-        11,
-        12,
-        13,
-        14
+        19,
+        20,
+        22,
+        24
       ]
     },
     {
@@ -226,10 +226,10 @@
       "name": "Cybersecurity services",
       "kind": "security",
       "values": [
-        5,
-        6,
         8,
-        10
+        10,
+        13,
+        17
       ]
     },
     {
@@ -237,10 +237,10 @@
       "name": "Telecom & other",
       "kind": "other",
       "values": [
-        5,
-        5,
-        5,
-        6
+        8,
+        8,
+        8,
+        10
       ]
     }
   ],
@@ -249,10 +249,10 @@
       "id": "revenue",
       "name": "Revenue (INR Cr)",
       "values": [
-        24000,
-        26500,
-        29000,
-        31500
+        150000,
+        162000,
+        175000,
+        189000
       ],
       "unit": "Cr"
     },
